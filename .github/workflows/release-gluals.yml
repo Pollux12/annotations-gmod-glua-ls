@@ -10,6 +10,9 @@ jobs:
   release:
     permissions: write-all
     runs-on: ubuntu-latest
+    concurrency:
+      group: release-gluals-${{ github.ref }}
+      cancel-in-progress: false
     steps:
       - uses: actions/checkout@v4
         with:
@@ -34,21 +37,16 @@ jobs:
             exit 0
           fi
 
-          # push event -> diff against parent
-          if [ -n "$BEFORE_SHA" ] && [ "$BEFORE_SHA" != "0000000000000000000000000000000000000000" ] \
-             && git cat-file -e "$BEFORE_SHA" 2>/dev/null; then
-            DIFF_BASE="$BEFORE_SHA"
-          else
-            DIFF_BASE="HEAD^"
-          fi
-
-          if ! git rev-parse --verify "$DIFF_BASE" >/dev/null 2>&1; then
-            echo "Cannot resolve diff base ($DIFF_BASE) -> publish all to be safe"
+          # push event -> diff against parent. Fail open (publish everything) if we can't.
+          if [ -z "$BEFORE_SHA" ] || [ "$BEFORE_SHA" = "0000000000000000000000000000000000000000" ] \
+             || ! git cat-file -e "$BEFORE_SHA" 2>/dev/null; then
+            echo "No usable base SHA (got '$BEFORE_SHA') -> publish all to be safe"
             echo "should_run=true" >> "$GITHUB_OUTPUT"
             echo "publish_base=true" >> "$GITHUB_OUTPUT"
             echo "publish_all_plugins=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
+          DIFF_BASE="$BEFORE_SHA"
 
           CHANGED=$(git diff --name-only "$DIFF_BASE" HEAD)
           echo "Changed files since $DIFF_BASE:"

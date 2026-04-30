@@ -45,7 +45,7 @@ export default <JestConfigWithTsJest> {
     "^.+\\.ts$": [
       "ts-jest",
       {
-        tsconfig: "tsconfig.json",
+        tsconfig: "tsconfig.test.json",
         useESM: true,
       }
     ],

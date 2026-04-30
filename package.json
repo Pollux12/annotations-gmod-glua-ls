@@ -27,6 +27,7 @@
     "generate-plugin-artifacts": "tsx ./src/cli-generate-plugin-artifacts.ts --pluginRoot ./plugin --indexOutput ./plugin/index.json --annotationsOutput ./output --pluginBundlesOutput ./output-plugins",
     "pack-release": "tsx ./src/cli-release-packer.ts --input ./output/ --output ./dist/release/",
     "stylua-custom": "npx --yes @johnnymorganz/stylua-bin@0.17.1 ./custom",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.test.json",
     "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules \" VERBOSE_LOGGING=1 npx jest",
     "test:watch": "cross-env NODE_OPTIONS=\"--experimental-vm-modules \" VERBOSE_LOGGING=1 npx jest --watch",
     "ci:test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules \" npx jest --ci --coverage"
@@ -54,7 +55,7 @@
   },
   "gitHead": "2513190cc1de00d1049e35f9c942b779447530f9",
   "engines": {
-    "node": ">=21.0.0"
+    "node": ">=22.0.0"
   },
   "engineStrict": true
 }

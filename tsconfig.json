@@ -13,6 +13,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "resolveJsonModule": true,
+    "types": ["jest", "node"],
 
     "sourceMap": true,
     "allowJs": true,

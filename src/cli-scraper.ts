@@ -34,7 +34,7 @@ async function startScrape() {
   const pageListScraper = new WikiPageListScraper(`${baseUrl}/~pagelist?format=json`);
   const writer = new GluaApiWriter(baseDirectory);
 
-  const retryOptions: RequestInitWithRetry = {
+  const retryOptions: RequestInitWithRetry<typeof global.fetch> = {
     retries: 5,
     retryDelay: function (attempt, error, response) {
       return Math.pow(2, attempt) * 500; // 500, 1000, 2000, 4000, 8000

@@ -1,9 +1,8 @@
-# GMod EmmyLua Annotation Generator
+# GLuaLS Annotation Generator
 
-> **Forked from** [luttje/glua-api-snippets](https://github.com/luttje/glua-api-snippets)
-> Original project by luttje - converted for EmmyLua analyzer integration
+Automatically generates GLuaLS annotations for Garry's Mod API by scraping the [GMod Wiki](https://wiki.facepunch.com/gmod/). These annotations are consumed by [gmod-glua-ls](https://github.com/Pollux12/gmod-glua-ls).
 
-Automatically generates EmmyLua annotations for Garry's Mod API by scraping the [GMod Wiki](https://wiki.facepunch.com/gmod/). These annotations are consumed by [gmod-glua-ls](https://github.com/Pollux12/gmod-glua-ls).
+Plugins are currently WIP and are not used.
 
 **Note**: This repository is part of the GMod language server infrastructure.
 Annotations are automatically downloaded by the VSCode extension from the `gluals-annotations` branch - manual setup is not required for end users.
@@ -73,3 +72,6 @@ For local language server testing, generate annotations and point your workspace
 
 The VSCode extension loads plugin metadata from the annotation bundle (`plugin/index.json` + `plugin/<id>/plugin.json`).
 Plugin apply remains extension-only; the language server does not resolve plugins at runtime.
+
+## Credits
+Forked from [luttje/glua-api-snippets](https://github.com/luttje/glua-api-snippets)

@@ -77,4 +77,46 @@ describe('GMod Wiki Page Markup Parse', () => {
 
     expect(scrapeCallback(responseMock, callbackInDescriptionMarkup)).toEqual([<LibraryFunction>callbackInDescriptionJson]);
   });
+
+  it('should promote singular structure references from raw arg markup', () => {
+    const markup = `
+<function name="SpawnFunction" parent="ENTITY" type="hook">
+  <description>Test.</description>
+  <realm>Server</realm>
+  <args>
+    <arg name="tr" type="table">A <page>Structures/TraceResult</page> from player eyes to their aim position</arg>
+    <arg name="propertyData" type="table">A table that defines the property. Uses the <page>Structures/PropertyAdd</page>.</arg>
+  </args>
+</function>`;
+
+    const responseMock = <Response>{
+      url: 'https://wiki.facepunch.com/gmod/Test.StructureParam?format=text',
+    };
+    const scrapeCallback = new WikiPageMarkupScraper(responseMock.url).getScrapeCallback();
+    const [page] = scrapeCallback(responseMock, markup) as HookFunction[];
+
+    expect(page.arguments?.[0].args?.[0].type).toBe('TraceResult');
+    expect(page.arguments?.[0].args?.[1].type).toBe('PropertyAdd');
+  });
+
+  it('should keep collection-like structure references as table', () => {
+    const markup = `
+<function name="PhysicsFromMesh" parent="Entity" type="classfunc">
+  <description>Test.</description>
+  <realm>Shared</realm>
+  <args>
+    <arg name="vertices" type="table">A table consisting of <page>Structures/MeshVertex</page>. Every 3 vertices define a triangle in the physics mesh.</arg>
+    <arg name="bones" type="table">Table with a <page>Structures/BoneManipulationData</page> for every bone using the bone ID as the table index.</arg>
+  </args>
+</function>`;
+
+    const responseMock = <Response>{
+      url: 'https://wiki.facepunch.com/gmod/Test.StructureCollection?format=text',
+    };
+    const scrapeCallback = new WikiPageMarkupScraper(responseMock.url).getScrapeCallback();
+    const [page] = scrapeCallback(responseMock, markup) as ClassFunction[];
+
+    expect(page.arguments?.[0].args?.[0].type).toBe('table');
+    expect(page.arguments?.[0].args?.[1].type).toBe('table');
+  });
 });

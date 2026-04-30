@@ -175,6 +175,45 @@ export function markdownifyDescription($: CheerioAPI, e: Cheerio<AnyNode>): stri
   return description;
 };
 
+function isCollectionStyleStructureDescription(description: string): boolean {
+  const normalized = description.toLowerCase();
+  return normalized.includes('for every')
+    || normalized.includes('consisting of')
+    || normalized.includes('as the table index')
+    || (normalized.includes('containing') && normalized.includes('vertices'));
+}
+
+function inferStructureTypeFromDescription(
+  $: CheerioAPI,
+  element: AnyNode,
+  currentType: string,
+  description: string,
+): string {
+  if (currentType !== 'table') {
+    return currentType;
+  }
+
+  const structureRefs = $(element)
+    .find('page')
+    .map(function () {
+      return $(this).text().trim();
+    })
+    .get()
+    .filter((page): page is string => page.startsWith('Structures/'))
+    .map(page => page.substring('Structures/'.length));
+
+  const uniqueStructureRefs = [...new Set(structureRefs)];
+  if (uniqueStructureRefs.length !== 1) {
+    return currentType;
+  }
+
+  if (isCollectionStyleStructureDescription(description)) {
+    return currentType;
+  }
+
+  return uniqueStructureRefs[0];
+}
+
 // Extract <callback> in a description of an argument/return
 function handleCallbackInDescription($: CheerioAPI, e: AnyNode): [string?, FunctionCallback?] {
   let description: string = "";
@@ -365,6 +404,12 @@ export class WikiPageMarkupScraper extends Scraper<WikiPage> {
               const callbackRes = handleCallbackInDescription($, this);
               argument.description = callbackRes[0];
               argument.callback = callbackRes[1];
+              argument.type = inferStructureTypeFromDescription(
+                $,
+                this,
+                argument.type,
+                argument.description ?? '',
+              );
 
               if ($el.attr('default') != undefined)
                 argument.default = $el.attr('default')!;

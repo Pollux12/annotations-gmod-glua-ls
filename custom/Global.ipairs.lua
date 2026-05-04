@@ -10,5 +10,7 @@
 ---@source https://wiki.facepunch.com/gmod/Global.ipairs
 ---@generic V
 ---@param t V[] | table<int, V> | {[int]: V} # The table to iterate over.
----@return fun(tbl: any):int, V # The iterator function.
+---@return fun(tbl: any, prev: integer?): integer, V # The iterator function.
+---@return V[] | table<int, V> | {[int]: V} # The table being iterated over.
+---@return integer # The origin index (0).
 function _G.ipairs(t) end

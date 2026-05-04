@@ -4,7 +4,8 @@
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/string.Split
----@param Inputstring string String to split
----@param Separator string Character(s) to split with.
----@return string[] # Split table
+---@generic Sep: string, Str: string
+---@param Inputstring std.ConstTpl<Str> String to split
+---@param Separator std.ConstTpl<Sep> Character(s) to split with.
+---@return std.Split<Sep, Str> # Split table
 function string.Split(Inputstring, Separator) end

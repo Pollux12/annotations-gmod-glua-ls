@@ -1,0 +1,14 @@
+---Splits a string up wherever it finds the given separator.
+---
+--- The function [string.Split](https://wiki.facepunch.com/gmod/string.Split) is an alias of this function, except that function doesn't support using patterns.
+---
+--- See [string.Implode](https://wiki.facepunch.com/gmod/string.Implode) for the reverse operation of this function.
+---@realm shared
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/string.Explode
+---@generic Sep: string, Str: string
+---@param separator std.ConstTpl<Sep> The string will be separated wherever this sequence is found.
+---@param str std.ConstTpl<Str> The string to split up.
+---@param withpattern? boolean Set this to true if your separator is a Patterns.
+---@return std.Split<Sep, Str> # Exploded string as a numerical sequential table.
+function string.Explode(separator, str, withpattern) end

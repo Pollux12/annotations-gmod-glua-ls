@@ -1,0 +1,12 @@
+---Reads a table from the received net message.
+---
+--- See [net.WriteTable](https://wiki.facepunch.com/gmod/net.WriteTable) for extra info.
+---
+--- **NOTE**: Sometimes when sending a table through the net library, the order of the keys may be switched.
+---
+--- **WARNING**: You **must** read information in same order as you write it.
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/net.ReadTable
+---@param sequential? boolean Set to `true` if the input table is sequential. This saves on bandwidth.
+---@return table<any, any> # Table received via the net message, or a blank table if no table could be read.
+function net.ReadTable(sequential) end

@@ -43,7 +43,7 @@ MENU_DLL = nil
 ---Contains the name of the current active gamemode.
 GAMEMODE_NAME = nil
 
----@type any
+---@type Entity?
 ---Represents a non existent entity.
 NULL = nil
 

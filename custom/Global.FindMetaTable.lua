@@ -10,5 +10,5 @@
 ---@source https://wiki.facepunch.com/gmod/Global.FindMetaTable
 ---@generic T : table
 ---@param metaName `T` The object type to retrieve the meta table of.
----@return (definition) T|nil # The corresponding meta table or `nil` if it doesn't exist.
+---@return (definition) T # The corresponding meta table.
 function _G.FindMetaTable(metaName) end

@@ -23,6 +23,50 @@ describe('GMod Wiki Page Markup Parse', () => {
     expect(scrapeCallback(responseMock, libraryFunctionMarkup)).toEqual([<LibraryFunction>libraryFunctionJson]);
   });
 
+  it('should parse lowercase file.Read and file.Write pages as file library functions', async () => {
+    const readMarkup = `
+<function name="Read" parent="file" type="libraryfunc">
+  <description>Returns the content of a file.</description>
+  <realm>Shared and Menu</realm>
+  <args>
+    <arg name="fileName" type="string">The name of the file.</arg>
+    <arg name="gamePath" type="string" default="DATA">The path to look for the files and directories in.</arg>
+  </args>
+  <rets>
+    <ret name="" type="string">The data from the file as a string, or nil if the file is not found.</ret>
+  </rets>
+</function>`;
+    const writeMarkup = `
+<function name="Write" parent="file" type="libraryfunc">
+  <description>Writes the given string to a file.</description>
+  <realm>Shared and Menu</realm>
+  <args>
+    <arg name="fileName" type="string">The name of the file being written into.</arg>
+    <arg name="content" type="string">The content that will be written into the file.</arg>
+  </args>
+  <rets>
+    <ret name="" type="boolean">If the operation was successful.</ret>
+  </rets>
+</function>`;
+
+    const readResponseMock = <Response>{
+      url: 'https://wiki.facepunch.com/gmod/file.Read?format=text',
+    };
+    const writeResponseMock = <Response>{
+      url: 'https://wiki.facepunch.com/gmod/file.Write?format=text',
+    };
+
+    const [readPage] = new WikiPageMarkupScraper(readResponseMock.url).getScrapeCallback()(readResponseMock, readMarkup) as LibraryFunction[];
+    const [writePage] = new WikiPageMarkupScraper(writeResponseMock.url).getScrapeCallback()(writeResponseMock, writeMarkup) as LibraryFunction[];
+
+    expect(readPage.type).toBe('libraryfunc');
+    expect(readPage.parent).toBe('file');
+    expect(readPage.address).toBe('file.Read');
+    expect(writePage.type).toBe('libraryfunc');
+    expect(writePage.parent).toBe('file');
+    expect(writePage.address).toBe('file.Write');
+  });
+
   it('should be able to parse a class function markup', async () => {
     fetchMock.mockResponseOnce(classFunctionMarkup);
 

@@ -48,6 +48,58 @@ describe('GLua API Writer', () => {
     expect(api).toContain('---@source https://wiki.facepunch.com/gmod/test.DoThing');
   });
 
+  it('should emit lowercase file.Read and file.Write as file library functions', () => {
+    const writer = new GluaApiWriter();
+    const api = [
+      writer.writePage(<LibraryFunction>{
+        name: 'Read',
+        address: 'file.Read',
+        parent: 'file',
+        description: 'Returns the content of a file.',
+        realm: 'shared and menu',
+        type: 'libraryfunc',
+        url: 'https://wiki.facepunch.com/gmod/file.Read',
+        arguments: [{
+          args: [{
+            name: 'fileName',
+            type: 'string',
+            description: 'The name of the file.',
+          }],
+        }],
+        returns: [],
+      }),
+      writer.writePage(<LibraryFunction>{
+        name: 'Write',
+        address: 'file.Write',
+        parent: 'file',
+        description: 'Writes the given string to a file.',
+        realm: 'shared and menu',
+        type: 'libraryfunc',
+        url: 'https://wiki.facepunch.com/gmod/file.Write',
+        arguments: [{
+          args: [
+            {
+              name: 'fileName',
+              type: 'string',
+              description: 'The name of the file being written into.',
+            },
+            {
+              name: 'content',
+              type: 'string',
+              description: 'The content that will be written into the file.',
+            },
+          ],
+        }],
+        returns: [],
+      }),
+    ].join('');
+
+    expect(api).toContain('function file.Read(fileName) end');
+    expect(api).toContain('function file.Write(fileName, content) end');
+    expect(api).not.toContain('function File:Read');
+    expect(api).not.toContain('function File:Write');
+  });
+
   it('should be able to write Lua API definitions directly from wiki json data for a struct', async () => {
     const writer = new GluaApiWriter();
 

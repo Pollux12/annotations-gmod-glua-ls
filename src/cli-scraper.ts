@@ -3,6 +3,7 @@ import { WikiPageListScraper } from './scrapers/wiki-page-list-scraper.js';
 import packageJson from '../package.json' with { type: "json" };
 import { GluaApiWriter } from './api-writer/glua-api-writer.js';
 import { scrapeAndCollect } from './scrapers/collector.js';
+import { getWikiPageOutputPaths, writeMergedWikiPageJson } from './scrapers/wiki-page-output.js';
 import { writeMetadata } from './utils/metadata.js';
 import { RequestInitWithRetry } from 'fetch-retry';
 import { Command } from 'commander';
@@ -100,34 +101,16 @@ async function startScrape() {
       if (pageMarkups.length === 0)
         return;
 
-      // Generate file names
-      let fileName = pageIndex.address;
-      let moduleName = fileName;
-
-      if (fileName.includes('.') || fileName.includes(':') || fileName.includes('/')) {
-        [moduleName, fileName] = fileName.split(/[:.\/]/, 2);
-      }
-
-      fileName = fileName.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-
-      // Make sure modules like Entity and ENTITY are placed in the same file.
-      moduleName = moduleName.toLowerCase();
-
-      // Special cases for library and hook pages
-      if (moduleName.endsWith("(library)")) moduleName = moduleName.substring(0, moduleName.length - 9);
-      if (moduleName.endsWith("_hooks")) moduleName = moduleName.substring(0, moduleName.length - 6);
-
-      const moduleFile = path.join(baseDirectory, moduleName);
+      const outputPaths = getWikiPageOutputPaths(baseDirectory, pageIndex.address);
 
       // Write Lua API docs
-      writer.writePages(pageMarkups, path.join(baseDirectory, `${moduleName}.lua`), indexForThis);
+      writer.writePages(pageMarkups, outputPaths.luaPath, indexForThis);
 
       // Write JSON data
-      if (!fs.existsSync(moduleFile))
-        fs.mkdirSync(moduleFile, { recursive: true });
+      if (!fs.existsSync(outputPaths.moduleDirectory))
+        fs.mkdirSync(outputPaths.moduleDirectory, { recursive: true });
 
-      const json = JSON.stringify(pageMarkups, null, 2);
-      fs.writeFileSync(path.join(baseDirectory, moduleName, `${fileName}.json`), json);
+      writeMergedWikiPageJson(outputPaths.jsonPath, pageMarkups);
     });
 
     queue.push(pageMarkupScraper.scrape());

@@ -1,0 +1,10 @@
+---Retrieves a networked entity value at specified index on the entity.
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/Entity:GetNetworked2Entity
+---@generic T
+---@overload fun(self: Entity, key: string): Entity # The value associated with the key
+---@param key string The key that is associated with the value
+---@param fallback T The value to return if we failed to retrieve the value.
+---@return Entity|T # The value associated with the key
+---@deprecated You should be using Entity:GetNW2Entity instead.
+function Entity:GetNetworked2Entity(key, fallback) end

@@ -28,6 +28,9 @@ describe('custom and plugin annotation smoke checks', () => {
     const globalHttp = fs.readFileSync(path.join(customRoot, 'Global.HTTP.lua'), 'utf8');
 
     expect(globals).toMatch(/---@alias GPlayer Player/);
+    expect(globals).toMatch(/---@class InvalidEntity/);
+    expect(globals).toMatch(/---@alias EntityOrNULL Entity\|InvalidEntity/);
+    expect(globals).toMatch(/---@type InvalidEntity/);
 
     expect(dCheckBoxLabel).toMatch(/---@class DCheckBoxLabel : Panel/);
     expect(dCheckBoxLabel).toMatch(/---@field Button DCheckBox/);

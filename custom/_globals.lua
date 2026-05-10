@@ -43,8 +43,12 @@ MENU_DLL = nil
 ---Contains the name of the current active gamemode.
 GAMEMODE_NAME = nil
 
----@type Entity?
----Represents a non existent entity.
+---@class InvalidEntity
+
+---@alias EntityOrNULL Entity|InvalidEntity
+
+---@type InvalidEntity
+---Represents a non-existent entity. It is not nil; use IsValid before calling Entity methods.
 NULL = nil
 
 ---@type string

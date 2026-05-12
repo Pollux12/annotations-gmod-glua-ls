@@ -120,7 +120,7 @@ describe('GLua API Writer', () => {
     expect(api).toContain('local Custom_Entity_Fields = {}');
   });
 
-  it('should emit struct defaults as optional fields with default comments', () => {
+  it('should emit inline non-nil struct defaults without making the field optional', () => {
     const writer = new GluaApiWriter();
     const api = writer.writePage(<WikiPage>{
       type: 'struct',
@@ -141,8 +141,56 @@ describe('GLua API Writer', () => {
 
     expect(api).toContain('---@class (partial) TestStruct');
     expect(api).toContain('--- Default: `GET`');
-    expect(api).toContain('---@field method? string');
+    expect(api).toContain('---@field method string="GET"');
+    expect(api).not.toContain('---@field method? string');
     expect(api).toContain('local TestStruct = {}');
+  });
+
+  it('should keep nil-default struct fields optional', () => {
+    const writer = new GluaApiWriter();
+    const api = writer.writePage(<WikiPage>{
+      type: 'struct',
+      name: 'NilStruct',
+      address: 'NilStruct',
+      description: 'Struct description.',
+      realm: 'shared',
+      fields: [
+        {
+          name: 'maybeValue',
+          type: 'string',
+          description: 'Optional value.',
+          default: 'nil',
+        },
+      ],
+      url: 'https://wiki.facepunch.com/gmod/Structures/NilStruct',
+    });
+
+    expect(api).toContain('---@class (partial) NilStruct');
+    expect(api).toContain('--- Default: `nil`');
+    expect(api).toContain('---@field maybeValue? string');
+    expect(api).toContain('local NilStruct = {}');
+  });
+
+  it('should emit textual non-literal defaults as quoted metadata', () => {
+    const writer = new GluaApiWriter();
+    const api = writer.writePage(<WikiPage>{
+      type: 'struct',
+      name: 'EntityStruct',
+      address: 'EntityStruct',
+      description: 'Struct description.',
+      realm: 'shared',
+      fields: [
+        {
+          name: 'entity',
+          type: 'Entity',
+          description: 'Entity value.',
+          default: 'NULL',
+        },
+      ],
+      url: 'https://wiki.facepunch.com/gmod/Structures/EntityStruct',
+    });
+
+    expect(api).toContain('---@field entity Entity="NULL"');
   });
 
   it('should be able to write Lua API definitions directly from wiki json data for a fake enum', async () => {

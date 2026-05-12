@@ -435,10 +435,42 @@ export class GluaApiWriter {
       api += `---${wrapInComment(comment)}\n`;
 
     const type = GluaApiWriter.transformType(field.type, field.callback);
-    const optional = field.default !== undefined ? '?' : '';
-    api += `---@field ${GluaApiWriter.safeName(field.name)}${optional} ${type}\n`;
+    const { optional, inlineDefault } = this.getStructFieldDefaultAnnotation(field.default);
+    api += `---@field ${GluaApiWriter.safeName(field.name)}${optional} ${type}${inlineDefault}\n`;
 
     return api;
+  }
+
+  private getStructFieldDefaultAnnotation(defaultValue: string | undefined): { optional: string; inlineDefault: string } {
+    if (defaultValue === undefined)
+      return { optional: '', inlineDefault: '' };
+
+    const trimmedDefault = String(defaultValue).trim();
+    if (trimmedDefault.toLowerCase() === 'nil')
+      return { optional: '?', inlineDefault: '' };
+
+    const normalizedDefault = this.normalizeInlineDefaultValue(trimmedDefault);
+    return { optional: '', inlineDefault: `=${normalizedDefault}` };
+  }
+
+  private normalizeInlineDefaultValue(defaultValue: string): string {
+    if (/^[+-]?(?:\d+\.?\d*|\.\d+)$/.test(defaultValue))
+      return defaultValue;
+
+    if (/^(true|false)$/i.test(defaultValue))
+      return defaultValue.toLowerCase();
+
+    const unwrappedCode = defaultValue.replace(/^`(.+)`$/, '$1').trim();
+    const boldMatch = unwrappedCode.match(/^\*\*(.*)\*\*$/);
+    const normalizedText = (boldMatch ? boldMatch[1] : unwrappedCode).trim();
+
+    if (normalizedText.toLowerCase() === 'empty')
+      return '""';
+
+    if (/^"(?:[^"\\]|\\.)*"$/.test(normalizedText) || /^'(?:[^'\\]|\\.)*'$/.test(normalizedText))
+      return normalizedText;
+
+    return JSON.stringify(normalizedText);
   }
 
   private writeStruct(struct: Struct) {

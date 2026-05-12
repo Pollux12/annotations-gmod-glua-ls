@@ -5,7 +5,7 @@ Automatically generates GLuaLS annotations for Garry's Mod API by scraping the [
 Plugins are currently WIP and are not used.
 
 **Note**: This repository is part of the GMod language server infrastructure.
-Annotations are automatically downloaded by the VSCode extension from the `gluals-annotations` branch - manual setup is not required for end users.
+Annotations are automatically downloaded by the VSCode extension from the `gluals-annotations` branch - manual setup is not required.
 
 ## Workflow
 
@@ -68,10 +68,10 @@ For local language server testing, generate annotations and point your workspace
 - `custom/` - manual overrides merged during generation
 - `output/` - generated annotation files (published to `gluals-annotations` branch)
 
+
 ## Plugin Metadata Notes
 
 The VSCode extension loads plugin metadata from the annotation bundle (`plugin/index.json` + `plugin/<id>/plugin.json`).
-Plugin apply remains extension-only; the language server does not resolve plugins at runtime.
 
 ## Credits
 Forked from [luttje/glua-api-snippets](https://github.com/luttje/glua-api-snippets)

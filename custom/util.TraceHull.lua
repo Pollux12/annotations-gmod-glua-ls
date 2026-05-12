@@ -1,0 +1,13 @@
+---Performs an AABB hull (axis-aligned bounding box, aka not rotated) trace with the given trace data.
+---
+--- This trace type cannot hit hitboxes.
+---
+--- See util.TraceLine for a simple line ("ray") trace.
+---
+--- **NOTE**: This function may not always give desired results clientside due to certain physics mechanisms not existing on the client. Use it serverside for accurate results.
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/util.TraceHull
+---@outparam TraceData.output TraceResult
+---@param TraceData HullTrace The trace data to use. See Structures/HullTrace
+---@return TraceResult # Trace result. See Structures/TraceResult
+function util.TraceHull(TraceData) end

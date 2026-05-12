@@ -1,0 +1,16 @@
+---Performs an infinitely thin, invisible ray trace (or "trace") in a line based on the input and returns a table that contains information about what, if anything, the trace line hit or intersected.
+---
+--- Traces intersect with the physics meshes of solid, server-side, entities (including the game world) but cannot detect client-side only entities unless hitclientonly is set to true.
+---
+--- See ents.FindAlongRay if you wish for the trace to not stop on first intersection.
+--- See util.TraceHull for a "box" type trace.
+---
+--- Traces do not differentiate between the inside and the outside faces of physics meshes. Because of this, if a trace starts within a solid physics mesh it will hit the inside faces of the physics mesh and may return unexpected values as a result.
+---
+--- You can use `r_visualizetraces` set to `1` (requires `sv_cheats` set to `1`) to visualize traces in real time for debugging purposes.
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/util.TraceLine
+---@outparam traceConfig.output TraceResult
+---@param traceConfig Trace A table of data that configures the trace. See Structures/Trace for available options.
+---@return TraceResult # A table of information detailing where and what the trace line intersected, or `nil` if the trace is being done before the GM:InitPostEntity hook.
+function util.TraceLine(traceConfig) end

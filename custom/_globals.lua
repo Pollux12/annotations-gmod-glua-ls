@@ -43,7 +43,7 @@ MENU_DLL = nil
 ---Contains the name of the current active gamemode.
 GAMEMODE_NAME = nil
 
----@class InvalidEntity
+---@class InvalidEntity : Entity
 
 ---@alias EntityOrNULL Entity|InvalidEntity
 

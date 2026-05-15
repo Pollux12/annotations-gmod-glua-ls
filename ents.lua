@@ -1,0 +1,221 @@
+---@meta
+
+--- The ents library provides functions for creating and finding entities in the game.
+ents = {}
+
+---Creates an entity. This function will fail and return `NULL` if the networked-edict limit is hit (around **8176**), or the provided entity class doesn't exist.
+--- **WARNING**: Do not use before GM:InitPostEntity has been called, otherwise the server will crash!
+--- If you need to perform entity creation when the game starts, create a hook for GM:InitPostEntity and do it there.
+---@realm server
+---@source https://wiki.facepunch.com/gmod/ents.Create
+---@generic T : Entity
+---@param class `T` The classname of the entity to create.
+---@return (instance) T|NULL # The created entity, or `NULL` if failed.
+function ents.Create(class) end
+
+---Creates a clientside only prop with optional physics.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/ents.CreateClientProp
+---@param model? string The model for the entity to be created.
+---@return (instance) Entity # Created entity (`C_PhysPropClientside`).
+function ents.CreateClientProp(model) end
+
+---Creates a clientside only rope, similar to those used by the Dog and Fast Zombie models from Half-Life 2.
+---
+--- Created ropes will be automatically cleaned up when one of the attached entities is removed.
+---
+--- **WARNING**: It doesn't work exactly the same way as [constraint.CreateKeyframeRope](https://wiki.facepunch.com/gmod/constraint.CreateKeyframeRope) or [constraint.Rope](https://wiki.facepunch.com/gmod/constraint.Rope), you can see it when you try to use Slack with [constraint.CreateKeyframeRope](https://wiki.facepunch.com/gmod/constraint.CreateKeyframeRope) or addlength on [constraint.Rope](https://wiki.facepunch.com/gmod/constraint.Rope).
+---@realm client
+---@source https://wiki.facepunch.com/gmod/ents.CreateClientRope
+---@param ent1 Entity The first entity to attach the rope to.
+---@param ent1attach number|Vector The attachment ID on the first entity to attach the rope to, or a local Vector relative to the first entity.
+---@param ent2 Entity The second entity to attach the rope to.
+---@param ent2attach number|Vector The attachment ID on the second entity to attach the rope to, or a local Vector relative to the second entity.
+---@param extra? table Extra optional settings for the rope. Possible values are:
+--- * slack - How much extra rope to add to the length. (default: 0)
+--- * width - Width of the rope. (default: 2)
+--- * segments - How many segments the rope should have (default: 8, valid range is [2,10])
+--- * material - Which material should the rope have. (default: `"cable/cable"`)
+--- * nogravity - If set, the rope should have no gravity. (default: 0)
+---@return (instance) Entity # Created entity (`C_RopeKeyframe`).
+function ents.CreateClientRope(ent1, ent1attach, ent2, ent2attach, extra) end
+
+---Creates a clientside only scripted entity. The scripted entity must be of "anim" type.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/ents.CreateClientside
+---@generic T : Entity
+---@param class `T` The class name of the entity to create.
+---@return (instance) T # Created entity.
+function ents.CreateClientside(class) end
+
+---Returns a table of all entities along the ray. The ray does not stop on collisions, meaning it will go through walls/entities.
+---
+--- This function is capable of detecting clientside only entities by default.
+---
+--- This internally uses [spatial partitioning](https://en.wikipedia.org/wiki/Space_partitioning) to avoid looping through all entities.
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/ents.FindAlongRay
+---@param start Vector The start position of the ray.
+---@param _end Vector The end position of the ray.
+---@param mins? Vector The mins corner of the ray.
+---@param maxs? Vector The maxs corner of the ray.
+---@return Entity[] # Table of the found entities. There's a limit of 1024 entities.
+function ents.FindAlongRay(start, _end, mins, maxs) end
+
+---Gets all entities with the given class, supports wildcards.
+---
+--- This function returns a sequential table, meaning it should be looped with [Global.ipairs](https://wiki.facepunch.com/gmod/Global.ipairs) instead of [Global.pairs](https://wiki.facepunch.com/gmod/Global.pairs) for efficiency reasons.
+---
+--- This works internally by iterating over [ents.GetAll](https://wiki.facepunch.com/gmod/ents.GetAll). `ents.FindByClass` is always faster than [ents.GetAll](https://wiki.facepunch.com/gmod/ents.GetAll) or [ents.Iterator](https://wiki.facepunch.com/gmod/ents.Iterator).
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/ents.FindByClass
+---@generic T : Entity
+---@param class `T` The class of the entities to find, supports wildcards.
+---
+--- Asterisks (`*`) are the only wildcard supported.
+---@return T[] # A table containing all found entities.
+function ents.FindByClass(class) end
+
+---Finds all entities that are of given class and are children of given entity. This works internally by iterating over [ents.FindByClass](https://wiki.facepunch.com/gmod/ents.FindByClass).
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/ents.FindByClassAndParent
+---@generic T : Entity
+---@param class `T` The class of entities to search for.
+---@param parent Entity Parent of entities that are being searched for.
+---@return T[] # A table of found entities or nil if none are found.
+function ents.FindByClassAndParent(class, parent) end
+
+---Gets all entities with the given model, supports wildcards.
+---
+--- This works internally by iterating over [ents.GetAll](https://wiki.facepunch.com/gmod/ents.GetAll).
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/ents.FindByModel
+---@param model string The model of the entities to find.
+---@return Entity[] # A table of all found entities.
+function ents.FindByModel(model) end
+
+---Gets all entities with the given hammer targetname. This works internally by iterating over [ents.GetAll](https://wiki.facepunch.com/gmod/ents.GetAll).
+---
+--- Doesn't do anything on client.
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/ents.FindByName
+---@param name string The targetname to look for.
+---@return Entity[] # A table of all found entities.
+function ents.FindByName(name) end
+
+---Returns all entities within the specified box.
+---
+--- This internally uses a Spatial Partition to avoid looping through all entities, so it is more efficient than using [ents.GetAll](https://wiki.facepunch.com/gmod/ents.GetAll) for this purpose.
+---
+--- **NOTE**: Clientside entities will not be returned by this function. Serverside only entities without networked edicts (entity indexes), such as point logic or Constraints are not returned either
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/ents.FindInBox
+---@param boxMins Vector The box minimum coordinates.
+---@param boxMaxs Vector The box maximum coordinates.
+---@return Entity[] # A table of all found entities.
+function ents.FindInBox(boxMins, boxMaxs) end
+
+---Finds and returns all entities within the specified cone. Only entities whose [Entity:WorldSpaceCenter](https://wiki.facepunch.com/gmod/Entity:WorldSpaceCenter) is within the cone are considered to be in it.
+---
+--- The "cone" is actually a conical "slice" of an axis-aligned box (see: [ents.FindInBox](https://wiki.facepunch.com/gmod/ents.FindInBox)). The image to the right shows approximately how this function would look in 2D. Due to this, the entity may be farther than the specified range!
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/ents.FindInCone
+---@param origin Vector The tip of the cone.
+---@param normal Vector Direction of the cone.
+---@param range number The range of the cone/box around the origin.
+---  The function internally adds 1 to this argument before using it.
+---@param angle_cos number The math.cos of the angle between the center of the cone to its edges, which is half the overall angle of the cone.
+---
+--- 1 makes a 0° cone, 0.707 makes approximately 90°, 0 makes 180°, and so on.
+---@return Entity[] # A table of all found Entitys.
+function ents.FindInCone(origin, normal, range, angle_cos) end
+
+---Finds all entities that lie within a [PVS (Potential Visibility Set)](https://developer.valvesoftware.com/wiki/PVS "PVS - Valve Developer Community").
+---
+--- **NOTE**: The function won't take in to account [Global.AddOriginToPVS](https://wiki.facepunch.com/gmod/Global.AddOriginToPVS) and the like.
+---@realm server
+---@source https://wiki.facepunch.com/gmod/ents.FindInPVS
+---@param viewPoint Entity|Vector Entity or Vector to find entities within the PVS of. If a player is given, this function will use the player's view entity.
+---@return Entity[] # The found Entitys.
+function ents.FindInPVS(viewPoint) end
+
+---Gets all entities within the specified sphere.
+---
+--- This function internally calls [util.IsBoxIntersectingSphere](https://wiki.facepunch.com/gmod/util.IsBoxIntersectingSphere) for every entity on the map based on their Orientated Bounding Box.
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/ents.FindInSphere
+---@param origin Vector Center of the sphere.
+---@param radius number Radius of the sphere.
+---@return Entity[] # A table of all found Entitys.
+function ents.FindInSphere(origin, radius) end
+
+---Fires a use event.
+---@realm server
+---@source https://wiki.facepunch.com/gmod/ents.FireTargets
+---@param target string Name of the target entity.
+---@param activator Entity Activator of the event.
+---@param caller Entity Caller of the event.
+---@param usetype USE Use type. See the Enums/USE.
+---@param value number This value is passed to ENTITY:Use, but isn't used by any default entities in the engine.
+function ents.FireTargets(target, activator, caller, usetype, value) end
+
+---Returns a table of all existing entities.
+---
+--- Consider using [ents.Iterator](https://wiki.facepunch.com/gmod/ents.Iterator) instead for better performance.
+---
+--- This function returns a sequential table, meaning it should be looped with [Global.ipairs](https://wiki.facepunch.com/gmod/Global.ipairs) instead of [Global.pairs](https://wiki.facepunch.com/gmod/Global.pairs) for efficiency reasons.
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/ents.GetAll
+---@return Entity[] # Table of all existing Entitys.
+function ents.GetAll() end
+
+---Returns an entity by its index. Same as [Global.Entity](https://wiki.facepunch.com/gmod/Global.Entity).
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/ents.GetByIndex
+---@param entIdx number The index of the entity.
+---@return Entity # The entity if it exists, or `NULL` if it doesn't.
+function ents.GetByIndex(entIdx) end
+
+---Gives you the amount of currently existing entities.
+---
+--- Similar to **#**[ents.GetAll](https://wiki.facepunch.com/gmod/ents.GetAll)() but with better performance since the entity table doesn't have to be generated.
+--- If [ents.GetAll](https://wiki.facepunch.com/gmod/ents.GetAll) is already being called for iteration, than using the **#** operator on the table will be faster than calling this function since it is JITted.
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/ents.GetCount
+---@param IncludeKillMe? boolean Include entities with the FL_KILLME flag. This will skip an internal loop, and the function will be more efficient as a byproduct.
+---@return number # Number of entities.
+function ents.GetCount(IncludeKillMe) end
+
+---Returns the amount of networked entities, which is limited to 8192.
+---
+--- [ents.Create](https://wiki.facepunch.com/gmod/ents.Create) will fail somewhere between 8064 and 8176 - this can vary based on the amount of player slots on the server and other entities.
+---
+--- See also [MAX_EDICT_BITS](https://wiki.facepunch.com/gmod/Global_Variables#maxedictbits) global variable.
+---@realm server
+---@source https://wiki.facepunch.com/gmod/ents.GetEdictCount
+---@return number # Number of networked entities.
+function ents.GetEdictCount() end
+
+---Returns entity that has given [Entity:MapCreationID](https://wiki.facepunch.com/gmod/Entity:MapCreationID).
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/ents.GetMapCreatedEntity
+---@param id number Entity's creation id.
+---@return Entity|nil # Found entity, `nil` otherwise.
+function ents.GetMapCreatedEntity(id) end
+
+---Returns a [Stateless Iterator](https://www.lua.org/pil/7.3.html) for all entities.
+--- Intended for use in [Generic For-Loops](https://www.lua.org/pil/4.3.5.html).
+--- See [player.Iterator](https://wiki.facepunch.com/gmod/player.Iterator) for a similar function for all players.
+---
+--- **NOTE**: Internally, this function uses cached values that are stored in Lua, as opposed to [ents.GetAll](https://wiki.facepunch.com/gmod/ents.GetAll), which is a C++ function.
+--- Because a call operation from Lua to C++ *and* with a return back to Lua is quite costly, this function will be more efficient than [ents.GetAll](https://wiki.facepunch.com/gmod/ents.GetAll).
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/ents.Iterator
+---@return function # The Iterator Function from Global.ipairs.
+---@return Entity[] # Table of all existing Entity.  This is a cached copy of ents.GetAll.
+--- This table is intended to be read-only.
+---
+--- Modifying the return table will affect all subsequent calls to this function until the cache is refreshed, replacing all of your ents.GetAll usages may come with unintended side effects because of this.
+---@return number # The starting index for the table of players.
+--- This is always `0` and is returned for the benefit of [Generic For-Loops](https://www.lua.org/pil/4.3.5.html).
+function ents.Iterator() end

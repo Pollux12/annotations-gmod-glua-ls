@@ -1,0 +1,59 @@
+---@meta
+
+--- Information about custom fields that are not exclusive to [Scripted Entities](https://wiki.facepunch.com/gmod/Scripted_Entities), fields that have an effect on any entity.
+---
+--- See also [Structures/ENT](https://wiki.facepunch.com/gmod/Structures/ENT)
+---@source https://wiki.facepunch.com/gmod/Custom_Entity_Fields
+---@class (partial) Custom_Entity_Fields
+---Sandbox and Sandbox derived only.
+---
+--- Called by the [Drive property](https://wiki.facepunch.com/gmod/Entity_Driving) to override the default drive type, which is `drive_sandbox`.
+---@field GetEntityDriveMode function
+---Documented at ENTITY:OnEntityCopyTableFinish.
+---@field OnEntityCopyTableFinish function
+---Documented at ENTITY:PostEntityCopy.
+---@field PostEntityCopy function
+---Documented at ENTITY:PostEntityPaste.
+---@field PostEntityPaste function
+---Documented at ENTITY:PreEntityCopy.
+---@field PreEntityCopy function
+---Documented at ENTITY:OnDuplicated.
+---@field OnDuplicated function
+---Sandbox or Sandbox derived only.
+---
+--- If set to `true`, physgun will not be able to pick this entity up. This can also be set from map, see Sandbox Specific Mapping
+---
+--- Default: `false`
+---@field PhysgunDisabled boolean=false
+---Sandbox or Sandbox derived only.
+---
+--- Called from GM:PhysgunPickup, overrides `PhysgunDisabled`
+---@field PhysgunPickup function
+---Sandbox or Sandbox derived only.
+---
+--- Controls which tools **and** properties can be used on this entity. Format is a list of strings where each string is the tool or property classname.
+---
+--- This can also be set from map, see Sandbox Specific Mapping
+---@field m_tblToolsAllowed table
+---Documented at ENTITY:GravGunPickupAllowed.
+---@field GravGunPickupAllowed function
+---Documented at ENTITY:GravGunPunt.
+---@field GravGunPunt function
+---Documented at ENTITY:CanProperty.
+---@field CanProperty function
+---Documented at ENTITY:CanTool.
+---@field CanTool function
+---If set, the entity will not be duplicated via the built-in duplicator system.
+---
+--- Default: `false`
+---@field DoNotDuplicate boolean=false
+---Documented at ENTITY:CalcAbsolutePosition.
+---@field CalcAbsolutePosition function
+---Documented at ENTITY:RenderOverride.
+---@field RenderOverride function
+---Internal. Do not use. Use Entity:SetRenderOrigin instead.
+---@field m_RenderOrigin Vector
+---Internal. Do not use. Use Entity:SetRenderAngles instead.
+---@field m_RenderAngles Angle
+
+local Custom_Entity_Fields = {}

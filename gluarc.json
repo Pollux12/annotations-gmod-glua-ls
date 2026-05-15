@@ -1,0 +1,17 @@
+{
+  "gmod": {
+    "plugins": [
+      "cami"
+    ]
+  },
+  "workspace": {
+    "library": [
+      "plugin/darkrp/annotations"
+    ]
+  },
+  "diagnostics": {
+    "globals": [
+      "DarkRP"
+    ]
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "gmod": {
+    "scriptedClassScopes": {
+      "include": [
+        {
+          "id": "helix-schema",
+          "classGlobal": "Schema",
+          "fixedClassName": "Schema",
+          "isGlobalSingleton": true,
+          "hideFromOutline": true,
+          "include": [
+            "schema/**",
+            "gamemode/schema.lua"
+          ],
+          "label": "Helix Schema",
+          "path": [
+            "schema"
+          ],
+          "rootDir": "schema"
+        },
+        {
+          "id": "helix-plugins",
+          "classGlobal": "PLUGIN",
+          "include": [
+            "plugins/**"
+          ],
+          "label": "Helix Plugins",
+          "path": [
+            "plugins"
+          ]
+        },
+        {
+          "id": "helix-items",
+          "classGlobal": "ITEM",
+          "stripFilePrefix": true,
+          "include": [
+            "items/**"
+          ],
+          "label": "Helix Items",
+          "path": [
+            "items"
+          ]
+        },
+        {
+          "id": "helix-factions",
+          "classGlobal": "FACTION",
+          "stripFilePrefix": true,
+          "include": [
+            "factions/**"
+          ],
+          "label": "Helix Factions",
+          "path": [
+            "factions"
+          ],
+          "rootDir": "schema/factions"
+        },
+        {
+          "id": "helix-classes",
+          "classGlobal": "CLASS",
+          "stripFilePrefix": true,
+          "include": [
+            "classes/**"
+          ],
+          "label": "Helix Classes",
+          "path": [
+            "classes"
+          ],
+          "rootDir": "schema/classes"
+        },
+        {
+          "id": "helix-attributes",
+          "classGlobal": "ATTRIBUTE",
+          "stripFilePrefix": true,
+          "include": [
+            "attributes/**"
+          ],
+          "label": "Helix Attributes",
+          "path": [
+            "schema",
+            "attributes"
+          ],
+          "rootDir": "schema/attributes"
+        }
+      ]
+    }
+  }
+}

@@ -2,5 +2,5 @@
 ---In Garry's Mod, only Players can drive vehicles.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Vehicle:GetDriver
----@return Player driver The driver of the vehicle.
+---@return Player|NULL driver The driver of the vehicle.
 function Vehicle:GetDriver() end

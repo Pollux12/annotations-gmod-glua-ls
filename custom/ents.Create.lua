@@ -5,5 +5,5 @@
 ---@source https://wiki.facepunch.com/gmod/ents.Create
 ---@generic T : Entity
 ---@param class `T` The classname of the entity to create.
----@return (instance) T # The created entity, or `NULL` if failed.
+---@return (instance) T|NULL # The created entity, or `NULL` if failed.
 function ents.Create(class) end

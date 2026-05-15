@@ -80,9 +80,9 @@ describe('cli-generate-lua', () => {
 
       expect(result.status).toBe(0);
       const entityLua = fs.readFileSync(path.join(outputPath, 'entity.lua'), 'utf8');
-      expect(entityLua).toContain('---@overload fun(self: Entity, key: string): Entity # The value associated with the key');
+      expect(entityLua).toContain('---@overload fun(self: Entity, key: string): Entity|NULL # The value associated with the key');
       expect(entityLua).toContain('---@overload fun(self: Entity, key: string): number # The value associated with the key');
-      expect(entityLua).toContain('---@overload fun(self: Entity, key: string): Entity # The retrieved value');
+      expect(entityLua).toContain('---@overload fun(self: Entity, key: string): Entity|NULL # The retrieved value');
       expect(entityLua).toContain('---@param fallback T The value to return if we failed to retrieve the value.');
       expect(entityLua).toContain('---@return Entity|T # The value associated with the key');
       expect(entityLua).toContain('---@return number|T # The value associated with the key');

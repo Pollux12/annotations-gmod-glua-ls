@@ -26,11 +26,17 @@ describe('custom and plugin annotation smoke checks', () => {
     const dPanelList = fs.readFileSync(path.join(customRoot, 'class.DPanelList.lua'), 'utf8');
     const httpRequest = fs.readFileSync(path.join(customRoot, 'HTTPRequest.lua'), 'utf8');
     const globalHttp = fs.readFileSync(path.join(customRoot, 'Global.HTTP.lua'), 'utf8');
+    const entsCreate = fs.readFileSync(path.join(customRoot, 'ents.Create.lua'), 'utf8');
+    const vehicleGetDriver = fs.readFileSync(path.join(customRoot, 'Vehicle.GetDriver.lua'), 'utf8');
+    const getNWEntity = fs.readFileSync(path.join(customRoot, 'Entity.GetNWEntity.lua'), 'utf8');
+    const getNW2Entity = fs.readFileSync(path.join(customRoot, 'Entity.GetNW2Entity.lua'), 'utf8');
+    const getNetworkedEntity = fs.readFileSync(path.join(customRoot, 'Entity.GetNetworkedEntity.lua'), 'utf8');
+    const getNetworked2Entity = fs.readFileSync(path.join(customRoot, 'Entity.GetNetworked2Entity.lua'), 'utf8');
 
     expect(globals).toMatch(/---@alias GPlayer Player/);
-    expect(globals).toMatch(/---@class InvalidEntity/);
-    expect(globals).toMatch(/---@alias EntityOrNULL Entity\|InvalidEntity/);
-    expect(globals).toMatch(/---@type InvalidEntity/);
+    expect(globals).toMatch(/---@class NULL : Entity/);
+    expect(globals).toMatch(/---@alias EntityOrNULL Entity\|NULL/);
+    expect(globals).toMatch(/---@type NULL/);
 
     expect(dCheckBoxLabel).toMatch(/---@class DCheckBoxLabel : Panel/);
     expect(dCheckBoxLabel).toMatch(/---@field Button DCheckBox/);
@@ -50,6 +56,13 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(httpRequest).toMatch(/---@field parameters nil/);
     expect(globalHttp).toMatch(/---@overload fun\(parameters: HTTPRequestWithParameters\): boolean/);
     expect(globalHttp).toMatch(/---@param parameters HTTPRequest The request parameters/);
+
+    expect(entsCreate).toMatch(/---@return \(instance\) T\|NULL/);
+    expect(vehicleGetDriver).toMatch(/---@return Player\|NULL driver/);
+    expect(getNWEntity).toMatch(/---@overload fun\(self: Entity, key: string\): Entity\|NULL/);
+    expect(getNW2Entity).toMatch(/---@overload fun\(self: Entity, key: string\): Entity\|NULL/);
+    expect(getNetworkedEntity).toMatch(/---@overload fun\(self: Entity, key: string\): Entity\|NULL/);
+    expect(getNetworked2Entity).toMatch(/---@overload fun\(self: Entity, key: string\): Entity\|NULL/);
   });
 
 });

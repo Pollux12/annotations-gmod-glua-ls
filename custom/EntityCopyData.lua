@@ -6,8 +6,8 @@
 ---@source https://wiki.facepunch.com/gmod/Structures/EntityCopyData
 ---@class (partial) EntityCopyData
 ---@field Class string The entity's class name, see Entity:GetClass.
----@field Pos Vector The entity's position, relative to the duplication origin point.
----@field Angle Angle The entity's angle, relative to the duplication angle.
+---@field Pos? Vector The entity's position, relative to the duplication origin point. When loading, the duplicator only applies it if present.
+---@field Angle? Angle The entity's angle, relative to the duplication angle. When loading, the duplicator only applies it if present.
 ---@field Name? string The entity's name, see Entity:GetName.
 ---@field DT? table The entity's Network Vars, see ENTITY:SetupDataTables and Networking Entities.
 ---@field Model? string The entity's model, see Entity:GetModel.

@@ -86,6 +86,8 @@ describe('custom and plugin annotation smoke checks', () => {
 
     expect(entityCopyData).toMatch(/---@class \(partial\) EntityCopyData/);
     expect(entityCopyData).toMatch(/---@field Class string/);
+    expect(entityCopyData).toMatch(/---@field Pos\? Vector/);
+    expect(entityCopyData).toMatch(/---@field Angle\? Angle/);
     expect(entityCopyData).toMatch(/---@field Name\? string/);
     expect(entityCopyData).toMatch(/---@field PhysicsObjects\? table/);
     expect(duplicatorCreateEntityFromTable).toMatch(/---@param entTable EntityCopyData/);

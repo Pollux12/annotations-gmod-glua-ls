@@ -1,0 +1,26 @@
+---Data structure used by the duplicator to store and load entity data.
+---
+---It is created by duplicator.CopyEntTable and can be loaded by duplicator.CreateEntityFromTable.
+---When used as input to duplicator.CreateEntityFromTable, only the construction fields are required.
+---@realm server
+---@source https://wiki.facepunch.com/gmod/Structures/EntityCopyData
+---@class (partial) EntityCopyData
+---@field Class string The entity's class name, see Entity:GetClass.
+---@field Pos Vector The entity's position, relative to the duplication origin point.
+---@field Angle Angle The entity's angle, relative to the duplication angle.
+---@field Name? string The entity's name, see Entity:GetName.
+---@field DT? table The entity's Network Vars, see ENTITY:SetupDataTables and Networking Entities.
+---@field Model? string The entity's model, see Entity:GetModel.
+---@field ModelScale? number The entity's model scale, see Entity:GetModelScale.
+---@field Skin? number The entity's active skin, see Entity:GetSkin.
+---@field ColGroup? number The entity's collision group. Uses the Enums/COLLISION_GROUP.
+---@field Mins? Vector The entity's collision bound minimums.
+---@field Maxs? Vector The entity's collision bound maximums.
+---@field PhysicsObjects? table Data about the entity's PhysObjs.
+---@field FlexScale? number The entity's Flex Scale, see Entity:GetFlexScale.
+---@field Flex? table Each flex bone's flex weight.
+---@field BodyG? table The entity's body groups.
+---@field BoneManip? table Bone manipulation data.
+---@field MapCreationID? number The entity's MapCreationID, only exists for entities that were created by the map.
+---@field WorkshopID? number Deprecated, always 0. See Entity:GetWorkshopID.
+local EntityCopyData = {}

@@ -32,6 +32,18 @@ describe('custom and plugin annotation smoke checks', () => {
     const getNW2Entity = fs.readFileSync(path.join(customRoot, 'Entity.GetNW2Entity.lua'), 'utf8');
     const getNetworkedEntity = fs.readFileSync(path.join(customRoot, 'Entity.GetNetworkedEntity.lua'), 'utf8');
     const getNetworked2Entity = fs.readFileSync(path.join(customRoot, 'Entity.GetNetworked2Entity.lua'), 'utf8');
+    const dPropertySheetAddSheet = fs.readFileSync(path.join(customRoot, 'DPropertySheet.AddSheet.lua'), 'utf8');
+    const ctrlColor = fs.readFileSync(path.join(customRoot, 'class.CtrlColor.lua'), 'utf8');
+    const controlPanelAddControl = fs.readFileSync(path.join(customRoot, 'ControlPanel.AddControl.lua'), 'utf8');
+    const entityCopyData = fs.readFileSync(path.join(customRoot, 'EntityCopyData.lua'), 'utf8');
+    const duplicatorCreateEntityFromTable = fs.readFileSync(path.join(customRoot, 'duplicator.CreateEntityFromTable.lua'), 'utf8');
+    const osDate = fs.readFileSync(path.join(customRoot, 'os.date.lua'), 'utf8');
+    const tableCopy = fs.readFileSync(path.join(customRoot, 'table.Copy.lua'), 'utf8');
+    const contentContainer = fs.readFileSync(path.join(customRoot, 'class.ContentContainer.lua'), 'utf8');
+    const propVehiclePrisonerPod = fs.readFileSync(path.join(customRoot, 'class.prop_vehicle_prisoner_pod.lua'), 'utf8');
+    const propRagdoll = fs.readFileSync(path.join(customRoot, 'class.prop_ragdoll.lua'), 'utf8');
+    const propDynamicOverride = fs.readFileSync(path.join(customRoot, 'class.prop_dynamic_override.lua'), 'utf8');
+    const envFire = fs.readFileSync(path.join(customRoot, 'class.env_fire.lua'), 'utf8');
 
     expect(globals).toMatch(/---@alias GPlayer Player/);
     expect(globals).toMatch(/---@class NULL : Entity/);
@@ -63,6 +75,33 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(getNW2Entity).toMatch(/---@overload fun\(self: Entity, key: string\): Entity\|NULL/);
     expect(getNetworkedEntity).toMatch(/---@overload fun\(self: Entity, key: string\): Entity\|NULL/);
     expect(getNetworked2Entity).toMatch(/---@overload fun\(self: Entity, key: string\): Entity\|NULL/);
+
+    expect(dPropertySheetAddSheet).toMatch(/---@class DPropertySheetSheet/);
+    expect(dPropertySheetAddSheet).toMatch(/---@field Tab DTab/);
+    expect(dPropertySheetAddSheet).toMatch(/---@return DPropertySheetSheet/);
+    expect(ctrlColor).toMatch(/---@class CtrlColor : Panel/);
+    expect(ctrlColor).toMatch(/---@field Mixer DColorMixer/);
+    expect(controlPanelAddControl).toMatch(/---@overload fun\(self: ControlPanel, type: "color", controlinfo: table\): CtrlColor/);
+    expect(controlPanelAddControl).toMatch(/---@return Panel/);
+
+    expect(entityCopyData).toMatch(/---@class \(partial\) EntityCopyData/);
+    expect(entityCopyData).toMatch(/---@field Class string/);
+    expect(entityCopyData).toMatch(/---@field Name\? string/);
+    expect(entityCopyData).toMatch(/---@field PhysicsObjects\? table/);
+    expect(duplicatorCreateEntityFromTable).toMatch(/---@param entTable EntityCopyData/);
+
+    expect(osDate).toMatch(/---@param format\? string/);
+    expect(tableCopy).toMatch(/---@generic T : table/);
+    expect(tableCopy).toMatch(/---@param originalTable T/);
+    expect(tableCopy).toMatch(/---@return T/);
+
+    expect(contentContainer).toMatch(/---@class ContentContainer : DIconLayout/);
+    expect(contentContainer).toMatch(/function ContentContainer:SetTriggerSpawnlistChange\(trigger\) end/);
+
+    expect(propVehiclePrisonerPod).toMatch(/---@class prop_vehicle_prisoner_pod : Vehicle/);
+    expect(propRagdoll).toMatch(/---@class prop_ragdoll : Entity/);
+    expect(propDynamicOverride).toMatch(/---@class prop_dynamic_override : Entity/);
+    expect(envFire).toMatch(/---@class env_fire : Entity/);
   });
 
 });

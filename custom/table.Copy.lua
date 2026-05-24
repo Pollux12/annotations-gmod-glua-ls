@@ -1,0 +1,12 @@
+---Creates a deep copy and returns that copy.
+---
+--- **WARNING**: This function is very slow! If you know the table structure, it is better to write your own copying mechanism
+---
+--- **WARNING**: This function does NOT copy userdata, such as [Vector](https://wiki.facepunch.com/gmod/Vector)s and [Angle](https://wiki.facepunch.com/gmod/Angle)s!
+---@realm shared
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/table.Copy
+---@generic T : table
+---@param originalTable T The table to be copied.
+---@return T # A deep copy of the original table
+function table.Copy(originalTable) end

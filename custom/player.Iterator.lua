@@ -1,0 +1,12 @@
+---Returns a [Stateless Iterator](https://www.lua.org/pil/7.3.html) for all players on the server.
+--- Intended for use in [Generic For-Loops](https://www.lua.org/pil/4.3.5.html).
+--- See [ents.Iterator](https://wiki.facepunch.com/gmod/ents.Iterator) for a similar function for all entities.
+---
+--- **NOTE**: Internally, this function uses cached values that are stored in Lua, as opposed to [player.GetAll](https://wiki.facepunch.com/gmod/player.GetAll), which is a C++ function.
+--- Because a call operation from Lua to C++ *and* with a return back to Lua is quite costly, this function will be more efficient than [player.GetAll](https://wiki.facepunch.com/gmod/player.GetAll).
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/player.Iterator
+---@return fun(tbl: any, prev: integer?): integer, Player # The iterator function.
+---@return Player[] # Table of all existing Player. This is a cached copy of player.GetAll.
+---@return integer # The origin index (0).
+function player.Iterator() end

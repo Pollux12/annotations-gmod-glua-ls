@@ -106,4 +106,18 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(envFire).toMatch(/---@class env_fire : Entity/);
   });
 
+  test('iterator overrides expose typed generic-for values', () => {
+    const customRoot = path.join(process.cwd(), 'custom');
+    const playerIterator = fs.readFileSync(path.join(customRoot, 'player.Iterator.lua'), 'utf8');
+    const entsIterator = fs.readFileSync(path.join(customRoot, 'ents.Iterator.lua'), 'utf8');
+
+    expect(playerIterator).toMatch(/---@return fun\(tbl: any, prev: integer\?\): integer, Player # The iterator function\./);
+    expect(playerIterator).toMatch(/---@return Player\[] # Table of all existing Player/);
+    expect(playerIterator).toMatch(/---@return integer # The origin index \(0\)\./);
+
+    expect(entsIterator).toMatch(/---@return fun\(tbl: any, prev: integer\?\): integer, Entity # The iterator function\./);
+    expect(entsIterator).toMatch(/---@return Entity\[] # Table of all existing Entity/);
+    expect(entsIterator).toMatch(/---@return integer # The origin index \(0\)\./);
+  });
+
 });

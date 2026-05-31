@@ -1,0 +1,11 @@
+---Creates a new Color.
+---@realm shared
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/Global.Color
+---@callaction gmod.color kind=rgba r_arg=1 g_arg=2 b_arg=3 a_arg=4
+---@param r number The red channel, from 0 to 255.
+---@param g number The green channel, from 0 to 255.
+---@param b number The blue channel, from 0 to 255.
+---@param a? number The alpha channel, from 0 to 255.
+---@return Color
+function _G.Color(r, g, b, a) end

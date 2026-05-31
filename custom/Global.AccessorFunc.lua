@@ -4,6 +4,7 @@
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Global.AccessorFunc
 ---@accessorfunc 2
+---@callaction gmod.class kind=accessor_func
 ---@param tab table The table to add the accessor functions to.
 ---@param key any The key of the table to be get/set.
 ---@param name string The name of the functions (will be prefixed with Get and Set).

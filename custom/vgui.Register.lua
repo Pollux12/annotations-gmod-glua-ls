@@ -1,0 +1,11 @@
+---Registers a panel for later creation via vgui.Create.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/vgui.Register
+---@callaction gmod.class kind=vgui_register class_arg=1 table_arg=2 base_arg=3
+---@generic T: Panel
+---@param classname string Classname of the panel to register.
+---@param panelTable T The table containing the panel information.
+---@param baseName? string Classname of a panel to inherit functionality from.
+---@return T # The given panel table from second argument.
+function vgui.Register(classname, panelTable, baseName) end

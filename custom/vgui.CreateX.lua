@@ -3,6 +3,7 @@
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/vgui.CreateX
+---@callaction gmod.vgui_panel kind=reference name_arg=1
 ---@generic T : Panel
 ---@param class `T` Class of the panel to create
 ---@param parent? Panel If specified, parents created panel to given one

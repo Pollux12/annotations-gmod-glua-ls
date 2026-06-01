@@ -1,0 +1,7 @@
+{
+  "id": "helix",
+  "label": "Helix",
+  "description": "Helix plugin metadata and additive .gluarc scopes",
+  "gluarcPath": "gluarc.json",
+  "annotationsPath": "annotations"
+}

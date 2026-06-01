@@ -1,0 +1,7 @@
+{
+  "id": "cami",
+  "label": "CAMI",
+  "description": "Common Admin Mod Interface compatibility plugin",
+  "gluarcPath": "gluarc.json",
+  "annotationsPath": "annotations"
+}

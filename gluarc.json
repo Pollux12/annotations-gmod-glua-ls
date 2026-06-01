@@ -1,0 +1,12 @@
+{
+  "workspace": {
+    "library": [
+      "plugin/cami/annotations"
+    ]
+  },
+  "diagnostics": {
+    "globals": [
+      "CAMI"
+    ]
+  }
+}

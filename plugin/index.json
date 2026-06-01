@@ -1,0 +1,67 @@
+{
+  "generatedAt": "2026-06-01T01:16:55Z",
+  "plugins": [
+    {
+      "id": "cami",
+      "label": "CAMI",
+      "description": "Common Admin Mod Interface compatibility plugin",
+      "kind": "library",
+      "detection": {
+        "folderNamePatterns": [
+          "(?:^|[\\\\/_-])cami(?:[\\\\/_\\.-]|$)"
+        ],
+        "fileNamePatterns": [
+          "(?:^|[\\\\/_-])cami(?:[\\\\/_\\.-]|$)"
+        ],
+        "globalNames": [
+          "CAMI"
+        ]
+      },
+      "artifact": {
+        "branch": "gluals-annotations-plugin-cami",
+        "manifest": "plugin.json",
+        "version": "2026-06-01T01:16:55Z"
+      }
+    },
+    {
+      "id": "darkrp",
+      "label": "DarkRP",
+      "description": "DarkRP plugin metadata and optional annotation bundle",
+      "detection": {
+        "gamemodeBases": [
+          "darkrp"
+        ],
+        "folderNamePatterns": [
+          "darkrp",
+          "drp"
+        ]
+      },
+      "artifact": {
+        "branch": "gluals-annotations-plugin-darkrp",
+        "manifest": "plugin.json",
+        "version": "2026-06-01T01:16:55Z"
+      }
+    },
+    {
+      "id": "helix",
+      "label": "Helix",
+      "description": "Helix plugin metadata and additive .gluarc scopes",
+      "detection": {
+        "gamemodeBases": [
+          "helix",
+          "nutscript"
+        ],
+        "folderNamePatterns": [
+          "helix",
+          "hl2rp",
+          "nutscript"
+        ]
+      },
+      "artifact": {
+        "branch": "gluals-annotations-plugin-helix",
+        "manifest": "plugin.json",
+        "version": "2026-06-01T01:16:55Z"
+      }
+    }
+  ]
+}

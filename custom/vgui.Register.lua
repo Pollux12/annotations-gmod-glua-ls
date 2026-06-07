@@ -5,6 +5,7 @@
 ---@generic T: Panel
 ---@[call_arg("gmod.vgui_panel", "define")]
 ---@param classname string Classname of the panel to register.
+---@[call_arg("gmod.vgui_panel", "table")]
 ---@param panelTable T The table containing the panel information.
 ---@[call_arg("gmod.vgui_panel", "base")]
 ---@param baseName? string Classname of a panel to inherit functionality from.

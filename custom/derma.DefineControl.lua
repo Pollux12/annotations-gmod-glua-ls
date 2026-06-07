@@ -6,6 +6,7 @@
 ---@[call_arg("gmod.vgui_panel", "define")]
 ---@param name string Name of the newly created control.
 ---@param description string Description of the control.
+---@[call_arg("gmod.vgui_panel", "table")]
 ---@param tab T Table containing control methods and properties.
 ---@[call_arg("gmod.vgui_panel", "base")]
 ---@param base string Derma control to base the new control off of.

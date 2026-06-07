@@ -3,5 +3,6 @@
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/timer.Simple
 ---@param delay number Delay in seconds.
+---@[call_arg("gmod.timer", "simple")]
 ---@param func function Function called when timer has finished the countdown.
 function timer.Simple(delay, func) end

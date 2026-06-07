@@ -2,11 +2,12 @@
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/derma.DefineControl
----@callaction gmod.class kind=derma_define_control class_arg=1 table_arg=3 base_arg=4
 ---@generic T: Panel
+---@[call_arg("gmod.vgui_panel", "define")]
 ---@param name string Name of the newly created control.
 ---@param description string Description of the control.
 ---@param tab T Table containing control methods and properties.
+---@[call_arg("gmod.vgui_panel", "base")]
 ---@param base string Derma control to base the new control off of.
 ---@return T # A table containing the new control's methods and properties.
 function derma.DefineControl(name, description, tab, base) end

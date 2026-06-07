@@ -2,7 +2,7 @@
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/concommand.Add
----@callaction gmod.system kind=concommand_add name_arg=1 callback_arg=2
+---@[call_arg("gmod.concommand", "define")]
 ---@param name string Name of the console command.
 ---@param callback fun(ply: Player, cmd: string, args: string[], argStr: string) Callback run when the command is executed.
 ---@param autoComplete? function

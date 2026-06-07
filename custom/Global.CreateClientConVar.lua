@@ -1,7 +1,7 @@
 ---Creates a client-side console variable.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/Global.CreateClientConVar
----@callaction gmod.system kind=create_client_convar name_arg=1
+---@[call_arg("gmod.convar", "define")]
 ---@param name string
 ---@param default string|number
 ---@param shouldsave? boolean

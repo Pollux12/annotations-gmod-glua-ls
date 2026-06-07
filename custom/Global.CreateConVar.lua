@@ -4,7 +4,7 @@
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Global.CreateConVar
----@callaction gmod.system kind=create_convar name_arg=1
+---@[call_arg("gmod.convar", "define")]
 ---@param name string
 ---@param value string|number
 ---@param flags? FCVAR|number[]

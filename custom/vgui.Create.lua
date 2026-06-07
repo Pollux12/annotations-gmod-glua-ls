@@ -3,8 +3,8 @@
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/vgui.Create
----@callaction gmod.vgui_panel kind=reference name_arg=1
 ---@generic T: Panel
+---@[call_arg("gmod.vgui_panel", "reference")]
 ---@param classname `T` Classname of the panel to create.
 ---
 --- Default panel classnames can be found on the VGUI Element List.

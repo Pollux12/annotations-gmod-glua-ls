@@ -2,10 +2,13 @@
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Global.Color
----@callaction gmod.color kind=rgba r_arg=1 g_arg=2 b_arg=3 a_arg=4
+---@[call_arg("gmod.color", "r")]
 ---@param r number The red channel, from 0 to 255.
+---@[call_arg("gmod.color", "g")]
 ---@param g number The green channel, from 0 to 255.
+---@[call_arg("gmod.color", "b")]
 ---@param b number The blue channel, from 0 to 255.
+---@[call_arg("gmod.color", "a")]
 ---@param a? number The alpha channel, from 0 to 255.
 ---@return Color
 function _G.Color(r, g, b, a) end

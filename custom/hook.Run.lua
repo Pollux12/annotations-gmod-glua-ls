@@ -2,7 +2,7 @@
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/hook.Run
----@callaction gmod.hook kind=emit name_arg=1
+---@[call_arg("gmod.hook", "emit")]
 ---@param eventName string The hook event to call.
 ---@param ... any Arguments to pass to the hook.
 ---@return any

@@ -5,7 +5,7 @@
 ---@param type string The NetworkVar type.
 ---@param slot number The NetworkVar slot.
 ---@param element number The vector or angle element.
----@[call_arg("gmod.network_var", "define")]
+---@[call_arg("gmod.network_var", "define_element")]
 ---@param name string Name of the variable, used for generated Get/Set accessors.
 ---@param extended? table Extra NetworkVar information.
 function Entity:NetworkVarElement(type, slot, element, name, extended) end

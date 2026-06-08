@@ -62,6 +62,13 @@ export async function zipFiles(outputFile: string, filePaths: string[], trimPath
   return new Promise<archiver.Archiver>(async (resolve, reject) => {
     const outputDirectory = path.dirname(outputFile);
 
+    for (const filePath of filePaths) {
+      if (!fs.existsSync(filePath)) {
+        reject(new Error(`File ${filePath} does not exist.`));
+        return;
+      }
+    }
+
     if (!fs.existsSync(outputDirectory))
       fs.mkdirSync(outputDirectory, { recursive: true });
 
@@ -72,6 +79,10 @@ export async function zipFiles(outputFile: string, filePaths: string[], trimPath
       resolve(archive);
     });
 
+    outputStream.on('error', function (err) {
+      reject(err);
+    });
+
     archive.on('error', function (err) {
       reject(err);
     });
@@ -79,9 +90,6 @@ export async function zipFiles(outputFile: string, filePaths: string[], trimPath
     archive.pipe(outputStream);
 
     for (const filePath of filePaths) {
-      if (!fs.existsSync(filePath))
-        reject(new Error(`File ${filePath} does not exist.`));
-
       archive.file(filePath, { name: trimPath ? path.relative(trimPath, filePath) : filePath });
     }
 

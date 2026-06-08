@@ -3,7 +3,7 @@
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/derma.DefineControl
 ---@generic T: Panel
----@[call_arg("gmod.vgui_panel", "define")]
+---@[call_arg("gmod.vgui_panel", "define_control")]
 ---@param name string Name of the newly created control.
 ---@param description string Description of the control.
 ---@[call_arg("gmod.vgui_panel", "table")]

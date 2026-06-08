@@ -4,6 +4,7 @@
 ---@source https://wiki.facepunch.com/gmod/hook.Call
 ---@[call_arg("gmod.hook", "emit")]
 ---@param eventName string The hook event to call.
+---@[call_arg("gmod.hook", "gamemode_table")]
 ---@param gamemodeTable? table The gamemode table to call the hook on.
 ---@param ... any Arguments to pass to the hook.
 ---@return any

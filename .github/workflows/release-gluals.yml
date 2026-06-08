@@ -20,7 +20,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Decide what to publish
+      - name: Decide what to generate
         id: gate
         env:
           EVENT: ${{ github.event_name }}
@@ -28,20 +28,21 @@ jobs:
         run: |
           set -e
 
-          # schedule + manual dispatch always publish everything (wiki content may have changed)
+          # Scheduled and manual runs need generation because upstream wiki content can change
+          # without any repository diff. Publishing is still gated later by output comparison.
           if [ "$EVENT" != "push" ]; then
-            echo "Reason: event=$EVENT -> publish all"
-            echo "should_run=true" >> "$GITHUB_OUTPUT"
+            echo "Reason: event=$EVENT -> generate and compare output"
+            echo "should_generate=true" >> "$GITHUB_OUTPUT"
             echo "publish_base=true" >> "$GITHUB_OUTPUT"
             echo "publish_all_plugins=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
-          # push event -> diff against parent. Fail open (publish everything) if we can't.
+          # Push event -> diff against parent. Fail open (generate everything) if we can't.
           if [ -z "$BEFORE_SHA" ] || [ "$BEFORE_SHA" = "0000000000000000000000000000000000000000" ] \
              || ! git cat-file -e "$BEFORE_SHA" 2>/dev/null; then
-            echo "No usable base SHA (got '$BEFORE_SHA') -> publish all to be safe"
-            echo "should_run=true" >> "$GITHUB_OUTPUT"
+            echo "No usable base SHA (got '$BEFORE_SHA') -> generate all to be safe"
+            echo "should_generate=true" >> "$GITHUB_OUTPUT"
             echo "publish_base=true" >> "$GITHUB_OUTPUT"
             echo "publish_all_plugins=true" >> "$GITHUB_OUTPUT"
             exit 0
@@ -88,45 +89,36 @@ jobs:
             PLUGINS_TO_PUBLISH="$CHANGED_PLUGIN_IDS"
           fi
 
-          SHOULD_RUN=false
+          SHOULD_GENERATE=false
           if $PUBLISH_BASE || $PUBLISH_ALL_PLUGINS || [ -n "$PLUGINS_TO_PUBLISH" ]; then
-            SHOULD_RUN=true
+            SHOULD_GENERATE=true
           fi
 
-          echo "should_run=$SHOULD_RUN" >> "$GITHUB_OUTPUT"
+          echo "should_generate=$SHOULD_GENERATE" >> "$GITHUB_OUTPUT"
           echo "publish_base=$PUBLISH_BASE" >> "$GITHUB_OUTPUT"
           echo "publish_all_plugins=$PUBLISH_ALL_PLUGINS" >> "$GITHUB_OUTPUT"
           echo "plugins_to_publish=$PLUGINS_TO_PUBLISH" >> "$GITHUB_OUTPUT"
 
           {
-            echo "## release-gluals gate"
+            echo "## release-gluals generation gate"
             echo "- event: \`$EVENT\`"
-            echo "- should_run: \`$SHOULD_RUN\`"
+            echo "- should_generate: \`$SHOULD_GENERATE\`"
             echo "- publish_base: \`$PUBLISH_BASE\`"
             echo "- publish_all_plugins: \`$PUBLISH_ALL_PLUGINS\`"
             echo "- plugins_to_publish: \`${PLUGINS_TO_PUBLISH:-<none>}\`"
           } >> "$GITHUB_STEP_SUMMARY"
       - name: Install dependencies
-        if: steps.gate.outputs.should_run == 'true'
+        if: steps.gate.outputs.should_generate == 'true'
         run: npm ci
       - name: Set build timestamp
         id: build_ts
-        if: steps.gate.outputs.should_run == 'true'
+        if: steps.gate.outputs.should_generate == 'true'
         run: echo "value=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
       - name: Scrape wiki
-        if: steps.gate.outputs.should_run == 'true'
+        if: steps.gate.outputs.should_generate == 'true'
         run: npm run scrape-wiki
-      - name: Stamp metadata with build timestamp
-        if: steps.gate.outputs.should_run == 'true'
-        run: |
-          node -e "
-            const fs = require('fs');
-            const meta = JSON.parse(fs.readFileSync('output/__metadata.json', 'utf8'));
-            meta.lastUpdate = '${{ steps.build_ts.outputs.value }}';
-            fs.writeFileSync('output/__metadata.json', JSON.stringify(meta, null, 2));
-          "
       - name: Regenerate Lua + plugin artifacts metadata
-        if: steps.gate.outputs.should_run == 'true'
+        if: steps.gate.outputs.should_generate == 'true'
         run: |
           npm run generate-lua -- \
             --output ./output \
@@ -142,18 +134,197 @@ jobs:
             --artifactManifest plugin.json \
             --version "${{ steps.build_ts.outputs.value }}" \
             --generatedAt "${{ steps.build_ts.outputs.value }}"
-      - name: Run tests
-        if: steps.gate.outputs.should_run == 'true'
-        run: npm test
       - name: Format the output with StyLua
-        if: steps.gate.outputs.should_run == 'true'
+        if: steps.gate.outputs.should_generate == 'true'
         uses: JohnnyMorganz/stylua-action@v2.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
           args: --no-editorconfig output/
+      - name: Prepare release payloads
+        id: payloads
+        if: steps.gate.outputs.should_generate == 'true'
+        env:
+          PUBLISH_BASE: ${{ steps.gate.outputs.publish_base }}
+          PUBLISH_ALL_PLUGINS: ${{ steps.gate.outputs.publish_all_plugins }}
+          PLUGINS_TO_PUBLISH: ${{ steps.gate.outputs.plugins_to_publish }}
+        run: |
+          set -e
+
+          tmpdir=$(mktemp -d)
+          base_dir="$tmpdir/base"
+          plugin_stage_dir="$tmpdir/plugins"
+          compare_dir="$tmpdir/compare"
+          mkdir -p "$base_dir/plugin" "$plugin_stage_dir" "$compare_dir"
+
+          # Stage base annotation branch payload (core lua + metadata + plugin index only).
+          find output/ -maxdepth 1 -type f -name '*.lua' -exec cp {} "$base_dir/" \;
+          cp output/__metadata.json "$base_dir/"
+          cp output/plugin/index.json "$base_dir/plugin/index.json"
+          if [ -d output-plugins ]; then
+            cp -R output-plugins/. "$plugin_stage_dir/"
+          fi
+
+          normalize_payload() {
+            local source_dir="$1"
+            local target_dir="$2"
+
+            mkdir -p "$target_dir"
+            cp -R "$source_dir/." "$target_dir/"
+
+            node - "$target_dir" <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+
+          const root = process.argv[2];
+          const rewriteJson = (relativePath, rewrite) => {
+            const filePath = path.join(root, relativePath);
+            if (!fs.existsSync(filePath)) return;
+            const json = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+            rewrite(json);
+            fs.writeFileSync(filePath, `${JSON.stringify(json, null, 2)}\n`, 'utf8');
+          };
+
+          rewriteJson('__metadata.json', (json) => {
+            json.lastUpdate = '__normalized__';
+          });
+
+          rewriteJson(path.join('plugin', 'index.json'), (json) => {
+            delete json.generatedAt;
+            if (Array.isArray(json.plugins)) {
+              for (const plugin of json.plugins) {
+                if (plugin.artifact) delete plugin.artifact.version;
+              }
+            }
+          });
+          NODE
+          }
+
+          branch_has_changes() {
+            local branch_name="$1"
+            local source_dir="$2"
+            local existing_dir="$compare_dir/existing-$branch_name"
+            local normalized_existing="$compare_dir/existing-normalized-$branch_name"
+            local normalized_source="$compare_dir/source-normalized-$branch_name"
+
+            rm -rf "$existing_dir" "$normalized_existing" "$normalized_source"
+            mkdir -p "$existing_dir"
+
+            set +e
+            git ls-remote --exit-code --heads origin "$branch_name" >/dev/null 2>&1
+            remote_status=$?
+            set -e
+
+            if [ "$remote_status" -eq 2 ]; then
+              echo "Branch '$branch_name' does not exist yet."
+              return 0
+            fi
+
+            if [ "$remote_status" -ne 0 ]; then
+              echo "Unable to check remote branch '$branch_name'."
+              exit "$remote_status"
+            fi
+
+            git fetch --depth=1 origin "refs/heads/$branch_name" >/dev/null
+            git archive "FETCH_HEAD" | tar -x -C "$existing_dir"
+
+            normalize_payload "$existing_dir" "$normalized_existing"
+            normalize_payload "$source_dir" "$normalized_source"
+
+            if diff -qr "$normalized_existing" "$normalized_source" >/dev/null; then
+              return 1
+            fi
+
+            return 0
+          }
+
+          should_publish_plugin() {
+            local plugin_id="$1"
+
+            if [ "$PUBLISH_ALL_PLUGINS" = "true" ]; then
+              return 0
+            fi
+
+            for pid in $PLUGINS_TO_PUBLISH; do
+              if [ "$pid" = "$plugin_id" ]; then
+                return 0
+              fi
+            done
+
+            return 1
+          }
+
+          changed_base=false
+          changed_plugins=""
+
+          if [ "$PUBLISH_BASE" = "true" ]; then
+            if branch_has_changes "gluals-annotations" "$base_dir"; then
+              changed_base=true
+            else
+              echo "Base annotations payload matches gluals-annotations."
+            fi
+          else
+            echo "Skipping base annotations comparison (no relevant source changes)."
+          fi
+
+          for plugin_dir in "$plugin_stage_dir"/*; do
+            [ -d "$plugin_dir" ] || continue
+            plugin_id="$(basename "$plugin_dir")"
+
+            if ! should_publish_plugin "$plugin_id"; then
+              echo "Skipping plugin '$plugin_id' comparison (no related source changes)."
+              continue
+            fi
+
+            plugin_branch="gluals-annotations-plugin-${plugin_id}"
+            if branch_has_changes "$plugin_branch" "$plugin_dir"; then
+              changed_plugins="$changed_plugins $plugin_id"
+            else
+              echo "Plugin '$plugin_id' payload matches $plugin_branch."
+            fi
+          done
+
+          changed_plugins=$(echo "$changed_plugins" | xargs || true)
+          if [ -n "$changed_plugins" ] && [ "$PUBLISH_BASE" = "true" ] && [ "$changed_base" != "true" ]; then
+            echo "Plugin payload changed; publishing base index so artifact versions stay current."
+            changed_base=true
+          fi
+
+          should_publish=false
+          if [ "$changed_base" = "true" ] || [ -n "$changed_plugins" ]; then
+            should_publish=true
+          fi
+
+          echo "tmpdir=$tmpdir" >> "$GITHUB_OUTPUT"
+          echo "base_dir=$base_dir" >> "$GITHUB_OUTPUT"
+          echo "plugin_stage_dir=$plugin_stage_dir" >> "$GITHUB_OUTPUT"
+          echo "should_publish=$should_publish" >> "$GITHUB_OUTPUT"
+          echo "changed_base=$changed_base" >> "$GITHUB_OUTPUT"
+          echo "changed_plugins=$changed_plugins" >> "$GITHUB_OUTPUT"
+
+          {
+            echo "## release-gluals output comparison"
+            echo "- should_publish: \`$should_publish\`"
+            echo "- changed_base: \`$changed_base\`"
+            echo "- changed_plugins: \`${changed_plugins:-<none>}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Stop when generated output is unchanged
+        if: steps.gate.outputs.should_generate == 'true' && steps.payloads.outputs.should_publish != 'true'
+        run: echo "Generated output matches published branches. Nothing to release."
+      - name: Run tests
+        if: steps.payloads.outputs.should_publish == 'true'
+        run: npm test
+      - name: Stamp metadata with build timestamp
+        if: steps.payloads.outputs.should_publish == 'true'
+        run: |
+          node -e "
+            const fs = require('fs');
+            const meta = JSON.parse(fs.readFileSync('${{ steps.payloads.outputs.base_dir }}/__metadata.json', 'utf8'));
+            meta.lastUpdate = '${{ steps.build_ts.outputs.value }}';
+            fs.writeFileSync('${{ steps.payloads.outputs.base_dir }}/__metadata.json', JSON.stringify(meta, null, 2) + '\n');
+          "
       - name: Tag latest scrape revision
-        if: steps.gate.outputs.should_run == 'true'
+        if: steps.payloads.outputs.should_publish == 'true'
         run: |
           build_tag=$(echo "${{ steps.build_ts.outputs.value }}" | sed 's/:/-/g' | sed 's/T/_/' | sed 's/Z//')
           tag="$build_tag"
@@ -164,27 +335,17 @@ jobs:
           git tag "$tag"
           git push origin "refs/tags/$tag"
       - name: Publish annotations to branch
-        if: steps.gate.outputs.should_run == 'true'
+        if: steps.payloads.outputs.should_publish == 'true'
         env:
-          PUBLISH_BASE: ${{ steps.gate.outputs.publish_base }}
-          PUBLISH_ALL_PLUGINS: ${{ steps.gate.outputs.publish_all_plugins }}
-          PLUGINS_TO_PUBLISH: ${{ steps.gate.outputs.plugins_to_publish }}
+          BASE_DIR: ${{ steps.payloads.outputs.base_dir }}
+          PLUGIN_STAGE_DIR: ${{ steps.payloads.outputs.plugin_stage_dir }}
+          CHANGED_BASE: ${{ steps.payloads.outputs.changed_base }}
+          CHANGED_PLUGINS: ${{ steps.payloads.outputs.changed_plugins }}
         run: |
+          set -e
+
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          tmpdir=$(mktemp -d)
-          base_dir="$tmpdir/base"
-          plugin_stage_dir="$tmpdir/plugins"
-          mkdir -p "$base_dir/plugin" "$plugin_stage_dir"
-
-          # Stage base annotation branch payload (core lua + metadata + plugin index only).
-          find output/ -maxdepth 1 -type f -name '*.lua' -exec cp {} "$base_dir/" \;
-          cp output/__metadata.json "$base_dir/"
-          cp output/plugin/index.json "$base_dir/plugin/index.json"
-          if [ -d output-plugins ]; then
-            cp -R output-plugins/. "$plugin_stage_dir/"
-          fi
 
           publish_branch() {
             local branch_name="$1"
@@ -203,31 +364,17 @@ jobs:
 
           now="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
-          if [ "$PUBLISH_BASE" = "true" ]; then
-            publish_branch "gluals-annotations" "$base_dir" "Update GLuaLS annotations - $now"
+          if [ "$CHANGED_BASE" = "true" ]; then
+            publish_branch "gluals-annotations" "$BASE_DIR" "Update GLuaLS annotations - $now"
           else
-            echo "Skipping base annotations branch (no relevant changes)."
+            echo "Skipping base annotations branch (generated output unchanged)."
           fi
 
-          for plugin_dir in "$plugin_stage_dir"/*; do
-            [ -d "$plugin_dir" ] || continue
-            plugin_id="$(basename "$plugin_dir")"
-
-            should_publish=false
-            if [ "$PUBLISH_ALL_PLUGINS" = "true" ]; then
-              should_publish=true
-            else
-              for pid in $PLUGINS_TO_PUBLISH; do
-                if [ "$pid" = "$plugin_id" ]; then
-                  should_publish=true
-                  break
-                fi
-              done
-            fi
-
-            if [ "$should_publish" != "true" ]; then
-              echo "Skipping plugin '$plugin_id' (no related changes)."
-              continue
+          for plugin_id in $CHANGED_PLUGINS; do
+            plugin_dir="$PLUGIN_STAGE_DIR/$plugin_id"
+            if [ ! -d "$plugin_dir" ]; then
+              echo "Expected plugin payload directory missing: $plugin_dir"
+              exit 1
             fi
 
             plugin_branch="gluals-annotations-plugin-${plugin_id}"

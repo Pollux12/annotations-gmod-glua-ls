@@ -1,6 +1,9 @@
 ---Creates a network variable and generated Get/Set accessors for the entity.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Entity:NetworkVar
+---@[overload_call_arg(0, "gmod.network_var", "type")]
+---@[overload_call_arg(1, "gmod.network_var", "define")]
+---@overload fun(type: string, name: string, extended?: table)
 ---@[call_arg("gmod.network_var", "type")]
 ---@param type string The NetworkVar type.
 ---@param slot number The NetworkVar slot.

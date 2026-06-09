@@ -3,8 +3,9 @@
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:Add
 ---@generic T : Panel
+---@overload fun(self: Panel, panel: Panel): Panel # Parents an existing panel to this panel.
 ---@overload fun(self: Panel, panelTable: table): Panel # Creates a panel from a PANEL table and parents it to this panel.
 ---@[call_arg("gmod.vgui_panel", "reference")]
----@param object `T`|T The panel to add, or a panel class name to create and add.
----@return (instance) T # The added or created panel
-function Panel:Add(object) end
+---@param className `T` The panel class name to create and add.
+---@return (instance) T # The created panel.
+function Panel:Add(className) end

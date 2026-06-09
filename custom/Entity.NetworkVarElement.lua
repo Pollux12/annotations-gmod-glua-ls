@@ -1,10 +1,13 @@
 ---Creates Get/Set accessors for a vector or angle element NetworkVar.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Entity:NetworkVarElement
+---@[overload_call_arg(0, "gmod.network_var", "type")]
+---@[overload_call_arg(2, "gmod.network_var", "define_element")]
+---@overload fun(type: string, element: string, name: string, extended?: table)
 ---@[call_arg("gmod.network_var", "type")]
 ---@param type string The NetworkVar type.
 ---@param slot number The NetworkVar slot.
----@param element number The vector or angle element.
+---@param element string The vector or angle element.
 ---@[call_arg("gmod.network_var", "define_element")]
 ---@param name string Name of the variable, used for generated Get/Set accessors.
 ---@param extended? table Extra NetworkVar information.

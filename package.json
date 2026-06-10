@@ -22,7 +22,7 @@
     "wiki-check-changed": "tsx ./src/cli-change-checker.ts",
     "scrape-wiki": "tsx ./src/cli-scraper.ts --output ./output/ --customOverrides ./custom/ --wipe && npm run generate-all",
     "generate-lua": "tsx ./src/cli-generate-lua.ts",
-    "generate-all": "npm run generate-lua -- --output ./output --customOverrides ./custom --wipeLua && npm run generate-plugin-index && npm run generate-plugin-artifacts",
+    "generate-all": "npm run generate-lua -- --output ./output --custom-overrides ./custom && npm run generate-plugin-index && npm run generate-plugin-artifacts",
     "generate-plugin-index": "tsx ./src/cli-generate-plugin-index.ts --pluginRoot ./plugin --output ./plugin/index.json",
     "generate-plugin-artifacts": "tsx ./src/cli-generate-plugin-artifacts.ts --pluginRoot ./plugin --indexOutput ./plugin/index.json --annotationsOutput ./output --pluginBundlesOutput ./output-plugins",
     "pack-release": "tsx ./src/cli-release-packer.ts --input ./output/ --output ./dist/release/",

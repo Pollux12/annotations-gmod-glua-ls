@@ -19,7 +19,7 @@ describe('cli-generate-lua', () => {
     try {
       const command = process.platform === 'win32' ? 'npm.cmd' : 'npm';
       const result = spawnSync(
-        `${command} run generate-lua -- --output "${outputPath}" --customOverrides ./custom`,
+        `${command} run generate-lua -- --output "${outputPath}" --custom-overrides ./custom`,
         [],
         {
           cwd: process.cwd(),
@@ -69,7 +69,7 @@ describe('cli-generate-lua', () => {
     try {
       const command = process.platform === 'win32' ? 'npm.cmd' : 'npm';
       const result = spawnSync(
-        `${command} run generate-lua -- --output "${outputPath}" --customOverrides ./custom`,
+        `${command} run generate-lua -- --output "${outputPath}" --custom-overrides ./custom`,
         [],
         {
           cwd: process.cwd(),
@@ -90,6 +90,132 @@ describe('cli-generate-lua', () => {
       expect(entityLua).not.toContain('---@param fallback? Entity');
       expect(entityLua).not.toContain('---@param fallback? number');
       expect(entityLua).not.toContain('---@return any');
+    } finally {
+      fs.rmSync(tmpRoot, { recursive: true, force: true });
+    }
+  });
+
+  test('applies custom overrides by default when --custom-overrides is not specified', () => {
+    const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'gluals-generate-lua-defaults-'));
+    const outputPath = path.join(tmpRoot, 'output');
+    const vectorDir = path.join(outputPath, 'vector');
+
+    fs.mkdirSync(vectorDir, { recursive: true });
+    fs.writeFileSync(
+      path.join(vectorDir, 'pages.json'),
+      JSON.stringify([
+        {
+          type: 'class',
+          address: 'Vector',
+          name: 'Vector',
+          description: 'A 3D vector.',
+          realm: 'shared',
+          url: 'https://wiki.facepunch.com/gmod/Vector',
+          parent: '',
+        },
+      ], null, 2),
+      'utf8',
+    );
+
+    try {
+      const command = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+      const result = spawnSync(
+        `${command} run generate-lua -- --output "${outputPath}"`,
+        [],
+        {
+          cwd: process.cwd(),
+          encoding: 'utf8',
+          shell: true,
+        },
+      );
+
+      expect(result.status).toBe(0);
+      const vectorLua = fs.readFileSync(path.join(outputPath, 'vector.lua'), 'utf8');
+      // These lines come from custom/class.Vector.lua overrides
+      expect(vectorLua).toContain('---@field x number');
+      expect(vectorLua).toContain('---@field y number');
+      expect(vectorLua).toContain('---@field z number');
+      expect(vectorLua).toContain('---@operator add(Vector): Vector');
+    } finally {
+      fs.rmSync(tmpRoot, { recursive: true, force: true });
+    }
+  });
+
+  test('--raw-wiki skips applying custom overrides', () => {
+    const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'gluals-generate-lua-rawwiki-'));
+    const outputPath = path.join(tmpRoot, 'output');
+    const vectorDir = path.join(outputPath, 'vector');
+
+    fs.mkdirSync(vectorDir, { recursive: true });
+    fs.writeFileSync(
+      path.join(vectorDir, 'pages.json'),
+      JSON.stringify([
+        {
+          type: 'class',
+          address: 'Vector',
+          name: 'Vector',
+          description: 'A 3D vector.',
+          realm: 'shared',
+          url: 'https://wiki.facepunch.com/gmod/Vector',
+          parent: '',
+        },
+      ], null, 2),
+      'utf8',
+    );
+
+    try {
+      const command = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+      const result = spawnSync(
+        `${command} run generate-lua -- --output "${outputPath}" --raw-wiki`,
+        [],
+        {
+          cwd: process.cwd(),
+          encoding: 'utf8',
+          shell: true,
+        },
+      );
+
+      expect(result.status).toBe(0);
+      const vectorLua = fs.readFileSync(path.join(outputPath, 'vector.lua'), 'utf8');
+      // With --raw-wiki, custom overrides are skipped so @field/@operator from custom/class.Vector.lua should NOT appear
+      expect(vectorLua).not.toContain('---@field x number');
+      expect(vectorLua).not.toContain('---@operator add(Vector): Vector');
+    } finally {
+      fs.rmSync(tmpRoot, { recursive: true, force: true });
+    }
+  });
+
+  test('--no-wipe-lua preserves existing Lua files', () => {
+    const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'gluals-generate-lua-nowipe-'));
+    const outputPath = path.join(tmpRoot, 'output');
+    const vectorDir = path.join(outputPath, 'vector');
+
+    fs.mkdirSync(vectorDir, { recursive: true });
+    fs.writeFileSync(
+      path.join(vectorDir, 'pages.json'),
+      JSON.stringify([], null, 2),
+      'utf8',
+    );
+
+    // Write a sentinel file that should survive when wipe is disabled
+    const sentinelFile = path.join(outputPath, 'sentinel.lua');
+    fs.writeFileSync(sentinelFile, '-- sentinel', 'utf8');
+
+    try {
+      const command = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+      const result = spawnSync(
+        `${command} run generate-lua -- --output "${outputPath}" --no-wipe-lua --raw-wiki`,
+        [],
+        {
+          cwd: process.cwd(),
+          encoding: 'utf8',
+          shell: true,
+        },
+      );
+
+      expect(result.status).toBe(0);
+      expect(fs.existsSync(sentinelFile)).toBe(true);
+      expect(fs.readFileSync(sentinelFile, 'utf8')).toBe('-- sentinel');
     } finally {
       fs.rmSync(tmpRoot, { recursive: true, force: true });
     }

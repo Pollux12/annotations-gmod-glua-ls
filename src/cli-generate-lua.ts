@@ -53,13 +53,14 @@ async function main() {
   program
     .description('Regenerate Lua annotations from existing JSON pages (no wiki scrape)')
     .option('-o, --output <path>', 'Output directory containing wiki JSON and Lua files', './output')
-    .option('-c, --customOverrides [path]', 'Custom override directory')
-    .option('--wipeLua', 'Delete existing top-level Lua files before regenerating', true)
+    .option('-c, --custom-overrides <path>', 'Custom override directory', './custom')
+    .option('--no-wipe-lua', 'Skip deleting existing top-level Lua files before regenerating')
+    .option('--raw-wiki', 'Skip applying custom overrides (use raw wiki data only)')
     .parse(process.argv);
 
   const options = program.opts();
   const outputDirectory = options.output.replace(/\/$/, '');
-  const customDirectory = options.customOverrides?.replace(/\/$/, '');
+  const customDirectory = options.customOverrides.replace(/\/$/, '');
 
   if (!fs.existsSync(outputDirectory)) {
     throw new Error(`Output directory does not exist: ${outputDirectory}`);
@@ -71,7 +72,7 @@ async function main() {
     wipeLuaFiles(outputDirectory);
   }
 
-  if (customDirectory) {
+  if (!options.rawWiki) {
     if (!fs.existsSync(customDirectory)) {
       throw new Error(`Custom overrides directory does not exist: ${customDirectory}`);
     }

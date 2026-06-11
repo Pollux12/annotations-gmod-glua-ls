@@ -36,6 +36,76 @@ describe('cli-generate-lua', () => {
     }
   });
 
+  test('uses runtime-generic debug.getmetatable annotation override', () => {
+    const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'gluals-generate-lua-debug-getmetatable-'));
+    const outputPath = path.join(tmpRoot, 'output');
+    const customOverridesPath = path.join(tmpRoot, 'custom');
+    const debugDir = path.join(outputPath, 'debug');
+
+    fs.mkdirSync(debugDir, { recursive: true });
+    fs.mkdirSync(customOverridesPath, { recursive: true });
+
+    fs.copyFileSync(
+      path.join(process.cwd(), 'custom', 'debug.getmetatable.lua'),
+      path.join(customOverridesPath, 'debug.getmetatable.lua'),
+    );
+
+    const pagesPath = path.join(debugDir, 'getmetatable.json');
+    fs.writeFileSync(
+      pagesPath,
+      JSON.stringify([
+        {
+          type: 'libraryfunc',
+          parent: 'debug',
+          name: 'getmetatable',
+          address: 'debug.getmetatable',
+          description: 'Returns the metatable of the specified value.',
+          realm: 'shared',
+          url: 'https://wiki.facepunch.com/gmod/debug.getmetatable',
+          arguments: [
+            {
+              args: [
+                {
+                  name: 'object',
+                  type: 'any',
+                },
+              ],
+            },
+          ],
+          returns: [
+            {
+              type: 'any',
+            },
+          ],
+        },
+      ], null, 2),
+      'utf8',
+    );
+
+    try {
+      const command = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+      const result = spawnSync(
+        `${command} run generate-lua -- --output "${outputPath}" --custom-overrides "${customOverridesPath}"`,
+        [],
+        {
+          cwd: process.cwd(),
+          encoding: 'utf8',
+          shell: true,
+        },
+      );
+
+      expect(result.status).toBe(0);
+      const debugLua = fs.readFileSync(path.join(outputPath, 'debug.lua'), 'utf8');
+      expect(debugLua).toContain('---@generic T');
+      expect(debugLua).toContain('---@param object T The value to get the metatable of.');
+      expect(debugLua).toContain('---@return (definition) T # The metatable of the value.');
+      expect(debugLua).not.toContain('`T`');
+      expect(debugLua).not.toContain('---@generic T : table');
+    } finally {
+      fs.rmSync(tmpRoot, { recursive: true, force: true });
+    }
+  });
+
   test('applies typed Entity networked getter overrides', () => {
     const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'gluals-generate-lua-'));
     const outputPath = path.join(tmpRoot, 'output');

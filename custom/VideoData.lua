@@ -1,0 +1,16 @@
+---Table structure used by [video.Record](https://wiki.facepunch.com/gmod/video.Record).
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/Structures/VideoData
+---@class (partial) VideoData
+---@field container string The video container format.
+---@field video string The video codec.
+---@field audio string The audio codec.
+---@field quality number The video quality.
+---@field bitrate number The record bitrate.
+---@field fps number Frames per second.
+---@field lockfps? boolean Lock the frame count per second.
+---@field name string The file name for the video.
+---@field width number The video's width.
+---@field height number The video's height.
+local VideoData = {}

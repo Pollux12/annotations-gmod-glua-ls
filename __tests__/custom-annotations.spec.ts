@@ -56,12 +56,14 @@ describe('custom and plugin annotation smoke checks', () => {
     const envFire = fs.readFileSync(path.join(customRoot, 'class.env_fire.lua'), 'utf8');
     const matProxyData = fs.readFileSync(path.join(customRoot, 'MatProxyData.lua'), 'utf8');
     const iMaterialSetTexture = fs.readFileSync(path.join(customRoot, 'IMaterial.SetTexture.lua'), 'utf8');
+    const renderClearRenderTarget = fs.readFileSync(path.join(customRoot, 'render.ClearRenderTarget.lua'), 'utf8');
     const vguiRegisterFile = fs.readFileSync(path.join(customRoot, 'vgui.RegisterFile.lua'), 'utf8');
     const viewData = fs.readFileSync(path.join(customRoot, 'ViewData.lua'), 'utf8');
     const engineEntities = fs.readFileSync(path.join(customRoot, 'class.EngineEntities.lua'), 'utf8');
     const enginePanels = fs.readFileSync(path.join(customRoot, 'class.EnginePanels.lua'), 'utf8');
     const generatedCustomClasses = fs.readFileSync(path.join(process.cwd(), 'output', 'custom_classes.lua'), 'utf8');
     const generatedVgui = fs.readFileSync(path.join(process.cwd(), 'output', 'vgui.lua'), 'utf8');
+    const generatedRender = fs.readFileSync(path.join(process.cwd(), 'output', 'render.lua'), 'utf8');
     const generatedStructures = fs.readFileSync(path.join(process.cwd(), 'output', 'structures.lua'), 'utf8');
 
     expect(globals).toMatch(/---@alias GPlayer Player/);
@@ -140,6 +142,8 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(matProxyData).toMatch(/---@field init\? fun\(self: MatProxyData, mat: IMaterial, values: table\)/);
     expect(matProxyData).toMatch(/---@field bind fun\(self: MatProxyData, mat: IMaterial, ent: Entity\)/);
     expect(iMaterialSetTexture).toMatch(/---@param texture ITexture\|string/);
+    expect(renderClearRenderTarget).toMatch(/---@param color Color/);
+    expect(generatedRender).toMatch(/---@param color Color The color\./);
     expect(vguiRegisterFile).toMatch(/---@\[call_arg\("gmod\.load", "include"\)\]/);
     expect(vguiRegisterFile).toMatch(/---@\[call_arg\("gmod\.vgui_panel", "register_file"\)\]/);
     expect(generatedVgui).toMatch(/---@\[call_arg\("gmod\.load", "include"\)\]/);

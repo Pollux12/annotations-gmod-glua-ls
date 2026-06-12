@@ -30,6 +30,7 @@ describe('custom and plugin annotation smoke checks', () => {
     const dCheckBoxLabelSetValue = fs.readFileSync(path.join(customRoot, 'DCheckBoxLabel.SetValue.lua'), 'utf8');
     const dCheckBoxLabelSetChecked = fs.readFileSync(path.join(customRoot, 'DCheckBoxLabel.SetChecked.lua'), 'utf8');
     const dFileBrowserSetOpen = fs.readFileSync(path.join(customRoot, 'DFileBrowser.SetOpen.lua'), 'utf8');
+    const dPropertyGenericValueChanged = fs.readFileSync(path.join(customRoot, 'DProperty_Generic.ValueChanged.lua'), 'utf8');
     const panelGetCookie = fs.readFileSync(path.join(customRoot, 'Panel.GetCookie.lua'), 'utf8');
     const panelGetCookieNumber = fs.readFileSync(path.join(customRoot, 'Panel.GetCookieNumber.lua'), 'utf8');
     const panelSetCookie = fs.readFileSync(path.join(customRoot, 'Panel.SetCookie.lua'), 'utf8');
@@ -62,6 +63,7 @@ describe('custom and plugin annotation smoke checks', () => {
     const engineEntities = fs.readFileSync(path.join(customRoot, 'class.EngineEntities.lua'), 'utf8');
     const enginePanels = fs.readFileSync(path.join(customRoot, 'class.EnginePanels.lua'), 'utf8');
     const generatedCustomClasses = fs.readFileSync(path.join(process.cwd(), 'output', 'custom_classes.lua'), 'utf8');
+    const generatedDPropertyGeneric = fs.readFileSync(path.join(process.cwd(), 'output', 'dproperty_generic.lua'), 'utf8');
     const generatedVgui = fs.readFileSync(path.join(process.cwd(), 'output', 'vgui.lua'), 'utf8');
     const generatedRender = fs.readFileSync(path.join(process.cwd(), 'output', 'render.lua'), 'utf8');
     const generatedStructures = fs.readFileSync(path.join(process.cwd(), 'output', 'structures.lua'), 'utf8');
@@ -87,6 +89,8 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(dCheckBoxLabelSetChecked).toMatch(/---@param checked any/);
     expect(dFileBrowserSetOpen).toMatch(/---@param open any/);
     expect(dFileBrowserSetOpen).toMatch(/---@param useAnim\? boolean/);
+    expect(dPropertyGenericValueChanged).toMatch(/---@param force\? boolean/);
+    expect(generatedDPropertyGeneric).toMatch(/---@param force\? boolean/);
     expect(panelGetCookie).toMatch(/---@param default\? string/);
     expect(panelGetCookie).toMatch(/---@return string\|nil/);
     expect(panelGetCookieNumber).toMatch(/---@param default\? number/);

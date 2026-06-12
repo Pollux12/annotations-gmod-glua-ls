@@ -47,7 +47,9 @@ describe('custom and plugin annotation smoke checks', () => {
     const matProxyData = fs.readFileSync(path.join(customRoot, 'MatProxyData.lua'), 'utf8');
     const iMaterialSetTexture = fs.readFileSync(path.join(customRoot, 'IMaterial.SetTexture.lua'), 'utf8');
     const vguiRegisterFile = fs.readFileSync(path.join(customRoot, 'vgui.RegisterFile.lua'), 'utf8');
+    const viewData = fs.readFileSync(path.join(customRoot, 'ViewData.lua'), 'utf8');
     const generatedVgui = fs.readFileSync(path.join(process.cwd(), 'output', 'vgui.lua'), 'utf8');
+    const generatedStructures = fs.readFileSync(path.join(process.cwd(), 'output', 'structures.lua'), 'utf8');
 
     expect(globals).toMatch(/---@alias GPlayer Player/);
     expect(globals).toMatch(/---@class NULL : Entity/);
@@ -116,6 +118,12 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(vguiRegisterFile).toMatch(/---@\[call_arg\("gmod\.vgui_panel", "register_file"\)\]/);
     expect(generatedVgui).toMatch(/---@\[call_arg\("gmod\.load", "include"\)\]/);
     expect(generatedVgui).toMatch(/---@\[call_arg\("gmod\.vgui_panel", "register_file"\)\]/);
+    expect(viewData).toMatch(/---@field origin\? Vector/);
+    expect(viewData).toMatch(/---@field angles\? Angle/);
+    expect(viewData).toMatch(/---@field offcenter\? table/);
+    expect(generatedStructures).toMatch(/---@field origin\? Vector/);
+    expect(generatedStructures).toMatch(/---@field angles\? Angle/);
+    expect(generatedStructures).toMatch(/---@field offcenter\? table/);
   });
 
   test('iterator overrides expose typed generic-for values', () => {

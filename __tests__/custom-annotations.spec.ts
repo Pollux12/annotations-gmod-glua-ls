@@ -24,6 +24,7 @@ describe('custom and plugin annotation smoke checks', () => {
     const dCheckBoxLabel = fs.readFileSync(path.join(customRoot, 'class.DCheckBoxLabel.lua'), 'utf8');
     const dHtmlControls = fs.readFileSync(path.join(customRoot, 'class.DHTMLControls.lua'), 'utf8');
     const dPanelList = fs.readFileSync(path.join(customRoot, 'class.DPanelList.lua'), 'utf8');
+    const dMenuAddPanel = fs.readFileSync(path.join(customRoot, 'DMenu.AddPanel.lua'), 'utf8');
     const httpRequest = fs.readFileSync(path.join(customRoot, 'HTTPRequest.lua'), 'utf8');
     const globalHttp = fs.readFileSync(path.join(customRoot, 'Global.HTTP.lua'), 'utf8');
     const entsCreate = fs.readFileSync(path.join(customRoot, 'ents.Create.lua'), 'utf8');
@@ -68,6 +69,7 @@ describe('custom and plugin annotation smoke checks', () => {
 
     expect(dPanelList).toMatch(/---@class DPanelList : DPanel/);
     expect(dPanelList).toMatch(/---@field Items Panel\[]/);
+    expect(dMenuAddPanel).toMatch(/---@param pnl T The panel that you want to add\./);
 
     expect(httpRequest).toMatch(/---@alias HTTPRequestMethodWithParameters/);
     expect(httpRequest).toMatch(/---@class \(exact\) HTTPRequestWithParameters : HTTPRequest/);

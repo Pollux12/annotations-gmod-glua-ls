@@ -4,6 +4,7 @@
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/vgui.Create
 ---@generic T: Panel
+---@overload fun(classname: string, parent?: Panel, name?: string): Panel # Creates a panel from a dynamic class name.
 ---@[call_arg("gmod.vgui_panel", "reference")]
 ---@param classname `T` Classname of the panel to create.
 ---

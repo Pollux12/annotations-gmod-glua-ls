@@ -25,6 +25,15 @@ describe('custom and plugin annotation smoke checks', () => {
     const dHtmlControls = fs.readFileSync(path.join(customRoot, 'class.DHTMLControls.lua'), 'utf8');
     const dPanelList = fs.readFileSync(path.join(customRoot, 'class.DPanelList.lua'), 'utf8');
     const dMenuAddPanel = fs.readFileSync(path.join(customRoot, 'DMenu.AddPanel.lua'), 'utf8');
+    const dCheckBoxSetValue = fs.readFileSync(path.join(customRoot, 'DCheckBox.SetValue.lua'), 'utf8');
+    const dCheckBoxSetChecked = fs.readFileSync(path.join(customRoot, 'DCheckBox.SetChecked.lua'), 'utf8');
+    const dCheckBoxLabelSetValue = fs.readFileSync(path.join(customRoot, 'DCheckBoxLabel.SetValue.lua'), 'utf8');
+    const dCheckBoxLabelSetChecked = fs.readFileSync(path.join(customRoot, 'DCheckBoxLabel.SetChecked.lua'), 'utf8');
+    const dFileBrowserSetOpen = fs.readFileSync(path.join(customRoot, 'DFileBrowser.SetOpen.lua'), 'utf8');
+    const panelGetCookie = fs.readFileSync(path.join(customRoot, 'Panel.GetCookie.lua'), 'utf8');
+    const panelGetCookieNumber = fs.readFileSync(path.join(customRoot, 'Panel.GetCookieNumber.lua'), 'utf8');
+    const panelSetCookie = fs.readFileSync(path.join(customRoot, 'Panel.SetCookie.lua'), 'utf8');
+    const cookieSet = fs.readFileSync(path.join(customRoot, 'cookie.Set.lua'), 'utf8');
     const httpRequest = fs.readFileSync(path.join(customRoot, 'HTTPRequest.lua'), 'utf8');
     const globalHttp = fs.readFileSync(path.join(customRoot, 'Global.HTTP.lua'), 'utf8');
     const entsCreate = fs.readFileSync(path.join(customRoot, 'ents.Create.lua'), 'utf8');
@@ -70,6 +79,18 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(dPanelList).toMatch(/---@class DPanelList : DPanel/);
     expect(dPanelList).toMatch(/---@field Items Panel\[]/);
     expect(dMenuAddPanel).toMatch(/---@param pnl T The panel that you want to add\./);
+    expect(dCheckBoxSetValue).toMatch(/---@param checked any/);
+    expect(dCheckBoxSetChecked).toMatch(/---@param checked any/);
+    expect(dCheckBoxLabelSetValue).toMatch(/---@param checked any/);
+    expect(dCheckBoxLabelSetChecked).toMatch(/---@param checked any/);
+    expect(dFileBrowserSetOpen).toMatch(/---@param open any/);
+    expect(dFileBrowserSetOpen).toMatch(/---@param useAnim\? boolean/);
+    expect(panelGetCookie).toMatch(/---@param default\? string/);
+    expect(panelGetCookie).toMatch(/---@return string\|nil/);
+    expect(panelGetCookieNumber).toMatch(/---@param default\? number/);
+    expect(panelGetCookieNumber).toMatch(/---@return number\|nil/);
+    expect(panelSetCookie).toMatch(/---@param value\? string\|number\|boolean/);
+    expect(cookieSet).toMatch(/---@param value\? string\|number\|boolean/);
 
     expect(httpRequest).toMatch(/---@alias HTTPRequestMethodWithParameters/);
     expect(httpRequest).toMatch(/---@class \(exact\) HTTPRequestWithParameters : HTTPRequest/);

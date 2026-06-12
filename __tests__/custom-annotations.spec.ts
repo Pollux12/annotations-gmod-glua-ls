@@ -44,6 +44,8 @@ describe('custom and plugin annotation smoke checks', () => {
     const propRagdoll = fs.readFileSync(path.join(customRoot, 'class.prop_ragdoll.lua'), 'utf8');
     const propDynamicOverride = fs.readFileSync(path.join(customRoot, 'class.prop_dynamic_override.lua'), 'utf8');
     const envFire = fs.readFileSync(path.join(customRoot, 'class.env_fire.lua'), 'utf8');
+    const matProxyData = fs.readFileSync(path.join(customRoot, 'MatProxyData.lua'), 'utf8');
+    const iMaterialSetTexture = fs.readFileSync(path.join(customRoot, 'IMaterial.SetTexture.lua'), 'utf8');
 
     expect(globals).toMatch(/---@alias GPlayer Player/);
     expect(globals).toMatch(/---@class NULL : Entity/);
@@ -104,6 +106,10 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(propRagdoll).toMatch(/---@class prop_ragdoll : Entity/);
     expect(propDynamicOverride).toMatch(/---@class prop_dynamic_override : Entity/);
     expect(envFire).toMatch(/---@class env_fire : Entity/);
+
+    expect(matProxyData).toMatch(/---@field init\? fun\(self: MatProxyData, mat: IMaterial, values: table\)/);
+    expect(matProxyData).toMatch(/---@field bind fun\(self: MatProxyData, mat: IMaterial, ent: Entity\)/);
+    expect(iMaterialSetTexture).toMatch(/---@param texture ITexture\|string/);
   });
 
   test('iterator overrides expose typed generic-for values', () => {

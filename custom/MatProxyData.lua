@@ -1,0 +1,21 @@
+---Table structure used by [matproxy.Add](https://wiki.facepunch.com/gmod/matproxy.Add).
+---@realm client
+---@source https://wiki.facepunch.com/gmod/Structures/MatProxyData
+---@class (partial) MatProxyData
+---The name of the material proxy.
+---@field name string
+---The function used to get variables from the ".vmt". Called once per each ".vmt".
+---
+---Function argument(s):
+---* MatProxyData `self` - The table structure itself.
+---* IMaterial `mat` - Material the material proxy is applied to.
+---* table `values` - The material key values.
+---@field init? fun(self: MatProxyData, mat: IMaterial, values: table)
+---The function used to apply the proxy. This is called every frame while any materials with this proxy are used in world.
+---
+---Function argument(s):
+---* MatProxyData `self` - The table structure itself.
+---* IMaterial `mat` - Material the material proxy is applied to.
+---* Entity `ent` - The entity the material instance is applied to, if any.
+---@field bind fun(self: MatProxyData, mat: IMaterial, ent: Entity)
+local MatProxyData = {}

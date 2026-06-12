@@ -3,6 +3,29 @@
 --- If you need to perform entity creation when the game starts, create a hook for GM:InitPostEntity and do it there.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/ents.Create
+---@alias KnownEngineEntityClass
+---| "gmod_anchor"
+---| "gmod_hands"
+---| "gmod_winch_controller"
+---| "hunter_flechette"
+---| "keyframe_rope"
+---| "logic_collision_pair"
+---| "phys_ballsocket"
+---| "phys_bone_follower"
+---| "phys_constraint"
+---| "phys_constraintsystem"
+---| "phys_keepupright"
+---| "phys_lengthconstraint"
+---| "phys_magnet"
+---| "phys_pulleyconstraint"
+---| "phys_ragdollconstraint"
+---| "phys_slideconstraint"
+---| "phys_spring"
+---| "phys_torque"
+---| "point_viewcontrol"
+---| "ragdoll_motion"
+---| "widget_bone"
+---@overload fun(class: KnownEngineEntityClass): Entity
 ---@generic T : Entity
 ---@param class `T` The classname of the entity to create.
 ---@return (instance) T|NULL # The created entity, or `NULL` if failed.

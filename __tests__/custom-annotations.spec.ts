@@ -153,6 +153,11 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(globalHttp).toMatch(/---@overload fun\(parameters: HTTPRequestWithParameters\): boolean/);
     expect(globalHttp).toMatch(/---@param parameters HTTPRequest The request parameters/);
 
+    expect(entsCreate).toMatch(/---@alias KnownEngineEntityClass/);
+    expect(entsCreate).toMatch(/"phys_constraint"/);
+    expect(entsCreate).not.toMatch(/"phys_hinge"/);
+    expect(entsCreate).not.toMatch(/"widget_bones"/);
+    expect(entsCreate).toMatch(/---@overload fun\(class: KnownEngineEntityClass\): Entity/);
     expect(entsCreate).toMatch(/---@return \(instance\) T\|NULL/);
     expect(vehicleGetDriver).toMatch(/---@return Player\|NULL driver/);
     expect(getNWEntity).toMatch(/---@overload fun\(self: Entity, key: string\): Entity\|NULL/);
@@ -208,6 +213,7 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(engineEntities).toMatch(/---@class phys_constraintsystem : Entity/);
     expect(engineEntities).toMatch(/---@class gmod_winch_controller : Entity/);
     expect(engineEntities).toMatch(/---@class hunter_flechette : Entity/);
+    expect(engineEntities).toMatch(/---@class widget_bones : Entity/);
     expect(enginePanels).toMatch(/---@class \(partial\) Chromium : HTML/);
     expect(enginePanels).toMatch(/---@class \(partial\) ModelImage : Panel/);
     expect(enginePanels).toMatch(/---@class \(partial\) URLLabel : Label/);

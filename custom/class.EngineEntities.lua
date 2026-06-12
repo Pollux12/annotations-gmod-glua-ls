@@ -23,4 +23,5 @@
 ---@class point_viewcontrol : Entity
 ---@class ragdoll_motion : Entity
 ---@class widget_bone : Entity
+---@class widget_bones : Entity
 local EngineEntities = {}

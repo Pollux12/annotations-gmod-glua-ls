@@ -14,6 +14,7 @@
 ---| "phys_bone_follower"
 ---| "phys_constraint"
 ---| "phys_constraintsystem"
+---| "phys_hinge"
 ---| "phys_keepupright"
 ---| "phys_lengthconstraint"
 ---| "phys_magnet"

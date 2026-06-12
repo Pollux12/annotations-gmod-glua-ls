@@ -31,6 +31,9 @@ describe('custom and plugin annotation smoke checks', () => {
     const dCheckBoxLabelSetChecked = fs.readFileSync(path.join(customRoot, 'DCheckBoxLabel.SetChecked.lua'), 'utf8');
     const dFileBrowserSetOpen = fs.readFileSync(path.join(customRoot, 'DFileBrowser.SetOpen.lua'), 'utf8');
     const dPropertyGenericValueChanged = fs.readFileSync(path.join(customRoot, 'DProperty_Generic.ValueChanged.lua'), 'utf8');
+    const dSliderSetNotches = fs.readFileSync(path.join(customRoot, 'DSlider.SetNotches.lua'), 'utf8');
+    const panelAdd = fs.readFileSync(path.join(customRoot, 'Panel.Add.lua'), 'utf8');
+    const panelSetSelectionCanvas = fs.readFileSync(path.join(customRoot, 'Panel.SetSelectionCanvas.lua'), 'utf8');
     const panelGetCookie = fs.readFileSync(path.join(customRoot, 'Panel.GetCookie.lua'), 'utf8');
     const panelGetCookieNumber = fs.readFileSync(path.join(customRoot, 'Panel.GetCookieNumber.lua'), 'utf8');
     const panelSetCookie = fs.readFileSync(path.join(customRoot, 'Panel.SetCookie.lua'), 'utf8');
@@ -64,6 +67,8 @@ describe('custom and plugin annotation smoke checks', () => {
     const enginePanels = fs.readFileSync(path.join(customRoot, 'class.EnginePanels.lua'), 'utf8');
     const generatedCustomClasses = fs.readFileSync(path.join(process.cwd(), 'output', 'custom_classes.lua'), 'utf8');
     const generatedDPropertyGeneric = fs.readFileSync(path.join(process.cwd(), 'output', 'dproperty_generic.lua'), 'utf8');
+    const generatedDSlider = fs.readFileSync(path.join(process.cwd(), 'output', 'dslider.lua'), 'utf8');
+    const generatedPanel = fs.readFileSync(path.join(process.cwd(), 'output', 'panel.lua'), 'utf8');
     const generatedVgui = fs.readFileSync(path.join(process.cwd(), 'output', 'vgui.lua'), 'utf8');
     const generatedRender = fs.readFileSync(path.join(process.cwd(), 'output', 'render.lua'), 'utf8');
     const generatedStructures = fs.readFileSync(path.join(process.cwd(), 'output', 'structures.lua'), 'utf8');
@@ -91,6 +96,12 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(dFileBrowserSetOpen).toMatch(/---@param useAnim\? boolean/);
     expect(dPropertyGenericValueChanged).toMatch(/---@param force\? boolean/);
     expect(generatedDPropertyGeneric).toMatch(/---@param force\? boolean/);
+    expect(dSliderSetNotches).toMatch(/---@param notches\? number/);
+    expect(generatedDSlider).toMatch(/---@param notches\? number/);
+    expect(panelAdd).toMatch(/---@overload fun\(self: Panel, className: `T`, parent: Panel\): T/);
+    expect(panelSetSelectionCanvas).toMatch(/---@param set boolean\|Panel/);
+    expect(generatedPanel).toMatch(/---@overload fun\(self: Panel, className: `T`, parent: Panel\): T/);
+    expect(generatedPanel).toMatch(/---@param set boolean\|Panel/);
     expect(panelGetCookie).toMatch(/---@param default\? string/);
     expect(panelGetCookie).toMatch(/---@return string\|nil/);
     expect(panelGetCookieNumber).toMatch(/---@param default\? number/);

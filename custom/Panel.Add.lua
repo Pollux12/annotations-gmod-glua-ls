@@ -5,6 +5,7 @@
 ---@generic T : Panel
 ---@overload fun(self: Panel, panel: Panel): Panel # Parents an existing panel to this panel.
 ---@overload fun(self: Panel, panelTable: table): Panel # Creates a panel from a PANEL table and parents it to this panel.
+---@overload fun(self: Panel, className: `T`, parent: Panel): T # Creates a panel by class name with an explicit parent.
 ---@[call_arg("gmod.vgui_panel", "reference")]
 ---@param className `T` The panel class name to create and add.
 ---@return (instance) T # The created panel.

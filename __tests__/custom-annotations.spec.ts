@@ -234,6 +234,8 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(skeletonConvertor).toMatch(/---@field GetModel fun\(self: ModelEntity\): string/);
     expect(skeletonConvertor).toMatch(/---@class SkeletonConvertor/);
     expect(skeletonConvertor).toMatch(/---@field IsApplicable fun\(self: SkeletonConvertor, ent: ModelEntity\): boolean/);
+    expect(skeletonConvertor).toMatch(/---@field PrePosition\? fun\(self: SkeletonConvertor, sensor: table<integer, any>\)/);
+    expect(skeletonConvertor).toMatch(/---@field Complete\? fun\(self: SkeletonConvertor, ply: Player, sensor: table<integer, any>, rotation: Angle, pos: table<integer, any>, ang: table<integer, Angle>\)/);
     expect(listSet).toMatch(/---@overload fun\(identifier: "SkeletonConvertor", key: string, item: SkeletonConvertor\)/);
     expect(serverQueryData).toMatch(/netversion: string, luaversion: string, localization: string, gmcategory: string/);
     expect(skin).toMatch(/---@class SKINColoursProperties/);
@@ -248,6 +250,7 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(generatedCustomClasses).toMatch(/---@class \(partial\) URLLabel : Label/);
     expect(generatedCustomClasses).toMatch(/---@class ModelEntity/);
     expect(generatedCustomClasses).toMatch(/---@field IsApplicable fun\(self: SkeletonConvertor, ent: ModelEntity\): boolean/);
+    expect(generatedCustomClasses).toMatch(/---@field Complete\? fun\(self: SkeletonConvertor, ply: Player, sensor: table<integer, any>, rotation: Angle, pos: table<integer, any>, ang: table<integer, Angle>\)/);
     expect(generatedCustomClasses).toMatch(/---@class SKINColoursProperties/);
     expect(generatedCustomClasses).toMatch(/---@field Column_Disabled Color/);
     expect(generatedCustomClasses).toMatch(/---@field Border Color/);

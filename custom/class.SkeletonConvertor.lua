@@ -5,7 +5,8 @@
 
 ---@class SkeletonConvertor
 ---@field IsApplicable fun(self: SkeletonConvertor, ent: ModelEntity): boolean
----@field PositionTable? table
----@field AnglesTable? table
----@field SpecialVectorTable? table
----@field Complete? fun(self: SkeletonConvertor, sensor: table, ply: Player, rotation: Angle)
+---@field PrePosition? fun(self: SkeletonConvertor, sensor: table<integer, any>)
+---@field PositionTable? table<integer, any>
+---@field AnglesTable? table<integer, any>
+---@field SpecialVectorTable? table<integer, any>
+---@field Complete? fun(self: SkeletonConvertor, ply: Player, sensor: table<integer, any>, rotation: Angle, pos: table<integer, any>, ang: table<integer, Angle>)

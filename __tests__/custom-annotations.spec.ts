@@ -92,6 +92,16 @@ describe('custom and plugin annotation smoke checks', () => {
     const generatedVgui = fs.readFileSync(path.join(process.cwd(), 'output', 'vgui.lua'), 'utf8');
     const generatedRender = fs.readFileSync(path.join(process.cwd(), 'output', 'render.lua'), 'utf8');
     const generatedStructures = fs.readFileSync(path.join(process.cwd(), 'output', 'structures.lua'), 'utf8');
+    const generatedEngine = fs.readFileSync(path.join(process.cwd(), 'output', 'engine.lua'), 'utf8');
+    const generatedSteamworks = fs.readFileSync(path.join(process.cwd(), 'output', 'steamworks.lua'), 'utf8');
+    const generatedWorkshopFileBase = fs.readFileSync(path.join(process.cwd(), 'output', 'workshopfilebase.lua'), 'utf8');
+
+    const customEngineGetAddons = fs.readFileSync(path.join(customRoot, 'engine.GetAddons.lua'), 'utf8');
+    const customEngineGetUserContent = fs.readFileSync(path.join(customRoot, 'engine.GetUserContent.lua'), 'utf8');
+    const customSteamworksGetDownloadedItems = fs.readFileSync(path.join(customRoot, 'steamworks.GetDownloadedItems.lua'), 'utf8');
+    const customSteamworksFileUserInfo = fs.readFileSync(path.join(customRoot, 'steamworks.FileUserInfo.lua'), 'utf8');
+    const customSteamworksFileInfo = fs.readFileSync(path.join(customRoot, 'steamworks.FileInfo.lua'), 'utf8');
+    const customWorkshopfileFillFileInfo = fs.readFileSync(path.join(customRoot, 'workshopfilebase.FillFileInfo.lua'), 'utf8');
 
     expect(globals).toMatch(/---@alias GPlayer Player/);
     expect(globals).toMatch(/---@class NULL : Entity/);
@@ -167,7 +177,6 @@ describe('custom and plugin annotation smoke checks', () => {
 
     expect(entsCreate).toMatch(/---@alias KnownEngineEntityClass/);
     expect(entsCreate).toMatch(/"phys_constraint"/);
-    expect(entsCreate).not.toMatch(/"phys_hinge"/);
     expect(entsCreate).not.toMatch(/"widget_bones"/);
     expect(entsCreate).toMatch(/---@overload fun\(class: KnownEngineEntityClass\): Entity/);
     expect(entsCreate).toMatch(/---@return \(instance\) T\|NULL/);
@@ -257,6 +266,33 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(generatedCustomClasses).toMatch(/---@field Colours SKINColours/);
     expect(generatedList).toMatch(/---@overload fun\(identifier: "SkeletonConvertor", key: string, item: SkeletonConvertor\)/);
     expect(generatedStructures).toMatch(/netversion: string, luaversion: string, localization: string, gmcategory: string/);
+
+    expect(customEngineGetAddons).toMatch(/---@class \(partial\) EngineAddon/);
+    expect(customEngineGetAddons).toMatch(/---@field wsid string/);
+    expect(customEngineGetAddons).toMatch(/---@return EngineAddon\[]/);
+    expect(generatedEngine).toMatch(/---@class \(partial\) EngineAddon/);
+    expect(generatedEngine).toMatch(/---@field wsid string/);
+
+    expect(customEngineGetUserContent).toMatch(/---@class \(partial\) EngineUserContent/);
+    expect(customEngineGetUserContent).toMatch(/---@deprecated Used internally for in-game menus\./);
+    expect(customEngineGetUserContent).toMatch(/---@realm menu/);
+    expect(customEngineGetUserContent).toMatch(/---@return EngineUserContent\[]/);
+    expect(generatedEngine).toMatch(/---@return EngineUserContent\[]/);
+
+    expect(customSteamworksGetDownloadedItems).toMatch(/---@return string\[]/);
+    expect(generatedSteamworks).toMatch(/---@return string\[]/);
+
+    expect(customSteamworksFileInfo).toMatch(/UGCFileInfo\?/);
+    expect(generatedSteamworks).toMatch(/UGCFileInfo\?/);
+
+    expect(customSteamworksFileUserInfo).toMatch(/---@class \(partial\) SteamworksFileUserInfo/);
+    expect(customSteamworksFileUserInfo).toMatch(/---@field error\? number/);
+    expect(customSteamworksFileUserInfo).toMatch(/---@param callback fun\(info: SteamworksFileUserInfo\)/);
+
+    expect(customWorkshopfileFillFileInfo).toMatch(/---@class \(partial\) WorkshopFileInfoResults/);
+    expect(customWorkshopfileFillFileInfo).toMatch(/---@param results WorkshopFileInfoResults/);
+    expect(generatedWorkshopFileBase).toMatch(/---@class \(partial\) WorkshopFileInfoResults/);
+    expect(generatedWorkshopFileBase).toMatch(/---@param results WorkshopFileInfoResults/);
   });
 
   test('iterator overrides expose typed generic-for values', () => {

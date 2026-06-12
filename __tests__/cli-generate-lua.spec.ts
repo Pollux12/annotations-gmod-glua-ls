@@ -106,6 +106,78 @@ describe('cli-generate-lua', () => {
     }
   });
 
+  test('emits custom function overrides for missing wiki pages', () => {
+    const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'gluals-generate-lua-missing-overrides-'));
+    const outputPath = path.join(tmpRoot, 'output');
+    const customOverridesPath = path.join(tmpRoot, 'custom');
+    const steamworksDir = path.join(outputPath, 'steamworks');
+
+    fs.mkdirSync(steamworksDir, { recursive: true });
+    fs.mkdirSync(customOverridesPath, { recursive: true });
+
+    fs.writeFileSync(
+      path.join(steamworksDir, 'library.json'),
+      JSON.stringify(
+        [
+          {
+            type: 'library',
+            address: 'steamworks',
+            name: 'steamworks',
+            description: 'Steamworks related functions.',
+            realm: 'shared',
+            url: 'https://wiki.facepunch.com/gmod/steamworks',
+          },
+        ],
+        null,
+        2,
+      ),
+      'utf8',
+    );
+
+    fs.writeFileSync(
+      path.join(customOverridesPath, 'steamworks.GetDownloadedItems.lua'),
+      [
+        '---Returns a list of downloaded UGC item IDs.',
+        '---@return string[]',
+        'function steamworks.GetDownloadedItems() end',
+        '',
+      ].join('\n'),
+      'utf8',
+    );
+
+    fs.writeFileSync(
+      path.join(customOverridesPath, 'steamworks.FileUserInfo.lua'),
+      [
+        '---Retrieves local file/user data for a Steam Workshop addon.',
+        '---@param workshopItemID string',
+        '---@param callback fun(info: SteamworksFileUserInfo)',
+        'function steamworks.FileUserInfo(workshopItemID, callback) end',
+        '',
+      ].join('\n'),
+      'utf8',
+    );
+
+    try {
+      const command = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+      const result = spawnSync(
+        `${command} run generate-lua -- --output "${outputPath}" --custom-overrides "${customOverridesPath}"`,
+        [],
+        {
+          cwd: process.cwd(),
+          encoding: 'utf8',
+          shell: true,
+        },
+      );
+
+      expect(result.status).toBe(0);
+      const steamworksLua = fs.readFileSync(path.join(outputPath, 'steamworks.lua'), 'utf8');
+      expect(steamworksLua).toContain('function steamworks.GetDownloadedItems() end');
+      expect(steamworksLua).toContain('function steamworks.FileUserInfo(workshopItemID, callback) end');
+    } finally {
+      fs.rmSync(tmpRoot, { recursive: true, force: true });
+    }
+  });
+
   test('applies typed Entity networked getter overrides', () => {
     const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'gluals-generate-lua-'));
     const outputPath = path.join(tmpRoot, 'output');

@@ -516,6 +516,20 @@ export class GluaApiWriter {
   }
 
   public writeToDisk() {
+    const usedOverrides = new Set<string>();
+    const moduleFileByName = new Map<string, string>();
+
+    for (const [filePath, pages] of this.files) {
+      const baseName = filePath.split(/[\\/]/).pop() ?? '';
+      if (baseName.endsWith('.lua')) {
+        moduleFileByName.set(baseName.slice(0, -4), filePath);
+      }
+
+      pages.forEach(({ page }) => {
+        usedOverrides.add(safeFileName(page.address, '.'));
+      });
+    }
+
     // Process module files first so that class overrides with corresponding wiki
     // pages are emitted inline (via writeClassStart) alongside their methods.
     this.files.forEach((pages: IndexedWikiPage[], filePath: string) => {
@@ -525,6 +539,37 @@ export class GluaApiWriter {
         fs.appendFileSync(filePath, '---@meta\n\n' + api);
       }
     });
+
+    const orphanFunctionOverrides = new Map<string, string[]>();
+
+    for (const [pageAddress, override] of this.pageOverrides.entries()) {
+      if (usedOverrides.has(pageAddress)) continue;
+      if (pageAddress.startsWith('class.')) continue;
+
+      const moduleMatch = pageAddress.match(/^([^.]+)\./);
+      if (!moduleMatch) continue;
+
+      const moduleFilePath = moduleFileByName.get(moduleMatch[1]);
+      if (!moduleFilePath) continue;
+
+      const current = orphanFunctionOverrides.get(moduleFilePath) ?? [];
+      current.push(override.endsWith('\n') ? override : `${override}\n`);
+      orphanFunctionOverrides.set(moduleFilePath, current);
+    }
+
+    for (const [moduleFilePath, overrides] of orphanFunctionOverrides) {
+      if (overrides.length === 0) continue;
+
+      const joinedOverrides = overrides.join('\n');
+
+      if (fs.existsSync(moduleFilePath)) {
+        const existing = fs.readFileSync(moduleFilePath, 'utf-8');
+        const separator = existing.endsWith('\n') ? '' : '\n';
+        fs.appendFileSync(moduleFilePath, `${separator}\n${joinedOverrides}`);
+      } else {
+        fs.writeFileSync(moduleFilePath, ['---@meta', '', ...joinedOverrides.split('\n')].join('\n'));
+      }
+    }
 
     // Then, emit any class.* overrides that weren't triggered by wiki pages.
     // These are truly orphan classes with no corresponding wiki module.

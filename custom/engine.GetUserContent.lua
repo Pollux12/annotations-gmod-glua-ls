@@ -1,0 +1,13 @@
+---Returns the UGC (demos, saves and dupes) the player have subscribed to on the workshop.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/engine.GetUserContent
+---@deprecated Used internally for in-game menus.
+---@class (partial) EngineUserContent
+---@field title string The addon title.
+---@field type string The content type.
+---@field tags string Comma-separated tag list.
+---@field wsid string The workshop ID for the subscribed content.
+---@field timeadded number Unix timestamp when subscribed.
+---@return EngineUserContent[] # Table of subscribed UGC rows.
+function engine.GetUserContent() end

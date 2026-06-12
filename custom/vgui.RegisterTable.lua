@@ -1,0 +1,13 @@
+---Registers a table to use as a panel, to be used with [vgui.CreateFromTable](https://wiki.facepunch.com/gmod/vgui.CreateFromTable).
+---
+--- All this function does is assigns Base key to your table and returns the table.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/vgui.RegisterTable
+---@generic T: table
+---@[call_arg("gmod.vgui_panel", "register_table")]
+---@param panel T The PANEL table.
+---@[call_arg("gmod.vgui_panel", "base")]
+---@param base? string A base for the panel.
+---@return T # The PANEL table
+function vgui.RegisterTable(panel, base) end

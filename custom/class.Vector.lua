@@ -3,8 +3,14 @@
 ---
 --- Created by Global.Vector.
 ---@field x number
+---@field X number
+---@field r number
 ---@field y number
+---@field Y number
+---@field g number
 ---@field z number
+---@field Z number
+---@field b number
 ---@field [1] number
 ---@field [2] number
 ---@field [3] number

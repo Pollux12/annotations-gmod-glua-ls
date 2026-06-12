@@ -1,17 +1,17 @@
 ---@class (partial) DModelPanel : DButton
----@field Entity CSEnt? The panel's internal clientside entity.
+---@field Entity CSEnt The panel's internal clientside entity.
 ---@field vCamPos Vector The camera position used for rendering.
 ---@field aLookAngle Angle The camera look angle.
 ---@field fFOV number The camera field of view.
----@field vLookatPos? Vector Point the camera is looking at.
----@field colAmbientLight? Color Ambient lighting color.
----@field colColor? Color Color applied to the rendered model.
+---@field vLookatPos Vector Point the camera is looking at.
+---@field colAmbientLight Color Ambient lighting color.
+---@field colColor Color Color applied to the rendered model.
 ---@field bAnimated boolean Whether the model entity is animated.
 ---@field m_fAnimSpeed? number The animation speed.
 ---@field m_bFirstPerson? boolean Whether first-person controls are enabled.
 ---@field m_iMoveScale? number Movement scale for first-person controls.
----@field DirectionalLight? table Directional lights indexed by BOX_*.
----@field FarZ? number Far clip plane distance.
+---@field DirectionalLight table<integer, Color> Directional lights indexed by BOX_*.
+---@field FarZ number Far clip plane distance.
 ---@field Scene? CSEnt Scene instance.
----@field LastPaint? number Time of last paint.
+---@field LastPaint number Time of last paint.
 local DModelPanel = {}

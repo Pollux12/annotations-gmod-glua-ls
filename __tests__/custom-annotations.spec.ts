@@ -29,6 +29,7 @@ describe('custom and plugin annotation smoke checks', () => {
     const dCheckBoxSetChecked = fs.readFileSync(path.join(customRoot, 'DCheckBox.SetChecked.lua'), 'utf8');
     const dCheckBoxLabelSetValue = fs.readFileSync(path.join(customRoot, 'DCheckBoxLabel.SetValue.lua'), 'utf8');
     const dCheckBoxLabelSetChecked = fs.readFileSync(path.join(customRoot, 'DCheckBoxLabel.SetChecked.lua'), 'utf8');
+    const dButtonUpdateColours = fs.readFileSync(path.join(customRoot, 'DButton.UpdateColours.lua'), 'utf8');
     const dFileBrowserSetOpen = fs.readFileSync(path.join(customRoot, 'DFileBrowser.SetOpen.lua'), 'utf8');
     const dImageSetMatName = fs.readFileSync(path.join(customRoot, 'DImage.SetMatName.lua'), 'utf8');
     const dMenuSetOpenSubMenu = fs.readFileSync(path.join(customRoot, 'DMenu.SetOpenSubMenu.lua'), 'utf8');
@@ -55,6 +56,7 @@ describe('custom and plugin annotation smoke checks', () => {
     const getNetworkedEntity = fs.readFileSync(path.join(customRoot, 'Entity.GetNetworkedEntity.lua'), 'utf8');
     const getNetworked2Entity = fs.readFileSync(path.join(customRoot, 'Entity.GetNetworked2Entity.lua'), 'utf8');
     const dPropertySheetAddSheet = fs.readFileSync(path.join(customRoot, 'DPropertySheet.AddSheet.lua'), 'utf8');
+    const dLabelUpdateColours = fs.readFileSync(path.join(customRoot, 'DLabel.UpdateColours.lua'), 'utf8');
     const ctrlColor = fs.readFileSync(path.join(customRoot, 'class.CtrlColor.lua'), 'utf8');
     const controlPanelAddControl = fs.readFileSync(path.join(customRoot, 'ControlPanel.AddControl.lua'), 'utf8');
     const entityCopyData = fs.readFileSync(path.join(customRoot, 'EntityCopyData.lua'), 'utf8');
@@ -76,9 +78,12 @@ describe('custom and plugin annotation smoke checks', () => {
     const skeletonConvertor = fs.readFileSync(path.join(customRoot, 'class.SkeletonConvertor.lua'), 'utf8');
     const listSet = fs.readFileSync(path.join(customRoot, 'list.Set.lua'), 'utf8');
     const serverQueryData = fs.readFileSync(path.join(customRoot, 'ServerQueryData.lua'), 'utf8');
+    const skin = fs.readFileSync(path.join(customRoot, 'class.SKIN.lua'), 'utf8');
     const generatedCustomClasses = fs.readFileSync(path.join(process.cwd(), 'output', 'custom_classes.lua'), 'utf8');
     const generatedList = fs.readFileSync(path.join(process.cwd(), 'output', 'list.lua'), 'utf8');
     const generatedDImage = fs.readFileSync(path.join(process.cwd(), 'output', 'dimage.lua'), 'utf8');
+    const generatedDButton = fs.readFileSync(path.join(process.cwd(), 'output', 'dbutton.lua'), 'utf8');
+    const generatedDLabel = fs.readFileSync(path.join(process.cwd(), 'output', 'dlabel.lua'), 'utf8');
     const generatedDMenu = fs.readFileSync(path.join(process.cwd(), 'output', 'dmenu.lua'), 'utf8');
     const generatedDPropertyGeneric = fs.readFileSync(path.join(process.cwd(), 'output', 'dproperty_generic.lua'), 'utf8');
     const generatedDSlider = fs.readFileSync(path.join(process.cwd(), 'output', 'dslider.lua'), 'utf8');
@@ -107,6 +112,7 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(dCheckBoxSetChecked).toMatch(/---@param checked any/);
     expect(dCheckBoxLabelSetValue).toMatch(/---@param checked any/);
     expect(dCheckBoxLabelSetChecked).toMatch(/---@param checked any/);
+    expect(dButtonUpdateColours).toMatch(/---@param skin SKIN/);
     expect(dFileBrowserSetOpen).toMatch(/---@param open any/);
     expect(dFileBrowserSetOpen).toMatch(/---@param useAnim\? boolean/);
     expect(dImageSetMatName).toMatch(/---@param mat\? string/);
@@ -120,6 +126,8 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(dTreeNodeSetShowFiles).toMatch(/---@param showFiles\? boolean/);
     expect(dTreeNodeSetWildCard).toMatch(/---@param wildcard\? string/);
     expect(generatedDImage).toMatch(/---@param mat\? string/);
+    expect(generatedDButton).toMatch(/---@param skin SKIN/);
+    expect(generatedDLabel).toMatch(/---@param skin SKIN/);
     expect(generatedDMenu).toMatch(/---@param item\? Panel/);
     expect(generatedDTreeNode).toMatch(/---@param expanded\? boolean/);
     expect(generatedDTreeNode).toMatch(/---@param expand\? boolean/);
@@ -172,6 +180,7 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(dPropertySheetAddSheet).toMatch(/---@class DPropertySheetSheet/);
     expect(dPropertySheetAddSheet).toMatch(/---@field Tab DTab/);
     expect(dPropertySheetAddSheet).toMatch(/---@return DPropertySheetSheet/);
+    expect(dLabelUpdateColours).toMatch(/---@param skin SKIN/);
     expect(ctrlColor).toMatch(/---@class CtrlColor : Panel/);
     expect(ctrlColor).toMatch(/---@field Mixer DColorMixer/);
     expect(controlPanelAddControl).toMatch(/---@overload fun\(self: ControlPanel, type: "color", controlinfo: table\): CtrlColor/);
@@ -227,6 +236,10 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(skeletonConvertor).toMatch(/---@field IsApplicable fun\(self: SkeletonConvertor, ent: ModelEntity\): boolean/);
     expect(listSet).toMatch(/---@overload fun\(identifier: "SkeletonConvertor", key: string, item: SkeletonConvertor\)/);
     expect(serverQueryData).toMatch(/netversion: string, luaversion: string, localization: string, gmcategory: string/);
+    expect(skin).toMatch(/---@class SKINColoursProperties/);
+    expect(skin).toMatch(/---@field Column_Disabled Color/);
+    expect(skin).toMatch(/---@field Border Color/);
+    expect(skin).toMatch(/---@field Colours SKINColours/);
     expect(generatedCustomClasses).toMatch(/---@class phys_constraintsystem : Entity/);
     expect(generatedCustomClasses).toMatch(/---@class gmod_winch_controller : Entity/);
     expect(generatedCustomClasses).toMatch(/---@class hunter_flechette : Entity/);
@@ -235,6 +248,10 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(generatedCustomClasses).toMatch(/---@class \(partial\) URLLabel : Label/);
     expect(generatedCustomClasses).toMatch(/---@class ModelEntity/);
     expect(generatedCustomClasses).toMatch(/---@field IsApplicable fun\(self: SkeletonConvertor, ent: ModelEntity\): boolean/);
+    expect(generatedCustomClasses).toMatch(/---@class SKINColoursProperties/);
+    expect(generatedCustomClasses).toMatch(/---@field Column_Disabled Color/);
+    expect(generatedCustomClasses).toMatch(/---@field Border Color/);
+    expect(generatedCustomClasses).toMatch(/---@field Colours SKINColours/);
     expect(generatedList).toMatch(/---@overload fun\(identifier: "SkeletonConvertor", key: string, item: SkeletonConvertor\)/);
     expect(generatedStructures).toMatch(/netversion: string, luaversion: string, localization: string, gmcategory: string/);
   });

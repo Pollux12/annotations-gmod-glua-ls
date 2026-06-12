@@ -2,8 +2,76 @@
 
 --- Source: https://github.com/Facepunch/garrysmod/blob/b2bff902adf7f5b87ec543f873e74e3267e93f26/garrysmod/lua/skins/default.lua
 
+---@class SKINColoursState
+---@field Normal Color
+---@field Hover Color
+---@field Down Color
+---@field Disabled Color
+
+---@class SKINColoursWindow
+---@field TitleActive Color
+---@field TitleInactive Color
+
+---@class SKINColoursTab
+---@field Active SKINColoursState
+---@field Inactive SKINColoursState
+
+---@class SKINColoursLabel
+---@field Default Color
+---@field Bright Color
+---@field Dark Color
+---@field Highlight Color
+
+---@class SKINColoursTree
+---@field Lines Color
+---@field Normal Color
+---@field Hover Color
+---@field Selected Color
+
+---@class SKINColoursProperties
+---@field Line_Normal Color
+---@field Line_Selected Color
+---@field Line_Hover Color
+---@field Title Color
+---@field Column_Normal Color
+---@field Column_Selected Color
+---@field Column_Hover Color
+---@field Column_Disabled Color
+---@field Border Color
+---@field Label_Normal Color
+---@field Label_Selected Color
+---@field Label_Hover Color
+---@field Label_Disabled Color
+
+---@class SKINColoursCategoryLine
+---@field Text Color
+---@field Text_Hover Color
+---@field Text_Selected Color
+---@field Text_Disabled Color
+---@field Button Color
+---@field Button_Hover Color
+---@field Button_Selected Color
+---@field Button_Disabled Color
+
+---@class SKINColoursCategory
+---@field Header Color
+---@field Header_Closed Color
+---@field Line SKINColoursCategoryLine
+---@field LineAlt SKINColoursCategoryLine
+
+---@class SKINColours
+---@field Window SKINColoursWindow
+---@field Button SKINColoursState
+---@field Tab SKINColoursTab
+---@field Label SKINColoursLabel
+---@field Tree SKINColoursTree
+---@field Properties SKINColoursProperties
+---@field Category SKINColoursCategory
+---@field TooltipText Color
+
 --- Active Derma skin table used by derma and GWEN.
 ---@class SKIN
+---@field Colours SKINColours
 ---@field PaintPanel fun(self: SKIN, panel: Panel, w: number, h: number)
 ---@field PaintShadow fun(self: SKIN, panel: Panel, w: number, h: number)
 ---@field PaintFrame fun(self: SKIN, panel: Panel, w: number, h: number)

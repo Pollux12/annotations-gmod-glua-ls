@@ -17,6 +17,7 @@ local WorkshopFileInfoEntry = {}
 ---@field tags string Comma-separated tags.
 ---@field wsid string The workshop ID.
 ---@field timeadded number Time the content was added.
+---@field file? string Local addon file path when available.
 local WorkshopUserContentEntry = {}
 
 ---@class (partial) WorkshopFileInfoResults

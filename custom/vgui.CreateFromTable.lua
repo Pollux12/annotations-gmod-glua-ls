@@ -2,7 +2,10 @@
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/vgui.CreateFromTable
----@param metatable table Your PANEL table.
+---@generic T: table
+---@[call_arg("gmod.vgui_panel", "register_table")]
+---@[call_arg_field("gmod.vgui_panel", "base", "Base")]
+---@param metatable T Your PANEL table.
 ---@param parent? Panel Which panel to parent the newly created panel to.
 ---@param name? string Custom name of the created panel for scripting/debugging purposes. Can be retrieved with Panel:GetName.
 ---@return (instance) Panel # The created panel, or `nil` if creation failed for whatever reason.

@@ -7,10 +7,18 @@
 ---@field MenuIcon? string Icon to show on opened menu for this item. Optional for simple properties and unused for toggle properties.
 ---@field Order number Where in the list this property should be positioned, relative to other properties.
 ---@field PrependSpacer? boolean Whether to add a spacer before this property.
----@field Filter fun(self: table, ent: Entity, player: Player):(check: boolean) Used clientside to decide whether this property should be shown for an entity.
----@field Checked? fun(self: table, ent: Entity, tr: table):(check: boolean) Required only for toggle properties.
----@field Action fun(self: table, ent: Entity, tr: table) Called clientside when the property is clicked.
----@field Receive? fun(self: table, len: number, ply: Player) Called serverside if the client sends a message in the Action function.
----@field MenuOpen? fun(self: table, option: DMenuOption, ent: Entity, tr: table) Called clientside when the property option has been created in the right-click menu.
----@field OnCreate? fun(self: table, menu: DMenu, option: DMenuOption) Called clientside after the property option has been created.
+---@field InternalName? string Internal lower-case property name assigned by properties.Add.
+---@field Filter fun(self: PropertyAddRuntime, ent: Entity, player: Player):(check: boolean) Used clientside to decide whether this property should be shown for an entity.
+---@field Checked? fun(self: PropertyAddRuntime, ent: Entity, tr: table):(check: boolean) Required only for toggle properties.
+---@field Action fun(self: PropertyAddRuntime, ent: Entity, tr: table) Called clientside when the property is clicked.
+---@field Receive? fun(self: PropertyAddRuntime, len: number, ply: Player) Called serverside if the client sends a message in the Action function.
+---@field MenuOpen? fun(self: PropertyAddRuntime, option: DMenuOption, ent: Entity, tr: table) Called clientside when the property option has been created in the right-click menu.
+---@field OnCreate? fun(self: PropertyAddRuntime, menu: DMenu, option: DMenuOption) Called clientside after the property option has been created.
 local PropertyAdd = {}
+
+---@class (partial) PropertyAddRuntime : PropertyAdd
+---@field [string] any Additional property-specific data or helper methods.
+---@field InternalName string Internal lower-case property name assigned by properties.Add.
+---@field MsgStart fun(self: PropertyAddRuntime) Starts a properties net message for this property.
+---@field MsgEnd fun(self: PropertyAddRuntime) Sends the current properties net message to the server.
+local PropertyAddRuntime = {}

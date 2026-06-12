@@ -38,6 +38,7 @@ describe('custom and plugin annotation smoke checks', () => {
     const panelGetCookieNumber = fs.readFileSync(path.join(customRoot, 'Panel.GetCookieNumber.lua'), 'utf8');
     const panelSetCookie = fs.readFileSync(path.join(customRoot, 'Panel.SetCookie.lua'), 'utf8');
     const cookieSet = fs.readFileSync(path.join(customRoot, 'cookie.Set.lua'), 'utf8');
+    const propertyAdd = fs.readFileSync(path.join(customRoot, 'PropertyAdd.lua'), 'utf8');
     const httpRequest = fs.readFileSync(path.join(customRoot, 'HTTPRequest.lua'), 'utf8');
     const globalHttp = fs.readFileSync(path.join(customRoot, 'Global.HTTP.lua'), 'utf8');
     const entsCreate = fs.readFileSync(path.join(customRoot, 'ents.Create.lua'), 'utf8');
@@ -108,6 +109,16 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(panelGetCookieNumber).toMatch(/---@return number\|nil/);
     expect(panelSetCookie).toMatch(/---@param value\? string\|number\|boolean/);
     expect(cookieSet).toMatch(/---@param value\? string\|number\|boolean/);
+    expect(propertyAdd).toMatch(/---@field Filter fun\(self: PropertyAddRuntime, ent: Entity, player: Player\):\(check: boolean\)/);
+    expect(propertyAdd).toMatch(/---@class \(partial\) PropertyAddRuntime : PropertyAdd/);
+    expect(propertyAdd).toMatch(/---@field \[string\] any/);
+    expect(propertyAdd).toMatch(/---@field MsgStart fun\(self: PropertyAddRuntime\)/);
+    expect(propertyAdd).toMatch(/---@field MsgEnd fun\(self: PropertyAddRuntime\)/);
+    expect(generatedStructures).toMatch(/---@field Filter fun\(self: PropertyAddRuntime, ent: Entity, player: Player\):\(check: boolean\)/);
+    expect(generatedStructures).toMatch(/---@class \(partial\) PropertyAddRuntime : PropertyAdd/);
+    expect(generatedStructures).toMatch(/---@field \[string\] any/);
+    expect(generatedStructures).toMatch(/---@field MsgStart fun\(self: PropertyAddRuntime\)/);
+    expect(generatedStructures).toMatch(/---@field MsgEnd fun\(self: PropertyAddRuntime\)/);
 
     expect(httpRequest).toMatch(/---@alias HTTPRequestMethodWithParameters/);
     expect(httpRequest).toMatch(/---@class \(exact\) HTTPRequestWithParameters : HTTPRequest/);

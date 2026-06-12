@@ -46,6 +46,8 @@ describe('custom and plugin annotation smoke checks', () => {
     const envFire = fs.readFileSync(path.join(customRoot, 'class.env_fire.lua'), 'utf8');
     const matProxyData = fs.readFileSync(path.join(customRoot, 'MatProxyData.lua'), 'utf8');
     const iMaterialSetTexture = fs.readFileSync(path.join(customRoot, 'IMaterial.SetTexture.lua'), 'utf8');
+    const vguiRegisterFile = fs.readFileSync(path.join(customRoot, 'vgui.RegisterFile.lua'), 'utf8');
+    const generatedVgui = fs.readFileSync(path.join(process.cwd(), 'output', 'vgui.lua'), 'utf8');
 
     expect(globals).toMatch(/---@alias GPlayer Player/);
     expect(globals).toMatch(/---@class NULL : Entity/);
@@ -110,6 +112,10 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(matProxyData).toMatch(/---@field init\? fun\(self: MatProxyData, mat: IMaterial, values: table\)/);
     expect(matProxyData).toMatch(/---@field bind fun\(self: MatProxyData, mat: IMaterial, ent: Entity\)/);
     expect(iMaterialSetTexture).toMatch(/---@param texture ITexture\|string/);
+    expect(vguiRegisterFile).toMatch(/---@\[call_arg\("gmod\.load", "include"\)\]/);
+    expect(vguiRegisterFile).toMatch(/---@\[call_arg\("gmod\.vgui_panel", "register_file"\)\]/);
+    expect(generatedVgui).toMatch(/---@\[call_arg\("gmod\.load", "include"\)\]/);
+    expect(generatedVgui).toMatch(/---@\[call_arg\("gmod\.vgui_panel", "register_file"\)\]/);
   });
 
   test('iterator overrides expose typed generic-for values', () => {

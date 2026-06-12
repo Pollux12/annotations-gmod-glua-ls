@@ -1,0 +1,12 @@
+---Registers a new VGUI panel from a file, to be used with vgui.CreateFromTable.
+---
+---The loaded file receives a temporary global `PANEL` table before it is included.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/vgui.RegisterFile
+---@generic T: table
+---@[call_arg("gmod.load", "include")]
+---@[call_arg("gmod.vgui_panel", "register_file")]
+---@param file string The file to register.
+---@return T # A table containing info about the panel.
+function vgui.RegisterFile(file) end

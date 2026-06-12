@@ -153,6 +153,7 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(duplicatorCreateEntityFromTable).toMatch(/---@param entTable EntityCopyData/);
 
     expect(osDate).toMatch(/---@param format\? string/);
+    expect(osDate).toMatch(/---@return string\|DateData/);
     expect(tableCopy).toMatch(/---@generic T : table/);
     expect(tableCopy).toMatch(/---@param originalTable T/);
     expect(tableCopy).toMatch(/---@return T/);

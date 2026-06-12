@@ -73,7 +73,11 @@ describe('custom and plugin annotation smoke checks', () => {
     const viewData = fs.readFileSync(path.join(customRoot, 'ViewData.lua'), 'utf8');
     const engineEntities = fs.readFileSync(path.join(customRoot, 'class.EngineEntities.lua'), 'utf8');
     const enginePanels = fs.readFileSync(path.join(customRoot, 'class.EnginePanels.lua'), 'utf8');
+    const skeletonConvertor = fs.readFileSync(path.join(customRoot, 'class.SkeletonConvertor.lua'), 'utf8');
+    const listSet = fs.readFileSync(path.join(customRoot, 'list.Set.lua'), 'utf8');
+    const serverQueryData = fs.readFileSync(path.join(customRoot, 'ServerQueryData.lua'), 'utf8');
     const generatedCustomClasses = fs.readFileSync(path.join(process.cwd(), 'output', 'custom_classes.lua'), 'utf8');
+    const generatedList = fs.readFileSync(path.join(process.cwd(), 'output', 'list.lua'), 'utf8');
     const generatedDImage = fs.readFileSync(path.join(process.cwd(), 'output', 'dimage.lua'), 'utf8');
     const generatedDMenu = fs.readFileSync(path.join(process.cwd(), 'output', 'dmenu.lua'), 'utf8');
     const generatedDPropertyGeneric = fs.readFileSync(path.join(process.cwd(), 'output', 'dproperty_generic.lua'), 'utf8');
@@ -217,12 +221,22 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(enginePanels).toMatch(/---@class \(partial\) Chromium : HTML/);
     expect(enginePanels).toMatch(/---@class \(partial\) ModelImage : Panel/);
     expect(enginePanels).toMatch(/---@class \(partial\) URLLabel : Label/);
+    expect(skeletonConvertor).toMatch(/---@class ModelEntity/);
+    expect(skeletonConvertor).toMatch(/---@field GetModel fun\(self: ModelEntity\): string/);
+    expect(skeletonConvertor).toMatch(/---@class SkeletonConvertor/);
+    expect(skeletonConvertor).toMatch(/---@field IsApplicable fun\(self: SkeletonConvertor, ent: ModelEntity\): boolean/);
+    expect(listSet).toMatch(/---@overload fun\(identifier: "SkeletonConvertor", key: string, item: SkeletonConvertor\)/);
+    expect(serverQueryData).toMatch(/netversion: string, luaversion: string, localization: string, gmcategory: string/);
     expect(generatedCustomClasses).toMatch(/---@class phys_constraintsystem : Entity/);
     expect(generatedCustomClasses).toMatch(/---@class gmod_winch_controller : Entity/);
     expect(generatedCustomClasses).toMatch(/---@class hunter_flechette : Entity/);
     expect(generatedCustomClasses).toMatch(/---@class \(partial\) Chromium : HTML/);
     expect(generatedCustomClasses).toMatch(/---@class \(partial\) ModelImage : Panel/);
     expect(generatedCustomClasses).toMatch(/---@class \(partial\) URLLabel : Label/);
+    expect(generatedCustomClasses).toMatch(/---@class ModelEntity/);
+    expect(generatedCustomClasses).toMatch(/---@field IsApplicable fun\(self: SkeletonConvertor, ent: ModelEntity\): boolean/);
+    expect(generatedList).toMatch(/---@overload fun\(identifier: "SkeletonConvertor", key: string, item: SkeletonConvertor\)/);
+    expect(generatedStructures).toMatch(/netversion: string, luaversion: string, localization: string, gmcategory: string/);
   });
 
   test('iterator overrides expose typed generic-for values', () => {

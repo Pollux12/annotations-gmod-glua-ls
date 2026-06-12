@@ -25,6 +25,8 @@
 ---| "phys_torque"
 ---| "point_viewcontrol"
 ---| "ragdoll_motion"
+---| "widget_axis_arrow"
+---| "widget_axis_disc"
 ---| "widget_bone"
 ---@overload fun(class: KnownEngineEntityClass): Entity
 ---@generic T : Entity

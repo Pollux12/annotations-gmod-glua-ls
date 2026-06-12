@@ -48,6 +48,9 @@ describe('custom and plugin annotation smoke checks', () => {
     const iMaterialSetTexture = fs.readFileSync(path.join(customRoot, 'IMaterial.SetTexture.lua'), 'utf8');
     const vguiRegisterFile = fs.readFileSync(path.join(customRoot, 'vgui.RegisterFile.lua'), 'utf8');
     const viewData = fs.readFileSync(path.join(customRoot, 'ViewData.lua'), 'utf8');
+    const engineEntities = fs.readFileSync(path.join(customRoot, 'class.EngineEntities.lua'), 'utf8');
+    const enginePanels = fs.readFileSync(path.join(customRoot, 'class.EnginePanels.lua'), 'utf8');
+    const generatedCustomClasses = fs.readFileSync(path.join(process.cwd(), 'output', 'custom_classes.lua'), 'utf8');
     const generatedVgui = fs.readFileSync(path.join(process.cwd(), 'output', 'vgui.lua'), 'utf8');
     const generatedStructures = fs.readFileSync(path.join(process.cwd(), 'output', 'structures.lua'), 'utf8');
 
@@ -124,6 +127,18 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(generatedStructures).toMatch(/---@field origin\? Vector/);
     expect(generatedStructures).toMatch(/---@field angles\? Angle/);
     expect(generatedStructures).toMatch(/---@field offcenter\? table/);
+    expect(engineEntities).toMatch(/---@class phys_constraintsystem : Entity/);
+    expect(engineEntities).toMatch(/---@class gmod_winch_controller : Entity/);
+    expect(engineEntities).toMatch(/---@class hunter_flechette : Entity/);
+    expect(enginePanels).toMatch(/---@class \(partial\) Chromium : HTML/);
+    expect(enginePanels).toMatch(/---@class \(partial\) ModelImage : Panel/);
+    expect(enginePanels).toMatch(/---@class \(partial\) URLLabel : Label/);
+    expect(generatedCustomClasses).toMatch(/---@class phys_constraintsystem : Entity/);
+    expect(generatedCustomClasses).toMatch(/---@class gmod_winch_controller : Entity/);
+    expect(generatedCustomClasses).toMatch(/---@class hunter_flechette : Entity/);
+    expect(generatedCustomClasses).toMatch(/---@class \(partial\) Chromium : HTML/);
+    expect(generatedCustomClasses).toMatch(/---@class \(partial\) ModelImage : Panel/);
+    expect(generatedCustomClasses).toMatch(/---@class \(partial\) URLLabel : Label/);
   });
 
   test('iterator overrides expose typed generic-for values', () => {

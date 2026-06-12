@@ -1,0 +1,26 @@
+---Built-in engine entity classes used by base Garry's Mod Lua.
+---
+---These are created by engine-side entity factories such as `ents.Create`.
+---@class gmod_anchor : Entity
+---@class gmod_hands : Entity
+---@class gmod_winch_controller : Entity
+---@class hunter_flechette : Entity
+---@class keyframe_rope : Entity
+---@class logic_collision_pair : Entity
+---@class phys_ballsocket : Entity
+---@class phys_bone_follower : Entity
+---@class phys_constraint : Entity
+---@class phys_constraintsystem : Entity
+---@class phys_hinge : Entity
+---@class phys_keepupright : Entity
+---@class phys_lengthconstraint : Entity
+---@class phys_magnet : Entity
+---@class phys_pulleyconstraint : Entity
+---@class phys_ragdollconstraint : Entity
+---@class phys_slideconstraint : Entity
+---@class phys_spring : Entity
+---@class phys_torque : Entity
+---@class point_viewcontrol : Entity
+---@class ragdoll_motion : Entity
+---@class widget_bone : Entity
+local EngineEntities = {}

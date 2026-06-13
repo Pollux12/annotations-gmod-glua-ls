@@ -1,0 +1,11 @@
+---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
+---
+--- Sets the driving entity and driving mode, or clears the driving entity when passed `nil`.
+---
+--- Use [drive.PlayerStartDriving](https://wiki.facepunch.com/gmod/drive.PlayerStartDriving) instead, see [Entity Driving](https://wiki.facepunch.com/gmod/Entity_Driving).
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/Player:SetDrivingEntity
+---@overload fun(self: Player, drivingEntity: nil)
+---@param drivingEntity Entity The entity the player should drive.
+---@param drivingMode number The driving mode index.
+function Player:SetDrivingEntity(drivingEntity, drivingMode) end

@@ -71,6 +71,9 @@
 
 --- Active Derma skin table used by derma and GWEN.
 ---@class SKIN
+---@field Name? string Internal skin registry name assigned by derma.DefineSkin.
+---@field Description? string Human-readable skin description assigned by derma.DefineSkin.
+---@field Base? string Optional base skin name assigned by derma.DefineSkin.
 ---@field Colours SKINColours
 ---@field PaintPanel fun(self: SKIN, panel: Panel, w: number, h: number)
 ---@field PaintShadow fun(self: SKIN, panel: Panel, w: number, h: number)

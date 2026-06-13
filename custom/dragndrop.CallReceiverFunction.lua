@@ -1,0 +1,11 @@
+---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
+---
+---Calls the receiver function of hovered panel.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/dragndrop.CallReceiverFunction
+---@param bDoDrop boolean true if the mouse was released, false if we right clicked.
+---@param command? any The command value from the receiver menu, or nil.
+---@param mx? number The local to the panel mouse cursor X position when the click happened.
+---@param my? number The local to the panel mouse cursor Y position when the click happened.
+function dragndrop.CallReceiverFunction(bDoDrop, command, mx, my) end

@@ -1,0 +1,12 @@
+---Returns files and folders matching a wildcard in the requested search path.
+---@realm shared
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/file.Find
+---@[call_arg("gmod.file_find", "glob")]
+---@param name string The wildcard pattern to search for.
+---@[call_arg("gmod.file_find", "search_path")]
+---@param path string The search path to look in.
+---@param sorting? string The sorting mode to use.
+---@return string[] files # Matching file names.
+---@return string[] directories # Matching directory names.
+function file.Find(name, path, sorting) end

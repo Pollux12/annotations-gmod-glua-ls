@@ -5,14 +5,20 @@ Automatically generates GLuaLS annotations for Garry's Mod API by scraping the [
 Plugins are currently WIP and are not used.
 
 **Note**: This repository is part of the GMod language server infrastructure.
-Annotations are automatically downloaded by the VSCode extension from the `gluals-annotations` branch - manual setup is not required.
+Annotations are automatically downloaded by the VSCode extension from generated publish branches - manual setup is not required.
 
-## Workflow
+`npm run scrape-wiki` scrapes and normalizes wiki pages, then writes Lua annotations into `output/`.
 
-1. `npm run wiki-check-changed` checks whether upstream wiki content changed since the latest scrape tag.
-2. `npm run scrape-wiki` scrapes and normalizes wiki pages, then writes Lua annotations into `output/`.
-3. `npm test` validates scraper and writer behavior.
-4. CI formats generated output and publishes annotations to the `gluals-annotations` branch for extension consumption.
+## Branches
+
+- `main` is for stable annotations.
+  - Publishes base annotations to `gluals-annotations`
+  - Publishes plugin annotations to `gluals-annotations-plugin-<plugin-id>`
+- `beta` is for pre-release annotations.
+  - Publishes base annotations to `gluals-annotations-prerelease`
+  - Publishes plugin annotations to `gluals-annotations-prerelease-plugin-<plugin-id>`
+- Do not edit the generated output branches by hand. Make changes on `main` or `beta` instead.
+- Generated output branches keep their old commits, so users can choose an older annotation commit if needed.
 
 ## Development Setup
 
@@ -38,7 +44,7 @@ Run tests:
 npm test
 ```
 
-Build release artifact locally (legacy, not required for branch-based consumption):
+Build a release ZIP locally (old workflow, not needed for normal extension downloads):
 
 ```bash
 npm run pack-release
@@ -46,32 +52,20 @@ npm run pack-release
 
 ## Local Development Testing
 
-For local language server testing, generate annotations and point your workspace library to `./output/`:
-
-```json
-{
-  "workspace": {
-    "library": [
-      "./output"
-    ]
-  }
-}
-```
-
-**Note**: The VSCode extension automatically downloads production annotations from the `gluals-annotations` branch. The above configuration is only needed for testing local changes during development.
+For local language server testing, use the override setting in the VSCode extension to point annotations to your generated local output folder.
 
 ## Repository Layout
 
 - `src/scrapers/` - GMod wiki scraping and normalization
 - `src/api-writer/` - EmmyLua/LuaCATS annotation generation
-- `plugin/` - framework plugin metadata + gluarc fragments consumed by the VSCode extension
-- `custom/` - manual overrides merged during generation
-- `output/` - generated annotation files (published to `gluals-annotations` branch)
+- `plugin/` - framework plugin data and gluarc files used by the VSCode extension
+- `custom/` - manual fixes added during generation
+- `output/` - generated annotation files before they are published
 
 
-## Plugin Metadata Notes
+## Plugin notes
 
-The VSCode extension loads plugin metadata from the annotation bundle (`plugin/index.json` + `plugin/<id>/plugin.json`).
+The VSCode extension loads plugin data from the annotation bundle (`plugin/index.json` + `plugin/<id>/plugin.json`).
 
 ## Credits
-Forked from [luttje/glua-api-snippets](https://github.com/luttje/glua-api-snippets)
+Based on [luttje/glua-api-snippets](https://github.com/luttje/glua-api-snippets)

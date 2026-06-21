@@ -1,0 +1,7 @@
+{
+  "id": "darkrp",
+  "label": "DarkRP",
+  "description": "DarkRP plugin metadata and optional annotation bundle",
+  "gluarcPath": "gluarc.json",
+  "annotationsPath": "annotations"
+}

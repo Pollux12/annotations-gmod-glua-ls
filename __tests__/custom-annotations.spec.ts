@@ -308,7 +308,9 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(tableCopy).toMatch(/---@param originalTable T/);
     expect(tableCopy).toMatch(/---@return T/);
 
-    expect(contentContainer).toMatch(/---@class ContentContainer : DIconLayout/);
+    // ContentContainer is registered as `vgui.Register("ContentContainer", PANEL, "DScrollPanel")`
+    // in contentcontainer.lua, so its base class is DScrollPanel (not DIconLayout).
+    expect(contentContainer).toMatch(/---@class ContentContainer : DScrollPanel/);
     expect(contentContainer).toMatch(/function ContentContainer:SetTriggerSpawnlistChange\(trigger\) end/);
 
     expect(propVehiclePrisonerPod).toMatch(/---@class prop_vehicle_prisoner_pod : Vehicle/);

@@ -2,9 +2,13 @@
 ---@field Label DTree_Node_Button
 ---@field Expander DExpandButton
 ---@field Icon DImage
----@field animSlide table
+---@field animSlide DermaAnimation The sliding expand/collapse animation, created in Init via Derma_Anim.
 ---@field fLastClick number
 ---@field m_pRoot? DTree
 ---@field m_pParentNode? DTree|DTree_Node
 ---@field ChildNodes? DListLayout
+---@field PropPanel? ContentContainer Content panel for this category node, set by sandbox content hooks.
+---@field SMContentPanel? Panel Content container used by the custom spawnlist node (custom.lua).
+---@field CustomSpawnlist? boolean Whether this is a custom user spawnlist node.
+---@field AddonSpawnlist? boolean Whether this is an addon-provided spawnlist node.
 local DTree_Node = {}

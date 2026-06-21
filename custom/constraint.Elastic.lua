@@ -1,0 +1,21 @@
+---Creates an elastic rope constraint.
+---@realm server
+---@source https://wiki.facepunch.com/gmod/constraint.Elastic
+---@param ent1 Entity First entity.
+---@param ent2 Entity Second entity.
+---@param bone1 number PhysObj number of first entity to constrain to. (0 for non-ragdolls).
+--- See Entity:TranslateBoneToPhysBone.
+---@param bone2 number PhysObj number of second entity to constrain to. (0 for non-ragdolls).
+--- See Entity:TranslateBoneToPhysBone.
+---@param localPos1 Vector Position relative to the the first physics object to constrain to.
+---@param localPos2 Vector Position relative to the the second physics object to constrain to.
+---@param constant number Stiffness of the elastic. The larger the number the less the elastic will stretch.
+---@param damping number How much energy the elastic loses. The larger the number, the less bouncy the elastic.
+---@param relDamping number The amount of energy the elastic loses proportional to the relative velocity of the two objects the elastic is attached to.
+---@param material? string The material of the rope. If unset, will be solid black.
+---@param width number Width of rope.
+---@param stretchOnly? boolean|number Apply physics forces only on stretch.
+---@param color? Color The color of the rope. See Color.
+---@return Entity # The created constraint. ([phys_spring](https://developer.valvesoftware.com/wiki/Phys_spring)) Will return `false` if the constraint could not be created.
+---@return Entity # The created rope. ([keyframe_rope](https://developer.valvesoftware.com/wiki/Keyframe_rope)) Will return `nil` if the constraint could not be created.
+function constraint.Elastic(ent1, ent2, bone1, bone2, localPos1, localPos2, constant, damping, relDamping, material, width, stretchOnly, color) end

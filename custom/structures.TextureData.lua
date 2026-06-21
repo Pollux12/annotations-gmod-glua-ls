@@ -1,0 +1,16 @@
+--- Override: make all TextureData fields optional so that incrementally-built
+--- TextureData tables (e.g. in gmod_tool SWEP DrawHUD) do not produce
+--- missing-fields diagnostics.
+--- The real draw.TexturedQuad function does require these values to be set
+--- before calling, but they are set on the same local table before each call.
+---@class (partial) TextureData
+---surface.GetTextureID number of the texture to be drawn.
+---@field texture? number
+---The x Coordinate.
+---@field x? number
+---The y Coordinate.
+---@field y? number
+---The width of the texture.
+---@field w? number
+---The height of the texture.
+---@field h? number

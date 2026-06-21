@@ -1,0 +1,14 @@
+---Creates a weld constraint.
+---@realm server
+---@source https://wiki.facepunch.com/gmod/constraint.Weld
+---@param ent1 Entity The first entity.
+---@param ent2 Entity The second entity.
+---@param bone1 number PhysObj number of first entity to constrain to. (0 for non-ragdolls).
+--- See Entity:TranslateBoneToPhysBone.
+---@param bone2 number PhysObj number of second entity to constrain to. (0 for non-ragdolls).
+--- See Entity:TranslateBoneToPhysBone.
+---@param forceLimit? number The amount of force appliable to the constraint before it will break (0 is never).
+---@param noCollide? boolean|number Should `ent1` be nocollided to `ent2` via this constraint.
+---@param deleteEnt1OnBreak? boolean|number If true, when `ent2` is removed, `ent1` will also be removed.
+---@return Entity # The created constraint entity, or false if the constraint failed. ([phys_constraint](https://developer.valvesoftware.com/wiki/Phys_constraint))
+function constraint.Weld(ent1, ent2, bone1, bone2, forceLimit, noCollide, deleteEnt1OnBreak) end

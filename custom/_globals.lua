@@ -83,7 +83,7 @@ MAX_PLAYER_BITS = nil
 ---The active env_skypaint entity. [(View Source)](https://github.com/Facepunch/garrysmod/blob/master/garrysmod/gamemodes/base/entities/entities/env_skypaint.lua#L131)
 g_SkyPaint = nil
 
----@type PANEL
+---@type Panel
 ---Base panel used for context menus. [(View Source)](https://github.com/garrynewman/garrysmod/blob/master/garrysmod/gamemodes/sandbox/gamemode/spawnmenu/contextmenu.lua#L143)
 g_ContextMenu = nil
 
@@ -91,7 +91,7 @@ g_ContextMenu = nil
 ---Base panel for displaying incoming/outgoing voice messages. [(View Source)](https://github.com/garrynewman/garrysmod/blob/master/garrysmod/gamemodes/base/gamemode/cl_voice.lua#L135)
 g_VoicePanelList = nil
 
----@type PANEL
+---@type SpawnMenu
 ---Base panel for the spawn menu. [(View Source)](https://github.com/garrynewman/garrysmod/blob/master/garrysmod/gamemodes/sandbox/gamemode/spawnmenu/spawnmenu.lua#L207)
 g_SpawnMenu = nil
 

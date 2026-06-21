@@ -69,12 +69,48 @@
 ---@field Category SKINColoursCategory
 ---@field TooltipText Color
 
+---@class SKINTexScroller
+---@field TrackV fun(x: number, y: number, w: number, h: number) Vertical scrollbar track texture.
+---@field ButtonV_Normal fun(x: number, y: number, w: number, h: number) Vertical scroll grip, normal state.
+---@field ButtonV_Hover fun(x: number, y: number, w: number, h: number) Vertical scroll grip, hovered.
+---@field ButtonV_Down fun(x: number, y: number, w: number, h: number) Vertical scroll grip, pressed.
+---@field ButtonV_Disabled fun(x: number, y: number, w: number, h: number) Vertical scroll grip, disabled.
+---@field TrackH fun(x: number, y: number, w: number, h: number) Horizontal scrollbar track texture.
+---@field ButtonH_Normal fun(x: number, y: number, w: number, h: number) Horizontal scroll grip, normal state.
+---@field ButtonH_Hover fun(x: number, y: number, w: number, h: number) Horizontal scroll grip, hovered.
+---@field ButtonH_Down fun(x: number, y: number, w: number, h: number) Horizontal scroll grip, pressed.
+---@field ButtonH_Disabled fun(x: number, y: number, w: number, h: number) Horizontal scroll grip, disabled.
+---@field LeftButton_Normal fun(x: number, y: number, w: number, h: number) Left scroll arrow, normal.
+---@field LeftButton_Hover fun(x: number, y: number, w: number, h: number) Left scroll arrow, hovered.
+---@field LeftButton_Down fun(x: number, y: number, w: number, h: number) Left scroll arrow, pressed.
+---@field LeftButton_Disabled fun(x: number, y: number, w: number, h: number) Left scroll arrow, disabled.
+---@field LeftButton_Dead fun(x: number, y: number, w: number, h: number) Left scroll arrow, dead/inactive (alias used by PaintButtonLeft).
+---@field UpButton_Normal fun(x: number, y: number, w: number, h: number) Up scroll arrow, normal.
+---@field UpButton_Hover fun(x: number, y: number, w: number, h: number) Up scroll arrow, hovered.
+---@field UpButton_Down fun(x: number, y: number, w: number, h: number) Up scroll arrow, pressed.
+---@field UpButton_Disabled fun(x: number, y: number, w: number, h: number) Up scroll arrow, disabled.
+---@field UpButton_Dead fun(x: number, y: number, w: number, h: number) Up scroll arrow, dead/inactive (alias used by PaintButtonUp).
+---@field RightButton_Normal fun(x: number, y: number, w: number, h: number) Right scroll arrow, normal.
+---@field RightButton_Hover fun(x: number, y: number, w: number, h: number) Right scroll arrow, hovered.
+---@field RightButton_Down fun(x: number, y: number, w: number, h: number) Right scroll arrow, pressed.
+---@field RightButton_Disabled fun(x: number, y: number, w: number, h: number) Right scroll arrow, disabled.
+---@field RightButton_Dead fun(x: number, y: number, w: number, h: number) Right scroll arrow, dead/inactive (alias used by PaintButtonRight).
+---@field DownButton_Normal fun(x: number, y: number, w: number, h: number) Down scroll arrow, normal.
+---@field DownButton_Hover fun(x: number, y: number, w: number, h: number) Down scroll arrow, hovered.
+---@field DownButton_Down fun(x: number, y: number, w: number, h: number) Down scroll arrow, pressed.
+---@field DownButton_Disabled fun(x: number, y: number, w: number, h: number) Down scroll arrow, disabled.
+---@field DownButton_Dead fun(x: number, y: number, w: number, h: number) Down scroll arrow, dead/inactive (alias used by PaintButtonDown).
+
+---@class SKINTex
+---@field Scroller SKINTexScroller
+
 --- Active Derma skin table used by derma and GWEN.
 ---@class SKIN
 ---@field Name? string Internal skin registry name assigned by derma.DefineSkin.
 ---@field Description? string Human-readable skin description assigned by derma.DefineSkin.
 ---@field Base? string Optional base skin name assigned by derma.DefineSkin.
 ---@field Colours SKINColours
+---@field tex SKINTex
 ---@field PaintPanel fun(self: SKIN, panel: Panel, w: number, h: number)
 ---@field PaintShadow fun(self: SKIN, panel: Panel, w: number, h: number)
 ---@field PaintFrame fun(self: SKIN, panel: Panel, w: number, h: number)

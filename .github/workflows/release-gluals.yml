@@ -4,14 +4,28 @@ on:
   push:
     branches:
       - main
+      - beta
   schedule:
     - cron: "0 0 1 * *"
 jobs:
   release:
+    name: release (${{ matrix.channel }})
     permissions: write-all
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - channel: stable
+            source_branch: main
+            publish_base_branch: gluals-annotations
+            plugin_branch_prefix: gluals-annotations-plugin-
+          - channel: prerelease
+            source_branch: beta
+            publish_base_branch: gluals-annotations-prerelease
+            plugin_branch_prefix: gluals-annotations-prerelease-plugin-
     concurrency:
-      group: release-gluals-${{ github.ref }}
+      group: release-gluals-${{ matrix.source_branch }}
       cancel-in-progress: false
     steps:
       - uses: actions/checkout@v4
@@ -20,11 +34,37 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
+      - name: Check out source branch content
+        if: github.event_name != 'push' || github.ref_name == matrix.source_branch
+        env:
+          SOURCE_BRANCH: ${{ matrix.source_branch }}
+          CHANNEL: ${{ matrix.channel }}
+        run: |
+          set -e
+
+          if ! git ls-remote --exit-code --heads origin "$SOURCE_BRANCH" >/dev/null 2>&1; then
+            echo "::error title=Missing source branch::Channel '$CHANNEL' requires source branch '$SOURCE_BRANCH' on origin. Create/push that branch before running scheduled or manual publishing."
+            exit 1
+          fi
+
+          git fetch --depth=1 origin "refs/heads/$SOURCE_BRANCH:refs/remotes/origin/$SOURCE_BRANCH"
+          git checkout -B "$SOURCE_BRANCH" "refs/remotes/origin/$SOURCE_BRANCH"
+
+          {
+            echo "## release-gluals source channel"
+            echo "- channel: \`$CHANNEL\`"
+            echo "- source_branch: \`$SOURCE_BRANCH\`"
+            echo "- publish_base_branch: \`${{ matrix.publish_base_branch }}\`"
+            echo "- plugin_branch_prefix: \`${{ matrix.plugin_branch_prefix }}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
       - name: Decide what to generate
         id: gate
+        if: github.event_name != 'push' || github.ref_name == matrix.source_branch
         env:
           EVENT: ${{ github.event_name }}
           BEFORE_SHA: ${{ github.event.before }}
+          PUBLISH_BASE_BRANCH: ${{ matrix.publish_base_branch }}
+          PLUGIN_BRANCH_PREFIX: ${{ matrix.plugin_branch_prefix }}
         run: |
           set -e
 
@@ -32,6 +72,29 @@ jobs:
           # without any repository diff. Publishing is still gated later by output comparison.
           if [ "$EVENT" != "push" ]; then
             echo "Reason: event=$EVENT -> generate and compare output"
+            echo "should_generate=true" >> "$GITHUB_OUTPUT"
+            echo "publish_base=true" >> "$GITHUB_OUTPUT"
+            echo "publish_all_plugins=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          missing_publish_branch=false
+          if ! git ls-remote --exit-code --heads origin "$PUBLISH_BASE_BRANCH" >/dev/null 2>&1; then
+            echo "Publish branch '$PUBLISH_BASE_BRANCH' does not exist yet -> generate all to bootstrap release stream"
+            missing_publish_branch=true
+          fi
+
+          for plugin_manifest in plugin/*/plugin.json; do
+            [ -f "$plugin_manifest" ] || continue
+            plugin_id="$(basename "$(dirname "$plugin_manifest")")"
+            plugin_branch="${PLUGIN_BRANCH_PREFIX}${plugin_id}"
+            if ! git ls-remote --exit-code --heads origin "$plugin_branch" >/dev/null 2>&1; then
+              echo "Publish branch '$plugin_branch' does not exist yet -> generate all to bootstrap release stream"
+              missing_publish_branch=true
+            fi
+          done
+
+          if $missing_publish_branch; then
             echo "should_generate=true" >> "$GITHUB_OUTPUT"
             echo "publish_base=true" >> "$GITHUB_OUTPUT"
             echo "publish_all_plugins=true" >> "$GITHUB_OUTPUT"
@@ -122,15 +185,14 @@ jobs:
         run: |
           npm run generate-lua -- \
             --output ./output \
-            --customOverrides ./custom \
-            --wipeLua
+            --custom-overrides ./custom
           npm run generate-plugin-index
           npm run generate-plugin-artifacts -- \
             --pluginRoot ./plugin \
             --indexOutput ./plugin/index.json \
             --annotationsOutput ./output \
             --pluginBundlesOutput ./output-plugins \
-            --branchPrefix gluals-annotations-plugin- \
+            --branchPrefix "${{ matrix.plugin_branch_prefix }}" \
             --artifactManifest plugin.json \
             --version "${{ steps.build_ts.outputs.value }}" \
             --generatedAt "${{ steps.build_ts.outputs.value }}"
@@ -145,6 +207,8 @@ jobs:
         id: payloads
         if: steps.gate.outputs.should_generate == 'true'
         env:
+          PUBLISH_BASE_BRANCH: ${{ matrix.publish_base_branch }}
+          PLUGIN_BRANCH_PREFIX: ${{ matrix.plugin_branch_prefix }}
           PUBLISH_BASE: ${{ steps.gate.outputs.publish_base }}
           PUBLISH_ALL_PLUGINS: ${{ steps.gate.outputs.publish_all_plugins }}
           PLUGINS_TO_PUBLISH: ${{ steps.gate.outputs.plugins_to_publish }}
@@ -258,10 +322,10 @@ jobs:
           changed_plugins=""
 
           if [ "$PUBLISH_BASE" = "true" ]; then
-            if branch_has_changes "gluals-annotations" "$base_dir"; then
+            if branch_has_changes "$PUBLISH_BASE_BRANCH" "$base_dir"; then
               changed_base=true
             else
-              echo "Base annotations payload matches gluals-annotations."
+              echo "Base annotations payload matches $PUBLISH_BASE_BRANCH."
             fi
           else
             echo "Skipping base annotations comparison (no relevant source changes)."
@@ -276,7 +340,7 @@ jobs:
               continue
             fi
 
-            plugin_branch="gluals-annotations-plugin-${plugin_id}"
+            plugin_branch="${PLUGIN_BRANCH_PREFIX}${plugin_id}"
             if branch_has_changes "$plugin_branch" "$plugin_dir"; then
               changed_plugins="$changed_plugins $plugin_id"
             else
@@ -325,12 +389,16 @@ jobs:
           "
       - name: Tag latest scrape revision
         if: steps.payloads.outputs.should_publish == 'true'
+        env:
+          SOURCE_BRANCH: ${{ matrix.source_branch }}
         run: |
           build_tag=$(echo "${{ steps.build_ts.outputs.value }}" | sed 's/:/-/g' | sed 's/T/_/' | sed 's/Z//')
-          tag="$build_tag"
+          # Include the source branch in every tag so stable/prerelease matrix jobs
+          # are unique by construction even when they share the same timestamp.
+          tag="${build_tag}-${SOURCE_BRANCH}"
           if git rev-parse -q --verify "refs/tags/$tag" >/dev/null 2>&1; then
             echo "Tag $tag already exists. Falling back to build run number."
-            tag="${build_tag}-${GITHUB_RUN_NUMBER}"
+            tag="${build_tag}-${SOURCE_BRANCH}-${GITHUB_RUN_NUMBER}"
           fi
           git tag "$tag"
           git push origin "refs/tags/$tag"
@@ -339,6 +407,8 @@ jobs:
         env:
           BASE_DIR: ${{ steps.payloads.outputs.base_dir }}
           PLUGIN_STAGE_DIR: ${{ steps.payloads.outputs.plugin_stage_dir }}
+          PUBLISH_BASE_BRANCH: ${{ matrix.publish_base_branch }}
+          PLUGIN_BRANCH_PREFIX: ${{ matrix.plugin_branch_prefix }}
           CHANGED_BASE: ${{ steps.payloads.outputs.changed_base }}
           CHANGED_PLUGINS: ${{ steps.payloads.outputs.changed_plugins }}
         run: |
@@ -352,20 +422,29 @@ jobs:
             local source_dir="$2"
             local commit_message="$3"
 
-            git checkout --orphan "$branch_name"
-            git rm -rf .
+            git reset --hard
+            git clean -fdx
+
+            if git ls-remote --exit-code --heads origin "$branch_name" >/dev/null 2>&1; then
+              git fetch --depth=1 origin "refs/heads/$branch_name:refs/remotes/origin/$branch_name"
+              git checkout --force -B "$branch_name" "refs/remotes/origin/$branch_name"
+            else
+              git checkout --orphan "$branch_name"
+            fi
+
+            git rm -rf . || true
             git clean -fdx
 
             cp -R "$source_dir/." .
             git add -A
             git commit -m "$commit_message"
-            git push -f origin "$branch_name"
+            git push origin "$branch_name"
           }
 
           now="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
           if [ "$CHANGED_BASE" = "true" ]; then
-            publish_branch "gluals-annotations" "$BASE_DIR" "Update GLuaLS annotations - $now"
+            publish_branch "$PUBLISH_BASE_BRANCH" "$BASE_DIR" "Update GLuaLS annotations - $now"
           else
             echo "Skipping base annotations branch (generated output unchanged)."
           fi
@@ -377,6 +456,6 @@ jobs:
               exit 1
             fi
 
-            plugin_branch="gluals-annotations-plugin-${plugin_id}"
+            plugin_branch="${PLUGIN_BRANCH_PREFIX}${plugin_id}"
             publish_branch "$plugin_branch" "$plugin_dir" "Update ${plugin_id} plugin annotations - $now"
           done

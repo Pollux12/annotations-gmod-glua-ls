@@ -1,0 +1,111 @@
+---@meta
+
+--- Used by the context menu in sandbox.
+---@class ControlPanel : DForm
+local ControlPanel = {}
+
+---Adds a [DLabel](https://wiki.facepunch.com/gmod/DLabel) to the ControlPanel as a helper text. Functionally equivalent to [DForm:Help](https://wiki.facepunch.com/gmod/DForm:Help).
+---@realm client
+---@param text string The text to display.
+---@return DLabel # The created DLabel.
+function ControlPanel:Label(text) end
+
+--- The controlpanel library.
+controlpanel = {}
+
+---Adds a control to the control panel.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/ControlPanel:AddControl
+---@overload fun(self: ControlPanel, type: "color", controlinfo: table): CtrlColor
+---@param type string The control type to add.
+---@param controlinfo table Each control takes their own table structure.
+---@return Panel control The created control.
+---@deprecated It is recommended to use DForm's members instead.
+function ControlPanel:AddControl(type, controlinfo) end
+
+---Adds an item by calling [DForm:AddItem](https://wiki.facepunch.com/gmod/DForm:AddItem).
+---@realm client
+---@source https://wiki.facepunch.com/gmod/ControlPanel:AddPanel
+---@param panel Panel Panel to add as an item to the control panel.
+function ControlPanel:AddPanel(panel) end
+
+---Clears ALL the control panels ( for tools ).
+---@realm client
+---@source https://wiki.facepunch.com/gmod/controlpanel.Clear
+function controlpanel.Clear() end
+
+---Alias of [Panel:Clear](https://wiki.facepunch.com/gmod/Panel:Clear).
+---@realm client
+---@source https://wiki.facepunch.com/gmod/ControlPanel:ClearControls
+function ControlPanel:ClearControls() end
+
+---Creates a [CtrlColor](https://wiki.facepunch.com/gmod/CtrlColor) (a color picker) panel and adds it as an [item](https://wiki.facepunch.com/gmod/ControlPanel:AddPanel).
+---@realm client
+---@source https://wiki.facepunch.com/gmod/ControlPanel:ColorPicker
+---@param label string The label for this color picker.
+---@param convarR string Name of the convar that will store the R component of the selected color.
+---@param convarG string Name of the convar that will store the G component of the selected color.
+---@param convarB string Name of the convar that will store the B component of the selected color.
+---@param convarA? string Name of the convar that will store the A component of the selected color.
+---@return Panel # The created CtrlColor panel.
+function ControlPanel:ColorPicker(label, convarR, convarG, convarB, convarA) end
+
+---Sets control values of the control panel.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/ControlPanel:ControlValues
+---@param data table A two-membered table:
+--- * boolean closed - Sets if the control panel should be unexpanded.
+--- * string label - The text to display inside the control's label.
+function ControlPanel:ControlValues(data) end
+
+---Calls the given function with this panel as the only argument. Used by the spawnmenu to populate the control panel.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/ControlPanel:FillViaFunction
+---@param func fun(panelToPopulate: ControlPanel) The builder function.
+---
+--- Function argument(s):
+--- * ControlPanel `panelToPopulate` -
+---@deprecated This is dumb. Just call the builder function directly.
+function ControlPanel:FillViaFunction(func) end
+
+---Returns (or creates if not exists) a control panel.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/controlpanel.Get
+---@param name string The name of the panel.
+---@return ControlPanel # The ControlPanel panel.
+function controlpanel.Get(name) end
+
+---Returns this control panel.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/ControlPanel:GetEmbeddedPanel
+---@return ControlPanel # The same control panel the function is being called on.
+function ControlPanel:GetEmbeddedPanel() end
+
+---Creates a CtrlNumPad (a Sandbox key binder) panel and adds it as an [item](https://wiki.facepunch.com/gmod/ControlPanel:AddPanel).
+---@realm client
+---@source https://wiki.facepunch.com/gmod/ControlPanel:KeyBinder
+---@param label1 string The label for the left key binder.
+---@param convar1 string The name of the convar that will store the key code for player selected key of the left key binder.
+---@param label2? string If set and `convar2` is set, the label for the right key binder.
+---@param convar2? string If set and `label2` is set, the name of the convar that will store the key code for player selected key of the right key binder.
+---@return Panel # The created CtrlNumPad panel.
+function ControlPanel:KeyBinder(label1, convar1, label2, convar2) end
+
+---Creates a [MatSelect](https://wiki.facepunch.com/gmod/MatSelect) panel and adds it as an [item](https://wiki.facepunch.com/gmod/ControlPanel:AddPanel).
+---@realm client
+---@source https://wiki.facepunch.com/gmod/ControlPanel:MatSelect
+---@param convar string Calls MatSelect:ContextBase:SetConVar with this value.
+---@param options? table If specified, calls MatSelect:AddMaterial(key, value) for each table entry. If the table key is a number, the function will instead be called with the value as both arguments.
+---@param autostretch? boolean If specified, calls MatSelect:SetAutoHeight with this value.
+---@param width? number If specified, calls MatSelect:SetItemWidth with this value.
+---@param height? number If specified, calls MatSelect:SetItemHeight with this value.
+---@return MatSelect # The created MatSelect panel.
+function ControlPanel:MatSelect(convar, options, autostretch, width, height) end
+
+---Creates a [ControlPresets](https://wiki.facepunch.com/gmod/ControlPresets) panel and adds it as an [item](https://wiki.facepunch.com/gmod/ControlPanel:AddPanel).
+---@realm client
+---@source https://wiki.facepunch.com/gmod/ControlPanel:ToolPresets
+---@param group string The presets group. Must be unique.
+---@param cvarList table A table of convar names as keys and their defaults as the values. Typically the output of Tool:BuildConVarList.
+---@return Panel # The created ControlPresets panel.
+function ControlPanel:ToolPresets(group, cvarList) end

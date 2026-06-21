@@ -1,0 +1,41 @@
+---@meta
+
+--- The gmsave library provides functions relating to the singleplayer save system in Garry's Mod.
+gmsave = {}
+
+---Loads a saved map.
+---@realm server
+---@source https://wiki.facepunch.com/gmod/gmsave.LoadMap
+---@param mapData string The JSON encoded string containing all the map data.
+---@param ply? Player The player to load positions for.
+---@param callback? function A function to be called after all the entities have been placed.
+function gmsave.LoadMap(mapData, ply, callback) end
+
+---Sets player position and angles from supplied table.
+---@realm server
+---@source https://wiki.facepunch.com/gmod/gmsave.PlayerLoad
+---@param ply Player The player to "load" values for.
+---@param data table A table containing Origin and Angle keys for position and angles to set.
+function gmsave.PlayerLoad(ply, data) end
+
+---Returns a table containing player position and angles. Used by [gmsave.SaveMap](https://wiki.facepunch.com/gmod/gmsave.SaveMap).
+---@realm server
+---@source https://wiki.facepunch.com/gmod/gmsave.PlayerSave
+---@param ply Player The player to "save".
+---@return table # A table containing player position ( Origin ) and angles ( Angle ).
+function gmsave.PlayerSave(ply) end
+
+---Saves the map.
+---@realm server
+---@source https://wiki.facepunch.com/gmod/gmsave.SaveMap
+---@param ply Player The player, whose position should be saved for loading the save.
+---@return string # The encoded to JSON string containing save data.
+function gmsave.SaveMap(ply) end
+
+---Returns if we should save this entity in a duplication or a map save or not.
+---@realm server
+---@source https://wiki.facepunch.com/gmod/gmsave.ShouldSaveEntity
+---@param ent Entity The entity.
+---@param t table A table containing classname key with entities classname.
+---@return boolean # Should save entity or not.
+function gmsave.ShouldSaveEntity(ent, t) end

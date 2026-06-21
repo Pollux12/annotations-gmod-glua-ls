@@ -1,0 +1,157 @@
+---@meta
+
+--- DModelPanel is a VGUI element that projects a 3D model onto a 2D plane. See also [DAdjustableModelPanel](https://wiki.facepunch.com/gmod/DAdjustableModelPanel)
+---@class (partial) DModelPanel : DButton
+local DModelPanel = {}
+
+---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
+---  Used by the DModelPanel's paint hook to draw the model and background.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelPanel:DrawModel
+function DModelPanel:DrawModel() end
+
+---Returns the ambient lighting used on the rendered entity.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelPanel:GetAmbientLight
+---@return Color # The color of the ambient lighting.
+function DModelPanel:GetAmbientLight() end
+
+---Returns whether or not the panel entity should be animated when the default [DModelPanel:LayoutEntity](https://wiki.facepunch.com/gmod/DModelPanel:LayoutEntity) function is called.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelPanel:GetAnimated
+---@return boolean # True if the panel entity can be animated with Entity:SetSequence directly, false otherwise.
+function DModelPanel:GetAnimated() end
+
+---Returns the animation speed of the panel entity, see [DModelPanel:SetAnimSpeed](https://wiki.facepunch.com/gmod/DModelPanel:SetAnimSpeed).
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelPanel:GetAnimSpeed
+---@return number # The animation speed.
+function DModelPanel:GetAnimSpeed() end
+
+---Returns the position of the model viewing camera.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelPanel:GetCamPos
+---@return Vector # The position of the camera.
+function DModelPanel:GetCamPos() end
+
+---Returns the color of the rendered entity.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelPanel:GetColor
+---@return Color # The color of the entity.
+function DModelPanel:GetColor() end
+
+---Returns the entity being rendered by the model panel.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelPanel:GetEntity
+---@return CSEnt # The rendered entity (client-side)
+function DModelPanel:GetEntity() end
+
+---Returns the FOV (field of view) the camera is using.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelPanel:GetFOV
+---@return number # The FOV of the camera.
+function DModelPanel:GetFOV() end
+
+---Returns the angles of the model viewing camera. Is **nil** until changed with [DModelPanel:SetLookAng](https://wiki.facepunch.com/gmod/DModelPanel:SetLookAng).
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelPanel:GetLookAng
+---@return Angle # The angles of the camera.
+function DModelPanel:GetLookAng() end
+
+---Returns the position the viewing camera is pointing toward.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelPanel:GetLookAt
+---@return Vector # The position the camera is pointing toward.
+function DModelPanel:GetLookAt() end
+
+---Gets the model of the rendered entity.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelPanel:GetModel
+---@return string # The model of the rendered entity.
+function DModelPanel:GetModel() end
+
+---This function is used in [DModelPanel:LayoutEntity](https://wiki.facepunch.com/gmod/DModelPanel:LayoutEntity). It will progress the animation, set using [Entity:SetSequence](https://wiki.facepunch.com/gmod/Entity:SetSequence). By default, it is the walking animation.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelPanel:RunAnimation
+function DModelPanel:RunAnimation() end
+
+---Sets the ambient lighting used on the rendered entity.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelPanel:SetAmbientLight
+---@param color Color The color of the ambient lighting.
+function DModelPanel:SetAmbientLight(color) end
+
+---Sets whether or not to animate the entity when the default [DModelPanel:LayoutEntity](https://wiki.facepunch.com/gmod/DModelPanel:LayoutEntity) is called.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelPanel:SetAnimated
+---@param animated boolean True to animate, false otherwise.
+function DModelPanel:SetAnimated(animated) end
+
+---Sets the speed used by [DModelPanel:RunAnimation](https://wiki.facepunch.com/gmod/DModelPanel:RunAnimation) to advance frame on an entity sequence.
+---
+--- **NOTE**: [Entity:FrameAdvance](https://wiki.facepunch.com/gmod/Entity:FrameAdvance) doesn't seem to have any functioning arguments and therefore changing this will not have any affect on the panel entity's sequence speed without reimplementation. It only affects the value returned by [DModelPanel:GetAnimSpeed](https://wiki.facepunch.com/gmod/DModelPanel:GetAnimSpeed)
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelPanel:SetAnimSpeed
+---@param animSpeed number The animation speed.
+function DModelPanel:SetAnimSpeed(animSpeed) end
+
+---Sets the position of the camera.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelPanel:SetCamPos
+---@param pos Vector The position to set the camera at.
+function DModelPanel:SetCamPos(pos) end
+
+---Sets the color of the rendered entity.
+---
+--- **NOTE**: This does not work on Garry's Mod player models since they use a different color system. To modify a player model color, see Example 2 on the [DModelPanel](https://wiki.facepunch.com/gmod/DModelPanel) page
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelPanel:SetColor
+---@param color Color The render color of the entity.
+function DModelPanel:SetColor(color) end
+
+---Sets the directional lighting used on the rendered entity.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelPanel:SetDirectionalLight
+---@param direction number The light direction, see Enums/BOX.
+---@param color Color The Color of the directional lighting.
+function DModelPanel:SetDirectionalLight(direction, color) end
+
+---Sets the entity to be rendered by the model panel.
+---
+--- **NOTE**: If you set `ent` to a shared entity you must set `ent` to nil before removing this panel or else a "Trying to remove server entity on client!" error is thrown
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelPanel:SetEntity
+---@param ent Entity The new panel entity.
+function DModelPanel:SetEntity(ent) end
+
+---Sets the panel camera's FOV (field of view).
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelPanel:SetFOV
+---@param fov number The field of view value.
+function DModelPanel:SetFOV(fov) end
+
+---Sets the angles of the camera.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelPanel:SetLookAng
+---@param ang Angle The angles to set the camera to.
+function DModelPanel:SetLookAng(ang) end
+
+---Makes the panel's camera face the given position. Basically sets the camera's angles ([DModelPanel:SetLookAng](https://wiki.facepunch.com/gmod/DModelPanel:SetLookAng)) after doing some math.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelPanel:SetLookAt
+---@param pos Vector The position to orient the camera toward.
+function DModelPanel:SetLookAt(pos) end
+
+---Sets the model of the rendered entity.
+---
+--- 	**NOTE**: This function may give a different model than expected. This is not a bug, however this problem may appear with some player models which are renamed several times in a wrong way. To solve that, you can use [Entity:SetModel](https://wiki.facepunch.com/gmod/Entity:SetModel) and [Entity:SetModelName](https://wiki.facepunch.com/gmod/Entity:SetModelName) on the internal panel entity. More information : https://github.com/Facepunch/garrysmod-issues/issues/4534.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelPanel:SetModel
+---@param model string The model to apply to the entity.
+function DModelPanel:SetModel(model) end
+
+---Runs a [Global.ClientsideScene](https://wiki.facepunch.com/gmod/Global.ClientsideScene) on the panel's entity.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelPanel:StartScene
+---@param path string The path to the scene file. (.vcd)
+function DModelPanel:StartScene(path) end

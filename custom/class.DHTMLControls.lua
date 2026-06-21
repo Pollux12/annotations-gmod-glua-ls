@@ -1,7 +1,15 @@
 ---@class DHTMLControls : Panel
 ---@field AddressBar DTextEntry
----@field BackButton DButton
----@field ForwardButton DButton
----@field RefreshButton DButton
----@field StopButton DButton
+---@field BackButton DImageButton
+---@field ForwardButton DImageButton
+---@field RefreshButton DImageButton
+---@field HomeButton DImageButton
+---@field StopButton DImageButton
+---@field History table<integer, string>
+---@field Cur integer
+---@field Navigating? boolean
+---@field BorderSize number
+---@field BackgroundColor Color
+---@field HomeURL string
+---@field HTML? DHTML
 local DHTMLControls = {}

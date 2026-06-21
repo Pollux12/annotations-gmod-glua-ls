@@ -1,4 +1,16 @@
 ---@class DFileBrowser : DPanel
 ---@field Divider DHorizontalDivider The horizontal divider panel splitting the tree and file list.
 ---@field Tree DTree The tree view panel for directory navigation.
+---@field FolderNode? DTree_Node The root folder node created during setup.
+---@field Files? DIconBrowser|DListView The active file list or model icon browser.
+---@field FileHeader? Panel The list-view column header for file paths.
+---@field bSetup? boolean Whether tree and file panels have been initialized.
+---@field m_strName? string
+---@field m_strBaseFolder? string
+---@field m_strPath string
+---@field m_strSearch? string
+---@field m_strFilter? string
+---@field m_bModels? boolean
+---@field m_strCurrentFolder? string
+---@field m_bOpen? boolean
 local DFileBrowser = {}

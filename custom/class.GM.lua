@@ -1,0 +1,11 @@
+--- Source:
+--- - garrysmod/gamemodes/base/gamemode/shared.lua
+--- - garrysmod/gamemodes/sandbox/gamemode/shared.lua
+---@class GM
+---@field Name string Gamemode display name.
+---@field Author string Gamemode author.
+---@field Email string Gamemode contact email.
+---@field Website string Gamemode website.
+---@field TeamBased boolean Whether the gamemode uses teams.
+---@field IsSandboxDerived? boolean True for Sandbox and Sandbox-derived gamemodes.
+GM = {}

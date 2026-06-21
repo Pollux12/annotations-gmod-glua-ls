@@ -21,6 +21,7 @@ describe('custom and plugin annotation smoke checks', () => {
   test('new custom class overrides and global alias are present', () => {
     const customRoot = path.join(process.cwd(), 'custom');
     const globals = fs.readFileSync(path.join(customRoot, '_globals.lua'), 'utf8');
+    const gm = fs.readFileSync(path.join(customRoot, 'class.GM.lua'), 'utf8');
     const dCheckBoxLabel = fs.readFileSync(path.join(customRoot, 'class.DCheckBoxLabel.lua'), 'utf8');
     const dHtmlControls = fs.readFileSync(path.join(customRoot, 'class.DHTMLControls.lua'), 'utf8');
     const dPanelList = fs.readFileSync(path.join(customRoot, 'class.DPanelList.lua'), 'utf8');
@@ -80,6 +81,7 @@ describe('custom and plugin annotation smoke checks', () => {
     const serverQueryData = fs.readFileSync(path.join(customRoot, 'ServerQueryData.lua'), 'utf8');
     const skin = fs.readFileSync(path.join(customRoot, 'class.SKIN.lua'), 'utf8');
     const generatedCustomClasses = fs.readFileSync(path.join(process.cwd(), 'output', 'custom_classes.lua'), 'utf8');
+    const generatedGM = fs.readFileSync(path.join(process.cwd(), 'output', 'gm.lua'), 'utf8');
     const generatedList = fs.readFileSync(path.join(process.cwd(), 'output', 'list.lua'), 'utf8');
     const generatedDImage = fs.readFileSync(path.join(process.cwd(), 'output', 'dimage.lua'), 'utf8');
     const generatedDButton = fs.readFileSync(path.join(process.cwd(), 'output', 'dbutton.lua'), 'utf8');
@@ -107,6 +109,13 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(globals).toMatch(/---@class NULL : Entity/);
     expect(globals).toMatch(/---@alias EntityOrNULL Entity\|NULL/);
     expect(globals).toMatch(/---@type NULL/);
+
+    expect(gm).toMatch(/---@field Name string/);
+    expect(gm).toMatch(/---@field TeamBased boolean/);
+    expect(gm).toMatch(/---@field IsSandboxDerived\? boolean/);
+    expect(generatedGM).toMatch(/---@field Name string/);
+    expect(generatedGM).toMatch(/---@field TeamBased boolean/);
+    expect(generatedGM).toMatch(/---@field IsSandboxDerived\? boolean/);
 
     expect(dCheckBoxLabel).toMatch(/---@class DCheckBoxLabel : Panel/);
     expect(dCheckBoxLabel).toMatch(/---@field Button DCheckBox/);

@@ -63,6 +63,8 @@ jobs:
         env:
           EVENT: ${{ github.event_name }}
           BEFORE_SHA: ${{ github.event.before }}
+          PUBLISH_BASE_BRANCH: ${{ matrix.publish_base_branch }}
+          PLUGIN_BRANCH_PREFIX: ${{ matrix.plugin_branch_prefix }}
         run: |
           set -e
 
@@ -70,6 +72,29 @@ jobs:
           # without any repository diff. Publishing is still gated later by output comparison.
           if [ "$EVENT" != "push" ]; then
             echo "Reason: event=$EVENT -> generate and compare output"
+            echo "should_generate=true" >> "$GITHUB_OUTPUT"
+            echo "publish_base=true" >> "$GITHUB_OUTPUT"
+            echo "publish_all_plugins=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          missing_publish_branch=false
+          if ! git ls-remote --exit-code --heads origin "$PUBLISH_BASE_BRANCH" >/dev/null 2>&1; then
+            echo "Publish branch '$PUBLISH_BASE_BRANCH' does not exist yet -> generate all to bootstrap release stream"
+            missing_publish_branch=true
+          fi
+
+          for plugin_manifest in plugin/*/plugin.json; do
+            [ -f "$plugin_manifest" ] || continue
+            plugin_id="$(basename "$(dirname "$plugin_manifest")")"
+            plugin_branch="${PLUGIN_BRANCH_PREFIX}${plugin_id}"
+            if ! git ls-remote --exit-code --heads origin "$plugin_branch" >/dev/null 2>&1; then
+              echo "Publish branch '$plugin_branch' does not exist yet -> generate all to bootstrap release stream"
+              missing_publish_branch=true
+            fi
+          done
+
+          if $missing_publish_branch; then
             echo "should_generate=true" >> "$GITHUB_OUTPUT"
             echo "publish_base=true" >> "$GITHUB_OUTPUT"
             echo "publish_all_plugins=true" >> "$GITHUB_OUTPUT"
@@ -160,8 +185,7 @@ jobs:
         run: |
           npm run generate-lua -- \
             --output ./output \
-            --customOverrides ./custom \
-            --wipeLua
+            --custom-overrides ./custom
           npm run generate-plugin-index
           npm run generate-plugin-artifacts -- \
             --pluginRoot ./plugin \
@@ -398,9 +422,12 @@ jobs:
             local source_dir="$2"
             local commit_message="$3"
 
+            git reset --hard
+            git clean -fdx
+
             if git ls-remote --exit-code --heads origin "$branch_name" >/dev/null 2>&1; then
               git fetch --depth=1 origin "refs/heads/$branch_name:refs/remotes/origin/$branch_name"
-              git checkout -B "$branch_name" "refs/remotes/origin/$branch_name"
+              git checkout --force -B "$branch_name" "refs/remotes/origin/$branch_name"
             else
               git checkout --orphan "$branch_name"
             fi

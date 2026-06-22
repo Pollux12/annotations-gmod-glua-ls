@@ -3,7 +3,7 @@
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/vgui.CreateFromTable
 ---@generic T: table
----@[call_arg("gmod.vgui_panel", "register_table")]
+---@[call_arg("gmod.vgui_panel", "table")]
 ---@[call_arg_field("gmod.vgui_panel", "base", "Base")]
 ---@param metatable T Your PANEL table.
 ---@param parent? Panel Which panel to parent the newly created panel to.

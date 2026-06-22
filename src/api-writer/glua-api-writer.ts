@@ -522,7 +522,7 @@ export class GluaApiWriter {
     for (const [filePath, pages] of this.files) {
       const baseName = filePath.split(/[\\/]/).pop() ?? '';
       if (baseName.endsWith('.lua')) {
-        moduleFileByName.set(baseName.slice(0, -4), filePath);
+        moduleFileByName.set(baseName.slice(0, -4).toLowerCase(), filePath);
       }
 
       pages.forEach(({ page }) => {
@@ -549,8 +549,11 @@ export class GluaApiWriter {
       const moduleMatch = pageAddress.match(/^([^.]+)\./);
       if (!moduleMatch) continue;
 
-      const moduleFilePath = moduleFileByName.get(moduleMatch[1]);
-      if (!moduleFilePath) continue;
+      const moduleFilePath = moduleFileByName.get(moduleMatch[1].toLowerCase());
+      if (!moduleFilePath) {
+        console.warn(`[orphan-override] No module file found for override "${pageAddress}" (prefix "${moduleMatch[1]}"). The override will be dropped.`);
+        continue;
+      }
 
       const current = orphanFunctionOverrides.get(moduleFilePath) ?? [];
       current.push(override.endsWith('\n') ? override : `${override}\n`);

@@ -39,7 +39,7 @@
 ---@field GhostEntity Entity|nil The current ghost entity, or nil if none.
 ---@field GhostEntities table<any, Entity>? Legacy ghost entity table (unused in base code).
 ---@field GhostOffset table? Legacy ghost offset table (unused in base code).
----@field BuildCPanel fun(panel: ControlPanel) Called to populate the tool's control panel. Override to add your controls.
+---@field BuildCPanel fun(panel: ControlPanel, ...any) Called to populate the tool's control panel. Override to add your controls.
 ---@field Information (string | {name: string, stage: number?, op: number?, icon: string?, icon2: string?})[]? Array of stage-information descriptors. Each element is either a plain string key or a table descriptor with optional stage/op/icon fields.
 ---@field AddToMenu? boolean Whether to add this tool to the spawn menu tool list. Default true.
 ---@field Category? string The tool category in the spawn menu (e.g. "Construction"). Default "New Category".

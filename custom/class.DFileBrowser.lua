@@ -1,16 +1,24 @@
----@class DFileBrowser : DPanel
----@field Divider DHorizontalDivider The horizontal divider panel splitting the tree and file list.
----@field Tree DTree The tree view panel for directory navigation.
----@field FolderNode? DTree_Node The root folder node created during setup.
----@field Files? DIconBrowser|DListView The active file list or model icon browser.
----@field FileHeader? Panel The list-view column header for file paths.
----@field bSetup? boolean Whether tree and file panels have been initialized.
----@field m_strName? string
----@field m_strBaseFolder? string
+---@class DFileBrowser : Panel
+--- The horizontal divider separating the tree and file list.
+---@field Divider DHorizontalDivider
+--- The directory tree panel.
+---@field Tree DTree
+--- The file list panel showing files in the current folder.
+---@field Files DListView
+--- The current path search string.
+---@field m_strSearch string
+--- The base folder path to browse from.
+---@field m_strBaseFolder string
+--- The current folder path being viewed.
+---@field m_strCurrentFolder string
+--- The file extension filter string.
+---@field m_strFilter string
+--- The virtual file path root (e.g. "GAME", "DATA").
 ---@field m_strPath string
----@field m_strSearch? string
----@field m_strFilter? string
----@field m_bModels? boolean
----@field m_strCurrentFolder? string
----@field m_bOpen? boolean
+--- The display name of this file browser.
+---@field m_strName string
+--- Whether to show models instead of files.
+---@field m_bModels boolean
+--- Whether the browser is currently expanded/open.
+---@field m_bOpen boolean
 local DFileBrowser = {}

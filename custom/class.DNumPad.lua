@@ -1,0 +1,14 @@
+---@class DNumPad : Panel
+--- Table of DButton panels for each keypad button (0-15).
+---@field Buttons table<integer, DButton>
+--- The currently selected button panel.
+---@field m_SelectedButton DButton
+--- The currently selected number (0-15 or -1 if none).
+---@field m_iSelectedNumber number
+--- Padding between buttons.
+---@field m_iPadding number
+--- Button size scale factor.
+---@field m_bButtonSize boolean
+--- Whether keys stay selected when pressed (sticky keys mode).
+---@field m_bStickyKeys boolean
+local DNumPad = {}

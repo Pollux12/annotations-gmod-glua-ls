@@ -1,15 +1,22 @@
 ---@class DHTMLControls : Panel
----@field AddressBar DTextEntry
+--- The back navigation button.
 ---@field BackButton DImageButton
+--- The forward navigation button.
 ---@field ForwardButton DImageButton
----@field RefreshButton DImageButton
+--- The refresh/reload button.
+---@field ReloadButton DImageButton
+--- The home button.
 ---@field HomeButton DImageButton
+--- The stop button.
 ---@field StopButton DImageButton
----@field History table<integer, string>
----@field Cur integer
----@field Navigating? boolean
----@field BorderSize number
----@field BackgroundColor Color
----@field HomeURL string
----@field HTML? DHTML
+--- The address bar text entry.
+---@field AddressBar DTextEntry
+--- The DHTML panel these controls navigate.
+---@field HTML DHTML
+--- The current navigation history position.
+---@field Cur number
+--- Whether we are currently navigating via history buttons.
+---@field Navigating boolean
+--- The home URL to navigate to.
+---@field HomeUrl string
 local DHTMLControls = {}

@@ -28,6 +28,7 @@
 ---| "widget_axis_arrow"
 ---| "widget_axis_disc"
 ---| "widget_bone"
+---| "widget_bones"
 ---@overload fun(class: KnownEngineEntityClass): Entity
 ---@generic T : Entity
 ---@param class `T` The classname of the entity to create.

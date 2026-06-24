@@ -32,13 +32,11 @@ WEAPON = Weapon
 --- Secondary fire ammo configuration.
 ---@field Secondary WeaponAmmoTable
 
----Returns the owner of this weapon, narrowed to [Player](https://wiki.facepunch.com/gmod/Player).
+---Returns the owner of this weapon.
 ---
---- Weapons are owned by players (or sometimes NPCs); for SWEP code `self:GetOwner()`
---- is the wielding player in the vast majority of cases. This narrows the base
---- [Entity:GetOwner](https://wiki.facepunch.com/gmod/Entity:GetOwner) return so
---- shared `Player` methods (e.g. `KeyDown`) resolve correctly in weapon code.
+--- Weapons can be owned by players, NPCs, other entities, or NULL while dropped,
+--- initializing, or being removed.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Entity:GetOwner
----@return Player # The player who owns this weapon.
+---@return Entity|Player|NPC|NULL # The entity currently owning this weapon.
 function Weapon:GetOwner() end

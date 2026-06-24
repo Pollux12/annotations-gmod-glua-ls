@@ -2,6 +2,9 @@ import fs from 'fs';
 import path from 'path';
 
 describe('custom and plugin annotation smoke checks', () => {
+  const readCustom = (file: string) => fs.readFileSync(path.join(process.cwd(), 'custom', file), 'utf8');
+  const readOutput = (file: string) => fs.readFileSync(path.join(process.cwd(), 'output', file), 'utf8');
+
   test('darkrp plugin annotation files exist and are scoped', () => {
     const darkrpLua = path.join(process.cwd(), 'plugin', 'darkrp', 'annotations', 'darkrp.lua');
     const camiLua = path.join(process.cwd(), 'plugin', 'cami', 'annotations', 'cami.lua');
@@ -276,7 +279,7 @@ describe('custom and plugin annotation smoke checks', () => {
 
     expect(entsCreate).toMatch(/---@alias KnownEngineEntityClass/);
     expect(entsCreate).toMatch(/"phys_constraint"/);
-    expect(entsCreate).not.toMatch(/"widget_bones"/);
+    expect(entsCreate).toMatch(/"widget_bones"/);
     expect(entsCreate).toMatch(/---@overload fun\(class: KnownEngineEntityClass\): Entity/);
     expect(entsCreate).toMatch(/---@return \(instance\) T\|NULL/);
     expect(vehicleGetDriver).toMatch(/---@return Player\|NULL driver/);
@@ -423,6 +426,93 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(entsIterator).toMatch(/---@return fun\(tbl: any, prev: integer\?\): integer, Entity # The iterator function\./);
     expect(entsIterator).toMatch(/---@return Entity\[] # Table of all existing Entity/);
     expect(entsIterator).toMatch(/---@return integer # The origin index \(0\)\./);
+  });
+
+  test('verified source-backed annotation fixes are preserved', () => {
+    const dFileBrowser = readCustom('class.DFileBrowser.lua');
+    const generatedDFileBrowser = readOutput('dfilebrowser.lua');
+    const generatedCustomClasses = readOutput('custom_classes.lua');
+    const dHtmlControls = readCustom('class.DHTMLControls.lua');
+    const generatedDHtmlControls = readOutput('dhtmlcontrols.lua');
+    const dNumPad = readCustom('class.DNumPad.lua');
+    const generatedDNumPad = readOutput('dnumpad.lua');
+    const spawnMenu = readCustom('class.SpawnMenu.lua');
+    const weaponClass = readCustom('class.Weapon.lua');
+    const generatedWeapon = readOutput('weapon.lua');
+    const getToolObject = readCustom('Weapon.GetToolObject.lua');
+    const toolLeftClick = readCustom('TOOL.LeftClick.lua');
+    const generatedTool = readOutput('tool.lua');
+    const weld = readCustom('constraint.Weld.lua');
+    const elastic = readCustom('constraint.Elastic.lua');
+    const generatedConstraint = readOutput('constraint.lua');
+    const generatedEntity = readOutput('entity.lua');
+    const generatedPanel = readOutput('panel.lua');
+    const generatedDPanelList = readOutput('dpanellist.lua');
+
+    expect(dFileBrowser).toMatch(/---@field FolderNode\? DTree_Node/);
+    expect(dFileBrowser).toMatch(/---@field Files\? DIconBrowser\|DListView/);
+    expect(generatedDFileBrowser).toMatch(/---@field FolderNode\? DTree_Node/);
+    expect(generatedDFileBrowser).toMatch(/---@field Files\? DIconBrowser\|DListView/);
+    expect(generatedDFileBrowser).not.toMatch(/---@field Files DListView/);
+
+    expect(generatedCustomClasses).not.toMatch(/---@class DVScrollBar : Panel[\s\S]*?---@field btnGrip DButton/);
+    expect(generatedCustomClasses).not.toMatch(/---@class DHScrollBar : Panel[\s\S]*?---@field btnGrip DButton/);
+    expect(generatedCustomClasses).not.toMatch(/---@class DVScrollBar : Panel/);
+    expect(generatedCustomClasses).not.toMatch(/---@class DHScrollBar : Panel/);
+
+    expect(dHtmlControls).toMatch(/---@field RefreshButton DImageButton/);
+    expect(dHtmlControls).toMatch(/---@field HomeURL string/);
+    expect(dHtmlControls).toMatch(/---@field HTML\? DHTML/);
+    expect(dHtmlControls).not.toMatch(/ReloadButton|HomeUrl|---@field HTML DHTML/);
+    expect(generatedDHtmlControls).toMatch(/---@field RefreshButton DImageButton/);
+    expect(generatedDHtmlControls).toMatch(/---@field HomeURL string/);
+    expect(generatedDHtmlControls).toMatch(/---@field HTML\? DHTML/);
+    expect(generatedDHtmlControls).not.toMatch(/ReloadButton|HomeUrl|---@field HTML DHTML/);
+
+    expect(dNumPad).toMatch(/---@field m_bButtonSize number/);
+    expect(generatedDNumPad).toMatch(/---@field m_bButtonSize number/);
+
+    expect(spawnMenu).toMatch(/---@field CustomizableSpawnlistNode\? DTree_Node/);
+    expect(spawnMenu).toMatch(/---@field SearchPropPanel\? ContentContainer/);
+    expect(spawnMenu).not.toMatch(/CustomizableSpawnlistNode\? any|SearchPropPanel\? Panel/);
+    expect(generatedCustomClasses).toMatch(/---@field CustomizableSpawnlistNode\? DTree_Node/);
+    expect(generatedCustomClasses).toMatch(/---@field SearchPropPanel\? ContentContainer/);
+    expect(generatedCustomClasses).not.toMatch(/CustomizableSpawnlistNode\? any|SearchPropPanel\? Panel/);
+
+    expect(weaponClass).toMatch(/---@return Entity\|Player\|NPC\|NULL/);
+    expect(generatedWeapon).toMatch(/---@return Entity\|Player\|NPC\|NULL/);
+    expect(generatedWeapon).not.toMatch(/---@return Player # The player who owns this weapon\./);
+
+    expect(getToolObject).toMatch(/---@class gmod_tool : Weapon/);
+    expect(getToolObject).toMatch(/---@return Tool\|false/);
+    expect(getToolObject).not.toMatch(/function Weapon:GetToolObject/);
+    expect(generatedWeapon).toMatch(/function gmod_tool:GetToolObject\(tool\) end/);
+    expect(generatedWeapon).not.toMatch(/function Weapon:GetToolObject\(tool\) end/);
+    expect(generatedWeapon).toMatch(/---@return Tool\|false/);
+
+    expect(toolLeftClick).not.toMatch(/fromRight/);
+    expect(generatedTool).not.toMatch(/fromRight/);
+    expect(generatedTool).toMatch(/---@param skip\? boolean/);
+    expect(generatedTool).toMatch(/function Tool:Deploy\(skip\) end/);
+    expect(generatedTool).toMatch(/function Tool:Holster\(skip\) end/);
+    expect(generatedTool.match(/function Tool:Deploy/g)).toHaveLength(1);
+    expect(generatedTool.match(/function Tool:Holster/g)).toHaveLength(1);
+
+    expect(weld).toMatch(/---@return Entity\|false/);
+    expect(generatedConstraint).toMatch(/---@return Entity\|false # The created constraint entity/);
+    expect(elastic).toMatch(/---@return Entity\|false\|nil/);
+    expect(elastic).toMatch(/---@return Entity\? # The created rope/);
+    expect(generatedConstraint).toMatch(/---@return Entity\|false\|nil # The created constraint/);
+    expect(generatedConstraint).toMatch(/---@return Entity\? # The created rope/);
+
+    expect(generatedEntity).toMatch(/---@param delta\? number/);
+    expect(generatedEntity).toMatch(/function Entity:FrameAdvance\(delta\) end/);
+    expect(generatedPanel).toMatch(/---@param width\? number/);
+    expect(generatedPanel).toMatch(/---@param height\? number/);
+    expect(generatedPanel).toMatch(/function Panel:PerformLayout\(width, height\) end/);
+    expect(generatedPanel.match(/function Panel:PerformLayout/g)).toHaveLength(1);
+    expect(generatedDPanelList).toMatch(/---@param remove\? boolean/);
+    expect(generatedDPanelList).toMatch(/function DPanelList:Clear\(remove\) end/);
   });
 
 });

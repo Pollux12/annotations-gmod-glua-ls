@@ -7,8 +7,8 @@
 ---@field m_iSelectedNumber number
 --- Padding between buttons.
 ---@field m_iPadding number
---- Button size scale factor.
----@field m_bButtonSize boolean
+--- Button size in pixels.
+---@field m_bButtonSize number
 --- Whether keys stay selected when pressed (sticky keys mode).
 ---@field m_bStickyKeys boolean
 local DNumPad = {}

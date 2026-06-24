@@ -16,6 +16,6 @@
 ---@param width number Width of rope.
 ---@param stretchOnly? boolean|number Apply physics forces only on stretch.
 ---@param color? Color The color of the rope. See Color.
----@return Entity # The created constraint. ([phys_spring](https://developer.valvesoftware.com/wiki/Phys_spring)) Will return `false` if the constraint could not be created.
----@return Entity # The created rope. ([keyframe_rope](https://developer.valvesoftware.com/wiki/Keyframe_rope)) Will return `nil` if the constraint could not be created.
+---@return Entity|false|nil # The created constraint. ([phys_spring](https://developer.valvesoftware.com/wiki/Phys_spring)) Returns `false` for invalid inputs and `nil` when no spring is created.
+---@return Entity? # The created rope. ([keyframe_rope](https://developer.valvesoftware.com/wiki/Keyframe_rope)) Returns `nil` if no rope was created.
 function constraint.Elastic(ent1, ent2, bone1, bone2, localPos1, localPos2, constant, damping, relDamping, material, width, stretchOnly, color) end

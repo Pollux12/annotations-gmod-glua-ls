@@ -3,8 +3,10 @@
 ---@field Divider DHorizontalDivider
 --- The directory tree panel.
 ---@field Tree DTree
---- The file list panel showing files in the current folder.
----@field Files DListView
+--- The root folder node created when the tree is set up.
+---@field FolderNode? DTree_Node
+--- The file list panel, created on demand as icons in model mode or rows otherwise.
+---@field Files? DIconBrowser|DListView
 --- The current path search string.
 ---@field m_strSearch string
 --- The base folder path to browse from.
@@ -18,7 +20,7 @@
 --- The display name of this file browser.
 ---@field m_strName string
 --- Whether to show models instead of files.
----@field m_bModels boolean
+---@field m_bModels? boolean
 --- Whether the browser is currently expanded/open.
----@field m_bOpen boolean
+---@field m_bOpen? boolean
 local DFileBrowser = {}

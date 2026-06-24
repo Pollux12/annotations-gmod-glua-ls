@@ -4,19 +4,19 @@
 --- The forward navigation button.
 ---@field ForwardButton DImageButton
 --- The refresh/reload button.
----@field ReloadButton DImageButton
+---@field RefreshButton DImageButton
 --- The home button.
 ---@field HomeButton DImageButton
 --- The stop button.
 ---@field StopButton DImageButton
 --- The address bar text entry.
 ---@field AddressBar DTextEntry
---- The DHTML panel these controls navigate.
----@field HTML DHTML
+--- The DHTML panel these controls navigate, assigned by SetHTML.
+---@field HTML? DHTML
 --- The current navigation history position.
 ---@field Cur number
 --- Whether we are currently navigating via history buttons.
 ---@field Navigating boolean
 --- The home URL to navigate to.
----@field HomeUrl string
+---@field HomeURL string
 local DHTMLControls = {}

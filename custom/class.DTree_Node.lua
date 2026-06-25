@@ -17,5 +17,5 @@ local DTree_Node = {}
 ---@realm client
 ---@realm menu
 ---@param num number The zero-based child node index.
----@return DTree_Node # The child tree node.
+---@return Panel? # The child panel, if any.
 function DTree_Node:GetChildNode(num) end

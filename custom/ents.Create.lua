@@ -6,6 +6,8 @@
 ---@alias KnownEngineEntityClass
 ---| "gmod_anchor"
 ---| "gmod_hands"
+---| "gmod_cameraprop"
+---| "gmod_wheel"
 ---| "gmod_winch_controller"
 ---| "hunter_flechette"
 ---| "keyframe_rope"

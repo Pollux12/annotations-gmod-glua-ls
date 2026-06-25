@@ -12,3 +12,10 @@
 ---@field CustomSpawnlist? boolean Whether this is a custom user spawnlist node.
 ---@field AddonSpawnlist? boolean Whether this is an addon-provided spawnlist node.
 local DTree_Node = {}
+
+---Returns the child node at the given index.
+---@realm client
+---@realm menu
+---@param num number The zero-based child node index.
+---@return DTree_Node # The child tree node.
+function DTree_Node:GetChildNode(num) end

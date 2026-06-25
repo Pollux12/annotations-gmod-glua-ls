@@ -10,5 +10,11 @@ Panel = Panel or {}
 ---@param value any The value to set. The type depends on the panel implementation.
 function Panel:SetValue(value) end
 
+---Compatibility alias used by shipped Sandbox code for Panel:SetTooltip.
+---@realm client
+---@realm menu
+---@param text string The tooltip text.
+function Panel:SetToolTip(text) end
+
 ---@class PANEL : Panel
 PANEL = Panel

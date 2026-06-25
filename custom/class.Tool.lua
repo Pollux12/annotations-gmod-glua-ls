@@ -15,12 +15,10 @@
 ---@field Pos Vector The local-space hit position (world-space for world entity).
 ---@field Normal Vector The local-space hit normal (world-space for world entity).
 
---- The Objects array on a tool. Named class with a non-nil index operator so that
---- direct `self.Objects[i]` accesses inside tool methods (GetPos, GetEnt, SetObject, etc.)
---- do not generate spurious unchecked-nil-access diagnostics.
+--- The Objects array on a tool. Direct `self.Objects[i]` accesses inside tool
+--- methods (GetPos, GetEnt, SetObject, etc.) return the stored slot shape.
 --- Callers must guarantee the index is valid before calling any getter.
----@class ToolObjects
----@operator index(integer): ToolObjectSlot
+---@alias ToolObjects table<integer, ToolObjectSlot>
 
 ---@class Tool
 ---@field Mode string The tool mode string (e.g. "weld", "balloon").

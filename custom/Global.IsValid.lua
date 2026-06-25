@@ -6,4 +6,5 @@
 ---@source https://wiki.facepunch.com/gmod/Global.IsValid
 ---@param ent any The table or object to be validated.
 ---@return TypeGuard<Entity> isValid # True if the object is valid.
+---@[valid_guard]
 function _G.IsValid(ent) end

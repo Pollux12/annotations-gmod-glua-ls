@@ -70,38 +70,110 @@
 ---@field TooltipText Color
 
 ---@class SKINTexScroller
----@field TrackV fun(x: number, y: number, w: number, h: number) Vertical scrollbar track texture.
----@field ButtonV_Normal fun(x: number, y: number, w: number, h: number) Vertical scroll grip, normal state.
----@field ButtonV_Hover fun(x: number, y: number, w: number, h: number) Vertical scroll grip, hovered.
----@field ButtonV_Down fun(x: number, y: number, w: number, h: number) Vertical scroll grip, pressed.
----@field ButtonV_Disabled fun(x: number, y: number, w: number, h: number) Vertical scroll grip, disabled.
----@field TrackH fun(x: number, y: number, w: number, h: number) Horizontal scrollbar track texture.
----@field ButtonH_Normal fun(x: number, y: number, w: number, h: number) Horizontal scroll grip, normal state.
----@field ButtonH_Hover fun(x: number, y: number, w: number, h: number) Horizontal scroll grip, hovered.
----@field ButtonH_Down fun(x: number, y: number, w: number, h: number) Horizontal scroll grip, pressed.
----@field ButtonH_Disabled fun(x: number, y: number, w: number, h: number) Horizontal scroll grip, disabled.
----@field LeftButton_Normal fun(x: number, y: number, w: number, h: number) Left scroll arrow, normal.
----@field LeftButton_Hover fun(x: number, y: number, w: number, h: number) Left scroll arrow, hovered.
----@field LeftButton_Down fun(x: number, y: number, w: number, h: number) Left scroll arrow, pressed.
----@field LeftButton_Disabled fun(x: number, y: number, w: number, h: number) Left scroll arrow, disabled.
----@field LeftButton_Dead fun(x: number, y: number, w: number, h: number) Left scroll arrow, dead/inactive (alias used by PaintButtonLeft).
----@field UpButton_Normal fun(x: number, y: number, w: number, h: number) Up scroll arrow, normal.
----@field UpButton_Hover fun(x: number, y: number, w: number, h: number) Up scroll arrow, hovered.
----@field UpButton_Down fun(x: number, y: number, w: number, h: number) Up scroll arrow, pressed.
----@field UpButton_Disabled fun(x: number, y: number, w: number, h: number) Up scroll arrow, disabled.
----@field UpButton_Dead fun(x: number, y: number, w: number, h: number) Up scroll arrow, dead/inactive (alias used by PaintButtonUp).
----@field RightButton_Normal fun(x: number, y: number, w: number, h: number) Right scroll arrow, normal.
----@field RightButton_Hover fun(x: number, y: number, w: number, h: number) Right scroll arrow, hovered.
----@field RightButton_Down fun(x: number, y: number, w: number, h: number) Right scroll arrow, pressed.
----@field RightButton_Disabled fun(x: number, y: number, w: number, h: number) Right scroll arrow, disabled.
----@field RightButton_Dead fun(x: number, y: number, w: number, h: number) Right scroll arrow, dead/inactive (alias used by PaintButtonRight).
----@field DownButton_Normal fun(x: number, y: number, w: number, h: number) Down scroll arrow, normal.
----@field DownButton_Hover fun(x: number, y: number, w: number, h: number) Down scroll arrow, hovered.
----@field DownButton_Down fun(x: number, y: number, w: number, h: number) Down scroll arrow, pressed.
----@field DownButton_Disabled fun(x: number, y: number, w: number, h: number) Down scroll arrow, disabled.
----@field DownButton_Dead fun(x: number, y: number, w: number, h: number) Down scroll arrow, dead/inactive (alias used by PaintButtonDown).
+---@field TrackV fun(x: number, y: number, w: number, h: number, col?: Color) Vertical scrollbar track texture.
+---@field ButtonV_Normal fun(x: number, y: number, w: number, h: number, col?: Color) Vertical scroll grip, normal state.
+---@field ButtonV_Hover fun(x: number, y: number, w: number, h: number, col?: Color) Vertical scroll grip, hovered.
+---@field ButtonV_Down fun(x: number, y: number, w: number, h: number, col?: Color) Vertical scroll grip, pressed.
+---@field ButtonV_Disabled fun(x: number, y: number, w: number, h: number, col?: Color) Vertical scroll grip, disabled.
+---@field TrackH fun(x: number, y: number, w: number, h: number, col?: Color) Horizontal scrollbar track texture.
+---@field ButtonH_Normal fun(x: number, y: number, w: number, h: number, col?: Color) Horizontal scroll grip, normal state.
+---@field ButtonH_Hover fun(x: number, y: number, w: number, h: number, col?: Color) Horizontal scroll grip, hovered.
+---@field ButtonH_Down fun(x: number, y: number, w: number, h: number, col?: Color) Horizontal scroll grip, pressed.
+---@field ButtonH_Disabled fun(x: number, y: number, w: number, h: number, col?: Color) Horizontal scroll grip, disabled.
+---@field LeftButton_Normal fun(x: number, y: number, w: number, h: number, col?: Color) Left scroll arrow, normal.
+---@field LeftButton_Hover fun(x: number, y: number, w: number, h: number, col?: Color) Left scroll arrow, hovered.
+---@field LeftButton_Down fun(x: number, y: number, w: number, h: number, col?: Color) Left scroll arrow, pressed.
+---@field LeftButton_Disabled fun(x: number, y: number, w: number, h: number, col?: Color) Left scroll arrow, disabled.
+---@field LeftButton_Dead fun(x: number, y: number, w: number, h: number, col?: Color) Left scroll arrow, dead/inactive (alias used by PaintButtonLeft).
+---@field UpButton_Normal fun(x: number, y: number, w: number, h: number, col?: Color) Up scroll arrow, normal.
+---@field UpButton_Hover fun(x: number, y: number, w: number, h: number, col?: Color) Up scroll arrow, hovered.
+---@field UpButton_Down fun(x: number, y: number, w: number, h: number, col?: Color) Up scroll arrow, pressed.
+---@field UpButton_Disabled fun(x: number, y: number, w: number, h: number, col?: Color) Up scroll arrow, disabled.
+---@field UpButton_Dead fun(x: number, y: number, w: number, h: number, col?: Color) Up scroll arrow, dead/inactive (alias used by PaintButtonUp).
+---@field RightButton_Normal fun(x: number, y: number, w: number, h: number, col?: Color) Right scroll arrow, normal.
+---@field RightButton_Hover fun(x: number, y: number, w: number, h: number, col?: Color) Right scroll arrow, hovered.
+---@field RightButton_Down fun(x: number, y: number, w: number, h: number, col?: Color) Right scroll arrow, pressed.
+---@field RightButton_Disabled fun(x: number, y: number, w: number, h: number, col?: Color) Right scroll arrow, disabled.
+---@field RightButton_Dead fun(x: number, y: number, w: number, h: number, col?: Color) Right scroll arrow, dead/inactive (alias used by PaintButtonRight).
+---@field DownButton_Normal fun(x: number, y: number, w: number, h: number, col?: Color) Down scroll arrow, normal.
+---@field DownButton_Hover fun(x: number, y: number, w: number, h: number, col?: Color) Down scroll arrow, hovered.
+---@field DownButton_Down fun(x: number, y: number, w: number, h: number, col?: Color) Down scroll arrow, pressed.
+---@field DownButton_Disabled fun(x: number, y: number, w: number, h: number, col?: Color) Down scroll arrow, disabled.
+---@field DownButton_Dead fun(x: number, y: number, w: number, h: number, col?: Color) Down scroll arrow, dead/inactive (alias used by PaintButtonDown).
+
+---@class SKINTexPanels
+---@field Normal fun(x: number, y: number, w: number, h: number, col?: Color)
+---@field Bright fun(x: number, y: number, w: number, h: number, col?: Color)
+---@field Dark fun(x: number, y: number, w: number, h: number, col?: Color)
+---@field Highlight fun(x: number, y: number, w: number, h: number, col?: Color)
+
+---@class SKINTexWindow
+---@field Normal fun(x: number, y: number, w: number, h: number, col?: Color)
+---@field Inactive fun(x: number, y: number, w: number, h: number, col?: Color)
+---@field Close fun(x: number, y: number, w: number, h: number, col?: Color)
+---@field Close_Hover fun(x: number, y: number, w: number, h: number, col?: Color)
+---@field Close_Down fun(x: number, y: number, w: number, h: number, col?: Color)
+---@field Mini fun(x: number, y: number, w: number, h: number, col?: Color)
+---@field Mini_Hover fun(x: number, y: number, w: number, h: number, col?: Color)
+---@field Mini_Down fun(x: number, y: number, w: number, h: number, col?: Color)
+---@field Maxi fun(x: number, y: number, w: number, h: number, col?: Color)
+---@field Maxi_Hover fun(x: number, y: number, w: number, h: number, col?: Color)
+---@field Maxi_Down fun(x: number, y: number, w: number, h: number, col?: Color)
+---@field Restore fun(x: number, y: number, w: number, h: number, col?: Color)
+---@field Restore_Hover fun(x: number, y: number, w: number, h: number, col?: Color)
+---@field Restore_Down fun(x: number, y: number, w: number, h: number, col?: Color)
+
+---@class SKINTexMenu
+---@field RightArrow fun(x: number, y: number, w: number, h: number, col?: Color)
+
+---@class SKINTexState
+---@field Normal fun(x: number, y: number, w: number, h: number, col?: Color)
+---@field Hover fun(x: number, y: number, w: number, h: number, col?: Color)
+---@field Down fun(x: number, y: number, w: number, h: number, col?: Color)
+---@field Disabled fun(x: number, y: number, w: number, h: number, col?: Color)
+
+---@class SKINTexComboBox : SKINTexState
+---@field Button SKINTexState
+
+---@class SKINTexUpDown
+---@field Up SKINTexState
+---@field Down SKINTexState
+
+---@class SKINTexSlider
+---@field H SKINTexState
+---@field V SKINTexState
+
+---@class SKINTexListBox
+---@field Background fun(x: number, y: number, w: number, h: number, col?: Color)
+---@field Hovered fun(x: number, y: number, w: number, h: number, col?: Color)
+---@field EvenLine fun(x: number, y: number, w: number, h: number, col?: Color)
+---@field OddLine fun(x: number, y: number, w: number, h: number, col?: Color)
+---@field EvenLineSelected fun(x: number, y: number, w: number, h: number, col?: Color)
+---@field OddLineSelected fun(x: number, y: number, w: number, h: number, col?: Color)
+
+---@class SKINTexInput
+---@field ListBox SKINTexListBox
+---@field ComboBox SKINTexComboBox
+---@field UpDown SKINTexUpDown
+---@field Slider SKINTexSlider
+
+---@class SKINTexProgressBar
+---@field Back fun(x: number, y: number, w: number, h: number, col?: Color)
+---@field Front fun(x: number, y: number, w: number, h: number, col?: Color)
+
+---@class SKINTexCategoryList
+---@field Outer fun(x: number, y: number, w: number, h: number, col?: Color)
+---@field Inner fun(x: number, y: number, w: number, h: number, col?: Color)
+---@field Header fun(x: number, y: number, w: number, h: number, col?: Color)
+---@field InnerH fun(x: number, y: number, w: number, h: number, col?: Color)
 
 ---@class SKINTex
+---@field Panels SKINTexPanels
+---@field Window SKINTexWindow
+---@field Menu SKINTexMenu
+---@field Input SKINTexInput
+---@field ProgressBar SKINTexProgressBar
+---@field CategoryList SKINTexCategoryList
 ---@field Scroller SKINTexScroller
 
 --- Active Derma skin table used by derma and GWEN.

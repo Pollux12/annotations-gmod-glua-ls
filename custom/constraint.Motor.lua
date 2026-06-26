@@ -1,0 +1,27 @@
+---Creates a motor constraint, a player controllable [constraint.Axis](https://wiki.facepunch.com/gmod/constraint.Axis).
+---@realm server
+---@source https://wiki.facepunch.com/gmod/constraint.Motor
+---@param ent1 Entity First entity.
+---@param ent2 Entity Second entity.
+---@param bone1 number PhysObj number of first entity to constrain to. (0 for non-ragdolls).
+---
+--- See Entity:TranslateBoneToPhysBone.
+---@param bone2 number PhysObj number of second entity to constrain to. (0 for non-ragdolls). Must be different from `bone1`.
+---
+--- See Entity:TranslateBoneToPhysBone.
+---@param localPos1 Vector Position relative to the the first physics object to constrain to.
+---@param localPos2 Vector Position relative to the the second physics object to constrain to.
+---@param friction number Motor friction.
+---@param torque number Motor torque.
+---@param forcetime number Automatic shut-off after this time has passed. A value of 0 means to stay on forever or until deactivated.
+---@param nocollide? number Whether the entities should be no-collided.
+---@param toggle? boolean|number Whether the constraint is on toggle.
+---@param player? Player The player that will control the motor. Used to to call numpad.OnDown and numpad.OnUp.
+---@param forcelimit? number Amount of force until it breaks (0 = unbreakable).
+---@param key_fwd? number The key binding for "forward", corresponding to an Enums/KEY.
+---@param key_bwd? number The key binding for "backwards", corresponding to an Enums/KEY.
+---@param direction? number Either `1` or `-1` signifying which direction the motor should spin.
+---@param localAxis? Vector Overrides axis of rotation?
+---@return Entity|false # The created constraint. ([phys_torque](https://developer.valvesoftware.com/wiki/Phys_torque)) Will return `false` if the constraint could not be created.
+---@return Entity? # The created axis constraint. ([phys_hinge](https://developer.valvesoftware.com/wiki/Phys_hinge)) Will return `nil` if the constraint could not be created.
+function constraint.Motor(ent1, ent2, bone1, bone2, localPos1, localPos2, friction, torque, forcetime, nocollide, toggle, player, forcelimit, key_fwd, key_bwd, direction, localAxis) end

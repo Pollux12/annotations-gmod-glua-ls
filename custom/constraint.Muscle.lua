@@ -1,0 +1,25 @@
+---Creates a Muscle constraint.
+---@realm server
+---@source https://wiki.facepunch.com/gmod/constraint.Muscle
+---@param pl Player The player creating the constraint.
+---@param ent1 Entity First entity to constrain.
+---@param ent2 Entity Second entity to constrain.
+---@param bone1 number PhysObj number of first entity to constrain to. (0 for non-ragdolls).
+---@param bone2 number PhysObj number of second entity to constrain to. (0 for non-ragdolls).
+---@param localPos1 Vector Position relative to the first physics object to constrain to.
+---@param localPos2 Vector Position relative to the second physics object to constrain to.
+---@param length1 number Min/Max length 1.
+---@param length2 number Min/Max length 2.
+---@param width number Width of the rope.
+---@param key number Numpad key binding for the muscle controller.
+---@param fixed number Whether the muscle is fixed (1) or not (0).
+---@param period number Pulse frequency period/periodical adjustment.
+---@param amplitude number Pulse range amplitude.
+---@param starton boolean Whether the muscle starts relaxed or active.
+---@param material string The material of the rope.
+---@param color Color The color of the rope. See Color.
+---@return Entity|false|nil # The created spring constraint. Returns `false` for invalid inputs.
+---@return Entity? # The created rope entity (`keyframe_rope`). Returns `nil` if no rope was created.
+---@return gmod_winch_controller? # The created winch controller.
+---@return Entity? # The created slider constraint if `fixed` is 1.
+function constraint.Muscle(pl, ent1, ent2, bone1, bone2, localPos1, localPos2, length1, length2, width, key, fixed, period, amplitude, starton, material, color) end

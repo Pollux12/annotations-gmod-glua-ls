@@ -17,7 +17,7 @@
 ---@overload fun(action: "setpause", arg?: integer): integer # Previous value for GC pause.
 ---@overload fun(action: "setstepmul", arg?: integer): integer # Previous value for GC step multiplier.
 ---@overload fun(action: "isrunning"): boolean # Whether the collector is currently running (x86-64 only).
----@param action? gmod.collectgarbage_action The action to run. Defaults to "collect" when omitted.
+---@param action? gmod.collectgarbage_action="collect" The action to run when omitted.
 ---@param arg? integer The argument for "step", "setpause" and "setstepmul".
 ---@return any # Return type depends on the selected action.
 function _G.collectgarbage(action, arg) end

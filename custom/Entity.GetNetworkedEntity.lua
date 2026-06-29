@@ -4,7 +4,7 @@
 ---@generic T
 ---@overload fun(self: Entity, key: string): Entity|NULL # The retrieved value
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value. ( If it isn't set )
+---@param fallback? T=NULL The value to return if we failed to retrieve the value. ( If it isn't set ).
 ---@return Entity|T # The retrieved value
 ---@deprecated You should use Entity:GetNWEntity instead.
 function Entity:GetNetworkedEntity(key, fallback) end

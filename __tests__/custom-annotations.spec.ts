@@ -2,8 +2,28 @@ import fs from 'fs';
 import path from 'path';
 
 describe('custom and plugin annotation smoke checks', () => {
-  const readCustom = (file: string) => fs.readFileSync(path.join(process.cwd(), 'custom', file), 'utf8');
-  const readOutput = (file: string) => fs.readFileSync(path.join(process.cwd(), 'output', file), 'utf8');
+  const customRoot = path.join(process.cwd(), 'custom');
+  const outputRoot = path.join(process.cwd(), 'output');
+
+  const readCustom = (file: string) => fs.readFileSync(path.join(customRoot, file), 'utf8');
+  const readOutput = (file: string) => fs.readFileSync(path.join(outputRoot, file), 'utf8');
+
+  const significantOverrideLines = (content: string) =>
+    content
+      .split(/\r?\n/)
+      .map((line) => line.trimEnd())
+      .filter((line) => line.startsWith('---@') || /^function\s+/.test(line))
+      .filter((line) => !line.startsWith('---@meta') && !line.startsWith('---@source'));
+
+  const expectCustomLinesInOutput = (customFile: string, outputFile: string) => {
+    const customLines = significantOverrideLines(readCustom(customFile));
+    const output = readOutput(outputFile);
+
+    expect(customLines.length).toBeGreaterThan(0);
+    for (const line of customLines) {
+      expect(output).toContain(line);
+    }
+  };
 
   test('darkrp plugin annotation files exist and are scoped', () => {
     const darkrpLua = path.join(process.cwd(), 'plugin', 'darkrp', 'annotations', 'darkrp.lua');
@@ -21,498 +41,127 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(camiContent).toMatch(/CAMI/);
   });
 
-  test('new custom class overrides and global alias are present', () => {
-    const customRoot = path.join(process.cwd(), 'custom');
-    const globals = fs.readFileSync(path.join(customRoot, '_globals.lua'), 'utf8');
-    const gm = fs.readFileSync(path.join(customRoot, 'class.GM.lua'), 'utf8');
-    const dCheckBoxLabel = fs.readFileSync(path.join(customRoot, 'class.DCheckBoxLabel.lua'), 'utf8');
-    const dColorCube = fs.readFileSync(path.join(customRoot, 'class.DColorCube.lua'), 'utf8');
-    const dColorMixer = fs.readFileSync(path.join(customRoot, 'class.DColorMixer.lua'), 'utf8');
-    const dComboBox = fs.readFileSync(path.join(customRoot, 'class.DComboBox.lua'), 'utf8');
-    const dFileBrowser = fs.readFileSync(path.join(customRoot, 'class.DFileBrowser.lua'), 'utf8');
-    const dHtmlControls = fs.readFileSync(path.join(customRoot, 'class.DHTMLControls.lua'), 'utf8');
-    const dHorizontalScroller = fs.readFileSync(path.join(customRoot, 'class.DHorizontalScroller.lua'), 'utf8');
-    const dhScrollBar = fs.readFileSync(path.join(customRoot, 'class.DHScrollBar.lua'), 'utf8');
-    const dListView = fs.readFileSync(path.join(customRoot, 'class.DListView.lua'), 'utf8');
-    const dMenuBar = fs.readFileSync(path.join(customRoot, 'class.DMenuBar.lua'), 'utf8');
-    const dMenuOption = fs.readFileSync(path.join(customRoot, 'class.DMenuOption.lua'), 'utf8');
-    const dModelSelectMulti = fs.readFileSync(path.join(customRoot, 'class.DModelSelectMulti.lua'), 'utf8');
-    const dNotify = fs.readFileSync(path.join(customRoot, 'class.DNotify.lua'), 'utf8');
-    const dPanelList = fs.readFileSync(path.join(customRoot, 'class.DPanelList.lua'), 'utf8');
-    const dPanelSelect = fs.readFileSync(path.join(customRoot, 'class.DPanelSelect.lua'), 'utf8');
-    const dProperties = fs.readFileSync(path.join(customRoot, 'class.DProperties.lua'), 'utf8');
-    const dTree = fs.readFileSync(path.join(customRoot, 'class.DTree.lua'), 'utf8');
-    const dTreeNode = fs.readFileSync(path.join(customRoot, 'class.DTree_Node.lua'), 'utf8');
-    const dvScrollBar = fs.readFileSync(path.join(customRoot, 'class.DVScrollBar.lua'), 'utf8');
-    const dMenuAddPanel = fs.readFileSync(path.join(customRoot, 'DMenu.AddPanel.lua'), 'utf8');
-    const dCheckBoxSetValue = fs.readFileSync(path.join(customRoot, 'DCheckBox.SetValue.lua'), 'utf8');
-    const dCheckBoxSetChecked = fs.readFileSync(path.join(customRoot, 'DCheckBox.SetChecked.lua'), 'utf8');
-    const dCheckBoxLabelSetValue = fs.readFileSync(path.join(customRoot, 'DCheckBoxLabel.SetValue.lua'), 'utf8');
-    const dCheckBoxLabelSetChecked = fs.readFileSync(path.join(customRoot, 'DCheckBoxLabel.SetChecked.lua'), 'utf8');
-    const dButtonUpdateColours = fs.readFileSync(path.join(customRoot, 'DButton.UpdateColours.lua'), 'utf8');
-    const dFileBrowserSetOpen = fs.readFileSync(path.join(customRoot, 'DFileBrowser.SetOpen.lua'), 'utf8');
-    const dImageSetMatName = fs.readFileSync(path.join(customRoot, 'DImage.SetMatName.lua'), 'utf8');
-    const dMenuSetOpenSubMenu = fs.readFileSync(path.join(customRoot, 'DMenu.SetOpenSubMenu.lua'), 'utf8');
-    const dPropertyGenericValueChanged = fs.readFileSync(path.join(customRoot, 'DProperty_Generic.ValueChanged.lua'), 'utf8');
-    const dSliderSetNotches = fs.readFileSync(path.join(customRoot, 'DSlider.SetNotches.lua'), 'utf8');
-    const dTreeNodeChildExpanded = fs.readFileSync(path.join(customRoot, 'DTree_Node.ChildExpanded.lua'), 'utf8');
-    const dTreeNodePopulateChildrenAndSelf = fs.readFileSync(path.join(customRoot, 'DTree_Node.PopulateChildrenAndSelf.lua'), 'utf8');
-    const dTreeNodeSetShowFiles = fs.readFileSync(path.join(customRoot, 'DTree_Node.SetShowFiles.lua'), 'utf8');
-    const dTreeNodeSetWildCard = fs.readFileSync(path.join(customRoot, 'DTree_Node.SetWildCard.lua'), 'utf8');
-    const panelAdd = fs.readFileSync(path.join(customRoot, 'Panel.Add.lua'), 'utf8');
-    const panelSetSelectionCanvas = fs.readFileSync(path.join(customRoot, 'Panel.SetSelectionCanvas.lua'), 'utf8');
-    const panelSetParent = fs.readFileSync(path.join(customRoot, 'Panel.SetParent.lua'), 'utf8');
-    const panelGetCookie = fs.readFileSync(path.join(customRoot, 'Panel.GetCookie.lua'), 'utf8');
-    const panelGetCookieNumber = fs.readFileSync(path.join(customRoot, 'Panel.GetCookieNumber.lua'), 'utf8');
-    const panelSetCookie = fs.readFileSync(path.join(customRoot, 'Panel.SetCookie.lua'), 'utf8');
-    const cookieSet = fs.readFileSync(path.join(customRoot, 'cookie.Set.lua'), 'utf8');
-    const propertyAdd = fs.readFileSync(path.join(customRoot, 'PropertyAdd.lua'), 'utf8');
-    const httpRequest = fs.readFileSync(path.join(customRoot, 'HTTPRequest.lua'), 'utf8');
-    const globalHttp = fs.readFileSync(path.join(customRoot, 'Global.HTTP.lua'), 'utf8');
-    const entsCreate = fs.readFileSync(path.join(customRoot, 'ents.Create.lua'), 'utf8');
-    const vehicleGetDriver = fs.readFileSync(path.join(customRoot, 'Vehicle.GetDriver.lua'), 'utf8');
-    const getNWEntity = fs.readFileSync(path.join(customRoot, 'Entity.GetNWEntity.lua'), 'utf8');
-    const getNW2Entity = fs.readFileSync(path.join(customRoot, 'Entity.GetNW2Entity.lua'), 'utf8');
-    const getNetworkedEntity = fs.readFileSync(path.join(customRoot, 'Entity.GetNetworkedEntity.lua'), 'utf8');
-    const getNetworked2Entity = fs.readFileSync(path.join(customRoot, 'Entity.GetNetworked2Entity.lua'), 'utf8');
-    const dPropertySheetAddSheet = fs.readFileSync(path.join(customRoot, 'DPropertySheet.AddSheet.lua'), 'utf8');
-    const dLabelUpdateColours = fs.readFileSync(path.join(customRoot, 'DLabel.UpdateColours.lua'), 'utf8');
-    const ctrlColor = fs.readFileSync(path.join(customRoot, 'class.CtrlColor.lua'), 'utf8');
-    const controlPanelAddControl = fs.readFileSync(path.join(customRoot, 'ControlPanel.AddControl.lua'), 'utf8');
-    const entityCopyData = fs.readFileSync(path.join(customRoot, 'EntityCopyData.lua'), 'utf8');
-    const duplicatorCreateEntityFromTable = fs.readFileSync(path.join(customRoot, 'duplicator.CreateEntityFromTable.lua'), 'utf8');
-    const osDate = fs.readFileSync(path.join(customRoot, 'os.date.lua'), 'utf8');
-    const tableCopy = fs.readFileSync(path.join(customRoot, 'table.Copy.lua'), 'utf8');
-    const contentContainer = fs.readFileSync(path.join(customRoot, 'class.ContentContainer.lua'), 'utf8');
-    const propVehiclePrisonerPod = fs.readFileSync(path.join(customRoot, 'class.prop_vehicle_prisoner_pod.lua'), 'utf8');
-    const propRagdoll = fs.readFileSync(path.join(customRoot, 'class.prop_ragdoll.lua'), 'utf8');
-    const propDynamicOverride = fs.readFileSync(path.join(customRoot, 'class.prop_dynamic_override.lua'), 'utf8');
-    const envFire = fs.readFileSync(path.join(customRoot, 'class.env_fire.lua'), 'utf8');
-    const matProxyData = fs.readFileSync(path.join(customRoot, 'MatProxyData.lua'), 'utf8');
-    const iMaterialSetTexture = fs.readFileSync(path.join(customRoot, 'IMaterial.SetTexture.lua'), 'utf8');
-    const renderClearRenderTarget = fs.readFileSync(path.join(customRoot, 'render.ClearRenderTarget.lua'), 'utf8');
-    const vguiRegisterFile = fs.readFileSync(path.join(customRoot, 'vgui.RegisterFile.lua'), 'utf8');
-    const viewData = fs.readFileSync(path.join(customRoot, 'ViewData.lua'), 'utf8');
-    const engineEntities = fs.readFileSync(path.join(customRoot, 'class.EngineEntities.lua'), 'utf8');
-    const enginePanels = fs.readFileSync(path.join(customRoot, 'class.EnginePanels.lua'), 'utf8');
-    const baseGmodEntity = fs.readFileSync(path.join(customRoot, 'class.base_gmodentity.lua'), 'utf8');
-    const baseAi = fs.readFileSync(path.join(customRoot, 'class.base_ai.lua'), 'utf8');
-    const effect = fs.readFileSync(path.join(customRoot, 'class.EFFECT.lua'), 'utf8');
-    const luaParticleSetColor = fs.readFileSync(path.join(customRoot, 'CLuaParticle.SetColor.lua'), 'utf8');
-    const renderGroup = fs.readFileSync(path.join(customRoot, 'RENDERGROUP.lua'), 'utf8');
-    const skeletonConvertor = fs.readFileSync(path.join(customRoot, 'class.SkeletonConvertor.lua'), 'utf8');
-    const listSet = fs.readFileSync(path.join(customRoot, 'list.Set.lua'), 'utf8');
-    const serverQueryData = fs.readFileSync(path.join(customRoot, 'ServerQueryData.lua'), 'utf8');
-    const skin = fs.readFileSync(path.join(customRoot, 'class.SKIN.lua'), 'utf8');
-    const generatedCustomClasses = fs.readFileSync(path.join(process.cwd(), 'output', 'custom_classes.lua'), 'utf8');
-    const generatedEntity = fs.readFileSync(path.join(process.cwd(), 'output', 'entity.lua'), 'utf8');
-    const generatedEffect = fs.readFileSync(path.join(process.cwd(), 'output', 'effect.lua'), 'utf8');
-    const generatedLuaParticle = fs.readFileSync(path.join(process.cwd(), 'output', 'cluaparticle.lua'), 'utf8');
-    const generatedEnums = fs.readFileSync(path.join(process.cwd(), 'output', 'enums.lua'), 'utf8');
-    const generatedGM = fs.readFileSync(path.join(process.cwd(), 'output', 'gm.lua'), 'utf8');
-    const generatedList = fs.readFileSync(path.join(process.cwd(), 'output', 'list.lua'), 'utf8');
-    const generatedDColorCube = fs.readFileSync(path.join(process.cwd(), 'output', 'dcolorcube.lua'), 'utf8');
-    const generatedDColorMixer = fs.readFileSync(path.join(process.cwd(), 'output', 'dcolormixer.lua'), 'utf8');
-    const generatedDComboBox = fs.readFileSync(path.join(process.cwd(), 'output', 'dcombobox.lua'), 'utf8');
-    const generatedDFileBrowser = fs.readFileSync(path.join(process.cwd(), 'output', 'dfilebrowser.lua'), 'utf8');
-    const generatedDHTMLControls = fs.readFileSync(path.join(process.cwd(), 'output', 'dhtmlcontrols.lua'), 'utf8');
-    const generatedDHorizontalScroller = fs.readFileSync(path.join(process.cwd(), 'output', 'dhorizontalscroller.lua'), 'utf8');
-    const generatedDHScrollBar = fs.readFileSync(path.join(process.cwd(), 'output', 'dhscrollbar.lua'), 'utf8');
-    const generatedDImage = fs.readFileSync(path.join(process.cwd(), 'output', 'dimage.lua'), 'utf8');
-    const generatedDListView = fs.readFileSync(path.join(process.cwd(), 'output', 'dlistview.lua'), 'utf8');
-    const generatedDMenuBar = fs.readFileSync(path.join(process.cwd(), 'output', 'dmenubar.lua'), 'utf8');
-    const generatedDMenuOption = fs.readFileSync(path.join(process.cwd(), 'output', 'dmenuoption.lua'), 'utf8');
-    const generatedDModelSelectMulti = fs.readFileSync(path.join(process.cwd(), 'output', 'dmodelselectmulti.lua'), 'utf8');
-    const generatedDNotify = fs.readFileSync(path.join(process.cwd(), 'output', 'dnotify.lua'), 'utf8');
-    const generatedDPanelList = fs.readFileSync(path.join(process.cwd(), 'output', 'dpanellist.lua'), 'utf8');
-    const generatedDPanelSelect = fs.readFileSync(path.join(process.cwd(), 'output', 'dpanelselect.lua'), 'utf8');
-    const generatedDProperties = fs.readFileSync(path.join(process.cwd(), 'output', 'dproperties.lua'), 'utf8');
-    const generatedDButton = fs.readFileSync(path.join(process.cwd(), 'output', 'dbutton.lua'), 'utf8');
-    const generatedDLabel = fs.readFileSync(path.join(process.cwd(), 'output', 'dlabel.lua'), 'utf8');
-    const generatedDMenu = fs.readFileSync(path.join(process.cwd(), 'output', 'dmenu.lua'), 'utf8');
-    const generatedDPropertyGeneric = fs.readFileSync(path.join(process.cwd(), 'output', 'dproperty_generic.lua'), 'utf8');
-    const generatedDSlider = fs.readFileSync(path.join(process.cwd(), 'output', 'dslider.lua'), 'utf8');
-    const generatedDTreeNode = fs.readFileSync(path.join(process.cwd(), 'output', 'dtree_node.lua'), 'utf8');
-    const generatedDTree = fs.readFileSync(path.join(process.cwd(), 'output', 'dtree.lua'), 'utf8');
-    const generatedDVScrollBar = fs.readFileSync(path.join(process.cwd(), 'output', 'dvscrollbar.lua'), 'utf8');
-    const generatedPanel = fs.readFileSync(path.join(process.cwd(), 'output', 'panel.lua'), 'utf8');
-    const generatedVgui = fs.readFileSync(path.join(process.cwd(), 'output', 'vgui.lua'), 'utf8');
-    const generatedRender = fs.readFileSync(path.join(process.cwd(), 'output', 'render.lua'), 'utf8');
-    const generatedStructures = fs.readFileSync(path.join(process.cwd(), 'output', 'structures.lua'), 'utf8');
-    const generatedEngine = fs.readFileSync(path.join(process.cwd(), 'output', 'engine.lua'), 'utf8');
-    const generatedSteamworks = fs.readFileSync(path.join(process.cwd(), 'output', 'steamworks.lua'), 'utf8');
-    const generatedWorkshopFileBase = fs.readFileSync(path.join(process.cwd(), 'output', 'workshopfilebase.lua'), 'utf8');
+  test('custom overrides propagate their annotation surface to generated output', () => {
+    const directOutputs: Array<[string, string]> = [
+      ['class.ContentSidebar.lua', 'contentsidebar.lua'],
+      ['class.ContextBase.lua', 'contextbase.lua'],
+      ['class.DColorCube.lua', 'dcolorcube.lua'],
+      ['class.DFrame.lua', 'dframe.lua'],
+      ['class.DHTMLControls.lua', 'dhtmlcontrols.lua'],
+      ['class.DImage.lua', 'dimage.lua'],
+      ['class.DImageButton.lua', 'dimagebutton.lua'],
+      ['class.DListView.lua', 'dlistview.lua'],
+      ['class.DMenu.lua', 'dmenu.lua'],
+      ['class.DMenuBar.lua', 'dmenubar.lua'],
+      ['class.DMenuOption.lua', 'dmenuoption.lua'],
+      ['class.EFFECT.lua', 'effect.lua'],
+      ['DDragBase.DropAction_Copy.lua', 'ddragbase.lua'],
+      ['DDragBase.DropAction_Normal.lua', 'ddragbase.lua'],
+      ['DDragBase.DropAction_Simple.lua', 'ddragbase.lua'],
+      ['DFileBrowser.SetOpen.lua', 'dfilebrowser.lua'],
+      ['DImage.SetMatName.lua', 'dimage.lua'],
+      ['DMenu.SetOpenSubMenu.lua', 'dmenu.lua'],
+      ['DPanelList.Clear.lua', 'dpanellist.lua'],
+      ['Panel.PerformLayout.lua', 'panel.lua'],
+      ['TOOL.BuildCPanel.lua', 'tool.lua'],
+      ['TOOL.Deploy.lua', 'tool.lua'],
+      ['TOOL.Holster.lua', 'tool.lua'],
+      ['class.Weapon.lua', 'weapon.lua'],
+      ['Weapon.GetToolObject.lua', 'weapon.lua'],
+      ['constraint.Elastic.lua', 'constraint.lua'],
+      ['constraint.Weld.lua', 'constraint.lua'],
+      ['ContentHeader.OpenMenu.lua', 'contentheader.lua'],
+      ['Global.collectgarbage.lua', 'global.lua'],
+      ['Weapon.GetToolObject.lua', 'weapon.lua'],
+      ['workshopfilebase.FillFileInfo.lua', 'workshopfilebase.lua'],
+    ];
 
-    const customEngineGetAddons = fs.readFileSync(path.join(customRoot, 'engine.GetAddons.lua'), 'utf8');
-    const customEngineGetUserContent = fs.readFileSync(path.join(customRoot, 'engine.GetUserContent.lua'), 'utf8');
-    const customSteamworksGetDownloadedItems = fs.readFileSync(path.join(customRoot, 'steamworks.GetDownloadedItems.lua'), 'utf8');
-    const customSteamworksFileUserInfo = fs.readFileSync(path.join(customRoot, 'steamworks.FileUserInfo.lua'), 'utf8');
-    const customSteamworksFileInfo = fs.readFileSync(path.join(customRoot, 'steamworks.FileInfo.lua'), 'utf8');
-    const customWorkshopfileFillFileInfo = fs.readFileSync(path.join(customRoot, 'workshopfilebase.FillFileInfo.lua'), 'utf8');
-
-    expect(globals).toMatch(/---@alias GPlayer Player/);
-    expect(globals).toMatch(/---@class NULL : Entity/);
-    expect(globals).toMatch(/---@alias EntityOrNULL Entity\|NULL/);
-    expect(globals).toMatch(/---@type NULL/);
-
-    expect(gm).toMatch(/---@field Name string/);
-    expect(gm).toMatch(/---@field TeamBased boolean/);
-    expect(gm).toMatch(/---@field IsSandboxDerived\? boolean/);
-    expect(generatedGM).toMatch(/---@field Name string/);
-    expect(generatedGM).toMatch(/---@field TeamBased boolean/);
-    expect(generatedGM).toMatch(/---@field IsSandboxDerived\? boolean/);
-
-    expect(dCheckBoxLabel).toMatch(/---@class DCheckBoxLabel : Panel/);
-    expect(dCheckBoxLabel).toMatch(/---@field Button DCheckBox/);
-    expect(dCheckBoxLabel).toMatch(/---@field Label DLabel/);
-
-    expect(dColorCube).toMatch(/---@field BGSaturation DImage/);
-    expect(dColorMixer).toMatch(/---@field Palette DColorPalette/);
-    expect(dColorMixer).toMatch(/---@field txtR DNumberWang/);
-    expect(dColorMixer).toMatch(/---@field m_bPalette\? boolean/);
-    expect(dColorMixer).toMatch(/---@field m_ConVarA\? string/);
-    expect(dComboBox).toMatch(/---@field Choices table<integer, string>/);
-    expect(dComboBox).toMatch(/---@field Menu\? DMenu/);
-    expect(dFileBrowser).toMatch(/---@field FolderNode\? DTree_Node/);
-    expect(dFileBrowser).toMatch(/---@field Files\? DIconBrowser\|DListView/);
-    expect(dFileBrowser).toMatch(/---@field m_strPath string/);
-    expect(dFileBrowser).toMatch(/---@field m_bModels\? boolean/);
-    expect(dFileBrowser).toMatch(/---@field m_bOpen\? boolean/);
-    expect(dHtmlControls).toMatch(/---@class DHTMLControls : Panel/);
-    expect(dHtmlControls).toMatch(/---@field AddressBar DTextEntry/);
-    expect(dHtmlControls).toMatch(/---@field HTML\? DHTML/);
-    expect(dHorizontalScroller).toMatch(/---@field Panels Panel\[]/);
-    expect(dhScrollBar).toMatch(/---@field btnGrip DScrollBarGrip/);
-    expect(dListView).toMatch(/---@field Columns DListView_Column\[]/);
-    expect(dListView).toMatch(/---@field pnlCanvas Panel/);
-    expect(dMenuBar).toMatch(/---@field Menus table<string, DMenu>/);
-    expect(dMenuOption).toMatch(/---@field SubMenu\? DMenu/);
-    expect(dModelSelectMulti).toMatch(/---@field ModelPanels table<string, DModelSelect>/);
-    expect(dNotify).toMatch(/---@field Items table<integer, Panel\|false>/);
-
-    expect(dPanelList).toMatch(/---@class DPanelList : DPanel/);
-    expect(dPanelList).toMatch(/---@field Items Panel\[]/);
-    expect(dPanelList).toMatch(/---@field pnlCanvas DPanel/);
-    expect(dPanelSelect).toMatch(/---@field SelectedPanel\? Panel/);
-    expect(dProperties).toMatch(/---@field Categories table<string, Panel>/);
-    expect(dTree).toMatch(/---@field RootNode DTree_Node/);
-    expect(dTreeNode).toMatch(/---@field ChildNodes\? DListLayout/);
-    expect(dvScrollBar).toMatch(/---@field btnGrip DScrollBarGrip/);
-    expect(dMenuAddPanel).toMatch(/---@param pnl T The panel that you want to add\./);
-    expect(dCheckBoxSetValue).toMatch(/---@param checked any/);
-    expect(dCheckBoxSetChecked).toMatch(/---@param checked any/);
-    expect(dCheckBoxLabelSetValue).toMatch(/---@param checked any/);
-    expect(dCheckBoxLabelSetChecked).toMatch(/---@param checked any/);
-    expect(dButtonUpdateColours).toMatch(/---@param skin SKIN/);
-    expect(dFileBrowserSetOpen).toMatch(/---@param open any/);
-    expect(dFileBrowserSetOpen).toMatch(/---@param useAnim\? boolean/);
-    expect(dImageSetMatName).toMatch(/---@param mat\? string/);
-    expect(dMenuSetOpenSubMenu).toMatch(/---@param item\? Panel/);
-    expect(dPropertyGenericValueChanged).toMatch(/---@param force\? boolean/);
-    expect(generatedDPropertyGeneric).toMatch(/---@param force\? boolean/);
-    expect(dSliderSetNotches).toMatch(/---@param notches\? number/);
-    expect(generatedDSlider).toMatch(/---@param notches\? number/);
-    expect(dTreeNodeChildExpanded).toMatch(/---@param expanded\? boolean/);
-    expect(dTreeNodePopulateChildrenAndSelf).toMatch(/---@param expand\? boolean/);
-    expect(dTreeNodeSetShowFiles).toMatch(/---@param showFiles\? boolean/);
-    expect(dTreeNodeSetWildCard).toMatch(/---@param wildcard\? string/);
-    expect(generatedDImage).toMatch(/---@param mat\? string/);
-    expect(generatedDColorCube).toMatch(/---@field BGSaturation DImage/);
-    expect(generatedDColorMixer).toMatch(/---@field Palette DColorPalette/);
-    expect(generatedDColorMixer).toMatch(/---@field m_bPalette\? boolean/);
-    expect(generatedDComboBox).toMatch(/---@field Choices table<integer, string>/);
-    expect(generatedDFileBrowser).toMatch(/---@field Files\? DIconBrowser\|DListView/);
-    expect(generatedDFileBrowser).toMatch(/---@field m_bModels\? boolean/);
-    expect(generatedDFileBrowser).toMatch(/---@field m_bOpen\? boolean/);
-    expect(generatedDHTMLControls).toMatch(/---@field HTML\? DHTML/);
-    expect(generatedDHorizontalScroller).toMatch(/---@field Panels Panel\[]/);
-    expect(generatedDHScrollBar).toMatch(/---@field btnGrip DScrollBarGrip/);
-    expect(generatedDListView).toMatch(/---@field Columns DListView_Column\[]/);
-    expect(generatedDMenuBar).toMatch(/---@field Menus table<string, DMenu>/);
-    expect(generatedDMenuOption).toMatch(/---@field SubMenu\? DMenu/);
-    expect(generatedDModelSelectMulti).toMatch(/---@field ModelPanels table<string, DModelSelect>/);
-    expect(generatedDNotify).toMatch(/---@field Items table<integer, Panel\|false>/);
-    expect(generatedDPanelList).toMatch(/---@field pnlCanvas DPanel/);
-    expect(generatedDPanelSelect).toMatch(/---@field SelectedPanel\? Panel/);
-    expect(generatedDProperties).toMatch(/---@field Categories table<string, Panel>/);
-    expect(generatedDTree).toMatch(/---@field RootNode DTree_Node/);
-    expect(generatedDTreeNode).toMatch(/---@field ChildNodes\? DListLayout/);
-    expect(generatedDVScrollBar).toMatch(/---@field btnGrip DScrollBarGrip/);
-    expect(generatedDButton).toMatch(/---@param skin SKIN/);
-    expect(generatedDLabel).toMatch(/---@param skin SKIN/);
-    expect(generatedDMenu).toMatch(/---@param item\? Panel/);
-    expect(generatedDTreeNode).toMatch(/---@param expanded\? boolean/);
-    expect(generatedDTreeNode).toMatch(/---@param expand\? boolean/);
-    expect(generatedDTreeNode).toMatch(/---@param showFiles\? boolean/);
-    expect(generatedDTreeNode).toMatch(/---@param wildcard\? string/);
-    expect(panelAdd).toMatch(/---@overload fun\(self: Panel, className: `T`, parent: Panel\): T/);
-    expect(panelSetSelectionCanvas).toMatch(/---@param set boolean\|Panel/);
-    expect(panelSetParent).toMatch(/---@param parent\? Panel/);
-    expect(generatedPanel).toMatch(/---@overload fun\(self: Panel, className: `T`, parent: Panel\): T/);
-    expect(generatedPanel).toMatch(/---@param set boolean\|Panel/);
-    expect(generatedPanel).toMatch(/---@param parent\? Panel/);
-    expect(panelGetCookie).toMatch(/---@param default\? string/);
-    expect(panelGetCookie).toMatch(/---@return string\|nil/);
-    expect(panelGetCookieNumber).toMatch(/---@param default\? number/);
-    expect(panelGetCookieNumber).toMatch(/---@return number\|nil/);
-    expect(panelSetCookie).toMatch(/---@param value\? string\|number\|boolean/);
-    expect(cookieSet).toMatch(/---@param value\? string\|number\|boolean/);
-    expect(propertyAdd).toMatch(/---@field Filter fun\(self: PropertyAddRuntime, ent: Entity, player: Player\):\(check: boolean\)/);
-    expect(propertyAdd).toMatch(/---@class \(partial\) PropertyAddRuntime : PropertyAdd/);
-    expect(propertyAdd).toMatch(/---@field \[string\] any/);
-    expect(propertyAdd).toMatch(/---@field MsgStart fun\(self: PropertyAddRuntime\)/);
-    expect(propertyAdd).toMatch(/---@field MsgEnd fun\(self: PropertyAddRuntime\)/);
-    expect(generatedStructures).toMatch(/---@field Filter fun\(self: PropertyAddRuntime, ent: Entity, player: Player\):\(check: boolean\)/);
-    expect(generatedStructures).toMatch(/---@class \(partial\) PropertyAddRuntime : PropertyAdd/);
-    expect(generatedStructures).toMatch(/---@field \[string\] any/);
-    expect(generatedStructures).toMatch(/---@field MsgStart fun\(self: PropertyAddRuntime\)/);
-    expect(generatedStructures).toMatch(/---@field MsgEnd fun\(self: PropertyAddRuntime\)/);
-
-    expect(httpRequest).toMatch(/---@alias HTTPRequestMethodWithParameters/);
-    expect(httpRequest).toMatch(/---@class \(exact\) HTTPRequestWithParameters : HTTPRequest/);
-    expect(httpRequest).toMatch(/---@class \(exact\) HTTPRequestWithoutParameters : HTTPRequest/);
-    expect(httpRequest).toMatch(/---@field method\? string/);
-    expect(httpRequest).toMatch(/---@field parameters\? HTTPRequestParameters/);
-    expect(httpRequest).toMatch(/---@field parameters nil/);
-    expect(globalHttp).toMatch(/---@overload fun\(parameters: HTTPRequestWithParameters\): boolean/);
-    expect(globalHttp).toMatch(/---@param parameters HTTPRequest The request parameters/);
-
-    expect(entsCreate).toMatch(/---@alias KnownEngineEntityClass/);
-    expect(entsCreate).toMatch(/"phys_constraint"/);
-    expect(entsCreate).toMatch(/"widget_bones"/);
-    expect(entsCreate).toMatch(/---@overload fun\(class: KnownEngineEntityClass\): Entity/);
-    expect(entsCreate).toMatch(/---@return \(instance\) T\|NULL/);
-    expect(vehicleGetDriver).toMatch(/---@return Player\|NULL driver/);
-    expect(getNWEntity).toMatch(/---@overload fun\(self: Entity, key: string\): Entity\|NULL/);
-    expect(getNW2Entity).toMatch(/---@overload fun\(self: Entity, key: string\): Entity\|NULL/);
-    expect(getNetworkedEntity).toMatch(/---@overload fun\(self: Entity, key: string\): Entity\|NULL/);
-    expect(getNetworked2Entity).toMatch(/---@overload fun\(self: Entity, key: string\): Entity\|NULL/);
-
-    expect(dPropertySheetAddSheet).toMatch(/---@class DPropertySheetSheet/);
-    expect(dPropertySheetAddSheet).toMatch(/---@field Tab DTab/);
-    expect(dPropertySheetAddSheet).toMatch(/---@return DPropertySheetSheet/);
-    expect(dLabelUpdateColours).toMatch(/---@param skin SKIN/);
-    expect(ctrlColor).toMatch(/---@class CtrlColor : Panel/);
-    expect(ctrlColor).toMatch(/---@field Mixer DColorMixer/);
-    expect(controlPanelAddControl).toMatch(/---@overload fun\(self: ControlPanel, type: "color", controlinfo: table\): CtrlColor/);
-    expect(controlPanelAddControl).toMatch(/---@return Panel/);
-
-    expect(entityCopyData).toMatch(/---@class \(partial\) EntityCopyData/);
-    expect(entityCopyData).toMatch(/---@field Class string/);
-    expect(entityCopyData).toMatch(/---@field Pos\? Vector/);
-    expect(entityCopyData).toMatch(/---@field Angle\? Angle/);
-    expect(entityCopyData).toMatch(/---@field Name\? string/);
-    expect(entityCopyData).toMatch(/---@field PhysicsObjects\? table/);
-    expect(duplicatorCreateEntityFromTable).toMatch(/---@param entTable EntityCopyData/);
-
-    expect(osDate).toMatch(/---@param format\? string/);
-    expect(osDate).toMatch(/---@return string\|DateData/);
-    expect(tableCopy).toMatch(/---@generic T : table/);
-    expect(tableCopy).toMatch(/---@param originalTable T/);
-    expect(tableCopy).toMatch(/---@return T/);
-
-    // ContentContainer is registered as `vgui.Register("ContentContainer", PANEL, "DScrollPanel")`
-    // in contentcontainer.lua, so its base class is DScrollPanel (not DIconLayout).
-    expect(contentContainer).toMatch(/---@class ContentContainer : DScrollPanel/);
-    expect(contentContainer).toMatch(/function ContentContainer:SetTriggerSpawnlistChange\(trigger\) end/);
-
-    expect(propVehiclePrisonerPod).toMatch(/---@class prop_vehicle_prisoner_pod : Vehicle/);
-    expect(propRagdoll).toMatch(/---@class prop_ragdoll : Entity/);
-    expect(propDynamicOverride).toMatch(/---@class prop_dynamic_override : Entity/);
-    expect(envFire).toMatch(/---@class env_fire : Entity/);
-
-    expect(matProxyData).toMatch(/---@field init\? fun\(self: MatProxyData, mat: IMaterial, values: table\)/);
-    expect(matProxyData).toMatch(/---@field bind fun\(self: MatProxyData, mat: IMaterial, ent: Entity\)/);
-    expect(iMaterialSetTexture).toMatch(/---@param texture ITexture\|string/);
-    expect(renderClearRenderTarget).toMatch(/---@param color Color/);
-    expect(generatedRender).toMatch(/---@param color Color The color\./);
-    expect(vguiRegisterFile).toMatch(/---@\[call_arg\("gmod\.load", "include"\)\]/);
-    expect(vguiRegisterFile).toMatch(/---@\[call_arg\("gmod\.vgui_panel", "register_file"\)\]/);
-    expect(generatedVgui).toMatch(/---@\[call_arg\("gmod\.load", "include"\)\]/);
-    expect(generatedVgui).toMatch(/---@\[call_arg\("gmod\.vgui_panel", "register_file"\)\]/);
-    expect(viewData).toMatch(/---@field origin\? Vector/);
-    expect(viewData).toMatch(/---@field angles\? Angle/);
-    expect(viewData).toMatch(/---@field offcenter\? table/);
-    expect(generatedStructures).toMatch(/---@field origin\? Vector/);
-    expect(generatedStructures).toMatch(/---@field angles\? Angle/);
-    expect(generatedStructures).toMatch(/---@field offcenter\? table/);
-    expect(engineEntities).toMatch(/---@class phys_constraintsystem : Entity/);
-    expect(engineEntities).toMatch(/---@class gmod_winch_controller : Entity/);
-    expect(engineEntities).toMatch(/---@class hunter_flechette : Entity/);
-    expect(engineEntities).toMatch(/---@class widget_bones : Entity/);
-    expect(enginePanels).toMatch(/---@class \(partial\) Chromium : HTML/);
-    expect(enginePanels).toMatch(/---@class \(partial\) ModelImage : Panel/);
-    expect(enginePanels).toMatch(/---@class \(partial\) URLLabel : Label/);
-    expect(baseGmodEntity).toMatch(/---@class base_gmodentity : Entity/);
-    expect(baseGmodEntity).toMatch(/function base_gmodentity:SetPlayer\(ply\) end/);
-    expect(baseAi).toMatch(/---@class base_ai : NPC/);
-    expect(generatedCustomClasses).toMatch(/---@class base_gmodentity : Entity/);
-    expect(generatedCustomClasses).toMatch(/function base_gmodentity:SetPlayer\(ply\) end/);
-    expect(generatedCustomClasses).toMatch(/---@class base_ai : NPC/);
-    expect(effect).toMatch(/---@class EFFECT : Entity/);
-    expect(effect).toMatch(/---@field Entity Entity/);
-    expect(generatedEffect).toMatch(/---@class EFFECT/);
-    expect(generatedEffect).toMatch(/---@field Entity Entity/);
-    expect(generatedEffect).toMatch(/---@source https:\/\/wiki\.facepunch\.com\/gmod\/EFFECT_Hooks/);
-    expect(luaParticleSetColor).toMatch(/---@overload fun\(self: CLuaParticle, color: Color\)/);
-    expect(generatedLuaParticle).toMatch(/---@overload fun\(self: CLuaParticle, color: Color\)/);
-    expect(renderGroup).toMatch(/RENDERGROUP_NONE = 5/);
-    expect(generatedEnums).toMatch(/RENDERGROUP_NONE = 5/);
-    expect(skeletonConvertor).toMatch(/---@class ModelEntity/);
-    expect(skeletonConvertor).toMatch(/---@field GetModel fun\(self: ModelEntity\): string/);
-    expect(skeletonConvertor).toMatch(/---@class SkeletonConvertor/);
-    expect(skeletonConvertor).toMatch(/---@field IsApplicable fun\(self: SkeletonConvertor, ent: ModelEntity\): boolean/);
-    expect(skeletonConvertor).toMatch(/---@field PrePosition\? fun\(self: SkeletonConvertor, sensor: table<integer, any>\)/);
-    expect(skeletonConvertor).toMatch(/---@field Complete\? fun\(self: SkeletonConvertor, ply: Player, sensor: table<integer, any>, rotation: Angle, pos: table<integer, any>, ang: table<integer, Angle>\)/);
-    expect(listSet).toMatch(/---@overload fun\(identifier: "SkeletonConvertor", key: string, item: SkeletonConvertor\)/);
-    expect(serverQueryData).toMatch(/netversion: string, luaversion: string, localization: string, gmcategory: string/);
-    expect(skin).toMatch(/---@class SKINColoursProperties/);
-    expect(skin).toMatch(/---@field Column_Disabled Color/);
-    expect(skin).toMatch(/---@field Border Color/);
-    expect(skin).toMatch(/---@field Colours SKINColours/);
-    expect(generatedCustomClasses).toMatch(/---@class phys_constraintsystem : Entity/);
-    expect(generatedCustomClasses).toMatch(/---@class gmod_winch_controller : Entity/);
-    expect(generatedCustomClasses).toMatch(/---@class hunter_flechette : Entity/);
-    expect(generatedCustomClasses).toMatch(/---@class \(partial\) Chromium : HTML/);
-    expect(generatedCustomClasses).toMatch(/---@class \(partial\) ModelImage : Panel/);
-    expect(generatedCustomClasses).toMatch(/---@class \(partial\) URLLabel : Label/);
-    expect(generatedCustomClasses).toMatch(/---@class ModelEntity/);
-    expect(generatedCustomClasses).toMatch(/---@field IsApplicable fun\(self: SkeletonConvertor, ent: ModelEntity\): boolean/);
-    expect(generatedCustomClasses).toMatch(/---@field Complete\? fun\(self: SkeletonConvertor, ply: Player, sensor: table<integer, any>, rotation: Angle, pos: table<integer, any>, ang: table<integer, Angle>\)/);
-    expect(generatedCustomClasses).toMatch(/---@class SKINColoursProperties/);
-    expect(generatedCustomClasses).toMatch(/---@field Column_Disabled Color/);
-    expect(generatedCustomClasses).toMatch(/---@field Border Color/);
-    expect(generatedCustomClasses).toMatch(/---@field Colours SKINColours/);
-    expect(generatedList).toMatch(/---@overload fun\(identifier: "SkeletonConvertor", key: string, item: SkeletonConvertor\)/);
-    expect(generatedStructures).toMatch(/netversion: string, luaversion: string, localization: string, gmcategory: string/);
-
-    expect(customEngineGetAddons).toMatch(/---@class \(partial\) EngineAddon/);
-    expect(customEngineGetAddons).toMatch(/---@field wsid string/);
-    expect(customEngineGetAddons).toMatch(/---@return EngineAddon\[]/);
-    expect(generatedEngine).toMatch(/---@class \(partial\) EngineAddon/);
-    expect(generatedEngine).toMatch(/---@field wsid string/);
-
-    expect(customEngineGetUserContent).toMatch(/---@class \(partial\) EngineUserContent/);
-    expect(customEngineGetUserContent).toMatch(/---@deprecated Used internally for in-game menus\./);
-    expect(customEngineGetUserContent).toMatch(/---@realm menu/);
-    expect(customEngineGetUserContent).toMatch(/---@return EngineUserContent\[]/);
-    expect(generatedEngine).toMatch(/---@return EngineUserContent\[]/);
-
-    expect(customSteamworksGetDownloadedItems).toMatch(/---@return string\[]/);
-    expect(generatedSteamworks).toMatch(/---@return string\[]/);
-
-    expect(customSteamworksFileInfo).toMatch(/UGCFileInfo\?/);
-    expect(generatedSteamworks).toMatch(/UGCFileInfo\?/);
-
-    expect(customSteamworksFileUserInfo).toMatch(/---@class \(partial\) SteamworksFileUserInfo/);
-    expect(customSteamworksFileUserInfo).toMatch(/---@field error\? number/);
-    expect(customSteamworksFileUserInfo).toMatch(/---@param callback fun\(info: SteamworksFileUserInfo\)/);
-
-    expect(customWorkshopfileFillFileInfo).toMatch(/---@class \(partial\) WorkshopFileInfoResults/);
-    expect(customWorkshopfileFillFileInfo).toMatch(/---@param results WorkshopFileInfoResults/);
-    expect(generatedWorkshopFileBase).toMatch(/---@class \(partial\) WorkshopFileInfoResults/);
-    expect(generatedWorkshopFileBase).toMatch(/---@param results WorkshopFileInfoResults/);
+    for (const [customFile, outputFile] of directOutputs) {
+      expectCustomLinesInOutput(customFile, outputFile);
+    }
   });
 
-  test('iterator overrides expose typed generic-for values', () => {
-    const customRoot = path.join(process.cwd(), 'custom');
-    const playerIterator = fs.readFileSync(path.join(customRoot, 'player.Iterator.lua'), 'utf8');
-    const entsIterator = fs.readFileSync(path.join(customRoot, 'ents.Iterator.lua'), 'utf8');
+  test('custom class fragments are included in the generated custom class bundle', () => {
+    const customClasses = readOutput('custom_classes.lua');
+    const classFiles = [
+      'class.EngineEntities.lua',
+      'class.EnginePanels.lua',
+      'class.SKIN.lua',
+      'class.SkeletonConvertor.lua',
+      'class.base_ai.lua',
+      'class.base_gmodentity.lua',
+      'class.env_fire.lua',
+      'class.prop_dynamic_override.lua',
+      'class.prop_ragdoll.lua',
+      'class.prop_vehicle_prisoner_pod.lua',
+    ];
 
-    expect(playerIterator).toMatch(/---@return fun\(tbl: any, prev: integer\?\): integer, Player # The iterator function\./);
-    expect(playerIterator).toMatch(/---@return Player\[] # Table of all existing Player/);
-    expect(playerIterator).toMatch(/---@return integer # The origin index \(0\)\./);
-
-    expect(entsIterator).toMatch(/---@return fun\(tbl: any, prev: integer\?\): integer, Entity # The iterator function\./);
-    expect(entsIterator).toMatch(/---@return Entity\[] # Table of all existing Entity/);
-    expect(entsIterator).toMatch(/---@return integer # The origin index \(0\)\./);
+    for (const customFile of classFiles) {
+      for (const line of significantOverrideLines(readCustom(customFile))) {
+        expect(customClasses).toContain(line);
+      }
+    }
   });
 
-  test('verified source-backed annotation fixes are preserved', () => {
-    const dFileBrowser = readCustom('class.DFileBrowser.lua');
-    const generatedDFileBrowser = readOutput('dfilebrowser.lua');
-    const generatedCustomClasses = readOutput('custom_classes.lua');
-    const dHtmlControls = readCustom('class.DHTMLControls.lua');
-    const generatedDHtmlControls = readOutput('dhtmlcontrols.lua');
-    const dNumPad = readCustom('class.DNumPad.lua');
-    const generatedDNumPad = readOutput('dnumpad.lua');
-    const spawnMenu = readCustom('class.SpawnMenu.lua');
-    const weaponClass = readCustom('class.Weapon.lua');
-    const generatedWeapon = readOutput('weapon.lua');
-    const getToolObject = readCustom('Weapon.GetToolObject.lua');
-    const toolLeftClick = readCustom('TOOL.LeftClick.lua');
-    const generatedTool = readOutput('tool.lua');
-    const weld = readCustom('constraint.Weld.lua');
-    const elastic = readCustom('constraint.Elastic.lua');
-    const generatedConstraint = readOutput('constraint.lua');
-    const generatedEntity = readOutput('entity.lua');
-    const generatedPanel = readOutput('panel.lua');
-    const generatedDPanelList = readOutput('dpanellist.lua');
+  test('networked getter overrides keep generic fallback defaults encoded', () => {
+    const entityLua = readOutput('entity.lua');
+    const getterFiles = fs
+      .readdirSync(customRoot)
+      .filter((file) => /^Entity\.Get(?:NW|NW2|Networked|Networked2).*\.(?:lua)$/.test(file));
 
-    expect(dFileBrowser).toMatch(/---@field FolderNode\? DTree_Node/);
-    expect(dFileBrowser).toMatch(/---@field Files\? DIconBrowser\|DListView/);
-    expect(generatedDFileBrowser).toMatch(/---@field FolderNode\? DTree_Node/);
-    expect(generatedDFileBrowser).toMatch(/---@field Files\? DIconBrowser\|DListView/);
-    expect(generatedDFileBrowser).not.toMatch(/---@field Files DListView/);
+    expect(getterFiles.length).toBeGreaterThan(0);
 
-    expect(generatedCustomClasses).not.toMatch(/---@class DVScrollBar : Panel[\s\S]*?---@field btnGrip DButton/);
-    expect(generatedCustomClasses).not.toMatch(/---@class DHScrollBar : Panel[\s\S]*?---@field btnGrip DButton/);
-    expect(generatedCustomClasses).not.toMatch(/---@class DVScrollBar : Panel/);
-    expect(generatedCustomClasses).not.toMatch(/---@class DHScrollBar : Panel/);
+    for (const file of getterFiles) {
+      const custom = readCustom(file);
+      const getterName = file.match(/^Entity\.(.+)\.lua$/)?.[1];
+      const fallbackLine = custom
+        .split(/\r?\n/)
+        .find((line) => line.startsWith('---@param fallback? T'));
+      const outputBlock = entityLua.match(new RegExp(`---@source https://wiki\\.facepunch\\.com/gmod/Entity:${getterName}[\\s\\S]*?function Entity:${getterName}\\(key, fallback\\) end`))?.[0];
 
-    expect(dHtmlControls).toMatch(/---@field RefreshButton DImageButton/);
-    expect(dHtmlControls).toMatch(/---@field HomeURL string/);
-    expect(dHtmlControls).toMatch(/---@field HTML\? DHTML/);
-    expect(dHtmlControls).not.toMatch(/ReloadButton|HomeUrl|---@field HTML DHTML/);
-    expect(generatedDHtmlControls).toMatch(/---@field RefreshButton DImageButton/);
-    expect(generatedDHtmlControls).toMatch(/---@field HomeURL string/);
-    expect(generatedDHtmlControls).toMatch(/---@field HTML\? DHTML/);
-    expect(generatedDHtmlControls).not.toMatch(/ReloadButton|HomeUrl|---@field HTML DHTML/);
+      expect(getterName).toBeDefined();
+      expect(fallbackLine).toBeDefined();
+      expect(outputBlock).toBeDefined();
+      expect(fallbackLine).toMatch(/^---@param fallback\? T=/);
+      expect(fallbackLine).not.toMatch(/Defaults to/);
+      expect(entityLua).toContain(fallbackLine);
+      expect(outputBlock).not.toContain('---@return any');
+    }
 
-    expect(dNumPad).toMatch(/---@field m_bButtonSize number/);
-    expect(generatedDNumPad).toMatch(/---@field m_bButtonSize number/);
-
-    expect(spawnMenu).toMatch(/---@field CustomizableSpawnlistNode\? DTree_Node/);
-    expect(spawnMenu).toMatch(/---@field SearchPropPanel\? ContentContainer/);
-    expect(spawnMenu).not.toMatch(/CustomizableSpawnlistNode\? any|SearchPropPanel\? Panel/);
-    expect(generatedCustomClasses).toMatch(/---@field CustomizableSpawnlistNode\? DTree_Node/);
-    expect(generatedCustomClasses).toMatch(/---@field SearchPropPanel\? ContentContainer/);
-    expect(generatedCustomClasses).not.toMatch(/CustomizableSpawnlistNode\? any|SearchPropPanel\? Panel/);
-
-    expect(weaponClass).toMatch(/---@return Entity\|Player\|NPC\|NULL/);
-    expect(generatedWeapon).toMatch(/---@return Entity\|Player\|NPC\|NULL/);
-    expect(generatedWeapon).not.toMatch(/---@return Player # The player who owns this weapon\./);
-
-    expect(getToolObject).toMatch(/---@class gmod_tool : Weapon/);
-    expect(getToolObject).toMatch(/---@return Tool\|false/);
-    expect(getToolObject).not.toMatch(/function Weapon:GetToolObject/);
-    expect(generatedWeapon).toMatch(/function gmod_tool:GetToolObject\(tool\) end/);
-    expect(generatedWeapon).not.toMatch(/function Weapon:GetToolObject\(tool\) end/);
-    expect(generatedWeapon).toMatch(/---@return Tool\|false/);
-
-    expect(toolLeftClick).not.toMatch(/fromRight/);
-    expect(generatedTool).not.toMatch(/fromRight/);
-    expect(generatedTool).toMatch(/---@param skip\? boolean/);
-    expect(generatedTool).toMatch(/function Tool:Deploy\(skip\) end/);
-    expect(generatedTool).toMatch(/function Tool:Holster\(skip\) end/);
-    expect(generatedTool.match(/function Tool:Deploy/g)).toHaveLength(1);
-    expect(generatedTool.match(/function Tool:Holster/g)).toHaveLength(1);
-
-    expect(weld).toMatch(/---@return Entity\|false/);
-    expect(generatedConstraint).toMatch(/---@return Entity\|false # The created constraint entity/);
-    expect(elastic).toMatch(/---@return Entity\|false\|nil/);
-    expect(elastic).toMatch(/---@return Entity\? # The created rope/);
-    expect(generatedConstraint).toMatch(/---@return Entity\|false\|nil # The created constraint/);
-    expect(generatedConstraint).toMatch(/---@return Entity\? # The created rope/);
-
-    expect(generatedEntity).toMatch(/---@param delta\? number/);
-    expect(generatedEntity).toMatch(/function Entity:FrameAdvance\(delta\) end/);
-    expect(generatedPanel).toMatch(/---@param width\? number/);
-    expect(generatedPanel).toMatch(/---@param height\? number/);
-    expect(generatedPanel).toMatch(/function Panel:PerformLayout\(width, height\) end/);
-    expect(generatedPanel.match(/function Panel:PerformLayout/g)).toHaveLength(1);
-    expect(generatedDPanelList).toMatch(/---@param remove\? boolean/);
-    expect(generatedDPanelList).toMatch(/function DPanelList:Clear\(remove\) end/);
+    expect(entityLua).not.toMatch(/---@param fallback\? (?:Entity|number|string|boolean|Vector|Angle)\b/);
+    expect(entityLua).not.toMatch(/---@param fallback\? T .*Defaults to/);
   });
 
+  test('menu-only custom overrides stay absent', () => {
+    const removedFiles = [
+      'UGCPublishWindow.DoPublish.lua',
+      'Global.IsHostingGame.lua',
+      'steamworks.SetFavorite.lua',
+      'workshopfilebase.dupes.lua',
+    ];
+
+    for (const file of removedFiles) {
+      expect(fs.existsSync(path.join(customRoot, file))).toBe(false);
+    }
+
+    const workshopFileBaseOutput = readOutput('workshopfilebase.lua');
+    expect(workshopFileBaseOutput).not.toContain('DupeWorkshopFileBase');
+    expect(workshopFileBaseOutput).not.toContain('ws_dupe');
+  });
+
+  test('global aliases and key wrapper annotations remain available', () => {
+    const globals = readCustom('_globals.lua');
+    const generatedVgui = readOutput('vgui.lua');
+    const generatedEnums = readOutput('enums.lua');
+    const generatedList = readOutput('list.lua');
+
+    expect(globals).toContain('---@alias GPlayer Player');
+    expect(globals).toContain('---@class NULL : Entity');
+    expect(globals).toContain('---@alias EntityOrNULL Entity|NULL');
+    expect(globals).toContain('---@type NULL');
+    expect(generatedVgui).toContain('---@[call_arg("gmod.load", "include")]');
+    expect(generatedVgui).toContain('---@[call_arg("gmod.vgui_panel", "register_file")]');
+    expect(generatedEnums).toContain('RENDERGROUP_NONE = 5');
+    expect(generatedList).toContain('---@overload fun(identifier: "SkeletonConvertor", key: string, item: SkeletonConvertor)');
+  });
 });

@@ -6,7 +6,7 @@ local ContentSidebar = {}
 
 ---Enables search functionality on this sidebar.
 ---@param stype? string The search type identifier passed to the search panel.
----@param hookname? string The hook name to populate content. Defaults to "PopulateContent".
+---@param hookname? string="PopulateContent" The hook name to populate content.
 function ContentSidebar:EnableSearch(stype, hookname) end
 
 ---Creates and attaches the save/revert notification bar.

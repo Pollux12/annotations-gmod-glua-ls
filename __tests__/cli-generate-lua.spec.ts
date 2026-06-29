@@ -207,6 +207,10 @@ describe('cli-generate-lua', () => {
     writeEntityGetterPage('getnwentity.json', 'GetNWEntity', 'any', 'NULL');
     writeEntityGetterPage('getnwint.json', 'GetNWInt', 'any', '0');
     writeEntityGetterPage('getnetworkedentity.json', 'GetNetworkedEntity', 'Entity', 'NULL');
+    writeEntityGetterPage('getnwbool.json', 'GetNWBool', 'any', 'false');
+    writeEntityGetterPage('getnwstring.json', 'GetNWString', 'any', '""');
+    writeEntityGetterPage('getnwvector.json', 'GetNWVector', 'any', 'Vector(0,0,0)');
+    writeEntityGetterPage('getnwangle.json', 'GetNWAngle', 'any', 'Angle(0,0,0)');
 
     try {
       const command = process.platform === 'win32' ? 'npm.cmd' : 'npm';
@@ -222,15 +226,27 @@ describe('cli-generate-lua', () => {
 
       expect(result.status).toBe(0);
       const entityLua = fs.readFileSync(path.join(outputPath, 'entity.lua'), 'utf8');
-      expect(entityLua).toContain('---@overload fun(self: Entity, key: string): Entity|NULL # The value associated with the key');
-      expect(entityLua).toContain('---@overload fun(self: Entity, key: string): number # The value associated with the key');
-      expect(entityLua).toContain('---@overload fun(self: Entity, key: string): Entity|NULL # The retrieved value');
-      expect(entityLua).toContain('---@param fallback T The value to return if we failed to retrieve the value.');
-      expect(entityLua).toContain('---@return Entity|T # The value associated with the key');
-      expect(entityLua).toContain('---@return number|T # The value associated with the key');
-      expect(entityLua).toContain('---@return Entity|T # The retrieved value');
+      const expectedGetters = [
+        { name: 'GetNWEntity', overload: 'Entity|NULL', fallback: 'NULL', returns: 'Entity|T' },
+        { name: 'GetNWInt', overload: 'number', fallback: '0', returns: 'number|T' },
+        { name: 'GetNetworkedEntity', overload: 'Entity|NULL', fallback: 'NULL', returns: 'Entity|T' },
+        { name: 'GetNWBool', overload: 'boolean', fallback: 'false', returns: 'boolean|T' },
+        { name: 'GetNWString', overload: 'string', fallback: '""', returns: 'string|T' },
+        { name: 'GetNWVector', overload: 'Vector', fallback: 'Vector( 0, 0, 0 )', returns: 'Vector|T' },
+        { name: 'GetNWAngle', overload: 'Angle', fallback: 'Angle( 0, 0, 0 )', returns: 'Angle|T' },
+      ];
+
+      for (const getter of expectedGetters) {
+        const block = entityLua.match(new RegExp(`---@source https://wiki\\.facepunch\\.com/gmod/Entity:${getter.name}[\\s\\S]*?function Entity:${getter.name}\\(key, fallback\\) end`))?.[0];
+        expect(block).toBeDefined();
+        expect(block).toContain(`---@overload fun(self: Entity, key: string): ${getter.overload}`);
+        expect(block).toContain(`---@param fallback? T=${getter.fallback}`);
+        expect(block).toContain(`---@return ${getter.returns}`);
+      }
+
       expect(entityLua).not.toContain('---@param fallback? Entity');
       expect(entityLua).not.toContain('---@param fallback? number');
+      expect(entityLua).not.toMatch(/---@param fallback\? T .*Defaults to/);
       expect(entityLua).not.toContain('---@return any');
     } finally {
       fs.rmSync(tmpRoot, { recursive: true, force: true });

@@ -6,7 +6,7 @@
 ---@generic T
 ---@overload fun(self: Entity, key: string): number # The retrieved value
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value. ( If it isn't set )
+---@param fallback? T=0 The value to return if we failed to retrieve the value. ( If it isn't set ).
 ---@return number|T # The retrieved value
 ---@deprecated You should use Entity:GetNWFloat instead.
 function Entity:GetNetworkedFloat(key, fallback) end

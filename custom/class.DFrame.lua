@@ -5,4 +5,14 @@
 ---@field btnMinim DButton The minimize button in the title bar (disabled by default).
 ---@field lblTitle DLabel The title label in the title bar.
 ---@field imgIcon DImage|nil The icon image in the title bar, if set via DFrame:SetIcon.
+---@field m_bIsMenuComponent boolean
+---@field m_bDraggable boolean
+---@field m_bSizable boolean
+---@field m_bScreenLock boolean
+---@field m_bDeleteOnClose boolean
+---@field m_bPaintShadow boolean
+---@field m_iMinWidth number
+---@field m_iMinHeight number
+---@field m_bBackgroundBlur boolean
+---@field m_fCreateTime number
 local DFrame = {}

@@ -4,7 +4,7 @@
 ---@generic T
 ---@overload fun(self: Entity, key: string): Angle # The value associated with the key
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value.
+---@param fallback? T=Angle( 0, 0, 0 ) The value to return if we failed to retrieve the value.
 ---@return Angle|T # The value associated with the key
 ---@deprecated You should be using Entity:GetNW2Angle instead.
 function Entity:GetNetworked2Angle(key, fallback) end

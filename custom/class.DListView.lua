@@ -4,4 +4,10 @@
 ---@field Sorted DListView_Line[] Lines sorted by the current column/order.
 ---@field pnlCanvas Panel
 ---@field VBar? DVScrollBar
+---@field m_bDirty boolean
+---@field m_bSortable boolean
+---@field m_iHeaderHeight number
+---@field m_iDataHeight number
+---@field m_bMultiSelect boolean
+---@field m_bHideHeaders boolean
 local DListView = {}

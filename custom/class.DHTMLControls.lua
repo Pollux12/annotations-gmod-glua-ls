@@ -16,7 +16,10 @@
 --- The current navigation history position.
 ---@field Cur number
 --- Whether we are currently navigating via history buttons.
----@field Navigating boolean
+---@field Navigating? boolean
 --- The home URL to navigate to.
 ---@field HomeURL string
+---@field History table<integer, string>
+---@field BorderSize number
+---@field BackgroundColor Color
 local DHTMLControls = {}

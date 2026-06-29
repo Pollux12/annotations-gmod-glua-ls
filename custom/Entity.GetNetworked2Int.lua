@@ -4,7 +4,7 @@
 ---@generic T
 ---@overload fun(self: Entity, key: string): number # The value associated with the key
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value.
+---@param fallback? T=0 The value to return if we failed to retrieve the value.
 ---@return number|T # The value associated with the key
 ---@deprecated You should be using Entity:GetNW2Int instead.
 function Entity:GetNetworked2Int(key, fallback) end

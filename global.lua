@@ -802,7 +802,7 @@ function _G.DTVar_ReceiveProxyGL(entity, Type, index, newValue) end
 ---
 --- **WARNING**: It is not safe to hold a reference to this object after creation since its data can be replaced by another dlight at any time.
 ---
---- The minlight parameter affects the world and entities differently.
+--- Dynamic lights affect the world (brushwork, static props) and entities (dynamic props, etc.) differently.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/Global.DynamicLight
 ---@param index number An unsigned Integer. Usually an Entity:EntIndex is used here.
@@ -1235,7 +1235,7 @@ function _G.GetDownloadables() end
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Global.getfenv
----@param location? function The object to get the enviroment from. Can also be a number that specifies the function at that stack level: Level 1 is the function calling getfenv. Level 0 is the base Garry's Mod environment (_G).
+---@param location? function|number The object to get the enviroment from. Can also be a number that specifies the function at that stack level: Level 1 is the function calling getfenv. Level 0 is the base Garry's Mod environment (_G).
 ---@return table # The environment.
 function _G.getfenv(location) end
 
@@ -2500,7 +2500,7 @@ function _G.rawset(table, index, value) end
 ---@return number # Real frame time
 function _G.RealFrameTime() end
 
----Returns the uptime of the game/server in seconds (to at least **4** decimal places). This value updates itself once every time the realm thinks. For servers, this is the server tickrate. For clients, its their current FPS.
+---Returns the uptime of the game/server in seconds (to at least **4** decimal places). This value updates itself once every time the realm thinks. For servers, this is the server tickrate. For clients, this is once per frame.
 ---
 --- **NOTE**: This is **not** synchronised or affected by the game.
 ---

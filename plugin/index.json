@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-21T12:56:38Z",
+  "generatedAt": "2026-07-01T00:27:50Z",
   "plugins": [
     {
       "id": "cami",
@@ -20,7 +20,7 @@
       "artifact": {
         "branch": "gluals-annotations-prerelease-plugin-cami",
         "manifest": "plugin.json",
-        "version": "2026-06-21T12:56:38Z"
+        "version": "2026-07-01T00:27:50Z"
       }
     },
     {
@@ -39,7 +39,7 @@
       "artifact": {
         "branch": "gluals-annotations-prerelease-plugin-darkrp",
         "manifest": "plugin.json",
-        "version": "2026-06-21T12:56:38Z"
+        "version": "2026-07-01T00:27:50Z"
       }
     },
     {
@@ -60,7 +60,7 @@
       "artifact": {
         "branch": "gluals-annotations-prerelease-plugin-helix",
         "manifest": "plugin.json",
-        "version": "2026-06-21T12:56:38Z"
+        "version": "2026-07-01T00:27:50Z"
       }
     }
   ]

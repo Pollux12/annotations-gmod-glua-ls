@@ -362,7 +362,7 @@ function Entity:CopyBoneMatrix(boneID, data) end
 
 ---Creates bone followers based on the current entity model.
 ---
---- Bone followers are [Entities](https://wiki.facepunch.com/gmod/Entity) whose [Physics Object](https://wiki.facepunch.com/gmod/PhysObj) follows a specific bone on another Entity's model.
+--- Bone followers are [Entities](https://wiki.facepunch.com/gmod/Entity) whose [Physics Objects](https://wiki.facepunch.com/gmod/PhysObj) follow a specific bone on another Entity's model.
 --- This is what is used by `prop_dynamic` for things like big combine doors with multiple physics objects which follow the visual mesh of the door when it animates.
 ---
 --- Be mindful that bone followers create a separate entity (`phys_bone_follower`) for each physics object.

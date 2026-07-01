@@ -415,6 +415,10 @@ function PLAYER:FinishMove(mv) end
 ---
 --- [Player:CanUseFlashlight](https://wiki.facepunch.com/gmod/Player:CanUseFlashlight) must be true in order for the player's flashlight to be changed.
 --- [GM:PlayerSwitchFlashlight](https://wiki.facepunch.com/gmod/GM:PlayerSwitchFlashlight) can block this function.
+---
+--- **NOTE**: Added in [2025.11.12](https://gmod.facepunch.com/changelist/4026), the `gmod_flashlight` attachment is used as a source for the player's flashlight. In thirdperson, the playermodel and weapon worldmodel are checked; in firstperson, the viewmodel is checked. If the attachment isn't found, default engine functionality is used.
+---
+--- The light sprite attached to the playermodel when the flashlight is on will also follow the playermodel's `gmod_flashlight` attachment if it exists.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/Player:Flashlight
 ---@param isOn boolean Turns the flashlight on/off

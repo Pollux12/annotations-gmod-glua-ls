@@ -1731,6 +1731,11 @@ local RenderCamData = {}
 ---Format of the capture. Valid formats are:
 --- * `jpeg` or `jpg`
 --- * `png`
+---
+--- As of version 2026.06.19:
+--- * `rgba`, `rgb` and `bgra` - Raw image data in given byte order.
+--- Expected data size is `ImgWidth * ImgHeight * 4` (`ImgWidth * ImgHeight * 3` for `rgb`)
+--- Each 4 (or 3 for `rgb`) bytes  is one pixel, top to bottom left to right.
 ---@field format string
 ---X coordinate of the capture origin
 ---@field x number
@@ -1742,7 +1747,7 @@ local RenderCamData = {}
 ---@field h number
 ---The quality of the capture. Affects jpeg only.
 ---@field quality number
----Set to false to capture an image with alpha channel set to fully opaque. Affects png only.
+---Set to false to capture an image with alpha channel set to fully opaque. Affects any format with alpha channel support, so not `jpg`.
 ---
 --- Default: `true`
 ---@field alpha boolean=true
@@ -2472,7 +2477,7 @@ Trace.hitclientonly = false
 ---
 --- Default: `false`
 ---@field Hit boolean=false
----The ID of the hitbox hit by the trace.
+---The ID of the hitbox hit by the trace, or ID of the static prop hit in case of hitting the world.
 ---
 --- Default: `0`
 ---@field HitBox number=0
@@ -2565,7 +2570,7 @@ local TraceResult = {}
 ---@field id number
 ---The title of the Workshop item
 ---@field title string
----The description of the Workshop item
+---The description of the Workshop item. It will be limited to 255 characters (by Steam) unless steamworks.FileInfo is called with the `extraInfo` parameter set.
 ---@field description string
 ---The internal File ID of the workshop item, if any
 ---@field fileid number
@@ -2628,6 +2633,14 @@ local TraceResult = {}
 --- * `nudity`
 --- * `adult_only`
 ---@field content_descriptors string[]
+---If present, a list of additional previews for this Workshop item.
+---
+--- steamworks.FileInfo must be called with `extraInfo` parameter.
+---
+--- It will be a table of tables with the following keys:
+--- * number `type` - type of additional preview. 0 = is normal image, 1=YouTube video ID
+--- * string `url` - URL to the additional preview. Format depends on the type.
+---@field extra_previews table[]
 
 local UGCFileInfo = {}
 

@@ -5,6 +5,7 @@
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Global.GetConVar
 ---@[call_arg("gmod.convar", "reference")]
+---@[writes_global("ConVarCache")]
 ---@param name string Name of the ConVar to get
 ---@return ConVar? # The ConVar object, or nil if no such ConVar was found.
 function _G.GetConVar( name ) end

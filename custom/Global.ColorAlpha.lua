@@ -5,4 +5,5 @@
 ---@param color Color The Color from which to take RGB values. This color will not be modified.
 ---@param alpha number The new alpha value, a number between 0 and 255. Values above 255 will be clamped.
 ---@return Color # The new Color with the modified alpha value
+---@[side_effect_free]
 function _G.ColorAlpha(color, alpha) end

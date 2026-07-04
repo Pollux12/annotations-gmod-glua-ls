@@ -164,4 +164,34 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(generatedEnums).toContain('RENDERGROUP_NONE = 5');
     expect(generatedList).toContain('---@overload fun(identifier: "SkeletonConvertor", key: string, item: SkeletonConvertor)');
   });
+
+  test('global IsValid uses an object-wide validity guard', () => {
+    const globalLua = readOutput('global.lua');
+    const isValidBlock = globalLua.match(
+      /---@source https:\/\/wiki\.facepunch\.com\/gmod\/Global\.IsValid[\s\S]*?function _G\.IsValid\(object\) end/,
+    )?.[0];
+
+    expect(isValidBlock).toBeDefined();
+    expect(isValidBlock).toContain('---@param object any The table or object to be validated.');
+    expect(isValidBlock).toContain('---@return TypeGuard<any> isValid # True if the object is valid.');
+    expect(isValidBlock).toContain('---@return_cast object -NULL');
+    expect(isValidBlock).toContain('---@[valid_guard]');
+    expect(isValidBlock).not.toContain('TypeGuard<Entity>');
+    expect(isValidBlock).not.toContain('---@param ent');
+    expect(isValidBlock).not.toContain('function _G.IsValid(ent)');
+  });
+
+  test('entity predicate overrides keep lowercase and legacy pages separate', () => {
+    const isEntityOverride = readCustom('Global.isentity.lua');
+    const legacyIsEntityOverride = readCustom('Global.IsEntity.legacy..lua');
+
+    expect(isEntityOverride).toContain('---@source https://wiki.facepunch.com/gmod/Global.isentity');
+    expect(isEntityOverride).toContain('function _G.isentity(var) end');
+    expect(isEntityOverride).not.toContain('Global.IsEntity');
+
+    expect(legacyIsEntityOverride).toContain('---@source https://wiki.facepunch.com/gmod/Global.IsEntity(legacy)');
+    expect(legacyIsEntityOverride).toContain('---@deprecated Use the function Global.isentity instead.');
+    expect(legacyIsEntityOverride).toContain('function _G.IsEntity(var) end');
+    expect(legacyIsEntityOverride).not.toContain('function _G.isentity');
+  });
 });

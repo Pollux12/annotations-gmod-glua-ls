@@ -4,7 +4,8 @@
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Global.IsValid
----@param ent any The table or object to be validated.
----@return TypeGuard<Entity> isValid # True if the object is valid.
+---@param object any The table or object to be validated.
+---@return TypeGuard<any> isValid # True if the object is valid.
+---@return_cast object -NULL
 ---@[valid_guard]
-function _G.IsValid(ent) end
+function _G.IsValid(object) end

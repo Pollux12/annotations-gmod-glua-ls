@@ -5,9 +5,9 @@
 ---@realm menu
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/string.FormattedTime
----@overload fun(float: number): FormattedTime
----@overload fun(float: number, format: nil): FormattedTime
----@param float number Number of seconds to format.
----@param format string The format string. If this is omitted, a FormattedTime table is returned instead.
----@return string # The formatted time string.
-function string.FormattedTime(float, format) end
+---@overload fun(seconds: number): FormattedTime
+---@overload fun(seconds: number, format: nil): FormattedTime
+---@param seconds? number Number of seconds to format.
+---@param format? string The format string. If this is omitted, a FormattedTime table is returned instead.
+---@return string|FormattedTime # The formatted time string, or a FormattedTime table when no format is supplied.
+function string.FormattedTime(seconds, format) end

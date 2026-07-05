@@ -181,6 +181,114 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(isValidBlock).not.toContain('function _G.IsValid(ent)');
   });
 
+  test('source-backed Lua helper overrides expose optional/internal arguments accurately', () => {
+    const stringLua = readOutput('string.lua');
+    const tableLua = readOutput('table.lua');
+    const formattedTimeBlock = stringLua.match(
+      /---@source https:\/\/wiki\.facepunch\.com\/gmod\/string\.FormattedTime[\s\S]*?function string\.FormattedTime\(seconds, format\) end/,
+    )?.[0];
+    const tableCopyBlock = tableLua.match(
+      /---@source https:\/\/wiki\.facepunch\.com\/gmod\/table\.Copy[\s\S]*?function table\.Copy\(originalTable, lookupTable\) end/,
+    )?.[0];
+
+    expect(formattedTimeBlock).toBeDefined();
+    expect(formattedTimeBlock).toContain('---@overload fun(seconds: number): FormattedTime');
+    expect(formattedTimeBlock).toContain('---@overload fun(seconds: number, format: nil): FormattedTime');
+    expect(formattedTimeBlock).toContain('---@param seconds? number Number of seconds to format.');
+    expect(formattedTimeBlock).toContain('---@param format? string The format string.');
+    expect(formattedTimeBlock).toContain('---@return string|FormattedTime');
+    expect(formattedTimeBlock).not.toContain('---@param float');
+    expect(formattedTimeBlock).not.toContain('function string.FormattedTime(float, format)');
+
+    expect(tableCopyBlock).toBeDefined();
+    expect(tableCopyBlock).toContain('---@param lookupTable? table<any, any> Table used internally to preserve cyclic references.');
+    expect(tableCopyBlock).toContain('function table.Copy(originalTable, lookupTable) end');
+  });
+
+  test('source-backed VGUI lookup and creation overrides expose nil failure paths', () => {
+    const vguiLua = readOutput('vgui.lua');
+    const createBlock = vguiLua.match(
+      /---@source https:\/\/wiki\.facepunch\.com\/gmod\/vgui\.Create[\s\S]*?function vgui\.Create\(classname, parent, name\) end/,
+    )?.[0];
+    const createFromTableBlock = vguiLua.match(
+      /---@source https:\/\/wiki\.facepunch\.com\/gmod\/vgui\.CreateFromTable[\s\S]*?function vgui\.CreateFromTable\(metatable, parent, name\) end/,
+    )?.[0];
+    const getControlTableBlock = vguiLua.match(
+      /---@source https:\/\/wiki\.facepunch\.com\/gmod\/vgui\.GetControlTable[\s\S]*?function vgui\.GetControlTable\(Panelname\) end/,
+    )?.[0];
+
+    expect(createBlock).toBeDefined();
+    expect(createBlock).toContain('---@overload fun(classname: string, parent?: Panel, name?: string): Panel?');
+    expect(createBlock).toContain('---@return (instance) T?');
+
+    expect(createFromTableBlock).toBeDefined();
+    expect(createFromTableBlock).toContain('---@param metatable T? Your PANEL table.');
+    expect(createFromTableBlock).toContain('---@return (instance) Panel?');
+
+    expect(getControlTableBlock).toBeDefined();
+    expect(getControlTableBlock).toContain('---@return (definition) `T`?');
+  });
+
+  test('DermaAnimation class fragment matches the Lua runtime state shape', () => {
+    const customClasses = readOutput('custom_classes.lua');
+    const dermaAnimationBlock = customClasses.match(
+      /---@class DermaAnimation[\s\S]*?function DermaAnimation:Active\(\) end/,
+    )?.[0];
+
+    expect(dermaAnimationBlock).toBeDefined();
+    expect(dermaAnimationBlock).toContain('---@field Length? number');
+    expect(dermaAnimationBlock).toContain('---@return boolean?');
+    expect(dermaAnimationBlock).not.toContain('---@field Length number');
+    expect(dermaAnimationBlock).not.toContain('---@return boolean\nfunction DermaAnimation:Active() end');
+  });
+
+  test('DPropertySheet overrides expose source-backed absent tab and invalid-panel paths', () => {
+    const propertySheetLua = readOutput('dpropertysheet.lua');
+    const addSheetBlock = propertySheetLua.match(
+      /---@source https:\/\/wiki\.facepunch\.com\/gmod\/DPropertySheet:AddSheet[\s\S]*?function DPropertySheet:AddSheet\(name, pnl, icon, noStretchX, noStretchY, tooltip\) end/,
+    )?.[0];
+    const getActiveTabBlock = propertySheetLua.match(
+      /---@source https:\/\/wiki\.facepunch\.com\/gmod\/DPropertySheet:GetActiveTab[\s\S]*?function DPropertySheet:GetActiveTab\(\) end/,
+    )?.[0];
+
+    expect(addSheetBlock).toBeDefined();
+    expect(addSheetBlock).toContain('---@return DPropertySheetSheet? sheet');
+
+    expect(getActiveTabBlock).toBeDefined();
+    expect(getActiveTabBlock).toContain('---@return DTab?');
+  });
+
+  test('source-backed registry lookup overrides expose missing-entry nil results', () => {
+    const controlPanelLua = readOutput('controlpanel.lua');
+    const gamemodeLua = readOutput('gamemode.lua');
+    const scriptedEntsLua = readOutput('scripted_ents.lua');
+    const weaponsLua = readOutput('weapons.lua');
+    const controlPanelGetBlock = controlPanelLua.match(
+      /---@source https:\/\/wiki\.facepunch\.com\/gmod\/controlpanel\.Get[\s\S]*?function controlpanel\.Get\(name\) end/,
+    )?.[0];
+    const gamemodeGetBlock = gamemodeLua.match(
+      /---@source https:\/\/wiki\.facepunch\.com\/gmod\/gamemode\.Get[\s\S]*?function gamemode\.Get\(name\) end/,
+    )?.[0];
+    const scriptedEntsGetBlock = scriptedEntsLua.match(
+      /---@source https:\/\/wiki\.facepunch\.com\/gmod\/scripted_ents\.Get[\s\S]*?function scripted_ents\.Get\(classname\) end/,
+    )?.[0];
+    const weaponsGetStoredBlock = weaponsLua.match(
+      /---@source https:\/\/wiki\.facepunch\.com\/gmod\/weapons\.GetStored[\s\S]*?function weapons\.GetStored\(weapon_class\) end/,
+    )?.[0];
+
+    expect(controlPanelGetBlock).toBeDefined();
+    expect(controlPanelGetBlock).toContain('---@return ControlPanel?');
+
+    expect(gamemodeGetBlock).toBeDefined();
+    expect(gamemodeGetBlock).toContain('---@return (definition) `T`?');
+
+    expect(scriptedEntsGetBlock).toBeDefined();
+    expect(scriptedEntsGetBlock).toContain('---@return (definition) `T`?');
+
+    expect(weaponsGetStoredBlock).toBeDefined();
+    expect(weaponsGetStoredBlock).toContain('---@return (definition) `T`?');
+  });
+
   test('entity predicate overrides keep lowercase and legacy pages separate', () => {
     const isEntityOverride = readCustom('Global.isentity.lua');
     const legacyIsEntityOverride = readCustom('Global.IsEntity.legacy..lua');

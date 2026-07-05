@@ -7,7 +7,7 @@
 ---@field Running? boolean Whether the animation is currently running.
 ---@field Started? boolean Set true on the first tick; cleared after first call.
 ---@field Finished? boolean Set true on the final tick.
----@field Length number Total duration in seconds.
+---@field Length? number Total duration in seconds.
 ---@field StartTime? number SysTime() when the animation began.
 ---@field EndTime? number SysTime() when the animation will end.
 local DermaAnimation = {}
@@ -17,5 +17,5 @@ function DermaAnimation:Run() end
 ---@param data? any
 function DermaAnimation:Start(length, data) end
 function DermaAnimation:Stop() end
----@return boolean
+---@return boolean?
 function DermaAnimation:Active() end

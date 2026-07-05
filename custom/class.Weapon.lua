@@ -38,5 +38,5 @@ WEAPON = Weapon
 --- initializing, or being removed.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Entity:GetOwner
----@return Entity|Player|NPC|NULL # The entity currently owning this weapon.
+---@return Entity|NULL # The entity currently owning this weapon.
 function Weapon:GetOwner() end

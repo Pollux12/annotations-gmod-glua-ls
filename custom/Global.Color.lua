@@ -11,5 +11,4 @@
 ---@[call_arg("gmod.color", "a")]
 ---@param a? number The alpha channel, from 0 to 255.
 ---@return Color
----@[side_effect_free]
 function _G.Color(r, g, b, a) end

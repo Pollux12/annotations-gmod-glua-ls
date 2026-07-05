@@ -2,6 +2,5 @@
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/ConVar:GetString
----@[side_effect_free]
 ---@return string # The current console variable value as a string.
 function ConVar:GetString() end

@@ -2,7 +2,6 @@
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Global.ColorToHSL
----@[side_effect_free]
 ---@param color Color The Color.
 ---@return number # The hue in degrees [0, 360].
 ---@return number # The saturation in the range [0, 1].

@@ -1,4 +1,4 @@
-import { ClassFunction, Enum, Function, HookFunction, LibraryFunction, TypePage, Panel, PanelFunction, Realm, Struct, WikiPage, isPanel, FunctionArgument, FunctionCallback } from '../scrapers/wiki-page-markup-scraper.js';
+import { ClassFunction, Enum, Function, HookFunction, LibraryFunction, TypePage, Panel, PanelFunction, Realm, Struct, StructField, WikiPage, isPanel, FunctionArgument, FunctionCallback } from '../scrapers/wiki-page-markup-scraper.js';
 import { indentText, wrapInComment, removeNewlines, safeFileName, toLowerCamelCase } from '../utils/string.js';
 import {
   isClassFunction,
@@ -50,10 +50,26 @@ type FunctionGenericHint = {
   returnsCollection: boolean;
 };
 
+type ClassMetadata = {
+  description?: string;
+  realm?: Realm;
+  url?: string;
+  parent?: string;
+  deprecated?: string;
+};
+
+type PlannedClass = ClassMetadata & {
+  name: string;
+  outputFilePath: string;
+  fields: StructField[];
+};
+
 export class GluaApiWriter {
   private readonly writtenClasses: Set<string> = new Set();
   private readonly writtenLibraryGlobals: Set<string> = new Set();
   private readonly pageOverrides: Map<string, string> = new Map();
+  private readonly plannedClasses: Map<string, PlannedClass> = new Map();
+  private currentOutputFilePath?: string;
 
   private readonly files: Map<string, IndexedWikiPage[]> = new Map();
 
@@ -107,6 +123,33 @@ export class GluaApiWriter {
       return `${trimmedOverride}\n${trimmedFields}`;
 
     return trimmedOverride.replace(classValuePattern, `${trimmedFields}\n\n$1`);
+  }
+
+  private getOverrideFieldNames(override: string) {
+    return new Set(
+      [...override.matchAll(/^---@field\s+([^\s?]+)\??(?:\s|$)/gm)]
+        .map(match => match[1]),
+    );
+  }
+
+  private injectClassParentIntoOverride(override: string, className: string, parent?: string) {
+    if (!parent)
+      return override;
+
+    const escapedClassName = className.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const classPattern = new RegExp(`(^---@class(?: \\(partial\\))? ${escapedClassName})(?!\\s*:)`, 'm');
+    return override.replace(classPattern, `$1 : ${parent}`);
+  }
+
+  private writeClassMetadata(metadata: ClassMetadata) {
+    let api = metadata.description ? `${wrapInComment(metadata.description, false)}\n` : '';
+    api += this.writeRealmAnnotations(metadata.realm);
+    api += this.writeSourceAnnotation(metadata.url);
+
+    if (metadata.deprecated)
+      api += `---@deprecated ${removeNewlines(metadata.deprecated)}\n`;
+
+    return api;
   }
 
   /**
@@ -181,24 +224,27 @@ export class GluaApiWriter {
   }
 
   // Remove debug logging
-  private writeClassStart(className: string, realm?: Realm, url?: string, parent?: string, deprecated?: string, description?: string, classFields: string = '') {
+  private writeClassStart(className: string, realm?: Realm, url?: string, parent?: string, deprecated?: string, description?: string, classFields: string = '', includeMetadataWithOverride: boolean = false) {
     let api: string = '';
 
     // Resolve class name to canonical form
     const canonicalClassName = this.resolveToCanonicalClassName(className);
     const isAlias = canonicalClassName !== className;
+    const plannedClass = this.plannedClasses.get(canonicalClassName);
+
+    if (this.currentOutputFilePath && plannedClass && plannedClass.outputFilePath !== this.currentOutputFilePath)
+      return '';
 
     if (!this.writtenClasses.has(canonicalClassName)) {
       const classOverride = `class.${canonicalClassName}`;
       if (this.pageOverrides.has(classOverride)) {
-        api += this.injectClassFieldsIntoOverride(this.pageOverrides.get(classOverride)!, canonicalClassName, classFields) + '\n\n';
-      } else {
-        api += description ? `${wrapInComment(description, false)}\n` : '';
-        api += this.writeRealmAnnotations(realm);
-        api += this.writeSourceAnnotation(url);
+        if (includeMetadataWithOverride)
+          api += this.writeClassMetadata({ realm, url, deprecated, description });
 
-        if (deprecated)
-          api += `---@deprecated ${removeNewlines(deprecated)}\n`;
+        const override = this.injectClassParentIntoOverride(this.pageOverrides.get(classOverride)!, canonicalClassName, parent);
+        api += this.injectClassFieldsIntoOverride(override, canonicalClassName, classFields) + '\n\n';
+      } else {
+        api += this.writeClassMetadata({ realm, url, deprecated, description });
 
         api += `---@class (partial) ${canonicalClassName}`;
 
@@ -490,8 +536,122 @@ export class GluaApiWriter {
     return this.files.get(filePath) ?? [];
   }
 
-  public makeApiFromPages(pages: IndexedWikiPage[]) {
+  private collectClassPlans() {
+    this.plannedClasses.clear();
+
+    const entries = [...this.files.entries()]
+      .flatMap(([filePath, pages]) => pages.map(page => ({ ...page, filePath })))
+      .sort((a, b) =>
+        a.filePath.localeCompare(b.filePath)
+        || a.page.address.localeCompare(b.page.address)
+        || a.index - b.index,
+      );
+    const outputFiles = [...this.files.keys()].sort((a, b) => a.localeCompare(b));
+    const classNames = new Set<string>();
+
+    for (const { page } of entries) {
+      let className: string | undefined;
+      if (isClass(page) || isStruct(page) || isPanel(page))
+        className = page.name;
+      else if (isClassFunction(page) || isHookFunction(page) || isPanelFunction(page))
+        className = page.parent;
+
+      if (className)
+        classNames.add(this.resolveToCanonicalClassName(className));
+    }
+
+    for (const canonicalClassName of [...classNames].sort((a, b) => a.localeCompare(b))) {
+      const relevantEntries = entries.filter(({ page }) => {
+        const pageClassName = isClass(page) || isStruct(page) || isPanel(page)
+          ? page.name
+          : isClassFunction(page) || isHookFunction(page) || isPanelFunction(page)
+            ? page.parent
+            : undefined;
+        return pageClassName !== undefined
+          && this.resolveToCanonicalClassName(pageClassName) === canonicalClassName;
+      });
+      const metadataEntries = relevantEntries
+        .filter(({ page }) => isClass(page) || isStruct(page) || isPanel(page))
+        .sort((a, b) => {
+          const exactNameDifference = Number(a.page.name !== canonicalClassName) - Number(b.page.name !== canonicalClassName);
+          if (exactNameDifference !== 0) return exactNameDifference;
+
+          const kindPriority = (page: WikiPage) => isClass(page) ? 0 : isStruct(page) ? 1 : 2;
+          return kindPriority(a.page) - kindPriority(b.page)
+            || a.filePath.localeCompare(b.filePath)
+            || a.page.address.localeCompare(b.page.address)
+            || a.index - b.index;
+        });
+      const metadataPages = metadataEntries.map(({ page }) => page);
+      const firstMetadataValue = <T>(select: (page: WikiPage) => T | undefined) => {
+        for (const page of metadataPages) {
+          const value = select(page);
+          if (value !== undefined && value !== '') return value;
+        }
+        return undefined;
+      };
+      const matchingModule = outputFiles.find(filePath => {
+        const baseName = filePath.split(/[\\/]/).pop()?.replace(/\.lua$/i, '') ?? '';
+        return baseName.toLowerCase() === canonicalClassName.toLowerCase();
+      });
+      const outputFilePath = matchingModule
+        ?? metadataEntries[0]?.filePath
+        ?? relevantEntries[0].filePath;
+      const customOverride = this.pageOverrides.get(`class.${canonicalClassName}`) ?? '';
+      const customFieldNames = this.getOverrideFieldNames(customOverride);
+      const writtenFieldNames = new Set(customFieldNames);
+      const fields: StructField[] = [];
+
+      for (const { page } of relevantEntries) {
+        if (!isStruct(page)) continue;
+
+        for (const field of page.fields) {
+          const fieldName = GluaApiWriter.safeName(field.name);
+          if (writtenFieldNames.has(fieldName)) continue;
+
+          writtenFieldNames.add(fieldName);
+          fields.push(field);
+        }
+      }
+
+      this.plannedClasses.set(canonicalClassName, {
+        name: canonicalClassName,
+        outputFilePath,
+        fields,
+        description: firstMetadataValue(page => page.description),
+        realm: firstMetadataValue(page => page.realm),
+        url: firstMetadataValue(page => page.url),
+        parent: firstMetadataValue(page => 'parent' in page ? page.parent : undefined),
+        deprecated: firstMetadataValue(page => page.deprecated),
+      });
+    }
+  }
+
+  private writePlannedClasses(filePath: string) {
     let api = '';
+    const plans = [...this.plannedClasses.values()]
+      .filter(plan => plan.outputFilePath === filePath)
+      .sort((a, b) => a.name.localeCompare(b.name));
+
+    for (const plan of plans) {
+      const classFields = plan.fields.map(field => this.writeStructField(field)).join('');
+      api += this.writeClassStart(
+        plan.name,
+        plan.realm,
+        plan.url,
+        plan.parent,
+        plan.deprecated,
+        plan.description,
+        classFields,
+        true,
+      );
+    }
+
+    return api;
+  }
+
+  public makeApiFromPages(pages: IndexedWikiPage[], filePath?: string) {
+    let api = filePath ? this.writePlannedClasses(filePath) : '';
 
     pages.sort((a, b) => a.index - b.index);
 
@@ -519,6 +679,10 @@ export class GluaApiWriter {
     const usedOverrides = new Set<string>();
     const moduleFileByName = new Map<string, string>();
 
+    this.writtenClasses.clear();
+    this.writtenLibraryGlobals.clear();
+    this.collectClassPlans();
+
     for (const [filePath, pages] of this.files) {
       const baseName = filePath.split(/[\\/]/).pop() ?? '';
       if (baseName.endsWith('.lua')) {
@@ -532,13 +696,19 @@ export class GluaApiWriter {
 
     // Process module files first so that class overrides with corresponding wiki
     // pages are emitted inline (via writeClassStart) alongside their methods.
-    this.files.forEach((pages: IndexedWikiPage[], filePath: string) => {
-      let api = this.makeApiFromPages(pages);
+    for (const [filePath, pages] of [...this.files.entries()].sort(([a], [b]) => a.localeCompare(b))) {
+      let api = '';
+      this.currentOutputFilePath = filePath;
+      try {
+        api = this.makeApiFromPages(pages, filePath);
+      } finally {
+        this.currentOutputFilePath = undefined;
+      }
 
       if (api.length > 0) {
         fs.appendFileSync(filePath, '---@meta\n\n' + api);
       }
-    });
+    }
 
     const orphanFunctionOverrides = new Map<string, string[]>();
 

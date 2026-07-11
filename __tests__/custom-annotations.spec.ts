@@ -81,6 +81,14 @@ describe('custom and plugin annotation smoke checks', () => {
     }
   });
 
+  test('GM annotations include runtime-populated structure fields', () => {
+    const gmLua = readOutput('gm.lua');
+
+    for (const field of ['FolderName', 'Folder', 'ThisClass', 'BaseClass']) {
+      expect(gmLua).toContain(`---@field ${field} `);
+    }
+  });
+
   test('custom class fragments are included in the generated custom class bundle', () => {
     const customClasses = readOutput('custom_classes.lua');
     const classFiles = [

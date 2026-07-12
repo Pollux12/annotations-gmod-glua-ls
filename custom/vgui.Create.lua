@@ -12,6 +12,7 @@
 ---
 --- New panels can be registered via vgui.Register
 ---
+---@[call_arg("gmod.vgui_panel", "parent")]
 ---@param parent Panel? Panel to parent to.
 ---@param name string? Custom name of the created panel for scripting/debugging purposes. Can be retrieved with Panel:GetName.
 ---@return (instance) T? #The created panel, or `nil` if creation failed for whatever reason.

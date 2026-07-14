@@ -621,7 +621,12 @@ export class GluaApiWriter {
         description: firstMetadataValue(page => page.description),
         realm: firstMetadataValue(page => page.realm),
         url: firstMetadataValue(page => page.url),
-        parent: firstMetadataValue(page => 'parent' in page ? page.parent : undefined),
+        parent: firstMetadataValue(page => {
+          const parent = 'parent' in page ? page.parent : undefined;
+          return parent && this.resolveToCanonicalClassName(parent) !== canonicalClassName
+            ? parent
+            : undefined;
+        }),
         deprecated: firstMetadataValue(page => page.deprecated),
       });
     }

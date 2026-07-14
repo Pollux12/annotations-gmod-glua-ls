@@ -187,4 +187,31 @@ describe('Custom class overrides emission', () => {
 		expect(ownerOutput).toContain('---@field Dock number');
 		expect((`${aliasOutput}\n${ownerOutput}`.match(/---@class \(partial\) Panel/g) ?? [])).toHaveLength(1);
 	});
+
+	test('alias metadata cannot make its canonical class inherit from itself', () => {
+		const writer = new GluaApiWriter(tmpDir);
+		const aliasFile = path.join(tmpDir, 'aaa.lua');
+		const ownerFile = path.join(tmpDir, 'panel.lua');
+
+		writer.addOverride('class.Panel', '---@class Panel\nPanel = Panel or {}\n');
+		writer.writePages([<any>{
+			type: 'class',
+			name: 'PANEL',
+			address: 'PANEL_Hooks',
+			parent: 'Panel',
+			description: 'Alias hook surface.',
+		}], aliasFile, 0);
+		writer.writePages([<any>{
+			type: 'class',
+			name: 'Panel',
+			address: 'Panel',
+			description: 'Canonical panel.',
+		}], ownerFile, 1);
+
+		writer.writeToDisk();
+
+		const ownerOutput = fs.readFileSync(ownerFile, 'utf8');
+		expect(ownerOutput).toContain('---@class Panel\n');
+		expect(ownerOutput).not.toContain('---@class Panel : Panel');
+	});
 });

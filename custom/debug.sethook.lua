@@ -1,0 +1,11 @@
+---Sets a Lua debug hook, or removes the current hook when called without arguments.
+---@realm shared
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/debug.sethook
+---@overload fun()
+---@overload fun(hook: function, mask: string, count?: number)
+---@param thread thread
+---@param hook function
+---@param mask string
+---@param count? number
+function debug.sethook(thread, hook, mask, count) end

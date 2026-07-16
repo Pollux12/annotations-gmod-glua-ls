@@ -22,8 +22,8 @@
 
 ---@class Tool
 ---@field Mode string The tool mode string (e.g. "weld", "balloon").
----@field SWEP Weapon The weapon entity this tool belongs to.
----@field Weapon Weapon Alias for SWEP; the weapon entity this tool belongs to.
+---@field SWEP gmod_tool The tool gun weapon entity this tool belongs to.
+---@field Weapon gmod_tool Alias for SWEP; the tool gun weapon entity this tool belongs to.
 ---@field Owner Player The player who owns this tool.
 ---@field Objects ToolObjects Array of stored constraint objects indexed 1-based.
 ---@field Stage number The current stage of the tool.
@@ -52,7 +52,7 @@
 Tool = Tool or {}
 
 ---Returns the Tool Gun (`gmod_tool`) Scripted Weapon. Never nil at runtime after Init.
----@return Weapon # The tool gun weapon. (`gmod_tool`)
+---@return gmod_tool # The tool gun weapon.
 function Tool:GetWeapon() end
 
 ---Initializes a ghost entity from the given entity's model/pos/angles.

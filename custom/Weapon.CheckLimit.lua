@@ -1,0 +1,6 @@
+---Checks whether the tool gun's owner can create another object of the given limit type.
+---@realm shared
+---@source https://github.com/Facepunch/garrysmod/blob/master/garrysmod/gamemodes/sandbox/entities/weapons/gmod_tool/shared.lua#L69
+---@param limitName string The sandbox limit name to check.
+---@return boolean # Whether another object can be created.
+function gmod_tool:CheckLimit(limitName) end

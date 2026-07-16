@@ -4,5 +4,5 @@
 --- ToolObj:Create() initialising SWEP to nil.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Tool:GetWeapon
----@return Weapon # The tool gun weapon (`gmod_tool`). Always valid after Init.
+---@return gmod_tool # The tool gun weapon. Always valid after Init.
 function Tool:GetWeapon() end

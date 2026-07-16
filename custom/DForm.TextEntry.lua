@@ -4,4 +4,5 @@
 ---@param label string The label for the text entry.
 ---@param convar? string The convar to link the text entry to.
 ---@return DTextEntry # The created DTextEntry
+---@return DLabel # The label created for the text entry.
 function DForm:TextEntry(label, convar) end

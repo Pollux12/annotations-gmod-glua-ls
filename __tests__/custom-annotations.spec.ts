@@ -59,15 +59,22 @@ describe('custom and plugin annotation smoke checks', () => {
       ['DDragBase.DropAction_Normal.lua', 'ddragbase.lua'],
       ['DDragBase.DropAction_Simple.lua', 'ddragbase.lua'],
       ['DFileBrowser.SetOpen.lua', 'dfilebrowser.lua'],
+      ['DForm.TextEntry.lua', 'dform.lua'],
       ['DImage.SetMatName.lua', 'dimage.lua'],
       ['DMenu.SetOpenSubMenu.lua', 'dmenu.lua'],
       ['DPanelList.Clear.lua', 'dpanellist.lua'],
+      ['DPanelList.SortByMember.lua', 'dpanellist.lua'],
+      ['DTree.AddNode.lua', 'dtree.lua'],
+      ['DTree_Node.AddNode.lua', 'dtree_node.lua'],
       ['Panel.PerformLayout.lua', 'panel.lua'],
       ['TOOL.BuildCPanel.lua', 'tool.lua'],
       ['TOOL.Deploy.lua', 'tool.lua'],
       ['TOOL.Holster.lua', 'tool.lua'],
+      ['Tool.GetSWEP.lua', 'tool.lua'],
+      ['Tool.GetWeapon.lua', 'tool.lua'],
       ['class.Weapon.lua', 'weapon.lua'],
       ['Weapon.GetToolObject.lua', 'weapon.lua'],
+      ['Weapon.CheckLimit.lua', 'weapon.lua'],
       ['constraint.Elastic.lua', 'constraint.lua'],
       ['constraint.Weld.lua', 'constraint.lua'],
       ['ContentHeader.OpenMenu.lua', 'contentheader.lua'],
@@ -231,10 +238,56 @@ describe('custom and plugin annotation smoke checks', () => {
 
     expect(createFromTableBlock).toBeDefined();
     expect(createFromTableBlock).toContain('---@param metatable T? Your PANEL table.');
-    expect(createFromTableBlock).toContain('---@return (instance) Panel?');
+    expect(createFromTableBlock).toContain('---@return (instance) T?');
 
     expect(getControlTableBlock).toBeDefined();
     expect(getControlTableBlock).toContain('---@return (definition) `T`?');
+  });
+
+  test('base Lua VGUI and tool overrides preserve concrete runtime types', () => {
+    const dtreeLua = readOutput('dtree.lua');
+    const dtreeNodeLua = readOutput('dtree_node.lua');
+    const dformLua = readOutput('dform.lua');
+    const dpanelListLua = readOutput('dpanellist.lua');
+    const toolLua = readOutput('tool.lua');
+    const weaponLua = readOutput('weapon.lua');
+
+    const dtreeAddNode = dtreeLua.match(
+      /---@source https:\/\/wiki\.facepunch\.com\/gmod\/DTree:AddNode[\s\S]*?function DTree:AddNode\(name, icon\) end/,
+    )?.[0];
+    const nodeAddNode = dtreeNodeLua.match(
+      /---@source https:\/\/wiki\.facepunch\.com\/gmod\/DTree_Node:AddNode[\s\S]*?function DTree_Node:AddNode\(name, icon\) end/,
+    )?.[0];
+    const textEntry = dformLua.match(
+      /---@source https:\/\/wiki\.facepunch\.com\/gmod\/DForm:TextEntry[\s\S]*?function DForm:TextEntry\(label, convar\) end/,
+    )?.[0];
+    const sortByMember = dpanelListLua.match(
+      /---@source https:\/\/github\.com\/Facepunch\/garrysmod\/blob\/master\/garrysmod\/lua\/vgui\/dpanellist\.lua#L403[\s\S]*?function DPanelList:SortByMember\(key, desc\) end/,
+    )?.[0];
+    const getSwep = toolLua.match(
+      /---@source https:\/\/wiki\.facepunch\.com\/gmod\/Tool:GetSWEP[\s\S]*?function Tool:GetSWEP\(\) end/,
+    )?.[0];
+    const getWeapon = toolLua.match(
+      /---@source https:\/\/wiki\.facepunch\.com\/gmod\/Tool:GetWeapon[\s\S]*?function Tool:GetWeapon\(\) end/,
+    )?.[0];
+    const checkLimit = weaponLua.match(
+      /---@source https:\/\/github\.com\/Facepunch\/garrysmod\/blob\/master\/garrysmod\/gamemodes\/sandbox\/entities\/weapons\/gmod_tool\/shared\.lua#L69[\s\S]*?function gmod_tool:CheckLimit\(limitName\) end/,
+    )?.[0];
+
+    expect(dtreeAddNode).toContain('---@return DTree_Node');
+    expect(nodeAddNode).toContain('---@return DTree_Node');
+    expect(textEntry).toContain('---@return DTextEntry');
+    expect(textEntry).toContain('---@return DLabel');
+    expect(textEntry!.indexOf('---@return DTextEntry')).toBeLessThan(
+      textEntry!.indexOf('---@return DLabel'),
+    );
+    expect(sortByMember).toBeDefined();
+    expect(sortByMember).toContain('---@param key any');
+    expect(sortByMember).toContain('---@param desc? boolean');
+    expect(getSwep).toContain('---@return gmod_tool');
+    expect(getWeapon).toContain('---@return gmod_tool');
+    expect(checkLimit).toContain('---@param limitName string');
+    expect(checkLimit).toContain('---@return boolean');
   });
 
   test('DermaAnimation class fragment matches the Lua runtime state shape', () => {

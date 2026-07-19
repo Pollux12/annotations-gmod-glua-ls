@@ -79,6 +79,7 @@ describe('custom and plugin annotation smoke checks', () => {
       ['constraint.Weld.lua', 'constraint.lua'],
       ['ContentHeader.OpenMenu.lua', 'contentheader.lua'],
       ['Global.collectgarbage.lua', 'global.lua'],
+      ['Global.IsEntity.lua', 'global.lua'],
       ['Weapon.GetToolObject.lua', 'weapon.lua'],
       ['workshopfilebase.FillFileInfo.lua', 'workshopfilebase.lua'],
     ];
@@ -351,10 +352,11 @@ describe('custom and plugin annotation smoke checks', () => {
   });
 
   test('entity predicate overrides keep lowercase and legacy pages separate', () => {
-    const isEntityOverride = readCustom('Global.isentity.lua');
+    const isEntityOverride = readCustom('Global.IsEntity.lua');
     const legacyIsEntityOverride = readCustom('Global.IsEntity.legacy..lua');
 
     expect(isEntityOverride).toContain('---@source https://wiki.facepunch.com/gmod/Global.isentity');
+    expect(isEntityOverride).toContain('---@return TypeGuard<Entity> isEntity');
     expect(isEntityOverride).toContain('function _G.isentity(var) end');
     expect(isEntityOverride).not.toContain('Global.IsEntity');
 

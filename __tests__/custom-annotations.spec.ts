@@ -80,6 +80,7 @@ describe('custom and plugin annotation smoke checks', () => {
       ['constraint.Elastic.lua', 'constraint.lua'],
       ['constraint.Weld.lua', 'constraint.lua'],
       ['ContentHeader.OpenMenu.lua', 'contentheader.lua'],
+      ['duplicator.EntityModifiers.lua', 'duplicator.lua'],
       ['Global.assert.lua', 'global.lua'],
       ['Global.collectgarbage.lua', 'global.lua'],
       ['Global.FixInvalidPhysicsObject.lua', 'global.lua'],
@@ -382,6 +383,15 @@ describe('custom and plugin annotation smoke checks', () => {
 
     expect(weaponsGetStoredBlock).toBeDefined();
     expect(weaponsGetStoredBlock).toContain('---@return (definition) `T`?');
+  });
+
+  test('base registries expose their runtime call shapes', () => {
+    const duplicatorLua = readOutput('duplicator.lua');
+
+    expect(duplicatorLua).toContain(
+      '---@type table<string, fun(ply: Player, ent: Entity, data: any)>',
+    );
+    expect(duplicatorLua).toContain('duplicator.EntityModifiers = {}');
   });
 
   test('entity predicate overrides keep lowercase and legacy pages separate', () => {

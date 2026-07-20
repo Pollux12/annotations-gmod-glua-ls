@@ -80,9 +80,11 @@ describe('custom and plugin annotation smoke checks', () => {
       ['constraint.Elastic.lua', 'constraint.lua'],
       ['constraint.Weld.lua', 'constraint.lua'],
       ['ContentHeader.OpenMenu.lua', 'contentheader.lua'],
+      ['Global.assert.lua', 'global.lua'],
       ['Global.collectgarbage.lua', 'global.lua'],
       ['Global.FixInvalidPhysicsObject.lua', 'global.lua'],
       ['Global.IsEntity.lua', 'global.lua'],
+      ['Global.pairs.lua', 'global.lua'],
       ['GM.AddNotify.lua', 'gm.lua'],
       ['Weapon.GetToolObject.lua', 'weapon.lua'],
       ['workshopfilebase.FillFileInfo.lua', 'workshopfilebase.lua'],
@@ -102,8 +104,8 @@ describe('custom and plugin annotation smoke checks', () => {
   });
 
   test('sandbox overrides preserve their realm-specific declarations', () => {
-    const gmLua = readOutput('gm.lua');
-    const globalLua = readOutput('global.lua');
+    const gmLua = readOutput('gm.lua').replace(/\r\n/g, '\n');
+    const globalLua = readOutput('global.lua').replace(/\r\n/g, '\n');
 
     expect(gmLua).toContain('---@realm client\n---@source sandbox/gamemode/cl_notice.lua\n---@param str string\n---@param type integer\n---@param length number\nfunction GM:AddNotify(str, type, length) end');
     expect(globalLua).toContain('---@realm server\n---@source sandbox/gamemode/commands.lua\n---@param prop Entity\nfunction _G.FixInvalidPhysicsObject(prop) end');

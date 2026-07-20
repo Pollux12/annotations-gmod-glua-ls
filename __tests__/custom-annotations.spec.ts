@@ -81,7 +81,9 @@ describe('custom and plugin annotation smoke checks', () => {
       ['constraint.Weld.lua', 'constraint.lua'],
       ['ContentHeader.OpenMenu.lua', 'contentheader.lua'],
       ['Global.collectgarbage.lua', 'global.lua'],
+      ['Global.FixInvalidPhysicsObject.lua', 'global.lua'],
       ['Global.IsEntity.lua', 'global.lua'],
+      ['GM.AddNotify.lua', 'gm.lua'],
       ['Weapon.GetToolObject.lua', 'weapon.lua'],
       ['workshopfilebase.FillFileInfo.lua', 'workshopfilebase.lua'],
     ];
@@ -97,6 +99,14 @@ describe('custom and plugin annotation smoke checks', () => {
     for (const field of ['FolderName', 'Folder', 'ThisClass', 'BaseClass']) {
       expect(gmLua).toContain(`---@field ${field} `);
     }
+  });
+
+  test('sandbox overrides preserve their realm-specific declarations', () => {
+    const gmLua = readOutput('gm.lua');
+    const globalLua = readOutput('global.lua');
+
+    expect(gmLua).toContain('---@realm client\n---@source sandbox/gamemode/cl_notice.lua\n---@param str string\n---@param type integer\n---@param length number\nfunction GM:AddNotify(str, type, length) end');
+    expect(globalLua).toContain('---@realm server\n---@source sandbox/gamemode/commands.lua\n---@param prop Entity\nfunction _G.FixInvalidPhysicsObject(prop) end');
   });
 
   test('custom class fragments are included in the generated custom class bundle', () => {

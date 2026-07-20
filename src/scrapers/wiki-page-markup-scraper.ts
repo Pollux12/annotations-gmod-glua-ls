@@ -3,7 +3,7 @@ import { deserializeXml } from '../utils/xml.js';
 import { Cheerio, CheerioAPI } from 'cheerio';
 import { AnyNode, Element as DOMElement } from 'domhandler';
 
-export type WikiFunctionType = 'panelfunc' | 'classfunc' | 'libraryfunc' | 'hook';
+export type WikiFunctionType = 'panelfunc' | 'panelhook' | 'classfunc' | 'libraryfunc' | 'hook';
 export type Realm = 'menu' | 'client' | 'server' | 'shared' | 'client and menu' | 'shared and menu';
 
 export type CommonWikiProperties = {
@@ -63,6 +63,11 @@ export type PanelFunction = Function & {
   isPanelFunction: 'yes';
 };
 
+export type PanelHookFunction = Function & {
+  type: 'panelhook';
+  isPanelHook: 'yes';
+};
+
 export type EnumValue = {
   key: string;
   value: string;
@@ -100,6 +105,7 @@ export type TypePage = CommonWikiProperties & {
 };
 
 export type WikiPage = ClassFunction | LibraryFunction | HookFunction | PanelFunction | Panel | Enum | Struct | TypePage
+  | PanelHookFunction
 
 /**
  * Guards
@@ -118,6 +124,10 @@ export function isHookFunction(page: WikiPage): page is HookFunction {
 
 export function isPanelFunction(page: WikiPage): page is PanelFunction {
   return page.type === 'panelfunc';
+}
+
+export function isPanelHookFunction(page: WikiPage): page is PanelHookFunction {
+  return page.type === 'panelhook';
 }
 
 export function isPanel(page: WikiPage): page is Panel {
@@ -388,6 +398,7 @@ export class WikiPageMarkupScraper extends Scraper<WikiPage> {
           const isLibraryFunction = mainElement.attr('type') === 'libraryfunc';
           const isHookFunction = mainElement.attr('type') === 'hook';
           const isPanelFunction = mainElement.attr('type') === 'panelfunc';
+          const isPanelHookFunction = mainElement.attr('type') === 'panelhook';
 
           const argumentList: FunctionArgumentList[] = [];
           for (const argSet of $('args')) {
@@ -473,6 +484,12 @@ export class WikiPageMarkupScraper extends Scraper<WikiPage> {
               ...base,
               type: 'panelfunc',
               isPanelFunction: 'yes'
+            };
+          } else if (isPanelHookFunction) {
+            return <PanelHookFunction>{
+              ...base,
+              type: 'panelhook',
+              isPanelHook: 'yes'
             };
           }
         } else if (isTypePage) {

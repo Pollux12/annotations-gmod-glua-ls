@@ -1,4 +1,4 @@
-import { ClassFunction, Enum, Function, HookFunction, LibraryFunction, TypePage, Panel, PanelFunction, Realm, Struct, StructField, WikiPage, isPanel, FunctionArgument, FunctionCallback } from '../scrapers/wiki-page-markup-scraper.js';
+import { ClassFunction, Enum, Function, HookFunction, LibraryFunction, TypePage, Panel, PanelFunction, PanelHookFunction, Realm, Struct, StructField, WikiPage, isPanel, FunctionArgument, FunctionCallback } from '../scrapers/wiki-page-markup-scraper.js';
 import { indentText, wrapInComment, removeNewlines, safeFileName, toLowerCamelCase } from '../utils/string.js';
 import {
   isClassFunction,
@@ -7,6 +7,7 @@ import {
   isLibrary,
   isClass,
   isPanelFunction,
+  isPanelHookFunction,
   isStruct,
   isEnum,
 } from '../scrapers/wiki-page-markup-scraper.js';
@@ -213,6 +214,8 @@ export class GluaApiWriter {
       return this.writePanel(page);
     else if (isPanelFunction(page))
       return this.writePanelFunction(page);
+    else if (isPanelHookFunction(page))
+      return this.writePanelHookFunction(page);
     else if (isEnum(page))
       return this.writeEnum(page);
     else if (isStruct(page))
@@ -352,6 +355,10 @@ export class GluaApiWriter {
   }
 
   private writePanelFunction(func: PanelFunction) {
+    return this.writeFunctionWithOverloads(func, ':');
+  }
+
+  private writePanelHookFunction(func: PanelHookFunction) {
     return this.writeFunctionWithOverloads(func, ':');
   }
 
@@ -553,7 +560,7 @@ export class GluaApiWriter {
       let className: string | undefined;
       if (isClass(page) || isStruct(page) || isPanel(page))
         className = page.name;
-      else if (isClassFunction(page) || isHookFunction(page) || isPanelFunction(page))
+      else if (isClassFunction(page) || isHookFunction(page) || isPanelFunction(page) || isPanelHookFunction(page))
         className = page.parent;
 
       if (className)
@@ -564,7 +571,7 @@ export class GluaApiWriter {
       const relevantEntries = entries.filter(({ page }) => {
         const pageClassName = isClass(page) || isStruct(page) || isPanel(page)
           ? page.name
-          : isClassFunction(page) || isHookFunction(page) || isPanelFunction(page)
+          : isClassFunction(page) || isHookFunction(page) || isPanelFunction(page) || isPanelHookFunction(page)
             ? page.parent
             : undefined;
         return pageClassName !== undefined
@@ -999,7 +1006,7 @@ export class GluaApiWriter {
     if (func.description)
       luaDocComment += `---${wrapInComment(func.description)}\n`;
 
-    if (isHookFunction(func))
+    if (isHookFunction(func) || isPanelHookFunction(func))
       luaDocComment += `---@hook ${func.name}\n`;
 
     luaDocComment += this.writeRealmAnnotations(realm);

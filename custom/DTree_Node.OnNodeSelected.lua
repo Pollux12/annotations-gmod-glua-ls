@@ -1,5 +1,11 @@
+---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
+---
+--- Called when this or a sub node is selected. Do not use this, it is not for override.
+---
+--- Use [DTree:OnNodeSelected](https://wiki.facepunch.com/gmod/DTree:OnNodeSelected) or [DTree_Node:DoClick](https://wiki.facepunch.com/gmod/DTree_Node:DoClick) instead.
+---@hook OnNodeSelected
 ---@realm client
 ---@realm menu
----@source garrysmod/lua/vgui/dtree_node.lua
----@param node Panel The selected panel.
+---@source https://wiki.facepunch.com/gmod/DTree_Node:OnNodeSelected
+---@param node DTree_Node
 function DTree_Node:OnNodeSelected(node) end

@@ -65,8 +65,10 @@ describe('custom and plugin annotation smoke checks', () => {
       ['DPanelList.Clear.lua', 'dpanellist.lua'],
       ['DPanelList.SortByMember.lua', 'dpanellist.lua'],
       ['DTree.AddNode.lua', 'dtree.lua'],
+      ['DTree.OnNodeSelected.lua', 'dtree.lua'],
       ['DTree_Node.AddNode.lua', 'dtree_node.lua'],
       ['Panel.PerformLayout.lua', 'panel.lua'],
+      ['DTree_Node.OnNodeSelected.lua', 'dtree_node.lua'],
       ['TOOL.BuildCPanel.lua', 'tool.lua'],
       ['TOOL.Deploy.lua', 'tool.lua'],
       ['TOOL.Holster.lua', 'tool.lua'],
@@ -248,6 +250,7 @@ describe('custom and plugin annotation smoke checks', () => {
   test('base Lua VGUI and tool overrides preserve concrete runtime types', () => {
     const dtreeLua = readOutput('dtree.lua');
     const dtreeNodeLua = readOutput('dtree_node.lua');
+    const panelLua = readOutput('panel.lua');
     const dformLua = readOutput('dform.lua');
     const dpanelListLua = readOutput('dpanellist.lua');
     const toolLua = readOutput('tool.lua');
@@ -258,6 +261,12 @@ describe('custom and plugin annotation smoke checks', () => {
     )?.[0];
     const nodeAddNode = dtreeNodeLua.match(
       /---@source https:\/\/wiki\.facepunch\.com\/gmod\/DTree_Node:AddNode[\s\S]*?function DTree_Node:AddNode\(name, icon\) end/,
+    )?.[0];
+    const dtreeOnNodeSelected = dtreeLua.match(
+      /---@hook OnNodeSelected[\s\S]*?function DTree:OnNodeSelected\(node\) end/,
+    )?.[0];
+    const nodeOnNodeSelected = dtreeNodeLua.match(
+      /---@hook OnNodeSelected[\s\S]*?function DTree_Node:OnNodeSelected\(node\) end/,
     )?.[0];
     const textEntry = dformLua.match(
       /---@source https:\/\/wiki\.facepunch\.com\/gmod\/DForm:TextEntry[\s\S]*?function DForm:TextEntry\(label, convar\) end/,
@@ -277,6 +286,18 @@ describe('custom and plugin annotation smoke checks', () => {
 
     expect(dtreeAddNode).toContain('---@return DTree_Node');
     expect(nodeAddNode).toContain('---@return DTree_Node');
+    expect(dtreeOnNodeSelected).toBeDefined();
+    expect(dtreeOnNodeSelected).toContain('---@realm client');
+    expect(dtreeOnNodeSelected).toContain('---@realm menu');
+    expect(dtreeOnNodeSelected).toContain('---@source https://wiki.facepunch.com/gmod/DTree:OnNodeSelected');
+    expect(dtreeOnNodeSelected).toContain('---@param node DTree_Node The node that was selected.');
+    expect(nodeOnNodeSelected).toBeDefined();
+    expect(nodeOnNodeSelected).toContain('---@source https://wiki.facepunch.com/gmod/DTree_Node:OnNodeSelected');
+    expect(nodeOnNodeSelected).toContain('function DTree_Node:OnNodeSelected(node) end');
+    expect(nodeOnNodeSelected).toContain('---@realm client');
+    expect(nodeOnNodeSelected).toContain('---@realm menu');
+    expect(nodeOnNodeSelected).toContain('---@param node DTree_Node');
+    expect(panelLua).not.toContain('Panel.propPanel');
     expect(textEntry).toContain('---@return DTextEntry');
     expect(textEntry).toContain('---@return DLabel');
     expect(textEntry!.indexOf('---@return DTextEntry')).toBeLessThan(

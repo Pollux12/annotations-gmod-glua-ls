@@ -47,6 +47,9 @@ describe('custom and plugin annotation smoke checks', () => {
       ['class.ContextBase.lua', 'contextbase.lua'],
       ['class.DColorCube.lua', 'dcolorcube.lua'],
       ['class.DFrame.lua', 'dframe.lua'],
+      ['class.GM.lua', 'gm.lua'],
+      ['class.SpawnIcon.lua', 'spawnicon.lua'],
+      ['class.SANDBOX.lua', 'sandbox.lua'],
       ['class.DHTMLControls.lua', 'dhtmlcontrols.lua'],
       ['class.DImage.lua', 'dimage.lua'],
       ['class.DImageButton.lua', 'dimagebutton.lua'],
@@ -83,12 +86,21 @@ describe('custom and plugin annotation smoke checks', () => {
       ['duplicator.EntityModifiers.lua', 'duplicator.lua'],
       ['Global.assert.lua', 'global.lua'],
       ['Global.collectgarbage.lua', 'global.lua'],
+      ['Global.error(lowercase).lua', 'global.lua'],
       ['Global.FixInvalidPhysicsObject.lua', 'global.lua'],
       ['Global.IsEntity.lua', 'global.lua'],
       ['Global.pairs.lua', 'global.lua'],
       ['GM.AddNotify.lua', 'gm.lua'],
+      ['Entity.IsVehicle.lua', 'entity.lua'],
+      ['Entity.IsNPC.lua', 'entity.lua'],
+      ['Global.IsHostingGame.lua', 'global.lua'],
+      ['Global.Entity.lua', 'global.lua'],
+      ['IconEditor.SetIcon.lua', 'iconeditor.lua'],
+      ['Player.CheckLimit.lua', 'player.lua'],
+      ['Player.IsListenServerHost.lua', 'player.lua'],
       ['Weapon.GetToolObject.lua', 'weapon.lua'],
       ['workshopfilebase.FillFileInfo.lua', 'workshopfilebase.lua'],
+      ['workshopfilebase.dupes.lua', 'workshopfilebase.lua'],
     ];
 
     for (const [customFile, outputFile] of directOutputs) {
@@ -163,12 +175,10 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(entityLua).not.toMatch(/---@param fallback\? T .*Defaults to/);
   });
 
-  test('menu-only custom overrides stay absent', () => {
+  test('unsupported menu-only custom overrides stay absent', () => {
     const removedFiles = [
       'UGCPublishWindow.DoPublish.lua',
-      'Global.IsHostingGame.lua',
       'steamworks.SetFavorite.lua',
-      'workshopfilebase.dupes.lua',
     ];
 
     for (const file of removedFiles) {
@@ -177,7 +187,8 @@ describe('custom and plugin annotation smoke checks', () => {
 
     const workshopFileBaseOutput = readOutput('workshopfilebase.lua');
     expect(workshopFileBaseOutput).not.toContain('DupeWorkshopFileBase');
-    expect(workshopFileBaseOutput).not.toContain('ws_dupe');
+    expect(workshopFileBaseOutput).not.toContain('function WorkshopFileBase:Arm');
+    expect(workshopFileBaseOutput).not.toContain('function WorkshopFileBase:DownloadAndArm');
   });
 
   test('global aliases and key wrapper annotations remain available', () => {
@@ -392,6 +403,17 @@ describe('custom and plugin annotation smoke checks', () => {
       '---@type table<string, fun(ply: Player, ent: Entity, data: any)>',
     );
     expect(duplicatorLua).toContain('duplicator.EntityModifiers = {}');
+  });
+
+  test('Lua error accepts arbitrary error objects', () => {
+    const globalLua = readOutput('global.lua');
+    const errorBlock = globalLua.match(
+      /---@source https:\/\/wiki\.facepunch\.com\/gmod\/Global\.error\(lowercase\)[\s\S]*?function _G\.error\(message, errorLevel\) end/,
+    )?.[0];
+
+    expect(errorBlock).toBeDefined();
+    expect(errorBlock).toContain('---@param message any # The error object to throw.');
+    expect(errorBlock).toContain('---@return never');
   });
 
   test('entity predicate overrides keep lowercase and legacy pages separate', () => {

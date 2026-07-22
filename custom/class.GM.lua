@@ -8,6 +8,7 @@
 ---@field Website string Gamemode website.
 ---@field TeamBased boolean Whether the gamemode uses teams.
 ---@field IsSandboxDerived? boolean True for Sandbox and Sandbox-derived gamemodes.
+---@field SendDeathNotice fun(self: GM, attacker: Entity|string|nil, inflictor: string, victim: Entity|string, flags: number) Sends a death notice to clients.
 GM = {}
 
 ---Adds a tool menu option to the sandbox spawn menu. Sandbox calls this as a

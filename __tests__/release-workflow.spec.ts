@@ -23,8 +23,8 @@ describe('release-gluals workflow', () => {
     expect(workflow).toContain('plugin_branch_prefix: gluals-annotations-prerelease-plugin-');
   });
 
-  test('uses supported generate-lua CLI flags', () => {
-    expect(workflow).toContain('--custom-overrides ./custom');
+  test('uses a custom override flag supported by both source branches', () => {
+    expect(workflow).toContain('-c ./custom');
     expect(workflow).not.toContain('--customOverrides');
     expect(workflow).not.toContain('--wipeLua');
   });

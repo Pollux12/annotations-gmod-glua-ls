@@ -59,12 +59,19 @@ function timer.Destroy(identifier) end
 ---@return boolean # Returns true if the timer exists, false if it doesn't
 function timer.Exists(identifier) end
 
+---Returns whenever the given timer is paused or not. ([timer.Pause](https://wiki.facepunch.com/gmod/timer.Pause))
+---@realm shared
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/timer.IsPaused
+---@param identifier string Identifier of the timer. (timer.Create)
+---@return boolean # Returns true if the timer is paused, false if it isn't, `nil` if it doesn't exist.
+function timer.IsPaused(identifier) end
+
 ---Pauses the given timer.
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/timer.Pause
 ---@param identifier any Identifier of the timer.
----@return boolean # false if the timer didn't exist or was already paused, true otherwise.
 function timer.Pause(identifier) end
 
 ---Stops and removes a timer created by [timer.Create](https://wiki.facepunch.com/gmod/timer.Create).
@@ -111,14 +118,11 @@ function timer.Simple(delay, func) end
 
 ---Restarts the given timer.
 ---
---- **NOTE**: Timers use [Global.CurTime](https://wiki.facepunch.com/gmod/Global.CurTime) for timing.
----
 --- **WARNING**: Timers won't advance while the client is timing out from the server.
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/timer.Start
 ---@param identifier any Identifier of the timer.
----@return boolean # true if the timer exists, false if it doesn't.
 function timer.Start(identifier) end
 
 ---Stops the given timer and rewinds it.
@@ -126,7 +130,6 @@ function timer.Start(identifier) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/timer.Stop
 ---@param identifier any Identifier of the timer.
----@return boolean # false if the timer didn't exist or was already stopped, true otherwise.
 function timer.Stop(identifier) end
 
 ---Returns amount of time left (in seconds) before the timer executes its function.
@@ -144,7 +147,6 @@ function timer.TimeLeft(identifier) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/timer.Toggle
 ---@param identifier any Identifier of the timer.
----@return boolean # status of the timer.
 function timer.Toggle(identifier) end
 
 ---Unpauses the timer.
@@ -152,5 +154,4 @@ function timer.Toggle(identifier) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/timer.UnPause
 ---@param identifier any Identifier of the timer.
----@return boolean # false if the timer didn't exist or was already running, true otherwise.
 function timer.UnPause(identifier) end

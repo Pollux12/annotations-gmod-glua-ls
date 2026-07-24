@@ -197,6 +197,8 @@ function ents.GetCount(IncludeKillMe) end
 function ents.GetEdictCount() end
 
 ---Returns entity that has given [Entity:MapCreationID](https://wiki.facepunch.com/gmod/Entity:MapCreationID).
+---
+--- 	This works internally by iterating over [ents.GetAll](https://wiki.facepunch.com/gmod/ents.GetAll).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/ents.GetMapCreatedEntity
 ---@param id number Entity's creation id.

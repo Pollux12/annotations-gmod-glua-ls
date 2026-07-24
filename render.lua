@@ -35,7 +35,7 @@ function render.BrushMaterialOverride(mat) end
 ---
 --- Since the pixel buffer clears itself every frame, this will return a black screen outside of render hooks. To capture the user's final view, use [GM:PostRender](https://wiki.facepunch.com/gmod/GM:PostRender). This will not capture the Steam overlay or third-party injections (such as the Discord overlay, Overwolf, and advanced cheats) on the user's screen.
 ---
---- In PNG mode, this function can produce unexpected result where foreground is rendered as transparent.
+--- **WARNING**: In PNG mode, this function can produce unexpected result where foreground is rendered as transparent.
 --- This is caused by [render.SetWriteDepthToDestAlpha](https://wiki.facepunch.com/gmod/render.SetWriteDepthToDestAlpha) set to `true` when doing most of render operations, including rendering in `_rt_fullframefb`. If you want to capture render target's content as PNG image only for output quality, set [Structures/RenderCaptureData](https://wiki.facepunch.com/gmod/Structures/RenderCaptureData)'s `alpha` to `false` when capturing render targets with [render.SetWriteDepthToDestAlpha](https://wiki.facepunch.com/gmod/render.SetWriteDepthToDestAlpha) set to `true`.
 ---
 --- **WARNING**: This function will return nil if escape menu is open
@@ -47,7 +47,9 @@ function render.Capture(captureData) end
 
 ---Dumps the current render target and allows the pixels to be accessed by [render.ReadPixel](https://wiki.facepunch.com/gmod/render.ReadPixel).
 ---
---- Capturing outside a render hook will return 0 0 0 255.
+--- Capturing outside a render hook will return an image filled with `0 0 0 255`.
+---
+--- See also [render.Capture](https://wiki.facepunch.com/gmod/render.Capture).
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/render.CapturePixels
 function render.CapturePixels() end
@@ -127,7 +129,9 @@ function render.ClearStencil() end
 ---@param stencilBufferValue number The Stencil Buffer value that all pixels within the rectangle will be set to.
 function render.ClearStencilBufferRectangle(startX, startY, endX, endY, stencilBufferValue) end
 
----Calculates the lighting caused by dynamic lights for the specified surface.
+---Calculates the lighting caused by dynamic lights (such as [Global.DynamicLight](https://wiki.facepunch.com/gmod/Global.DynamicLight) and the Light Sandbox tool) for the specified surface. This will not include map ambient light.
+---
+--- See also [render.ComputeLighting](https://wiki.facepunch.com/gmod/render.ComputeLighting) for a function that also includes map's ambient lighting.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/render.ComputeDynamicLighting
 ---@param position Vector The position to sample from.
@@ -135,11 +139,19 @@ function render.ClearStencilBufferRectangle(startX, startY, endX, endY, stencilB
 ---@return Vector # A vector representing the light at that point.
 function render.ComputeDynamicLighting(position, normal) end
 
----Calculates the light color of a certain surface.
+---Calculates the light color at a certain position.
+---
+--- This includes both ambient light and dynamic light.
+---
+--- See [render.ComputeDynamicLighting](https://wiki.facepunch.com/gmod/render.ComputeDynamicLighting) for dynamic light only.
+---
+--- See [render.GetAmbientLightColor](https://wiki.facepunch.com/gmod/render.GetAmbientLightColor) for map-wide ambient color.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/render.ComputeLighting
----@param position Vector The position of the surface to get the light from.
----@param normal Vector The normal of the surface to get the light from.
+---@param position Vector The position to get the light at.
+---@param normal Vector The direction of an imaginary surface to get the light at.
+---
+--- Pointing away from walls will get the lighting the wall receives. Pointing towards walls will not.
 ---@return Vector # A vector representing the light at that point.
 function render.ComputeLighting(position, normal) end
 
@@ -367,10 +379,16 @@ function render.FogMode(fogMode) end
 --- If used in [GM:SetupSkyboxFog](https://wiki.facepunch.com/gmod/GM:SetupSkyboxFog), this value **must** be scaled by the first argument of the hook
 function render.FogStart(fogStart) end
 
----Returns the ambient color of the map.
+---Returns the ambient color intensity of the map, basically the color the sky emits.
+---
+--- This is used by the engine to calculate shadow color using the following formula: `ambientLight * 3 + Vector( 0.3, 0.3, 0.3 )`
+---
+--- See also [render.ComputeLighting](https://wiki.facepunch.com/gmod/render.ComputeLighting).
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/render.GetAmbientLightColor
----@return Vector # The ambient color of the map.
+---@return Vector # The ambient color intensity of the map.
+---
+--- This is computed at map compile time and is stored in "linear color space".
 function render.GetAmbientLightColor() end
 
 ---Returns the current alpha blending.
@@ -457,10 +475,13 @@ function render.GetFullScreenDepthTexture() end
 function render.GetHDREnabled() end
 
 ---Gets the light exposure on the specified position.
+---
+--- This is effectively the same as [render.ComputeLighting](https://wiki.facepunch.com/gmod/render.ComputeLighting) without the `normal` argument provided.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/render.GetLightColor
 ---@param position Vector The position of the surface to get the light from.
 ---@return Vector # The light color.
+---@deprecated Same as render.ComputeLighting without the `normal` argument provided, so just use that
 function render.GetLightColor(position) end
 
 ---**INTERNAL**: You probably want to just use a custom render target. See [Global.GetRenderTargetEx](https://wiki.facepunch.com/gmod/Global.GetRenderTargetEx).
@@ -990,7 +1011,7 @@ function render.SetLightingMode(Mode) end
 ---@param lightingOrigin Vector The position which will be used to calculate lighting for the current model.
 function render.SetLightingOrigin(lightingOrigin) end
 
----Sets the texture to be used as the lightmap in upcoming rendering operations. This is required when rendering meshes using a material with a lightmapped shader such as LightmappedGeneric.
+---Sets the texture to be used as the lightmap in upcoming rendering operations. This is required when rendering meshes using a material with a lightmapped shader such as `LightmappedGeneric`.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/render.SetLightmapTexture
 ---@param tex ITexture The texture to be used as the lightmap.

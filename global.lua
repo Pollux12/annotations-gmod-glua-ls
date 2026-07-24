@@ -367,7 +367,7 @@ function _G.ConVarExists(name) end
 ---@param name string Name of the ConVar to be created and able to be accessed.
 ---
 --- This cannot be a name of existing console command or console variable. It will silently fail if it is.
----@param default string Default value of the ConVar.
+---@param default string|number Default value of the ConVar.
 ---@param shouldsave? boolean Should the ConVar be saved across sessions in the cfg/client.vdf file.
 ---@param userinfo? boolean Should the ConVar and its containing data be sent to the server when it has changed. This makes the convar accessible from server using Player:GetInfoNum and similar functions.
 ---@param helptext? string Help text to display in the console.
@@ -826,7 +826,7 @@ function _G.DTVar_ReceiveProxyGL(entity, Type, index, newValue) end
 ---
 --- **WARNING**: It is not safe to hold a reference to this object after creation since its data can be replaced by another dlight at any time.
 ---
---- The minlight parameter affects the world and entities differently.
+--- Dynamic lights affect the world (brushwork, static props) and entities (dynamic props, etc.) differently.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/Global.DynamicLight
 ---@param index number An unsigned Integer. Usually an Entity:EntIndex is used here.
@@ -1101,18 +1101,6 @@ function _G.GameDetails(servername, serverurl, mapname, maxplayers, steamid, gam
 ---@deprecated This function was deprecated in Lua 5.1 and is removed in Lua 5.2. Use Global.collectgarbage( "count" ) instead.
 function _G.gcinfo() end
 
----This function adds all models from a specified folder to a custom Spawnlist category. Internally uses [Global.AddPropsOfParent](https://wiki.facepunch.com/gmod/Global.AddPropsOfParent)
---- 	**WARNING**: Using this function before [SANDBOX:PopulateContent](https://wiki.facepunch.com/gmod/SANDBOX:PopulateContent) has been called will result in an error
----@realm client
----@source https://wiki.facepunch.com/gmod/Global.GenerateSpawnlistFromPath
----@param folder string the folder to search for models
----@param path string The path to look for the files and directories in. See File_Search_Paths for a list of valid paths.
----@param name string The Spawnmenu Category name
----@param icon? string The Spawnmenu Category Icon to use
----@param appid number The AppID which is needed for the Content
----@deprecated This function is only available locally and cannot be used outside the gameprops.lua file.
-function _G.GenerateSpawnlistFromPath(folder, path, name, icon, appid) end
-
 ---Returns if the game was started with either -noaddons or -noworkshop
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Global.GetAddonStatus
@@ -1207,26 +1195,32 @@ function _G.GetConVar(name) end
 ---@return ConVar # The ConVar object
 function _G.GetConVar_Internal(name) end
 
----Gets the numeric value ConVar with the specified name.
+---Returns the numeric value [ConVar](https://wiki.facepunch.com/gmod/ConVar) (converted from the ConVar's string value) with the specified name.
 ---
---- Returns the value of [game.MaxPlayers](https://wiki.facepunch.com/gmod/game.MaxPlayers) if `maxplayers` is specified as the convar name, even though `maxplayers` is not a convar. (it is a console **command**) You should be using aforementioned Lua function instead.
+--- This function will return `0` if the ConVar does not exist. Use [cvars.Number](https://wiki.facepunch.com/gmod/cvars.Number) to specify your own default.
+---
+--- Will return the value of [game.MaxPlayers](https://wiki.facepunch.com/gmod/game.MaxPlayers) if `maxplayers` is specified as the ConVar name, even though `maxplayers` is not a ConVar. (it is a console **command**) You should be using aforementioned Lua function instead for that case.
+---
+--- In performance intensive places such as think and rendering callbacks/hooks, it is advised to use [ConVar:GetFloat](https://wiki.facepunch.com/gmod/ConVar:GetFloat) on a [ConVar](https://wiki.facepunch.com/gmod/ConVar) object directly, which be retrieved via [Global.GetConVar](https://wiki.facepunch.com/gmod/Global.GetConVar), or from existing [Global.CreateConVar](https://wiki.facepunch.com/gmod/Global.CreateConVar) call.
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Global.GetConVarNumber
----@param name string Name of the ConVar to get.
+---@param name string Name of the ConVar to get the value of.
 ---@return number # The ConVar's value.
----@deprecated Store the ConVar object retrieved with Global.GetConVar or use cvars.Number
 function _G.GetConVarNumber(name) end
 
----Gets the string value ConVar with the specified name.
+---Returns the string value [ConVar](https://wiki.facepunch.com/gmod/ConVar) with the specified name.
 ---
---- Returns the value of [game.MaxPlayers](https://wiki.facepunch.com/gmod/game.MaxPlayers) if `maxplayers` is specified as the convar name, even though `maxplayers` is not a convar. (it is a console **command**) You should be using aforementioned Lua function instead.
+--- This function will return an empty string if the ConVar does not exist. Use [cvars.String](https://wiki.facepunch.com/gmod/cvars.String) to specify your own default.
+---
+--- Will return the value of [game.MaxPlayers](https://wiki.facepunch.com/gmod/game.MaxPlayers) (as a string) if `maxplayers` is specified as the ConVar name, even though `maxplayers` is not a ConVar. (it is a console **command**) You should be using aforementioned Lua function instead for that case.
+---
+--- In performance intensive places such as think and rendering callbacks/hooks, it is advised to use [ConVar:GetString](https://wiki.facepunch.com/gmod/ConVar:GetString) on a [ConVar](https://wiki.facepunch.com/gmod/ConVar) object directly, which be retrieved via [Global.GetConVar](https://wiki.facepunch.com/gmod/Global.GetConVar), or from existing [Global.CreateConVar](https://wiki.facepunch.com/gmod/Global.CreateConVar) call.
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Global.GetConVarString
----@param name string Name of the ConVar to get.
+---@param name string Name of the ConVar to get the value of.
 ---@return string # The ConVar's value.
----@deprecated Store the ConVar object retrieved with Global.GetConVar or use cvars.String.
 function _G.GetConVarString(name) end
 
 ---Returns the default loading screen URL (asset://garrysmod/html/loading.html)
@@ -1252,7 +1246,7 @@ function _G.GetDownloadables() end
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Global.getfenv
----@param location? function The object to get the enviroment from. Can also be a number that specifies the function at that stack level: Level 1 is the function calling getfenv. Level 0 is the base Garry's Mod environment (_G).
+---@param location? function|number The object to get the enviroment from. Can also be a number that specifies the function at that stack level: Level 1 is the function calling getfenv. Level 0 is the base Garry's Mod environment (_G).
 ---@return table # The environment.
 function _G.getfenv(location) end
 
@@ -1752,12 +1746,14 @@ function _G.IsEnemyEntityName(className) end
 ---@return boolean # True if the variable is an Entity.
 function _G.isentity(variable) end
 
----Identical to [Global.isentity](https://wiki.facepunch.com/gmod/Global.isentity).
+---Identical to [Global.isentity](https://wiki.facepunch.com/gmod/Global.isentity). Returns if the passed object is an [Entity](https://wiki.facepunch.com/gmod/Entity).
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Global.IsEntity(legacy)
+---@param variable any The variable to check.
+---@return boolean # True if the variable is an Entity.
 ---@deprecated Use the function Global.isentity instead.
-function _G.IsEntity() end
+function _G.IsEntity(variable) end
 
 ---Returns if this is the first time this hook was predicted.
 ---
@@ -2244,7 +2240,7 @@ function _G.next(tab, prevKey) end
 ---@return number # The number of downloadables
 function _G.NumDownloadables() end
 
----Returns the amount of skins the specified model has.
+---Returns the amount of skins the specified model has if the model has ever been loaded before, without loading the model directly.
 ---
 --- See also [Entity:SkinCount](https://wiki.facepunch.com/gmod/Entity:SkinCount) if you have an entity.
 ---@realm client
@@ -2517,7 +2513,7 @@ function _G.rawset(table, index, value) end
 ---@return number # Real frame time
 function _G.RealFrameTime() end
 
----Returns the uptime of the game/server in seconds (to at least **4** decimal places). This value updates itself once every time the realm thinks. For servers, this is the server tickrate. For clients, its their current FPS.
+---Returns the uptime of the game/server in seconds (to at least **4** decimal places). This value updates itself once every time the realm thinks. For servers, this is the server tickrate. For clients, this is once per frame.
 ---
 --- **NOTE**: This is **not** synchronised or affected by the game.
 ---

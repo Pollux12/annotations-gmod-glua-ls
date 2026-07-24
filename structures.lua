@@ -1091,9 +1091,13 @@ HullTrace.hitclientonly = false
 --- Default: `45`
 ---@field outerAngle number=45
 ---The distance at which the light will fade to 50% of its brightness.
----@field fiftyPercentDistance number
+---
+--- Default: `nil`
+---@field fiftyPercentDistance? number
 ---The distance at which the light will completely fade out.
----@field zeroPercentDistance number
+---
+--- Default: `nil`
+---@field zeroPercentDistance? number
 ---The quadratic term of the light falloff. This will only be used if fiftyPercentDistance and zeroPercentDistance are not supplied, and allows finer control over light attenuation.
 ---
 --- Default: `0`
@@ -1119,16 +1123,16 @@ local LocalLight = {}
 ---
 --- Function argument(s):
 --- * table `self` - The table structure itself
---- * string `name` - The material name
+--- * IMaterial `mat` - The material.
 --- * table `values` - The material key values
----@field init fun(self: table, name: string, values: table)
+---@field init fun(self: table, mat: IMaterial, values: table)
 ---The function used to apply the proxy. This is called every frame while any materials with this proxy are used in world.
 ---
 --- Function argument(s):
 --- * table `self` - The table structure itself.
---- * string `name` - The material name.
+--- * IMaterial `mat` - The material.
 --- * Entity `ent` - The entity the material instance is applied to, if any.
----@field bind fun(self: table, name: string, ent: Entity)
+---@field bind fun(self: table, mat: IMaterial, ent: Entity)
 
 local MatProxyData = {}
 
@@ -1513,7 +1517,7 @@ local PathSegment = {}
 ---@field MaxVelocity? number
 ---Maximum world-space rotational velocity in degrees per second.
 ---
---- Default value for this setting is `7200`.
+--- Default value for this setting is `7272.7280273438`.
 ---
 --- Default: `nil`
 ---@field MaxAngularVelocity? number
@@ -1808,6 +1812,11 @@ local RenderCamData = {}
 ---Format of the capture. Valid formats are:
 --- * `jpeg` or `jpg`
 --- * `png`
+---
+--- As of version 2026.06.19:
+--- * `rgba`, `rgb` and `bgra` - Raw image data in given byte order.
+--- Expected data size is `ImgWidth * ImgHeight * 4` (`ImgWidth * ImgHeight * 3` for `rgb`)
+--- Each 4 (or 3 for `rgb`) bytes  is one pixel, top to bottom left to right.
 ---@field format string
 ---X coordinate of the capture origin
 ---@field x number
@@ -1819,7 +1828,7 @@ local RenderCamData = {}
 ---@field h number
 ---The quality of the capture. Affects jpeg only.
 ---@field quality number
----Set to false to capture an image with alpha channel set to fully opaque. Affects png only.
+---Set to false to capture an image with alpha channel set to fully opaque. Affects any format with alpha channel support, so not `jpg`.
 ---
 --- Default: `true`
 ---@field alpha boolean=true
@@ -2549,7 +2558,7 @@ Trace.hitclientonly = false
 ---
 --- Default: `false`
 ---@field Hit boolean=false
----The ID of the hitbox hit by the trace.
+---The ID of the hitbox hit by the trace, or ID of the static prop hit in case of hitting the world.
 ---
 --- Default: `0`
 ---@field HitBox number=0
@@ -2642,7 +2651,7 @@ local TraceResult = {}
 ---@field id number
 ---The title of the Workshop item
 ---@field title string
----The description of the Workshop item
+---The description of the Workshop item. It will be limited to 255 characters (by Steam) unless steamworks.FileInfo is called with the `extraInfo` parameter set.
 ---@field description string
 ---The internal File ID of the workshop item, if any
 ---@field fileid number
@@ -2705,6 +2714,14 @@ local TraceResult = {}
 --- * `nudity`
 --- * `adult_only`
 ---@field content_descriptors string[]
+---If present, a list of additional previews for this Workshop item.
+---
+--- steamworks.FileInfo must be called with `extraInfo` parameter.
+---
+--- It will be a table of tables with the following keys:
+--- * number `type` - type of additional preview. 0 = is normal image, 1=YouTube video ID
+--- * string `url` - URL to the additional preview. Format depends on the type.
+---@field extra_previews table[]
 
 local UGCFileInfo = {}
 
@@ -2997,19 +3014,39 @@ local VideoData = {}
 ---@source https://wiki.facepunch.com/gmod/Structures/ViewData
 ---@class (partial) ViewData
 ---The view's original position
----@field origin Vector
+---
+--- Default: `The current view's origin`
+---@field origin Vector="The current view's origin"
 ---The view's angles
----@field angles Angle
+---
+--- Default: `The current view's angles`
+---@field angles Angle="The current view's angles"
 ---Default width divided by height. Has a deprecated alias `aspectratio`.
----@field aspect number
+---
+--- Default: `w / h`
+---@field aspect number="w / h"
+---The deprecated alias of `aspect`.
+---
+--- **Deprecated**: Use `aspect` instead!
+---
+--- Default: `w / h`
+---@field aspectratio number="w / h"
 ---The x position of the viewport to render in
----@field x number
+---
+--- Default: `0`
+---@field x number=0
 ---The y position of the viewport to render in
----@field y number
+---
+--- Default: `0`
+---@field y number=0
 ---The width of the viewport to render in
----@field w number
+---
+--- Default: `The current viewport's width`
+---@field w number="The current viewport's width"
 ---The height of the viewport to render in
----@field h number
+---
+--- Default: `The current viewport's height`
+---@field h number="The current viewport's height"
 ---Draw the HUD and call the hud painting related hooks
 ---
 --- Default: `false`
@@ -3027,39 +3064,61 @@ local VideoData = {}
 --- Default: `false`
 ---@field drawviewer boolean=false
 ---The viewmodel's FOV
----@field viewmodelfov number
+---
+--- Default: `The current viewmodel FOV`
+---@field viewmodelfov number="The current viewmodel FOV"
 ---The main view's FOV
----@field fov number
+---
+--- Default: `The current view's FOV`
+---@field fov number="The current view's FOV"
 ---If set, renders the view orthogonally. A table with these keys:
 --- * left
 --- * right
 --- * top
 --- * bottom
----@field ortho table
+---
+--- Default: `nil`
+---@field ortho? table
 ---Coordinate for the left clipping plane. Requires `ortho` to be set to `true`.
 ---
 --- **Deprecated**: Use `ortho` table instead!
----@field ortholeft number
+---
+--- Default: `nil`
+---@field ortholeft? number
 ---Coordinate for the right clipping plane. Requires `ortho` to be set to `true`.
 ---
 --- **Deprecated**: Use `ortho` table instead!
----@field orthoright number
+---
+--- Default: `nil`
+---@field orthoright? number
 ---Coordinate for the top clipping plane. Requires `ortho` to be set to `true`.
 ---
 --- **Deprecated**: Use `ortho` table instead!
----@field orthotop number
+---
+--- Default: `nil`
+---@field orthotop? number
 ---Coordinate for the bottom clipping plane. Requires `ortho` to be set to `true`.
 ---
 --- **Deprecated**: Use `ortho` table instead!
----@field orthobottom number
+---
+--- Default: `nil`
+---@field orthobottom? number
 ---The distance of the view's origin to the near clipping plane
----@field znear number
+---
+--- Default: `The current view's near clipping distance`
+---@field znear number="The current view's near clipping distance"
 ---The distance of the view's origin to the far clipping plane
----@field zfar number
+---
+--- Default: `The current view's far clipping distance`
+---@field zfar number="The current view's far clipping distance"
 ---The distance of the view's origin to the near clipping plane for the viewmodel
----@field znearviewmodel number
+---
+--- Default: `The viewmodel's current near clipping distance`
+---@field znearviewmodel number="The viewmodel's current near clipping distance"
 ---The distance of the view's origin to the far clipping plane for the viewmodel
----@field zfarviewmodel number
+---
+--- Default: `The viewmodel's current far clipping distance`
+---@field zfarviewmodel number="The viewmodel's current far clipping distance"
 ---Currently works identically to the "bloomtone" option (it also overrides it if you set this to false).
 ---
 --- Default: `false`
@@ -3083,7 +3142,9 @@ local VideoData = {}
 --- Note that top and bottom are reversed.
 ---
 --- Values outside the viewport are allowed, but not recommended - instead you should increase the view FOV.
----@field offcenter table
+---
+--- Default: `nil`
+---@field offcenter? table
 
 local ViewData = {}
 

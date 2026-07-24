@@ -44,8 +44,24 @@ function cam.EndOrthoView() end
 --- 	**NOTE**: Editing the matrix **will not** edit the current view. To do so, you will have to use [cam.PushModelMatrix](https://wiki.facepunch.com/gmod/cam.PushModelMatrix).
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/cam.GetModelMatrix
----@return VMatrix # The currently active matrix.
+---@return VMatrix # The currently active model matrix.
 function cam.GetModelMatrix() end
+
+---Returns a copy of the projection matrix. Also see [cam.GetViewMatrix](https://wiki.facepunch.com/gmod/cam.GetViewMatrix).
+---
+--- Will return Identity matrix in 2D Render context. In this case use [cam.Start3D](https://wiki.facepunch.com/gmod/cam.Start3D). See [Render Hook Order](https://wiki.facepunch.com/gmod/Render_Order).
+---@realm client
+---@source https://wiki.facepunch.com/gmod/cam.GetProjectionMatrix
+---@return VMatrix # The currently active projection matrix.
+function cam.GetProjectionMatrix() end
+
+---Returns a copy of the view matrix. Also see [cam.GetProjectionMatrix](https://wiki.facepunch.com/gmod/cam.GetProjectionMatrix).
+---
+--- Will return Identity matrix in 2D Render context. In this case use [cam.Start3D](https://wiki.facepunch.com/gmod/cam.Start3D). See [Render Hook Order](https://wiki.facepunch.com/gmod/Render_Order).
+---@realm client
+---@source https://wiki.facepunch.com/gmod/cam.GetViewMatrix
+---@return VMatrix # The currently active view matrix.
+function cam.GetViewMatrix() end
 
 ---Tells the renderer to ignore the depth buffer and draw any upcoming operation "ontop" of everything that was drawn yet.
 ---

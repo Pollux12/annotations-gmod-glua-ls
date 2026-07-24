@@ -53,6 +53,12 @@ function CSoundPatch:GetPitch() end
 ---@return number # The current sound level, see Enums/SNDLVL.
 function CSoundPatch:GetSoundLevel() end
 
+---Returns the sound name of this sound patch. This may be name of a sound script ([sound.Add](https://wiki.facepunch.com/gmod/sound.Add)) or a file path.
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/CSoundPatch:GetSoundName
+---@return string # The sound name.
+function CSoundPatch:GetSoundName() end
+
 ---Returns the current volume.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/CSoundPatch:GetVolume
@@ -94,8 +100,6 @@ function CSoundPatch:SetDSP(dspEffectId) end
 function CSoundPatch:SetSoundLevel(level) end
 
 ---Stops the sound from being played.
----
---- This will not work if the entity attached to this sound patch (specified by [Global.CreateSound](https://wiki.facepunch.com/gmod/Global.CreateSound)) is invalid.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/CSoundPatch:Stop
 function CSoundPatch:Stop() end

@@ -3,7 +3,7 @@
 --- The gui library is similar to the [input](https://wiki.facepunch.com/gmod/input) but features functions that are more focused on the mouse's interaction with GUI panels.
 gui = {}
 
----Opens the game menu overlay.
+---Opens the game main menu as if the player pressed their Escape key.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/gui.ActivateGameUI
@@ -30,11 +30,14 @@ function gui.AddCaption(captionStream, duration, fromPlayer) end
 ---@param enabled boolean Whether the cursor should be enabled or not. (true = enable, false = disable)
 function gui.EnableScreenClicker(enabled) end
 
----Hides the game menu overlay.
+---Hides the game main menu if it is currently open.
+---
+--- This can only be ran a certain amount of times per second to prevent main menu being completely inaccessible by the player.
+---
+--- Use [GM:OnPauseMenuShow](https://wiki.facepunch.com/gmod/GM:OnPauseMenuShow) to prevent opening the main menu without a one frame flash.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/gui.HideGameUI
----@deprecated Will be disabled in a future patch. Use GM:OnPauseMenuShow instead.
 function gui.HideGameUI() end
 
 ---Simulates a mouse move with the given deltas.

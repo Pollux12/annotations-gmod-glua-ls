@@ -210,11 +210,11 @@ function CNavArea:GetExposedSpots() end
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/CNavArea:GetExtentInfo
 ---@return table # Returns a table containing the following keys:
---- * Vector hi|
---- * Vector lo|
---- * number SizeX|
---- * number SizeY|
---- * number SizeZ|
+--- * Vector hi - "Maxs" of the nav area in world space
+--- * Vector lo - "Mins" of the nav area in world space
+--- * number SizeX - Size on the X axis
+--- * number SizeY - Size on the Y axis
+--- * number SizeZ - Size of the Z axis
 function CNavArea:GetExtentInfo() end
 
 ---Returns a table of good hiding spots in this area.

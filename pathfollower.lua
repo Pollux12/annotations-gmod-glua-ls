@@ -112,9 +112,11 @@ function PathFollower:GetEnd() end
 ---@return number # The distance we're setting it to
 function PathFollower:GetGoalTolerance() end
 
+---Returns the entity the bot is currently trying to avoid.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/PathFollower:GetHindrance
----@return Entity #
+---@return Entity # The current path hindrance, if any.
+---@deprecated Currently always returns NULL due to internal implementation of Lua Nextbots, where nothing is considered a hindrance, so do not try to use.
 function PathFollower:GetHindrance() end
 
 ---Returns the total length of the path

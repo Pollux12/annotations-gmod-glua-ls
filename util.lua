@@ -114,7 +114,7 @@ function util.DateStamp() end
 ---@param name string The name of the decal to paint.
 ---@param start Vector The start of the trace.
 ---@param _end Vector The end of the trace.
----@param filter? Entity If set, the decal will not be able to be placed on given entity. Can also be a table of entities.
+---@param filter? Entity|Entity[] If set, the decal will not be able to be placed on given entity. Can also be a table of entities.
 function util.Decal(name, start, _end, filter) end
 
 ---Performs a trace and paints a decal to the surface hit.
@@ -610,15 +610,15 @@ function util.JSONToTable(json, ignoreLimits, ignoreConversions) end
 ---@return table # The converted table
 function util.KeyValuesToTable(keyValues, usesEscapeSequences, preserveKeyCase) end
 
----Similar to [util.KeyValuesToTable](https://wiki.facepunch.com/gmod/util.KeyValuesToTable) but it also preserves order of keys.
+---Similar to [util.KeyValuesToTable](https://wiki.facepunch.com/gmod/util.KeyValuesToTable), but it also preserves order of keys (since Lua dictionary-style tables do not guarantee a specific order), and allows handling of repeated keys. (since each key can only appear once in a dictionary data structure)
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/util.KeyValuesToTablePreserveOrder
----@param keyvals string The key value string
+---@param keyValues string The Valve KeyValue formatted text.
 ---@param usesEscapeSequences? boolean If set to true, will replace `\t`, `\n`, `\"` and `\\` in the input text with their escaped variants
 ---@param preserveKeyCase? boolean Whether we should preserve key case (may fail) or not (always lowercase)
 ---@return table # The output table
-function util.KeyValuesToTablePreserveOrder(keyvals, usesEscapeSequences, preserveKeyCase) end
+function util.KeyValuesToTablePreserveOrder(keyValues, usesEscapeSequences, preserveKeyCase) end
 
 ---A convenience function around LocalToWorld-related functions.
 ---
@@ -720,9 +720,8 @@ function util.PointContents(position) end
 function util.PrecacheModel(modelName) end
 
 ---Precaches a sound for later use. Sound is cached after being loaded once.
---- **NOTE**: Soundcache is limited to 16384 unique sounds on the server.
+--- **NOTE**: Soundcache is limited to 16384 unique sounds on the server. Due to this fact this function is disabled on purpose, as exceeding the limit causes the server to shutdown.
 ---
---- Broken on purpose because hitting the limit above causes the server to shutdown
 --- Ultimately does nothing on client, and only works with sound scripts, not direct paths.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/util.PrecacheSound
@@ -911,11 +910,11 @@ function util.StringToType(str, typename) end
 ---@return string # A JSON formatted string containing the serialized data
 function util.TableToJSON(table, prettyPrint) end
 
----Converts the given table into a Valve key value string.
+---Converts the given table into a Valve keyValue formatted string.
 ---
 --- Use [util.KeyValuesToTable](https://wiki.facepunch.com/gmod/util.KeyValuesToTable) to perform the opposite transformation.
 ---
---- You should consider using [util.TableToJSON](https://wiki.facepunch.com/gmod/util.TableToJSON) instead.
+--- [util.TableToJSON](https://wiki.facepunch.com/gmod/util.TableToJSON) can be used as an alternative.
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/util.TableToKeyValues

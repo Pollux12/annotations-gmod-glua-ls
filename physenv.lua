@@ -46,6 +46,12 @@ function physenv.GetPerformanceSettings() end
 ---@return boolean # `true` if paused.
 function physenv.GetPhysicsPaused() end
 
+---Returns the physics time scale set with [physenv.SetTimeScale](https://wiki.facepunch.com/gmod/physenv.SetTimeScale).
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/physenv.GetTimeScale
+---@return number # The current physics time scale.
+function physenv.GetTimeScale() end
+
 ---Sets the air density.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/physenv.SetAirDensity
@@ -69,3 +75,15 @@ function physenv.SetPerformanceSettings(performanceSettings) end
 ---@source https://wiki.facepunch.com/gmod/physenv.SetPhysicsPaused
 ---@param pause boolean `true` to pause, `false` to unpause.
 function physenv.SetPhysicsPaused(pause) end
+
+---Sets the time scale of the physics simulation.
+---
+--- This will affect serverside-only physics if called on server, and clientside-only physics if used on the client.
+---
+--- See [game.SetTimeScale](https://wiki.facepunch.com/gmod/game.SetTimeScale) for a function that also affects all game logic.
+---
+--- The true timescale will be `phys_timescale` (`cl_phys_timescale` on client) multiplied by [physenv.GetTimeScale](https://wiki.facepunch.com/gmod/physenv.GetTimeScale).
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/physenv.SetTimeScale
+---@param timeScale number The new timescale, minimum value is 0.001 and maximum is 5.
+function physenv.SetTimeScale(timeScale) end

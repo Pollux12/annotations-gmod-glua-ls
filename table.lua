@@ -151,7 +151,7 @@ function table.ForceInsert(tab, value) end
 --- * any `key` - The key of a key-value pair for this iteration.
 --- * any `val` - The value of a key-value pair for this iteration.
 ---@deprecated This was deprecated in Lua 5.1 and removed in 5.2. You should use Global.pairs instead.
-function table.foreach(tbl, callback) end
+function table.ForEach(tbl, callback) end
 
 ---Iterates for each numeric index in the table in order.
 ---

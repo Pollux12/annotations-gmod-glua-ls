@@ -362,8 +362,8 @@ function Entity:CopyBoneMatrix(boneID, data) end
 
 ---Creates bone followers based on the current entity model.
 ---
---- Bone followers are [Entities](https://wiki.facepunch.com/gmod/Entity) whose [Physics Object](https://wiki.facepunch.com/gmod/PhysObj) follows a specific bone on another Entity's model.
---- This is what is used by `prop_dynamic` for things like big combine doors for vehicles with multiple physics objects which follow the visual mesh of the door when it animates.
+--- Bone followers are [Entities](https://wiki.facepunch.com/gmod/Entity) whose [Physics Objects](https://wiki.facepunch.com/gmod/PhysObj) follow a specific bone on another Entity's model.
+--- This is what is used by `prop_dynamic` for things like big combine doors with multiple physics objects which follow the visual mesh of the door when it animates.
 ---
 --- Be mindful that bone followers create a separate entity (`phys_bone_follower`) for each physics object.
 ---
@@ -2873,8 +2873,9 @@ function Entity:IsConstraint() end
 
 ---Returns whether the entity is dormant or not.
 ---
---- Client/server entities become dormant when they leave the PVS on the server. Client side entities can decide for themselves whether to become dormant.
---- This mainly applies to [PVS (Potential Visibility Set)](https://developer.valvesoftware.com/wiki/PVS "PVS - Valve Developer Community").
+--- Networked entities become dormant clientside when they leave the [PVS (Potential Visibility Set)](https://developer.valvesoftware.com/wiki/PVS "PVS - Valve Developer Community"). This typically means they are no longer visible by the local player, and will not receive updates from the server.
+---
+--- Server side, entities can only be dormant during level transitions by default.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Entity:IsDormant
 ---@return boolean # Whether the entity is dormant or not.
@@ -3529,6 +3530,18 @@ function Entity:OnTaskComplete() end
 ---@param failReason string If set, a custom reason for the failure.
 function Entity:OnTaskFailed(failCode, failReason) end
 
+---Called when a trace attack is done against the entity, allowing override of the damage being dealt by altering the [CTakeDamageInfo](https://wiki.facepunch.com/gmod/CTakeDamageInfo).
+---
+--- This is called before [ENTITY:OnTakeDamage](https://wiki.facepunch.com/gmod/ENTITY:OnTakeDamage).
+--- **NOTE**: This hook is only called for `ai`, `nextbot` and `anim` type entities.
+---@hook OnTraceAttack
+---@realm server
+---@source https://wiki.facepunch.com/gmod/ENTITY:OnTraceAttack
+---@param info CTakeDamageInfo The damage info
+---@param dir Vector The direction the damage goes in
+---@param trace TraceResult The Structures/TraceResult of the attack, containing the hitgroup.
+function Entity:OnTraceAttack(info, dir, trace) end
+
 ---Called to completely override NPC movement. This can be used for example for flying NPCs.
 ---
 --- **NOTE**: This hook only exists for `ai` type SENTs.
@@ -3721,11 +3734,15 @@ function Entity:PhysicsInitConvex(points, surfaceprop, massCenterOverride) end
 ---@return boolean # Returns `true` on success, `nil` otherwise.
 function Entity:PhysicsInitMultiConvex(vertices, surfaceprop, massCenterOverride) end
 
----Initializes the entity's physics object as a physics shadow. Removes the previous physics object if successful. This is used internally for the Player's and NPC's physics object, and certain HL2 entities such as the crane.
+---Initializes the entity's [physics object](https://wiki.facepunch.com/gmod/PhysObj) as a *physics shadow*. Physics shadows can react to the environment physically (see the arguments to the function), and can push other physics objects around, but are ultimately constrained to the entity's position and angles: the physics object will attempt to return to the entity's coordinates every simulation tick.
 ---
---- A physics shadow can be used to have static entities that never move by setting both arguments to false.
+--- Internally, this creates a new physics object, copies the properties of the current physics object to it if one exists, and replaces the entity's physics object with the shadow. This is used internally for Player and NPC physics objects, certain HL2 entities such as the crane and barnacle tongue, parented physics entities, etc.
+---
+--- A physics shadow can be used to have static physics entities that never move by setting both arguments to false.
 ---
 --- The created physics object will depend on the entity's solidity `SOLID_NONE` will not create a physics object, `SOLID_BBOX` will create a Axis-Aligned BBox one, `SOLID_OBB` will create Orientated Bounding Box one, and anything else will use the models' physics mesh.
+---
+--- See also [Structures/ShadowControlParams](https://wiki.facepunch.com/gmod/Structures/ShadowControlParams).
 ---
 --- Clientside physics objects on serverside entities do not move properly in some cases. Physics objects should only created on the server or you will experience incorrect physgun beam position, prediction issues, and other unexpected behavior.
 ---
@@ -3734,7 +3751,7 @@ function Entity:PhysicsInitMultiConvex(vertices, surfaceprop, massCenterOverride
 ---@source https://wiki.facepunch.com/gmod/Entity:PhysicsInitShadow
 ---@param allowPhysicsMovement? boolean Whether to allow the physics shadow to move under stress.
 ---@param allowPhysicsRotation? boolean Whether to allow the physics shadow to rotate under stress.
----@return boolean # Return `true` on success, `nil` otherwise.
+---@return boolean # Return `true` on success, `false` otherwise.
 function Entity:PhysicsInitShadow(allowPhysicsMovement, allowPhysicsRotation) end
 
 ---Makes the physics object of the entity a sphere.
@@ -3800,6 +3817,17 @@ function Entity:PhysicsUpdate(phys) end
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Entity:PhysWake
 function Entity:PhysWake() end
+
+---Plays a sound of a step depending on the surface below the entity's foot.
+---
+--- It will use attachments `"RightFoot"` or `"LeftFoot"` to decide where to check the surface at. If the attachments do not exist, it will use regular Valve Biped skeleton bones. If they don't exist, it will fallback to the entity's origin.
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/Entity:PlayFootstepSound
+---@param isLeftFoot boolean Determines whether the step is a right foot or a left foot.
+---
+--- This is used for certain NPCs such as Eli to determine what sound should be played. This also determines the position of the sound.
+---@param volume? number The volume, from 0 to 1.
+function Entity:EmitStepSound(isLeftFoot, volume) end
 
 ---Makes the entity play a .vcd scene. [All scenes from Half-Life 2](https://developer.valvesoftware.com/wiki/Half-Life_2_Scenes_List).
 ---@realm server
@@ -5545,6 +5573,8 @@ function Entity:SetRagdollPos(boneid, pos) end
 ---Sets the render angles override for the entity. [Entity:GetAngles](https://wiki.facepunch.com/gmod/Entity:GetAngles) will return the value set by this function until the override is disabled. (This is all this does internally)
 ---
 --- See [Entity:SetRenderOrigin](https://wiki.facepunch.com/gmod/Entity:SetRenderOrigin) for the function to manipulate origin.
+---
+--- Not to be confused with [Player:SetRenderAngles](https://wiki.facepunch.com/gmod/Player:SetRenderAngles).
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/Entity:SetRenderAngles
 ---@param newAngles? Angle|nil The new render angles to be set to. To disable the override, set to nil.
@@ -5628,6 +5658,7 @@ function Entity:SetSaveValue(name, value) end
 ---
 --- If set to a number, the input is treated as the sequence ID.
 --- If set to a string, the function will automatically call Entity:LookupSequence to retrieve the sequence ID.
+---@return number # The length of the sequence.
 function Entity:SetSequence(sequence) end
 
 ---Sets whether or not the entity should make a physics contact sound when it's been picked up by a player.

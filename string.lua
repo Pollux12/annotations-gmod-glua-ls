@@ -444,13 +444,21 @@ function string.StripExtension(path) end
 ---@return string # The substring.
 function string.sub(string, StartPos, EndPos) end
 
----Fetches a Color type from a string.
+---Attempts to create a Color from a string.
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/string.ToColor
----@param Inputstring string The string to convert from.
+---@param colorString string The string to convert from.
+---
+--- The expected format is 3 or 4 integer numbers in the range `0`-`255` with a single space separating them.
+--- These numbers are in the order: `red green blue alpha` where `alpha` is optional.
+---
+---
+--- If the input string is malformed but contains a correctly formatted substring within it, that valid substring will be used which may produce unexpected results.
 ---@return Color # The output Color
-function string.ToColor(Inputstring) end
+---
+--- If the input string is improperly formatted, this will be `Color( 255, 255, 255, 255 )`
+function string.ToColor(colorString) end
 
 ---Returns given time in "MM:SS" format.
 ---@realm shared

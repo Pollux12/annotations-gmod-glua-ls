@@ -1,5 +1,10 @@
 ---@meta
 
+--- The **DCheckBoxLabel** is a [DCheckBox](https://wiki.facepunch.com/gmod/DCheckBox) with a [DLabel](https://wiki.facepunch.com/gmod/DLabel) next to it.
+--- It allows you to get a boolean value from the user (true/false - yes/no)
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DCheckBoxLabel
 ---@class DCheckBoxLabel : Panel
 ---@field Button DCheckBox
 ---@field Label DLabel
@@ -19,6 +24,14 @@ function DCheckBoxLabel:GetChecked() end
 ---@return number # How much the content is moved to the right in pixels
 function DCheckBoxLabel:GetIndent() end
 
+---Called when the "checked" state is changed. This is meant to be Overriden
+---@hook OnChange
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DCheckBoxLabel:OnChange
+---@param bVal boolean Whether the checkbox is checked or unchecked.
+function DCheckBoxLabel:OnChange(bVal) end
+
 ---Sets the color of the [DCheckBoxLabel](https://wiki.facepunch.com/gmod/DCheckBoxLabel)'s text to the bright text color defined in the skin.
 ---@realm client
 ---@realm menu
@@ -26,11 +39,11 @@ function DCheckBoxLabel:GetIndent() end
 ---@param bright boolean true makes the text bright.
 function DCheckBoxLabel:SetBright(bright) end
 
----Sets the checked state of the checkbox. Does not call [DCheckBoxLabel:OnChange](https://wiki.facepunch.com/gmod/DCheckBoxLabel:OnChange) or [Panel:ConVarChanged](https://wiki.facepunch.com/gmod/Panel:ConVarChanged), unlike [DCheckBoxLabel:SetValue](https://wiki.facepunch.com/gmod/DCheckBoxLabel:SetValue).
+---Sets the checked state of the checkbox label's embedded DCheckBox.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DCheckBoxLabel:SetChecked
----@param checked boolean Whether the box should be checked or not.
+---@param checked any Value forwarded to DCheckBox:SetChecked.
 function DCheckBoxLabel:SetChecked(checked) end
 
 ---Sets the console variable to be set when the checked state of the [DCheckBoxLabel](https://wiki.facepunch.com/gmod/DCheckBoxLabel) changes.
@@ -68,11 +81,11 @@ function DCheckBoxLabel:SetIndent(ident) end
 ---@param color Color The text color. Uses the Color.
 function DCheckBoxLabel:SetTextColor(color) end
 
----Sets the checked state of the checkbox, and calls [DCheckBoxLabel:OnChange](https://wiki.facepunch.com/gmod/DCheckBoxLabel:OnChange) and the checkbox's [Panel:ConVarChanged](https://wiki.facepunch.com/gmod/Panel:ConVarChanged) methods.
+---Sets the checked state of the checkbox label's embedded DCheckBox.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DCheckBoxLabel:SetValue
----@param checked boolean Whether the box should be checked or not (1 or 0 can also be used).
+---@param checked any Value forwarded to DCheckBox:SetValue.
 function DCheckBoxLabel:SetValue(checked) end
 
 ---Sizes the panel to the size of the internal DLabel and DButton

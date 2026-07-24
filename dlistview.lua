@@ -1,7 +1,21 @@
 ---@meta
 
 --- A data view with rows and columns.
----@class (partial) DListView : DPanel
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DListView
+---@class DListView : DPanel
+---@field Columns DListView_Column[]
+---@field Lines DListView_Line[]
+---@field Sorted DListView_Line[] Lines sorted by the current column/order.
+---@field pnlCanvas Panel
+---@field VBar? DVScrollBar
+---@field m_bDirty boolean
+---@field m_bSortable boolean
+---@field m_iHeaderHeight number
+---@field m_iDataHeight number
+---@field m_bMultiSelect boolean
+---@field m_bHideHeaders boolean
 local DListView = {}
 
 ---Adds a column to the listview.
@@ -49,6 +63,15 @@ function DListView:DataLayout() end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DListView:DisableScrollbar
 function DListView:DisableScrollbar() end
+
+---Called when a line in the DListView is double clicked.
+---@hook DoDoubleClick
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DListView:DoDoubleClick
+---@param lineID number The line number of the double clicked line.
+---@param line Panel The double clicked DListView_Line.
+function DListView:DoDoubleClick(lineID, line) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
@@ -108,12 +131,12 @@ function DListView:GetHideHeaders() end
 ---@return number # The height of DListView:GetCanvas.
 function DListView:GetInnerTall() end
 
----Gets the [DListView_Line](https://wiki.facepunch.com/gmod/DListView_Line) at the given index.
+---Gets the DListView_Line at the given index.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DListView:GetLine
 ---@param id number The index of the line to get.
----@return Panel # The DListView_Line at the given index.
+---@return DListView_Line # The DListView_Line at the given index.
 function DListView:GetLine(id) end
 
 ---Gets all of the lines added to the DListView.
@@ -139,14 +162,14 @@ function DListView:GetMultiSelect() end
 ---@return table # A table of DListView_Lines.
 function DListView:GetSelected() end
 
----Gets the currently selected [DListView_Line](https://wiki.facepunch.com/gmod/DListView_Line) index.
+---Gets the currently selected DListView_Line index.
 ---
 --- If [DListView:SetMultiSelect](https://wiki.facepunch.com/gmod/DListView:SetMultiSelect) is set to true, only the first line of all selected lines will be returned. Use [DListView:GetSelected](https://wiki.facepunch.com/gmod/DListView:GetSelected) instead to get all of the selected lines.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DListView:GetSelectedLine
 ---@return number # The index of the currently selected line.
----@return Panel # The currently selected DListView_Line.
+---@return DListView_Line # The currently selected DListView_Line.
 function DListView:GetSelectedLine() end
 
 ---Returns whether sorting of columns by clicking their headers is allowed or not.
@@ -168,14 +191,12 @@ function DListView:GetSortable() end
 ---@return number #
 function DListView:GetSortedID(lineId) end
 
----**INTERNAL**: Use [DListView:OnRowSelected](https://wiki.facepunch.com/gmod/DListView:OnRowSelected) instead!
----
---- Called whenever a line is clicked.
+---Called whenever a line is clicked.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DListView:OnClickLine
 ---@param line Panel The selected line.
----@param isSelected boolean Boolean indicating whether the line is selected.
+---@param isSelected? boolean Boolean indicating whether the line is selected.
 function DListView:OnClickLine(line, isSelected) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -187,6 +208,24 @@ function DListView:OnClickLine(line, isSelected) end
 ---@param column Panel The column which initialized the resize
 ---@param size number
 function DListView:OnRequestResize(column, size) end
+
+---Called when a row is right-clicked
+---@hook OnRowRightClick
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DListView:OnRowRightClick
+---@param lineID number The line ID of the right clicked line
+---@param line Panel The line panel itself, a DListView_Line.
+function DListView:OnRowRightClick(lineID, line) end
+
+---Called internally by [DListView:OnClickLine](https://wiki.facepunch.com/gmod/DListView:OnClickLine) when a line is selected. This is the function you should override to define the behavior when a line is selected.
+---@hook OnRowSelected
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DListView:OnRowSelected
+---@param rowIndex number The index of the row/line that the user clicked on.
+---@param row Panel The DListView_Line that the user clicked on.
+function DListView:OnRowSelected(rowIndex, row) end
 
 ---Removes a line from the list view.
 ---@realm client

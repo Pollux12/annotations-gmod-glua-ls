@@ -5,6 +5,8 @@
 --- Uses the [Material](https://wiki.facepunch.com/gmod/Material) panel internally. Can't have a label.
 ---
 --- **NOTE**: Will error if no material was set.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/ImageCheckBox
 ---@class (partial) ImageCheckBox : Button
 local ImageCheckBox = {}
 

@@ -1,7 +1,12 @@
 ---@meta
 
 --- A base for all context menu panels ( The ones used for tool options in sandbox )
+---@realm client
+---@source https://wiki.facepunch.com/gmod/ContextBase
 ---@class (partial) ContextBase : Panel
+---@field Label DLabel The label panel created by the shared Sandbox context control base.
+---@field ConVarValue? string
+---@field NextPoll? number
 local ContextBase = {}
 
 ---Called by spawnmenu functions (when creating a context menu) to fill this control with data.

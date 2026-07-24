@@ -1,6 +1,9 @@
 ---@meta
 
 --- A panel similar to [DScrollPanel](https://wiki.facepunch.com/gmod/DScrollPanel), but that allows the player to pan around, for example a zoomed in image within a small window.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DPanPanel
 ---@class (partial) DPanPanel : DPanel
 local DPanPanel = {}
 

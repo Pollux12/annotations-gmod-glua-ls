@@ -1,8 +1,24 @@
 ---@meta
 
 --- A standard Derma text label. A lot of this panels functionality is a base for button elements, such as [DButton](https://wiki.facepunch.com/gmod/DButton)
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DLabel
 ---@class (partial) DLabel : Label
 local DLabel = {}
+
+---Called when the label is left clicked (on key release) by the player.
+---
+--- This will be called after [DLabel:OnDepressed](https://wiki.facepunch.com/gmod/DLabel:OnDepressed) and [DLabel:OnReleased](https://wiki.facepunch.com/gmod/DLabel:OnReleased).
+---
+--- This can be overridden; by default, it calls [DLabel:Toggle](https://wiki.facepunch.com/gmod/DLabel:Toggle).
+---
+--- See also [DLabel:DoRightClick](https://wiki.facepunch.com/gmod/DLabel:DoRightClick), [DLabel:DoMiddleClick](https://wiki.facepunch.com/gmod/DLabel:DoMiddleClick) and [DLabel:DoDoubleClick](https://wiki.facepunch.com/gmod/DLabel:DoDoubleClick).
+---@hook DoClick
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DLabel:DoClick
+function DLabel:DoClick() end
 
 ---Called just before [DLabel:DoClick](https://wiki.facepunch.com/gmod/DLabel:DoClick).
 ---
@@ -12,11 +28,46 @@ local DLabel = {}
 ---@source https://wiki.facepunch.com/gmod/DLabel:DoClickInternal
 function DLabel:DoClickInternal() end
 
+---Called when the label is double clicked by the player with left clicks.
+---
+--- [DLabel:SetDoubleClickingEnabled](https://wiki.facepunch.com/gmod/DLabel:SetDoubleClickingEnabled) must be set to true for this hook to work, which it is by default.
+---
+--- This will be called after [DLabel:OnDepressed](https://wiki.facepunch.com/gmod/DLabel:OnDepressed) and [DLabel:OnReleased](https://wiki.facepunch.com/gmod/DLabel:OnReleased) and [DLabel:DoClick](https://wiki.facepunch.com/gmod/DLabel:DoClick).
+---
+--- See also [DLabel:DoRightClick](https://wiki.facepunch.com/gmod/DLabel:DoRightClick) and [DLabel:DoMiddleClick](https://wiki.facepunch.com/gmod/DLabel:DoMiddleClick).
+---@hook DoDoubleClick
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DLabel:DoDoubleClick
+function DLabel:DoDoubleClick() end
+
 ---Called just before [DLabel:DoDoubleClick](https://wiki.facepunch.com/gmod/DLabel:DoDoubleClick). In [DLabel](https://wiki.facepunch.com/gmod/DLabel) does nothing and is safe to override.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DLabel:DoDoubleClickInternal
 function DLabel:DoDoubleClickInternal() end
+
+---Called when the label is middle mouse (Mouse wheel, also known as mouse 3) clicked (on key release) by the player.
+---
+--- This will be called after [DLabel:OnDepressed](https://wiki.facepunch.com/gmod/DLabel:OnDepressed) and [DLabel:OnReleased](https://wiki.facepunch.com/gmod/DLabel:OnReleased).
+---
+--- See also [DLabel:DoClick](https://wiki.facepunch.com/gmod/DLabel:DoClick), [DLabel:DoRightClick](https://wiki.facepunch.com/gmod/DLabel:DoRightClick) and [DLabel:DoDoubleClick](https://wiki.facepunch.com/gmod/DLabel:DoDoubleClick).
+---@hook DoMiddleClick
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DLabel:DoMiddleClick
+function DLabel:DoMiddleClick() end
+
+---Called when the label is right clicked (on key release) by the player.
+---
+--- This will be called after [DLabel:OnDepressed](https://wiki.facepunch.com/gmod/DLabel:OnDepressed) and [DLabel:OnReleased](https://wiki.facepunch.com/gmod/DLabel:OnReleased).
+---
+--- See also [DLabel:DoClick](https://wiki.facepunch.com/gmod/DLabel:DoClick), [DLabel:DoMiddleClick](https://wiki.facepunch.com/gmod/DLabel:DoMiddleClick) and [DLabel:DoDoubleClick](https://wiki.facepunch.com/gmod/DLabel:DoDoubleClick).
+---@hook DoRightClick
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DLabel:DoRightClick
+function DLabel:DoRightClick() end
 
 ---Returns whether the label stretches vertically or not.
 ---
@@ -146,6 +197,38 @@ function DLabel:GetTextStyleColor() end
 ---@source https://wiki.facepunch.com/gmod/DLabel:GetToggle
 ---@return boolean # The current toggle state.
 function DLabel:GetToggle() end
+
+---Called when the player presses the label with any mouse button.
+---
+--- This works as an alternative to [PANEL:OnMousePressed](https://wiki.facepunch.com/gmod/PANEL:OnMousePressed) as that hook is used heavily by [DLabel](https://wiki.facepunch.com/gmod/DLabel) and overriding it will break functionality.
+---
+--- See also [DLabel:DoClick](https://wiki.facepunch.com/gmod/DLabel:DoClick), [DLabel:DoMiddleClick](https://wiki.facepunch.com/gmod/DLabel:DoMiddleClick), [DLabel:DoRightClick](https://wiki.facepunch.com/gmod/DLabel:DoRightClick), [DLabel:OnReleased](https://wiki.facepunch.com/gmod/DLabel:OnReleased) and [DLabel:DoDoubleClick](https://wiki.facepunch.com/gmod/DLabel:DoDoubleClick).
+---@hook OnDepressed
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DLabel:OnDepressed
+function DLabel:OnDepressed() end
+
+---Called when the player releases any mouse button on the label. This is always called after [DLabel:OnDepressed](https://wiki.facepunch.com/gmod/DLabel:OnDepressed).
+---
+--- This works as an alternative to [PANEL:OnMouseReleased](https://wiki.facepunch.com/gmod/PANEL:OnMouseReleased) as that hook is used heavily by [DLabel](https://wiki.facepunch.com/gmod/DLabel) and overriding it will break functionality.
+---
+--- See also [DLabel:DoClick](https://wiki.facepunch.com/gmod/DLabel:DoClick), [DLabel:DoMiddleClick](https://wiki.facepunch.com/gmod/DLabel:DoMiddleClick), [DLabel:DoRightClick](https://wiki.facepunch.com/gmod/DLabel:DoRightClick) and [DLabel:DoDoubleClick](https://wiki.facepunch.com/gmod/DLabel:DoDoubleClick).
+---@hook OnReleased
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DLabel:OnReleased
+function DLabel:OnReleased() end
+
+---Called when the toggle state of the label is changed by [DLabel:Toggle](https://wiki.facepunch.com/gmod/DLabel:Toggle).
+---
+--- In order to use toggle functionality, you must first call [DLabel:SetIsToggle](https://wiki.facepunch.com/gmod/DLabel:SetIsToggle) with `true`, as it is disabled by default.
+---@hook OnToggled
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DLabel:OnToggled
+---@param toggleState boolean The new toggle state.
+function DLabel:OnToggled(toggleState) end
 
 ---Automatically adjusts the height of the label dependent of the height of the text inside of it.
 ---@realm client
@@ -293,11 +376,11 @@ function DLabel:SetToggle(toggleState) end
 ---@source https://wiki.facepunch.com/gmod/DLabel:Toggle
 function DLabel:Toggle() end
 
----A hook called from within [PANEL:ApplySchemeSettings](https://wiki.facepunch.com/gmod/PANEL:ApplySchemeSettings) to determine the color of the text on display.
+---A hook called from within PANEL:ApplySchemeSettings to determine the color of the text on display.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DLabel:UpdateColours
----@param skin table A table supposed to contain the color values listed above.
+---@param skin SKIN The active Derma skin table.
 function DLabel:UpdateColours(skin) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.

@@ -1,7 +1,18 @@
 ---@meta
 
 --- A field with multiple selectable values.
----@class (partial) DComboBox : DButton
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DComboBox
+---@class DComboBox : DButton
+---@field DropButton DPanel
+---@field Choices table<integer, string>
+---@field Data table<integer, any>
+---@field ChoiceIcons table<integer, string>
+---@field Spacers table<integer, boolean>
+---@field selected? integer
+---@field Menu? DMenu
+---@field m_strConVarValue? string
 local DComboBox = {}
 
 ---Adds a choice to the combo box.
@@ -115,6 +126,24 @@ function DComboBox:GetSortItems() end
 ---@source https://wiki.facepunch.com/gmod/DComboBox:IsMenuOpen
 ---@return boolean # True if the menu is open, false otherwise.
 function DComboBox:IsMenuOpen() end
+
+---Called when the player opens the dropdown menu. For Override
+---@hook OnMenuOpened
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DComboBox:OnMenuOpened
+---@param menu Panel The DMenu menu panel.
+function DComboBox:OnMenuOpened(menu) end
+
+---Called when an option in the combo box is selected. This function does nothing by itself, you're supposed to overwrite it.
+---@hook OnSelect
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DComboBox:OnSelect
+---@param index number The index of the option for use with other DComboBox functions.
+---@param value string The name of the option.
+---@param data any The data assigned to the option.
+function DComboBox:OnSelect(index, value, data) end
 
 ---Opens the combo box drop down menu. Called when the combo box is clicked.
 ---@realm client

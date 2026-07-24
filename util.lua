@@ -102,7 +102,7 @@ function util.DateStamp() end
 ---@param name string The name of the decal to paint.
 ---@param start Vector The start of the trace.
 ---@param _end Vector The end of the trace.
----@param filter? Entity If set, the decal will not be able to be placed on given entity. Can also be a table of entities.
+---@param filter? Entity|Entity[] If set, the decal will not be able to be placed on given entity. Can also be a table of entities.
 function util.Decal(name, start, _end, filter) end
 
 ---Performs a trace and paints a decal to the surface hit.
@@ -318,7 +318,7 @@ function util.GetPlayerTrace(ply, dir) end
 ---Gets information about the sun position and obstruction or nil if there is no sun.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/util.GetSunInfo
----@return table # The sun info. See Structures/SunInfo
+---@return SunInfo? # The sun info, or nil if there is no sun. See Structures/SunInfo
 function util.GetSunInfo() end
 
 ---Returns data of a [surface property](https://developer.valvesoftware.com/wiki/Material_surface_properties) at given ID. New surface properties can be added via [physenv.AddSurfaceData](https://wiki.facepunch.com/gmod/physenv.AddSurfaceData).

@@ -1,7 +1,24 @@
 ---@meta
 
 --- DModelPanel is a VGUI element that projects a 3D model onto a 2D plane. See also [DAdjustableModelPanel](https://wiki.facepunch.com/gmod/DAdjustableModelPanel)
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelPanel
 ---@class (partial) DModelPanel : DButton
+---@field Entity CSEnt The panel's internal clientside entity.
+---@field vCamPos Vector The camera position used for rendering.
+---@field aLookAngle Angle The camera look angle.
+---@field fFOV number The camera field of view.
+---@field vLookatPos Vector Point the camera is looking at.
+---@field colAmbientLight Color Ambient lighting color.
+---@field colColor Color Color applied to the rendered model.
+---@field bAnimated boolean Whether the model entity is animated.
+---@field m_fAnimSpeed? number The animation speed.
+---@field m_bFirstPerson? boolean Whether first-person controls are enabled.
+---@field m_iMoveScale? number Movement scale for first-person controls.
+---@field DirectionalLight table<integer, Color> Directional lights indexed by BOX_*.
+---@field FarZ number Far clip plane distance.
+---@field Scene? CSEnt Scene instance.
+---@field LastPaint number Time of last paint.
 local DModelPanel = {}
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -70,15 +87,40 @@ function DModelPanel:GetLookAt() end
 ---@return string # The model of the rendered entity.
 function DModelPanel:GetModel() end
 
+---By default, this function slowly rotates and animates the entity being rendered.
+---
+--- If you want to change this behavior, you should override it.
+---@hook LayoutEntity
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelPanel:LayoutEntity
+---@param entity Entity The entity that is being rendered.
+function DModelPanel:LayoutEntity(entity) end
+
+---Called when the entity of the [DModelPanel](https://wiki.facepunch.com/gmod/DModelPanel) was drawn.
+---
+--- This is a rendering hook with 3d drawing context.
+---@hook PostDrawModel
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelPanel:PostDrawModel
+---@param ent Entity The clientside entity of the DModelPanel that has been drawn.
+function DModelPanel:PostDrawModel(ent) end
+
+---Called **before** the entity of the [DModelPanel](https://wiki.facepunch.com/gmod/DModelPanel) is drawn.
+---@hook PreDrawModel
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelPanel:PreDrawModel
+---@param ent Entity The clientside entity of the DModelPanel that has been drawn.
+---@return boolean # Return false to stop the entity from being drawn. This will also cause DModelPanel:PostDrawModel to stop being called.
+function DModelPanel:PreDrawModel(ent) end
+
 ---This function is used in [DModelPanel:LayoutEntity](https://wiki.facepunch.com/gmod/DModelPanel:LayoutEntity). It will progress the animation, set using [Entity:SetSequence](https://wiki.facepunch.com/gmod/Entity:SetSequence). By default, it is the walking animation.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DModelPanel:RunAnimation
 function DModelPanel:RunAnimation() end
 
----Sets the ambient lighting used on the rendered entity.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DModelPanel:SetAmbientLight
----@param color Color The color of the ambient lighting.
+---@param color Color|Vector
 function DModelPanel:SetAmbientLight(color) end
 
 ---Sets whether or not to animate the entity when the default [DModelPanel:LayoutEntity](https://wiki.facepunch.com/gmod/DModelPanel:LayoutEntity) is called.

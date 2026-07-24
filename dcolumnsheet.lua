@@ -1,6 +1,9 @@
 ---@meta
 
 --- Similar to [DPropertySheet](https://wiki.facepunch.com/gmod/DPropertySheet), but with tabs on the left.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DColumnSheet
 ---@class (partial) DColumnSheet : Panel
 local DColumnSheet = {}
 

@@ -1,6 +1,8 @@
 ---@meta
 
 --- A vertical list of models.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelSelect
 ---@deprecated This is derived from the deprecated DPanelList.
 ---@class (partial) DModelSelect : DPanelSelect
 local DModelSelect = {}

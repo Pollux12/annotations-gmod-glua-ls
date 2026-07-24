@@ -22,7 +22,7 @@ function gamemode.Call(name, ...) end
 ---@source https://wiki.facepunch.com/gmod/gamemode.Get
 ---@generic T : table
 ---@param name `T` The name of the gamemode you want to get.
----@return (definition) `T` # The gamemode's table.
+---@return (definition) `T`? # The gamemode's table, or nil if no gamemode is registered with that name.
 function gamemode.Get(name) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.

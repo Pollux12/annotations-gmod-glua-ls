@@ -1,6 +1,8 @@
 ---@meta
 
 --- A transparent gray speech bubble panel made up of a rounded box and point coming from the bottom.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DBubbleContainer
 ---@class (partial) DBubbleContainer : DPanel
 local DBubbleContainer = {}
 

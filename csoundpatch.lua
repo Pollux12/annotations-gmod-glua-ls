@@ -100,8 +100,6 @@ function CSoundPatch:SetDSP(dspEffectId) end
 function CSoundPatch:SetSoundLevel(level) end
 
 ---Stops the sound from being played.
----
---- This will not work if the entity attached to this sound patch (specified by [Global.CreateSound](https://wiki.facepunch.com/gmod/Global.CreateSound)) is invalid.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/CSoundPatch:Stop
 function CSoundPatch:Stop() end

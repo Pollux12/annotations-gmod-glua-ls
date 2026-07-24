@@ -2,6 +2,8 @@
 
 --- The **DColorCombo** allows the user to choose color, without alpha,
 --- using [DColorMixer](https://wiki.facepunch.com/gmod/DColorMixer) or [DColorPalette](https://wiki.facepunch.com/gmod/DColorPalette) in a tabbed view.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DColorCombo
 ---@class (partial) DColorCombo : DPropertySheet
 local DColorCombo = {}
 
@@ -25,6 +27,13 @@ function DColorCombo:GetColor() end
 ---@source https://wiki.facepunch.com/gmod/DColorCombo:IsEditing
 ---@return boolean #
 function DColorCombo:IsEditing() end
+
+---Called when the value (color) of this panel was changed. For override
+---@hook OnValueChanged
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DColorCombo:OnValueChanged
+---@param newcol Color
+function DColorCombo:OnValueChanged(newcol) end
 
 ---An [Global.AccessorFunc](https://wiki.facepunch.com/gmod/Global.AccessorFunc) that returns the color of this panel. See also [DColorCombo:GetColor](https://wiki.facepunch.com/gmod/DColorCombo:GetColor)
 ---@realm client

@@ -11,8 +11,76 @@ local Player = {}
 --- * [Player](https://wiki.facepunch.com/gmod/Player) **Player** - The player for which a hook is called.
 ---
 --- **NOTE**: These hooks are used in [player_manager](https://wiki.facepunch.com/gmod/player_manager) this can't be [hooked](https://wiki.facepunch.com/gmod/hook.Add)
+---@realm shared
 ---@source https://wiki.facepunch.com/gmod/PLAYER_Hooks
 ---@class (partial) PLAYER
+---The 'nice' name of the player class for display in User Interface and such.
+---@field DisplayName string
+---How fast to move when not running
+---
+--- Default: `400`
+---@field WalkSpeed number=400
+---How fast to move when running/sprinting
+---
+--- Default: `600`
+---@field RunSpeed number=600
+---How fast to move when slow walking, which is activated via the +WALK keybind.
+---
+--- Default: `200`
+---@field SlowWalkSpeed number=200
+---Multiply walk speed by this when crouching
+---
+--- Default: `0.3`
+---@field CrouchedWalkSpeed number=0.3
+---How fast to go from not ducking, to ducking
+---
+--- Default: `0.3`
+---@field DuckSpeed number=0.3
+---How fast to go from ducking, to not ducking
+---
+--- Default: `0.3`
+---@field UnDuckSpeed number=0.3
+---How powerful a jump should be
+---
+--- Default: `200`
+---@field JumpPower number=200
+---Can the player use the flashlight
+---
+--- Default: `true`
+---@field CanUseFlashlight boolean=true
+---Max health we can have
+---
+--- Default: `100`
+---@field MaxHealth number=100
+---Max armor the player can have
+---
+--- Default: `0`
+---@field MaxArmor number=0
+---How much health we start with
+---
+--- Default: `100`
+---@field StartHealth number=100
+---How much armour we start with
+---
+--- Default: `0`
+---@field StartArmor number=0
+---Do we drop our weapon when we die
+---
+--- Default: `false`
+---@field DropWeaponOnDie boolean=false
+---Do we collide with teammates or run straight through them
+---
+--- Default: `true`
+---@field TeammateNoCollide boolean=true
+---Automatically swerves around other players
+---
+--- Default: `true`
+---@field AvoidPlayers boolean=true
+---Uses viewmodel hands
+---
+--- Default: `true`
+---@field UseVMHands boolean=true
+
 PLAYER = {}
 
 --- The player library is used to get the Lua objects that represent players in-game.
@@ -180,33 +248,12 @@ function Player:CanUseFlashlight() end
 ---@param message string String to be printed
 function Player:ChatPrint(message) end
 
----Checks if the limit of an entity type added by [Player:AddCount](https://wiki.facepunch.com/gmod/Player:AddCount) is hit or not. If it's hit, it will call the [GM:PlayerCheckLimit](https://wiki.facepunch.com/gmod/GM:PlayerCheckLimit) hook, and call [Player:LimitHit](https://wiki.facepunch.com/gmod/Player:LimitHit) if the hook doesn't return `false`.
----
---- This will always return `true` in singleplayer, as singleplayer does not have limits.
----
---- **NOTE**: This function is only available in Sandbox and its derivatives.
----@realm shared
----@source https://wiki.facepunch.com/gmod/Player:CheckLimit
----@param str string The entity type to check the limit for. Default types:
---- * "constraints"
---- * "props"
---- * "ragdolls"
---- * "vehicles"
---- * "effects"
---- * "balloons"
---- * "cameras"
---- * "npcs"
---- * "sents"
---- * "dynamite"
---- * "lamps"
---- * "lights"
---- * "wheels"
---- * "thrusters"
---- * "hoverballs"
---- * "buttons"
---- * "emitters"
----@return boolean # Returns `true` if the limit of this type is not hit, `false` otherwise.
-function Player:CheckLimit(str) end
+---Returns whether the player may spawn another item in the named sandbox limit category.
+---@realm server
+---@source https://github.com/Facepunch/garrysmod/blob/master/garrysmod/gamemodes/sandbox/gamemode/player_extension.lua#L11
+---@param limitName string The sandbox limit category.
+---@return boolean
+function Player:CheckLimit(limitName) end
 
 ---Called when the player's class was changed from this class.
 ---@hook ClassChanged
@@ -537,19 +584,17 @@ function player.GetByAccountID(accountID) end
 function player.GetByID(connectionID) end
 
 ---Gets the player with the specified SteamID.
---- 	**WARNING**: Internally this function iterates over all players in the server, meaning it can be quite expensive in a performance-critical context.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/player.GetBySteamID
 ---@param steamID string The Player:SteamID to find the player by.
----@return Player|boolean # Player if one is found, `false` otherwise.
+---@return Player|false # Player if one is found, `false` otherwise.
 function player.GetBySteamID(steamID) end
 
 ---Gets the player with the specified SteamID64.
---- 	**WARNING**: Internally this function iterates over all players in the server, meaning it can be quite expensive in a performance-critical context.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/player.GetBySteamID64
 ---@param steamID64 string The Player:SteamID64 to find the player by.
----@return Player|boolean # Player if one is found, `false` otherwise.
+---@return Player|false # Player if one is found, `false` otherwise.
 function player.GetBySteamID64(steamID64) end
 
 ---Gets the player with the specified uniqueID (not recommended way to identify players).
@@ -1013,7 +1058,10 @@ function Player:GetUserGroup() end
 function Player:GetVehicle() end
 
 ---Returns the entity the player is using to see from (such as the player itself, the camera, or another entity).
---- 	**NOTE**: This function will return a [NULL Entity] until [Player:SetViewEntity](https://wiki.facepunch.com/gmod/Player:SetViewEntity) has been used
+---
+--- 	**NOTE**: This function will return a [NULL Entity] until [Player:SetViewEntity](https://wiki.facepunch.com/gmod/Player:SetViewEntity) has been used.
+---
+--- It will also not return the currently spectated entity. See [Player:GetObserverTarget](https://wiki.facepunch.com/gmod/Player:GetObserverTarget).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Player:GetViewEntity
 ---@return Entity # The entity the player is using to see from
@@ -1206,12 +1254,9 @@ function Player:IsFrozen() end
 --- This will always be false for bots.
 function Player:IsFullyAuthenticated() end
 
----Returns if a player is the host of the current session.
+---Returns whether this player is the listen server host.
 ---@realm shared
----@source https://wiki.facepunch.com/gmod/Player:IsListenServerHost
----@return boolean # `true` if the player is the listen server host, `false` otherwise.
----
---- This will always be `true` in single player, and `false` on a dedicated server.
+---@return boolean
 function Player:IsListenServerHost() end
 
 ---Returns whether or not the player is voice muted locally.
@@ -1726,12 +1771,13 @@ function Player:SetDeaths(deathCount) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
---- Sets the driving entity and driving mode.
+--- Sets the driving entity and driving mode, or clears the driving entity when passed `nil`.
 ---
 --- Use [drive.PlayerStartDriving](https://wiki.facepunch.com/gmod/drive.PlayerStartDriving) instead, see [Entity Driving](https://wiki.facepunch.com/gmod/Entity_Driving).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Player:SetDrivingEntity
----@param drivingEntity? Entity The entity the player should drive.
+---@overload fun(self: Player, drivingEntity: nil)
+---@param drivingEntity Entity The entity the player should drive.
 ---@param drivingMode number The driving mode index.
 function Player:SetDrivingEntity(drivingEntity, drivingMode) end
 
@@ -2007,10 +2053,12 @@ function Player:SetupHands(ent) end
 ---@param groupName string The user group of the player.
 function Player:SetUserGroup(groupName) end
 
----Attaches the players view to the position and angles of the specified entity.
+---Attaches the player's view to the position and angles of the specified entity.
+---
+--- Passing `nil` clears the player's view entity.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/Player:SetViewEntity
----@param viewEntity Entity The entity to attach the player view to.
+---@param viewEntity Entity|nil The entity to attach the player view to, or `nil` to clear it.
 function Player:SetViewEntity(viewEntity) end
 
 ---Sets the **desired** view offset which equals the difference between the players actual position and their view when standing.
@@ -2073,7 +2121,9 @@ function Player:SetWalkSpeed(walkSpeed) end
 ---@param Color Vector This is the color to be set. The format is Vector(r,g,b), and each color should be between 0 and 1.
 function Player:SetWeaponColor(Color) end
 
----Returns whether the player's player model will be drawn at the time the function is called.
+---Returns whether the **local player's** player model will be drawn at the time the function is called.
+---
+--- Despite this being a method on a player object, this will always represent the state of the [local player](https://wiki.facepunch.com/gmod/Global.LocalPlayer), not of the player entity this method is used on.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/Player:ShouldDrawLocalPlayer
 ---@return boolean # `true` if the player's playermodel is visible

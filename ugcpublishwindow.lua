@@ -1,6 +1,8 @@
 ---@meta
 
 --- A window that is used to publish dupes and saves
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/UGCPublishWindow
 ---@class (partial) UGCPublishWindow : DFrame
 local UGCPublishWindow = {}
 

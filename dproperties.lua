@@ -9,7 +9,11 @@
 --- * [DProperty_Combo](https://wiki.facepunch.com/gmod/DProperty_Combo)
 --- * [DProperty_Float](https://wiki.facepunch.com/gmod/DProperty_Float)
 --- * [DProperty_Int](https://wiki.facepunch.com/gmod/DProperty_Int)
----@class (partial) DProperties : Panel
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DProperties
+---@class DProperties : Panel
+---@field Categories table<string, Panel>
+---@field Canvas? DScrollPanel
 local DProperties = {}
 
 ---Creates a row in the properties panel.

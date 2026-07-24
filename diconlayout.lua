@@ -5,6 +5,9 @@
 ---
 --- [DIconLayout](https://wiki.facepunch.com/gmod/DIconLayout) is used to make a list of panels.
 --- Unlike DPanelList, DIconLayout does not automatically add a scroll bar - the example below shows you how you can do this.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DIconLayout
 ---@class (partial) DIconLayout : DDragBase
 local DIconLayout = {}
 
@@ -89,6 +92,13 @@ function DIconLayout:LayoutIcons_LEFT() end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DIconLayout:LayoutIcons_TOP
 function DIconLayout:LayoutIcons_TOP() end
+
+---Called when the panel is modified.
+---@hook OnModified
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DIconLayout:OnModified
+function DIconLayout:OnModified() end
 
 ---Sets the internal border (padding) within the DIconLayout. This will not change its size, only the positioning of children. You must call [DIconLayout:Layout](https://wiki.facepunch.com/gmod/DIconLayout:Layout) in order for the changes to take effect.
 ---@realm client

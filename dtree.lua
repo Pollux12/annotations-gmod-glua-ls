@@ -3,17 +3,53 @@
 --- A tree view element for Derma.
 ---
 --- See also [DTree_Node](https://wiki.facepunch.com/gmod/DTree_Node).
----@class (partial) DTree : DScrollPanel
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DTree
+---@class DTree : DScrollPanel
+---@field RootNode DTree_Node
+---@field m_pSelectedItem? DTree_Node
 local DTree = {}
 
----Add a node to the DTree
+---Adds a node to the tree.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree:AddNode
----@param name string Name of the option.
----@param icon? string The icon that will show nexto the node in the DTree.
----@return Panel # Returns the created DTree_Node panel.
+---@param name string Name of the node.
+---@param icon? string The icon shown next to the node.
+---@return DTree_Node # The created node.
 function DTree:AddNode(name, icon) end
+
+---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
+---
+--- Calls directly to [Panel:InvalidateLayout](https://wiki.facepunch.com/gmod/Panel:InvalidateLayout).
+--- Called by [DTree_Node](https://wiki.facepunch.com/gmod/DTree_Node)s when a sub element has been expanded or collapsed.
+---
+--- Used as a placeholder function alongside [DTree:ExpandTo](https://wiki.facepunch.com/gmod/DTree:ExpandTo), [DTree:SetExpanded](https://wiki.facepunch.com/gmod/DTree:SetExpanded) and [DTree:MoveChildTo](https://wiki.facepunch.com/gmod/DTree:MoveChildTo).
+---
+--- The [DTree](https://wiki.facepunch.com/gmod/DTree) acts a root node and methods with the same name in [DTree_Node](https://wiki.facepunch.com/gmod/DTree_Node) call to the parent.
+---@hook ChildExpanded
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DTree:ChildExpanded
+---@param bExpand boolean
+function DTree:ChildExpanded(bExpand) end
+
+---@realm client
+---@realm menu
+---@source garrysmod/lua/vgui/dtree.lua
+---@param node DTree_Node The node that was clicked.
+---@return boolean # Return true to handle the click.
+function DTree:DoClick(node) end
+
+---Called when the any node is right clicked. Called by [DTree_Node:DoRightClick](https://wiki.facepunch.com/gmod/DTree_Node:DoRightClick).
+---@hook DoRightClick
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DTree:DoRightClick
+---@param node DTree_Node The right clicked node.
+---@return boolean #
+function DTree:DoRightClick(node) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
@@ -83,11 +119,19 @@ function DTree:LayoutTree() end
 ---@param pos number Unused, does nothing.
 function DTree:MoveChildTo(child, pos) end
 
----Returns the root [DTree_Node](https://wiki.facepunch.com/gmod/DTree_Node), the node that is the parent to all other nodes of the DTree.
+---This function is called when a node within a tree is selected.
+---
+---@hook OnNodeSelected
 ---@realm client
 ---@realm menu
----@source https://wiki.facepunch.com/gmod/DTree:Root
----@return Panel # Root node.
+---@source https://wiki.facepunch.com/gmod/DTree:OnNodeSelected
+---@param node DTree_Node The node that was selected.
+function DTree:OnNodeSelected(node) end
+
+---Returns the root node for this tree.
+---@realm client
+---@realm menu
+---@return DTree_Node # The root tree node.
 function DTree:Root() end
 
 ---Enables the "click when drag-hovering" functionality.
@@ -154,3 +198,10 @@ function DTree:SetShowIcons(show) end
 ---@source https://wiki.facepunch.com/gmod/DTree:ShowIcons
 ---@return boolean # Whether or not the silkicons next to each node will be displayed.
 function DTree:ShowIcons() end
+
+---@realm client
+---@realm menu
+---@source garrysmod/lua/vgui/dtree.lua
+---@param node DTree_Node The node that was right-clicked.
+---@return boolean # Return true to handle the right-click.
+function DTree:DoRightClick(node) end

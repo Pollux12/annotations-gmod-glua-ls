@@ -17,7 +17,7 @@ function scripted_ents.Alias(alias, classname) end
 ---@source https://wiki.facepunch.com/gmod/scripted_ents.Get
 ---@generic T : table
 ---@param classname `T` The classname of the ENT table to return, can be an alias
----@return (definition) `T` # entTable
+---@return (definition) `T`? # entTable, or nil if no scripted entity is registered with that class name.
 function scripted_ents.Get(classname) end
 
 ---Returns a copy of the list of all ENT tables registered
@@ -45,11 +45,13 @@ function scripted_ents.GetMember(classname, name) end
 ---@return table # A table of Structures/ENTs
 function scripted_ents.GetSpawnable() end
 
----Returns the actual ENT table for a class. Modifying functions/variables in this table will change newly spawned entities
+---@class ScriptedEntityStored
+---@field t table Registered SENT definition table.
+
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/scripted_ents.GetStored
----@param classname string The classname of the ENT table to return
----@return table # entTable
+---@param classname string
+---@return ScriptedEntityStored? stored
 function scripted_ents.GetStored(classname) end
 
 ---Returns the 'type' of a class, this will one of the following: 'anim', 'ai', 'brush', 'point'.

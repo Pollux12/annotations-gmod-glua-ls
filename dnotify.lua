@@ -1,7 +1,13 @@
 ---@meta
 
 --- A panel that fades its contents in and out once, like a notification.
----@class (partial) DNotify : Panel
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DNotify
+---@class DNotify : Panel
+---@field Items table<integer, Panel|false> The list of active notification panels.
+---@field Spacing number Spacing between notification items (AccessorFunc-backed).
+---@field Alignment integer Alignment of notification items within the panel (AccessorFunc-backed).
+---@field m_fLifeLength number Default lifetime in seconds for new items (AccessorFunc-backed via SetLife/GetLife).
 local DNotify = {}
 
 ---Adds a panel to the notification

@@ -1,12 +1,26 @@
 ---@meta
 
 --- The DFrame is the moma of basically all VGUI elements. 98% of the time you will parent your element to this.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DFrame
+--- The DFrame is the moma of basically all VGUI elements. 98% of the time you will parent your element to this.
 ---@class DFrame : EditablePanel
 ---@field btnClose DButton The close button in the title bar.
 ---@field btnMaxim DButton The maximize button in the title bar (disabled by default).
 ---@field btnMinim DButton The minimize button in the title bar (disabled by default).
 ---@field lblTitle DLabel The title label in the title bar.
 ---@field imgIcon DImage|nil The icon image in the title bar, if set via DFrame:SetIcon.
+---@field m_bIsMenuComponent boolean
+---@field m_bDraggable boolean
+---@field m_bSizable boolean
+---@field m_bScreenLock boolean
+---@field m_bDeleteOnClose boolean
+---@field m_bPaintShadow boolean
+---@field m_iMinWidth number
+---@field m_iMinHeight number
+---@field m_bBackgroundBlur boolean
+---@field m_fCreateTime number
 local DFrame = {}
 
 ---Centers the frame relative to the whole screen and invalidates its layout. This overrides [Panel:Center](https://wiki.facepunch.com/gmod/Panel:Center).
@@ -105,6 +119,17 @@ function DFrame:GetTitle() end
 ---@source https://wiki.facepunch.com/gmod/DFrame:IsActive
 ---@return boolean # Whether or not the frame has focus.
 function DFrame:IsActive() end
+
+---Called when the DFrame is closed with [DFrame:Close](https://wiki.facepunch.com/gmod/DFrame:Close). This applies when the `close` button in the DFrame's control box is clicked.
+---
+--- This function does nothing and is safe to override.
+---
+--- This is **not** called when the DFrame is removed with [Panel:Remove](https://wiki.facepunch.com/gmod/Panel:Remove), see [PANEL:OnRemove](https://wiki.facepunch.com/gmod/PANEL:OnRemove) for that.
+---@hook OnClose
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DFrame:OnClose
+function DFrame:OnClose() end
 
 ---Indicate that the background elements won't be usable.
 ---@realm client

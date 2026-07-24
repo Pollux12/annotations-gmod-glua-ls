@@ -3,8 +3,29 @@
 --- **INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
 --- A single column, used by [DListView](https://wiki.facepunch.com/gmod/DListView).
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DListView_Column
 ---@class (partial) DListView_Column : Panel
 local DListView_Column = {}
+
+---Called when the column is left clicked (on key release) by the client.
+---
+--- See also [DListView_Column:DoRightClick](https://wiki.facepunch.com/gmod/DListView_Column:DoRightClick).
+---@hook DoClick
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DListView_Column:DoClick
+function DListView_Column:DoClick() end
+
+---Called when the column is right clicked (on key release) by the client.
+---
+--- See also [DListView_Column:DoClick](https://wiki.facepunch.com/gmod/DListView_Column:DoClick).
+---@hook DoRightClick
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DListView_Column:DoRightClick
+function DListView_Column:DoRightClick() end
 
 ---Gets the index used for this column.
 ---@realm client
@@ -116,9 +137,10 @@ function DListView_Column:SetName(name) end
 --]]
 function DListView_Column:SetTextAlign(alignment) end
 
----Sets the width of the panel.
+---Sets the width of the column, clamped between the column's min and max width.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DListView_Column:SetWidth
----@param width number The number value which will determine panel width.
+---@param width number The desired column width in pixels.
+---@return number # The actual width the column was set to (clamped and ceiled).
 function DListView_Column:SetWidth(width) end

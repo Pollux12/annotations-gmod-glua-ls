@@ -3,7 +3,10 @@
 --- The panel used by Material & Lamp Sandbox tools for texture selection. Despite being only used in Sandbox, it is **not** exclusive to that gamemode.
 ---
 --- See also [PropSelect](https://wiki.facepunch.com/gmod/PropSelect) for the prop selecting alternative.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/MatSelect
 ---@class (partial) MatSelect : ContextBase
+---@field List DPanelList The panel list containing the material buttons.
 local MatSelect = {}
 
 ---Adds a new material to the selection list.
@@ -40,6 +43,33 @@ function MatSelect:FindMaterialByValue(mat) end
 ---@source https://wiki.facepunch.com/gmod/MatSelect:GetAutoHeight
 ---@return boolean # `true` = auto size itself.
 function MatSelect:GetAutoHeight() end
+
+---Called when the player right clicks a material.
+---
+--- By default, this opens a menu that lets the player copy the material path.
+---@hook OnRightClick
+---@realm client
+---@source https://wiki.facepunch.com/gmod/MatSelect:OnRightClick
+---@param pnl Panel The DImageButton that was clicked.
+function MatSelect:OnRightClick(pnl) end
+
+---Called when the player selects a material.
+---@hook OnSelect
+---@realm client
+---@source https://wiki.facepunch.com/gmod/MatSelect:OnSelect
+---@param material string Material path of the selected material, not including any file extension.
+---@param pnl Panel The DImageButton that was clicked.
+function MatSelect:OnSelect(material, pnl) end
+
+---Defines a paint over function for a [DImageButton](https://wiki.facepunch.com/gmod/DImageButton) when it is selected.
+---
+--- **WARNING**: `self` in the context of this function is the [DImageButton](https://wiki.facepunch.com/gmod/DImageButton)!
+---@hook SelectedItemPaintOver
+---@realm client
+---@source https://wiki.facepunch.com/gmod/MatSelect:SelectedItemPaintOver
+---@param w number Width of the DImageButton panel.
+---@param h number Height of the DImageButton panel.
+function MatSelect:SelectedItemPaintOver(w, h) end
 
 ---**INTERNAL**: Use [MatSelect:FindAndSelectMaterial](https://wiki.facepunch.com/gmod/MatSelect:FindAndSelectMaterial) instead.
 ---

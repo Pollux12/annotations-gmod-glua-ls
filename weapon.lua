@@ -4,10 +4,39 @@
 ---
 --- **NOTE**: A list of available methods has been expanded in your navigation bar.
 ---@source https://wiki.facepunch.com/gmod/Weapon
----@class (partial) Weapon : Entity
+---@class Weapon : Entity
 local Weapon = {}
----@class (partial) WEAPON : Weapon
+---@class WEAPON : Weapon
 WEAPON = Weapon
+
+---@alias WeaponAmmoTable { ClipSize: number, DefaultClip: number, Automatic: boolean, Ammo: string }
+
+--- Display name of the weapon, shown on the HUD and in the spawn menu.
+---@field PrintName string
+--- Author of the weapon, displayed in the spawn menu.
+---@field Author string
+--- Contact information for the author, shown in the spawn menu.
+---@field Contact string
+--- Short description of the weapon's purpose, shown in the spawn menu.
+---@field Purpose string
+--- Instructions for using the weapon, shown in the spawn menu.
+---@field Instructions string
+--- Field of view for the view model. Default `62`.
+---@field ViewModelFOV number
+--- Whether to flip the view model. Default `false`.
+---@field ViewModelFlip boolean
+--- Path to the view model. Default `"models/weapons/v_pistol.mdl"`.
+---@field ViewModel string
+--- Path to the world model. Default `"models/weapons/w_357.mdl"`.
+---@field WorldModel string
+--- Whether the weapon can be spawned by players from the spawn menu. Default `false`.
+---@field Spawnable boolean
+--- Whether only admins can spawn this weapon from the spawn menu. Default `false`.
+---@field AdminOnly boolean
+--- Primary fire ammo configuration.
+---@field Primary WeaponAmmoTable
+--- Secondary fire ammo configuration.
+---@field Secondary WeaponAmmoTable
 
 ---Called when another entity fires an event to this entity.
 ---@hook AcceptInput
@@ -20,16 +49,15 @@ WEAPON = Weapon
 ---@return boolean # Should we suppress the default action for this input?
 function Weapon:AcceptInput(inputName, activator, called, data) end
 
----Allows you to adjust the weapon's mouse sensitivity. This hook only works if you haven't overridden [GM:AdjustMouseSensitivity](https://wiki.facepunch.com/gmod/GM:AdjustMouseSensitivity).
+---Called to adjust player mouse sensitivity while this weapon is active.
 ---@hook AdjustMouseSensitivity
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/WEAPON:AdjustMouseSensitivity
----@param defaultSensitivity number The old sensitivity
----
---- In general this will be 0, which is equivalent to a sensitivity of 1.
----@param localFOV number The player's current FOV.
----@param defaultFOV number The player's default FOV.
----@return number # A multiplier of the player's normal sensitivity (0.5 would be half as sensitive, 2 would be twice as sensitive).
+---@param defaultSensitivity number
+---@param localFOV number
+---@param defaultFOV number
+---@return number? sensitivityMultiplier # Return a multiplier to override sensitivity.
+---@[self_call_valid("GetOwner")]
 function Weapon:AdjustMouseSensitivity(defaultSensitivity, localFOV, defaultFOV) end
 
 ---Returns whether the weapon allows to being switched from when a better ( [Weapon:GetWeight](https://wiki.facepunch.com/gmod/Weapon:GetWeight) ) weapon is being picked up.
@@ -153,12 +181,11 @@ function Weapon:CustomAmmoDisplay() end
 function Weapon:DefaultReload(act) end
 
 ---Called when player has just switched to this weapon.
----
---- **NOTE**: Due to this hook being predicted, it is not called clientside in singleplayer at all, and in multiplayer it will not be called clientside if the weapon is switched with [Player:SelectWeapon](https://wiki.facepunch.com/gmod/Player:SelectWeapon) or the "use" console command, however it will be called clientside with the default weapon selection menu and when using [CUserCmd:SelectWeapon](https://wiki.facepunch.com/gmod/CUserCmd:SelectWeapon)
 ---@hook Deploy
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/WEAPON:Deploy
----@return boolean # Return true to allow switching away from this weapon using `lastinv` command
+---@return boolean? # Return true to allow switching away from this weapon using `lastinv` command.
+---@[self_call_valid("GetOwner")]
 function Weapon:Deploy() end
 
 ---Called when the crosshair is about to get drawn, and allows you to override it.
@@ -582,20 +609,11 @@ function Weapon:PostDrawViewModel(vm, weapon, ply, flags) end
 ---@return boolean # Return `true` to prevent the default action of rendering the view model. `PostDrawViewModel` will NOT be called in this scenario.
 function Weapon:PreDrawViewModel(vm, weapon, ply, flags) end
 
----Called when primary attack button ( +attack ) is pressed.
----
---- When in singleplayer, this function is only called in the server realm. When in multiplayer, the hook will be called on both the server and the client in order to allow for [Prediction](https://wiki.facepunch.com/gmod/Prediction).
----
---- You can force the hook to always be called on client like this:
----
---- ```
---- if ( game.SinglePlayer() ) then self:CallOnClient( "PrimaryAttack" ) end
---- ```
----
---- Note that due to prediction, in multiplayer SWEP:PrimaryAttack is called multiple times per one "shot" with the gun. To work around that, use [Global.IsFirstTimePredicted](https://wiki.facepunch.com/gmod/Global.IsFirstTimePredicted).
+---Called when the weapon is fired with primary attack.
 ---@hook PrimaryAttack
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/WEAPON:PrimaryAttack
+---@[self_call_valid("GetOwner")]
 function Weapon:PrimaryAttack() end
 
 ---A convenience function that draws the weapon info box, used in [WEAPON:DrawWeaponSelection](https://wiki.facepunch.com/gmod/WEAPON:DrawWeaponSelection).
@@ -607,10 +625,11 @@ function Weapon:PrimaryAttack() end
 ---@param alpha number Alpha value for the box
 function Weapon:PrintWeaponInfo(x, y, alpha) end
 
----Called when the reload key ( +reload ) is pressed.
+---Called when the player reloads the weapon.
 ---@hook Reload
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/WEAPON:Reload
+---@[self_call_valid("GetOwner")]
 function Weapon:Reload() end
 
 ---Called every frame just before [GM:RenderScene](https://wiki.facepunch.com/gmod/GM:RenderScene).
@@ -623,12 +642,11 @@ function Weapon:Reload() end
 ---@source https://wiki.facepunch.com/gmod/WEAPON:RenderScreen
 function Weapon:RenderScreen() end
 
----Called when secondary attack button ( +attack2 ) is pressed.
----
---- For issues with this hook being called rapidly on the client side, see the global function [Global.IsFirstTimePredicted](https://wiki.facepunch.com/gmod/Global.IsFirstTimePredicted).
+---Called when the weapon is fired with secondary attack.
 ---@hook SecondaryAttack
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/WEAPON:SecondaryAttack
+---@[self_call_valid("GetOwner")]
 function Weapon:SecondaryAttack() end
 
 ---Forces weapon to play activity/animation.
@@ -761,21 +779,10 @@ function Weapon:TakePrimaryAmmo(amount) end
 function Weapon:TakeSecondaryAmmo(amount) end
 
 ---Called when the weapon thinks.
----
---- This hook won't be called during the deploy animation and when using [Weapon:DefaultReload](https://wiki.facepunch.com/gmod/Weapon:DefaultReload).
----
---- **NOTE**: If you wish for this hook to be called during the deploy animation, add the following to the model's **ACT_VM_DRAW** sequence: `node "Ready"`
----
---- Despite being a predicted hook, this hook is called clientside in single player (for your convenience), however it will not be recognized as a predicted hook via [Player:GetCurrentCommand](https://wiki.facepunch.com/gmod/Player:GetCurrentCommand), and will run more often in this case.
----
---- This hook will be called before Player movement is processed on the client, and after on the server.
----
---- **NOTE**: This hook only runs while the weapon is in players hands. It does not run while it is carried by an NPC.
----
---- This will not be run during deploy animations after a serverside-only deploy. This usually happens after picking up and dropping an object with +use.
 ---@hook Think
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/WEAPON:Think
+---@[self_call_valid("GetOwner")]
 function Weapon:Think() end
 
 ---Alias of [Weapon:Think](https://wiki.facepunch.com/gmod/Weapon:Think).
@@ -818,3 +825,43 @@ function Weapon:TranslateFOV(fov) end
 ---@param ViewModel Entity Players view model
 ---@param flags number The Enums/STUDIO flags for this render operation.
 function Weapon:ViewModelDrawn(ViewModel, flags) end
+
+---Called to play weapon shooting effects.
+---@hook DoShootEffect
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/WEAPON:DoShootEffect
+---@[self_call_valid("GetOwner")]
+function Weapon:DoShootEffect() end
+
+---Called by the toolgun SWEP to build a tool trace.
+---
+--- This is specific to the Sandbox toolgun implementation, but is declared on
+--- `Weapon` so `SWEP:DoToolTrace` overrides inherit the owner-valid callback
+--- metadata without changing the global `Weapon:GetOwner` return type.
+---@hook DoToolTrace
+---@realm shared
+---@[self_call_valid("GetOwner")]
+function Weapon:DoToolTrace() end
+
+---Checks whether the tool gun's owner can create another object of the given limit type.
+---@realm shared
+---@source https://github.com/Facepunch/garrysmod/blob/master/garrysmod/gamemodes/sandbox/entities/weapons/gmod_tool/shared.lua#L69
+---@param limitName string The sandbox limit name to check.
+---@return boolean # Whether another object can be created.
+function gmod_tool:CheckLimit(limitName) end
+
+---Returns the player currently using this sandbox tool weapon.
+---@realm shared
+---@source https://github.com/Facepunch/garrysmod/blob/master/garrysmod/gamemodes/sandbox/entities/weapons/gmod_tool/shared.lua
+---@return Player|NULL # The tool user, or NULL while unowned.
+function gmod_tool:GetOwner() end
+
+---@class gmod_tool : Weapon
+local gmod_tool = {}
+
+---Returns the tool object associated with the current or specified tool mode.
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/Weapon:GetToolObject
+---@param tool? string The tool mode to retrieve. Defaults to the currently active tool mode.
+---@return Tool|false # The Tool object for the given mode, or `false` if the mode has no tool object.
+function gmod_tool:GetToolObject(tool) end

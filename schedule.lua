@@ -31,10 +31,10 @@ function Schedule:AddTaskEx(start, run, data) end
 ---@param taskdata number Task data, can be a float.
 function Schedule:EngTask(taskname, taskdata) end
 
----Returns the task at the given index.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/Schedule:GetTask
----@param num number Task index.
+---@param num number
+---@return Task task
 function Schedule:GetTask(num) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.

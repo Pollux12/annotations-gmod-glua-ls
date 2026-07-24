@@ -64,11 +64,11 @@ function string.CardinalToOrdinal(input) end
 ---@return string # String built from given bytes
 function string.char(...) end
 
----Inserts commas for every third digit of a given number.
+---Inserts commas for every third digit of a given number or numeric string.
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/string.Comma
----@param value number The input number to commafy
+---@param value number|string The input number or numeric string to commafy
 ---@param separator? string An optional string that will be used instead of the default comma.
 ---@return string # The commafied string
 function string.Comma(value, separator) end
@@ -148,16 +148,19 @@ The following specifiers are exclusive to LuaJIT:
 ---@return string # The formatted string
 function string.format(format, ...) end
 
----Returns the time as a formatted string or as a table if no format is given.
----@realm shared
----@realm menu
----@source https://wiki.facepunch.com/gmod/string.FormattedTime
----@param float number The time in seconds to format.
----@param format? string An optional formatting to use. If no format it specified, a table will be returned instead.
----@return string|table{FormattedTime} # Returns the time as a formatted string only if a format was specified.
+---Formats the supplied number of seconds to the specified format.
 ---
---- Returns a table if no format was specified.
-function string.FormattedTime(float, format) end
+---When no format is supplied, this returns a FormattedTime table instead.
+---@realm client
+---@realm menu
+---@realm server
+---@source https://wiki.facepunch.com/gmod/string.FormattedTime
+---@overload fun(seconds: number): FormattedTime
+---@overload fun(seconds: number, format: nil): FormattedTime
+---@param seconds? number Number of seconds to format.
+---@param format? string The format string. If this is omitted, a FormattedTime table is returned instead.
+---@return string|FormattedTime # The formatted time string, or a FormattedTime table when no format is supplied.
+function string.FormattedTime(seconds, format) end
 
 ---Creates a string from a Color variable.
 ---@realm shared
@@ -444,13 +447,21 @@ function string.StripExtension(path) end
 ---@return string # The substring.
 function string.sub(string, StartPos, EndPos) end
 
----Fetches a Color type from a string.
+---Attempts to create a Color from a string.
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/string.ToColor
----@param Inputstring string The string to convert from.
+---@param colorString string The string to convert from.
+---
+--- The expected format is 3 or 4 integer numbers in the range `0`-`255` with a single space separating them.
+--- These numbers are in the order: `red green blue alpha` where `alpha` is optional.
+---
+---
+--- If the input string is malformed but contains a correctly formatted substring within it, that valid substring will be used which may produce unexpected results.
 ---@return Color # The output Color
-function string.ToColor(Inputstring) end
+---
+--- If the input string is improperly formatted, this will be `Color( 255, 255, 255, 255 )`
+function string.ToColor(colorString) end
 
 ---Returns given time in "MM:SS" format.
 ---@realm shared

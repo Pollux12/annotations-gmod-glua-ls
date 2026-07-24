@@ -19,6 +19,8 @@
 --- It also optionally permits the rearrangement of these tiles.
 --- To enable this functionality, call [DDragBase:MakeDroppable](https://wiki.facepunch.com/gmod/DDragBase:MakeDroppable) on the DTileLayout with a unique identifier.
 --- All panels added following this will be moveable.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DTileLayout
 ---@class (partial) DTileLayout : DDragBase
 local DTileLayout = {}
 
@@ -122,6 +124,12 @@ function DTileLayout:Layout() end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DTileLayout:LayoutTiles
 function DTileLayout:LayoutTiles() end
+
+---Called when anything is dropped on or rearranged within the DTileLayout.
+---@hook OnModified
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DTileLayout:OnModified
+function DTileLayout:OnModified() end
 
 ---Sets the size of a single tile. If a child panel is larger than this size, it will occupy several tiles.
 ---

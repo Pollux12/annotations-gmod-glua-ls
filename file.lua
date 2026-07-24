@@ -1,5 +1,15 @@
 ---@meta
 
+--- This is the file object. It used used primarily to read or write binary data from files.
+--- The default endianness is little-endian. To use big-endian you will need to provide your own functions to read and write shorts and longs.
+---
+--- 		The object is returned by [file.Open](https://wiki.facepunch.com/gmod/file.Open).
+---@source https://wiki.facepunch.com/gmod/file_class
+---@class (partial) File
+local File = {}
+
+---@class (partial) file_class : File
+
 --- The file library provides functions for finding, reading and writing to files.
 --- The following path values are most commonly used:
 --- * `LUA` searches the lua files (in /lua/, in your gamemodes, in all the addons).
@@ -37,11 +47,6 @@ function file.Append(name, content) end
 ---@param sync? boolean If `true` the file will be read synchronously.
 ---@return FSASYNC # Enums/FSASYNC on success, Enums/FSASYNC on failure.
 function file.AsyncRead(fileName, gamePath, callback, sync) end
-
----@class (partial) File
-local File = {}
-
----@class (partial) file_class : File
 
 ---Dumps the file changes to disk and closes the file handle which makes the handle useless.
 ---@realm shared
@@ -84,21 +89,17 @@ function File:EndOfFile() end
 ---@return boolean # Returns `true` if the file exists and `false` if it does not.
 function file.Exists(name, gamePath) end
 
----Returns a list of files and directories inside a single folder.
---- **WARNING**: It seems that paths with capital letters (e.g. lua/MyFolder/*) don't work as expected on Linux.
+---Returns files and folders matching a wildcard in the requested search path.
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/file.Find
----@param name string The wildcard to search for. `models/*.mdl` will list **.mdl** files in the `models/` folder.
----@param path string The path to look for the files and directories in. See File_Search_Paths for a list of valid paths.
----@param sorting? string The sorting to be used, **optional**.
----
---- * `nameasc` sort the files ascending by name.
---- * `namedesc` sort the files descending by name.
---- * `dateasc` sort the files ascending by date.
---- * `datedesc` sort the files descending by date.
----@return table # A table of found files, or `nil` if the path is invalid.
----@return table # A table of found directories, or `nil` if the path is invalid.
+---@[call_arg("gmod.file_find", "glob")]
+---@param name string The wildcard pattern to search for.
+---@[call_arg("gmod.file_find", "search_path")]
+---@param path string The search path to look in.
+---@param sorting? string The sorting mode to use.
+---@return string[] files # Matching file names.
+---@return string[] directories # Matching directory names.
 function file.Find(name, path, sorting) end
 
 ---Dumps the file changes to disk and saves the file.

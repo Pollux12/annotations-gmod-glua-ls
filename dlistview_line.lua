@@ -3,6 +3,9 @@
 --- **INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
 --- A panel used by [DListView](https://wiki.facepunch.com/gmod/DListView)
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DListView_Line
 ---@class (partial) DListView_Line : Panel
 local DListView_Line = {}
 
@@ -71,6 +74,20 @@ function DListView_Line:GetValue(column) end
 ---@return boolean # Whether this line is selected.
 function DListView_Line:IsLineSelected() end
 
+---Called when the player right clicks this line.
+---@hook OnRightClick
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DListView_Line:OnRightClick
+function DListView_Line:OnRightClick() end
+
+---Called when the player selects this line.
+---@hook OnSelect
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DListView_Line:OnSelect
+function DListView_Line:OnSelect() end
+
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
 --- Sets whether this line is odd or even in the list. This is internally used (and set automatically) to change the looks of every other line.
@@ -80,13 +97,13 @@ function DListView_Line:IsLineSelected() end
 ---@param alt boolean Whether this line is 'alternative'.
 function DListView_Line:SetAltLine(alt) end
 
----Sets the string held in the specified column of a [DListView_Line](https://wiki.facepunch.com/gmod/DListView_Line) panel.
+---Sets the string or panel held in the specified column of a [DListView_Line](https://wiki.facepunch.com/gmod/DListView_Line) panel.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DListView_Line:SetColumnText
----@param column number The number of the column to write the text from, starts with 1.
----@param value string Column text you want to set
----@return DLabel # The DLabel in which the text was set.
+---@param column number The number of the column to write the value to, starts with 1.
+---@param value string|Panel Column text, or a panel to parent into the column.
+---@return DLabel? label The DLabel in which the text was set when `value` is a string.
 function DListView_Line:SetColumnText(column, value) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -128,7 +145,7 @@ function DListView_Line:SetSortValue(column, data) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DListView_Line:SetValue
----@param column number The number of the column to write the text from, starts with 1.
----@param value string Column text you want to set
----@return DLabel # The DLabel in which the text was set.
+---@param column number The number of the column to write the value to, starts with 1.
+---@param value string|Panel Column text, or a panel to parent into the column.
+---@return DLabel? label The DLabel in which the text was set when `value` is a string.
 function DListView_Line:SetValue(column, value) end

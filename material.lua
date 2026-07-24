@@ -1,6 +1,8 @@
 ---@meta
 
 --- Material is a VGUI element that renders a VMT material.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/Material
 ---@class (partial) Material : Button
 local Material = {}
 

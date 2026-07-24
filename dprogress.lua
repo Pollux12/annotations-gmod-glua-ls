@@ -1,6 +1,9 @@
 ---@meta
 
 --- A progressbar, works with a fraction between 0 and 1 where 0 is 0% and 1 is 100%.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DProgress
 ---@class (partial) DProgress : Panel
 local DProgress = {}
 

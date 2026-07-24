@@ -3,6 +3,8 @@
 --- Used in Sandbox tools to allow the player to select models out of a list. Despite being only used in Sandbox, it is **not** exclusive to that gamemode.
 ---
 --- See also [MatSelect](https://wiki.facepunch.com/gmod/MatSelect) for the material selecting alternative.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/PropSelect
 ---@class (partial) PropSelect : ContextBase
 local PropSelect = {}
 
@@ -10,7 +12,7 @@ local PropSelect = {}
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/PropSelect:AddModel
 ---@param model string Model path, **including** `models/` and `.mdl`.
----@param convars table A list of convar names (as keys) and their values to set when the user selects this model.
+---@param convars? table A list of convar names (as keys) and their values to set when the user selects this model. May be nil or non-table (validated internally).
 function PropSelect:AddModel(model, convars) end
 
 ---Adds a new model to the selection list.
@@ -33,3 +35,29 @@ function PropSelect:FindAndSelectButton(mdl) end
 ---@param mdl string The model to find within this PropSelect.
 ---@return SpawnIcon # The found spawnicon, or `nil`.
 function PropSelect:FindModelByValue(mdl) end
+
+---Called when the player right clicks a model.
+---
+--- By default, this opens a menu that lets the player copy the model path.
+---@hook OnRightClick
+---@realm client
+---@source https://wiki.facepunch.com/gmod/PropSelect:OnRightClick
+---@param pnl Panel The Spawnicon that was clicked.
+function PropSelect:OnRightClick(pnl) end
+
+---Called when the player selects a model.
+---@hook OnSelect
+---@realm client
+---@source https://wiki.facepunch.com/gmod/PropSelect:OnSelect
+---@param pnl Panel The Spawnicon that was clicked.
+---@param model String Path of the selected model, or its "value".
+function PropSelect:OnSelect(pnl, model) end
+
+---**INTERNAL**: Use [PropSelect:FindAndSelectButton](https://wiki.facepunch.com/gmod/PropSelect:FindAndSelectButton) instead.
+---
+--- Selects a given spawnicon panel.
+---@hook SelectModel
+---@realm client
+---@source https://wiki.facepunch.com/gmod/PropSelect:SelectModel
+---@param icon SpawnIcon The spawnicon to select, retrieved via PropSelect:FindModelByValue.
+function PropSelect:SelectModel(icon) end

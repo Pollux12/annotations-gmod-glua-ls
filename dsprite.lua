@@ -3,6 +3,8 @@
 --- A panel that draws a sprite on the player's HUD with the given [IMaterial](https://wiki.facepunch.com/gmod/IMaterial), [Global.Color](https://wiki.facepunch.com/gmod/Global.Color) and rotation.
 ---
 --- A shortcut for this is [Global.CreateSprite](https://wiki.facepunch.com/gmod/Global.CreateSprite)().
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DSprite
 ---@class (partial) DSprite : DPanel
 local DSprite = {}
 

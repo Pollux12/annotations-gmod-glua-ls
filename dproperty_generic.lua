@@ -3,6 +3,8 @@
 --- **INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
 --- A base for other controls for [DProperties](https://wiki.facepunch.com/gmod/DProperties). Acts as a generic text input on its own.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DProperty_Generic
 ---@class (partial) DProperty_Generic : Panel
 local DProperty_Generic = {}
 
@@ -29,5 +31,5 @@ function DProperty_Generic:Setup(data) end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DProperty_Generic:ValueChanged
 ---@param newVal any The new value.
----@param force boolean Force an update.
+---@param force? boolean Force an update.
 function DProperty_Generic:ValueChanged(newVal, force) end

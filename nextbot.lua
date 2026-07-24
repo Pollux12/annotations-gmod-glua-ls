@@ -71,18 +71,14 @@ function NextBot:ClearLastKnownArea() end
 ---@return Vector # If it finds a spot it will return a vector. If not it will return nil.
 function NextBot:FindSpot(type, options) end
 
----Returns a table of hiding spots.
+---@class NextBotSpot
+---@field vector Vector
+---@field distance number
+
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/NextBot:FindSpots
----@param specs table This table should contain the search info.
---- * string type - The type (optional, only `hiding` supported)
---- * Vector pos - the position to search.
---- * number radius - the radius to search.
---- * number stepup - the highest step to step up.
---- * number stepdown - the highest we can step down without being hurt.
----@return table # An unsorted table of tables containing:
---- * Vector vector - The position of the hiding spot
---- * number distance - the distance to that position
+---@param specs table
+---@return NextBotSpot[] spots
 function NextBot:FindSpots(specs) end
 
 ---Returns the currently running activity
@@ -301,3 +297,11 @@ function NextBot:SetSolidMask(mask) end
 ---@source https://wiki.facepunch.com/gmod/NextBot:StartActivity
 ---@param activity number One of the Enums/ACT
 function NextBot:StartActivity(activity) end
+
+---@meta
+
+--- The `CLuaLocomotion` instance that controls this NextBot's movement.
+-- Accessed via `self.loco` inside NextBot entity methods.
+---@class (partial) NextBot
+---@field loco CLuaLocomotion # The locomotion controller for this NextBot.
+local NextBot = {}

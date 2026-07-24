@@ -3,9 +3,47 @@
 --- Hooks that are available for all gamemodes based on base gamemode.
 ---
 --- 	See also: [Structures/GM](https://wiki.facepunch.com/gmod/Structures/GM).
+---@realm shared
 ---@source https://wiki.facepunch.com/gmod/GM_Hooks
----@class (partial) GM
+--- Source:
+--- - garrysmod/gamemodes/base/gamemode/shared.lua
+--- - garrysmod/gamemodes/sandbox/gamemode/shared.lua
+---@class GM
+---@field Name string Gamemode display name.
+---@field Author string Gamemode author.
+---@field Email string Gamemode contact email.
+---@field Website string Gamemode website.
+---@field TeamBased boolean Whether the gamemode uses teams.
+---@field IsSandboxDerived? boolean True for Sandbox and Sandbox-derived gamemodes.
+---@field SendDeathNotice fun(self: GM, attacker: Entity|string|nil, inflictor: string, victim: Entity|string, flags: number) Sends a death notice to clients.
+---The name of the gamemode folder, automatically set.
+---@field FolderName string
+---The name of the gamemode folder prepended with "gamemodes/" (such as "gamemodes/sandbox"), automatically set.
+---@field Folder string
+---The name of the gamemode folder prepended with "gamemode_" (such as "gamemode_sandbox"), automatically set.
+---@field ThisClass string
+---The table of the base gamemode to derive from, set automatically by Global.DeriveGamemode.
+---
+--- It is recommended to use [Global.DEFINE_BASECLASS](https://wiki.facepunch.com/gmod/Global.DEFINE_BASECLASS) when referencing the gamemode's BaseClass to prevent unintended behavior
+---
+--- [Global.DeriveGamemode](https://wiki.facepunch.com/gmod/Global.DeriveGamemode) modifies the main gamemode's BaseClass, which is shared with parent gamemodes. Because of this, in parent gamemodes the BaseClass can be incorrect, so for instance you need to use `self.BaseClass.BaseClass` in the 1st parent instead
+---@field BaseClass table
+
 GM = {}
+
+---Adds a tool menu option to the sandbox spawn menu. Sandbox calls this as a
+---gamemode method from `GM:AddSTOOL` even though the helper is not defined in
+---the shipped Lua files as a standalone `GM` method.
+---@realm client
+---@param tab string The spawn menu tab name.
+---@param category string The tool category.
+---@param class string The tool class/name.
+---@param name string The display name.
+---@param cmd string The console command.
+---@param config string|nil The config name.
+---@param cpanel fun(panel: ControlPanel)|nil Callback used to populate the control panel.
+---@param data table|nil Additional tool menu option data.
+function GM:AddToolMenuOption(tab, category, class, name, cmd, config, cpanel, data) end
 
 ---Called when a map I/O event occurs.
 ---
@@ -235,19 +273,16 @@ function GM:ChatText(index, name, text, type) end
 ---@param text string The new contents of the input box
 function GM:ChatTextChanged(text) end
 
----Called when a **non local player** connects to allow the Lua system to check the password.
----
---- The default behaviour in the base gamemodes emulates what would normally happen. If `sv_password` is set and its value matches the password passed in by the client (via `password` concommand) - then they are allowed to join. If `sv_password` isn't set it lets them in too.
 ---@hook CheckPassword
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/GM:CheckPassword
----@param steamID64 string The 64bit Steam ID of the joining player, use util.SteamIDFrom64 to convert it to a `STEAM_0:` one.
----@param ipAddress string The IP of the connecting client
----@param svPassword string The current value of sv_password (the password set by the server)
----@param clPassword string The password provided by the client
----@param name string The name of the joining player
----@return boolean # If the hook returns `false` then the player is disconnected
----@return string # If returning false in the first argument, then this should be the disconnect message. This will default to `#GameUI_ServerRejectBadPassword`, which is `Bad Password.` translated to the client's language.
+---@param steamID64 string
+---@param ipAddress string
+---@param svPassword string
+---@param clPassword string
+---@param name string
+---@return boolean allow
+---@return string? reason
 function GM:CheckPassword(steamID64, ipAddress, svPassword, clPassword, name) end
 
 ---Called when a player's sign on state changes.
@@ -2615,7 +2650,7 @@ function GM:StartGame() end
 
 ---Called every rendered frame on client, except when the game is paused.
 ---
---- Called every game tick on the server, including when the game is paused. This will be the same as [GM:Tick](https://wiki.facepunch.com/gmod/GM:Tick) on the server when there is no lag, but will only be called once every processed server frame during lag.
+--- Called every game tick on the server. This will be the same as [GM:Tick](https://wiki.facepunch.com/gmod/GM:Tick) on the server when there is no lag, but will only be called once every processed server frame during lag.
 --- [Global.CurTime](https://wiki.facepunch.com/gmod/Global.CurTime) is guaranteed to be different with each call to this hook on the server.
 ---
 --- See [GM:Tick](https://wiki.facepunch.com/gmod/GM:Tick) for a hook that runs every tick on both the client and server.
@@ -2832,3 +2867,11 @@ function GM:WorkshopSubscriptionsMessage(message) end
 ---@param num number Amount of subscribed addons that have info retrieved.
 ---@param max number Total amount of subscribed addons that need their info retrieved.
 function GM:WorkshopSubscriptionsProgress(num, max) end
+
+---Displays a notification through the current gamemode.
+---@realm client
+---@source sandbox/gamemode/cl_notice.lua
+---@param str string
+---@param type integer
+---@param length number
+function GM:AddNotify(str, type, length) end

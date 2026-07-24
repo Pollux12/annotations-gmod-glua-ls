@@ -25,7 +25,7 @@ function weapons.GetList() end
 ---@source https://wiki.facepunch.com/gmod/weapons.GetStored
 ---@generic T : table
 ---@param weapon_class `T` Weapon class to retrieve weapon table of
----@return (definition) `T` # The weapon table
+---@return (definition) `T`? # The weapon table, or nil if no weapon is registered with that class name.
 function weapons.GetStored(weapon_class) end
 
 ---Checks if name is based on base

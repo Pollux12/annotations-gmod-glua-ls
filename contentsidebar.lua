@@ -5,8 +5,24 @@
 --- The ContentSidebar is internally used by the spawnmenu and manages things like the Spawnmenu Toolbar.
 --- It internally uses a DTree which is accessible with ContentSidebar .Tree.
 --- When [ContentSidebar:EnableModify](https://wiki.facepunch.com/gmod/ContentSidebar:EnableModify) has been called ContentSidebar.Toolbox will return a [ContentSidebarToolbox](https://wiki.facepunch.com/gmod/ContentSidebarToolbox)
----@class (partial) ContentSidebar : DPanel
+---@realm client
+---@source https://wiki.facepunch.com/gmod/ContentSidebar
+---@class ContentSidebar : DPanel
+---@field Tree DTree The tree panel listing spawnlist categories and nodes.
+---@field Search? Panel The search panel, present after EnableSearch() is called.
+---@field Toolbox? ContentSidebarToolbox The toolbox drawer, present after EnableModify() is called.
 local ContentSidebar = {}
+
+---Enables search functionality on this sidebar.
+---@param stype? string The search type identifier passed to the search panel.
+---@param hookname? string="PopulateContent" The hook name to populate content.
+function ContentSidebar:EnableSearch(stype, hookname) end
+
+---Creates and attaches the save/revert notification bar.
+function ContentSidebar:CreateSaveNotification() end
+
+---Enables full modify mode: calls EnableSearch(), CreateSaveNotification(), and adds the toolbox drawer.
+function ContentSidebar:EnableModify() end
 
 ---Creates a Save Notification which will be shown when [SANDBOX:SpawnlistContentChanged](https://wiki.facepunch.com/gmod/SANDBOX:SpawnlistContentChanged) has been called.
 ---@realm client

@@ -3,7 +3,21 @@
 --- A generic vertical scrollbar, used in [DScrollPanel](https://wiki.facepunch.com/gmod/DScrollPanel). See the horizontal alternative [here](https://wiki.facepunch.com/gmod/DHScrollBar).
 ---
 --- The scrollbar notably contains `DVScrollBar.btnUp`, `DVScrollBar.btnDown`, and `DVScrollBar.btnGrip` which are the up button, down button, and grip respectively. Editing the paint functions of these allows custom scrollbar styling (See [DScrollPanel:GetVBar](https://wiki.facepunch.com/gmod/DScrollPanel:GetVBar) for an example), although it is a better idea to use [Derma Skins](https://wiki.facepunch.com/gmod/Derma_Skin_Creation).
----@class (partial) DVScrollBar : Panel
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DVScrollBar
+---@class DVScrollBar : Panel
+---@field Offset number
+---@field Scroll number
+---@field CanvasSize number
+---@field BarSize number
+---@field btnUp DButton
+---@field btnDown DButton
+---@field btnGrip DScrollBarGrip
+---@field HasChanged? boolean
+---@field Enabled? boolean
+---@field Dragging? boolean
+---@field DraggingCanvas? any
+---@field HoldPos? number
 local DVScrollBar = {}
 
 ---Adds specified amount of scroll in pixels.

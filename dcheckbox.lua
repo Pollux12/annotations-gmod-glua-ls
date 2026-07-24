@@ -1,6 +1,9 @@
 ---@meta
 
 --- The DCheckBox is a checkbox. It allows you to get a boolean value from the user (true/false - yes/no)
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DCheckBox
 ---@class (partial) DCheckBox : DButton
 local DCheckBox = {}
 
@@ -24,18 +27,30 @@ function DCheckBox:GetChecked() end
 ---@return boolean # Whether the checkbox is being clicked.
 function DCheckBox:IsEditing() end
 
----An [Global.AccessorFunc](https://wiki.facepunch.com/gmod/Global.AccessorFunc) that sets the checked state of the checkbox. Does not call the checkbox's [DCheckBox:OnChange](https://wiki.facepunch.com/gmod/DCheckBox:OnChange) and [Panel:ConVarChanged](https://wiki.facepunch.com/gmod/Panel:ConVarChanged) methods, unlike [DCheckBox:SetValue](https://wiki.facepunch.com/gmod/DCheckBox:SetValue).
+---Called when the "checked" state is changed. This is for Overriding
+---@hook OnChange
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DCheckBox:OnChange
+---@param bVal boolean Whether the CheckBox is checked or not.
+function DCheckBox:OnChange(bVal) end
+
+---Sets the checked state of the checkbox.
+---
+--- This is backed by AccessorFunc with FORCE_BOOL, so the input is coerced with tobool before storage.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DCheckBox:SetChecked
----@param checked boolean Whether the box should be checked or not.
+---@param checked any Value to coerce into the checked state.
 function DCheckBox:SetChecked(checked) end
 
----Sets the checked state of the checkbox, and calls the checkbox's [DCheckBox:OnChange](https://wiki.facepunch.com/gmod/DCheckBox:OnChange) and [Panel:ConVarChanged](https://wiki.facepunch.com/gmod/Panel:ConVarChanged) methods.
+---Sets the checked state of the checkbox, and calls the checkbox's DCheckBox:OnChange and Panel:ConVarChanged methods.
+---
+--- The value is coerced with tobool before the checked state is stored.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DCheckBox:SetValue
----@param checked boolean Whether the box should be checked or not.
+---@param checked any Value to coerce into the checked state.
 function DCheckBox:SetValue(checked) end
 
 ---Toggles the checked state of the checkbox, and calls the checkbox's [DCheckBox:OnChange](https://wiki.facepunch.com/gmod/DCheckBox:OnChange) and [Panel:ConVarChanged](https://wiki.facepunch.com/gmod/Panel:ConVarChanged) methods. [DCheckBox:DoClick](https://wiki.facepunch.com/gmod/DCheckBox:DoClick) is an alias of this function.

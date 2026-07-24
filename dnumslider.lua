@@ -1,10 +1,16 @@
 ---@meta
 
+--- The **DNumSlider** allows you to create a slider, allowing the user to slide it to set a value, or changing the value in the box.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DNumSlider
 ---@class DNumSlider : Panel
 ---@field Label DLabel The label panel for the slider.
 ---@field TextArea DTextEntry The text entry panel for the slider value.
 ---@field Slider DSlider The slider knob panel.
----@field Scratch DNumberScratch The number scratch panel.
+---@field Scratch DNumberScratch The number scratch panel attached to the label.
+---@field Wang DNumberScratch Alias for Scratch; the DNumberScratch overlay on the label.
+---@field m_fDefaultValue? number The default value used by ResetToDefaultValue (AccessorFunc-backed).
 local DNumSlider = {}
 
 ---Returns the amount of numbers after the decimal point.
@@ -62,6 +68,14 @@ function DNumSlider:GetValue() end
 ---@source https://wiki.facepunch.com/gmod/DNumSlider:IsEditing
 ---@return boolean # Whether or not the DNumSlider is being edited by the player.
 function DNumSlider:IsEditing() end
+
+---Called when the value of the slider is changed, through code or changing the slider.
+---@hook OnValueChanged
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DNumSlider:OnValueChanged
+---@param value number The new value of the DNumSlider.
+function DNumSlider:OnValueChanged(value) end
 
 ---Resets the slider to the default value, if one was set by [DNumSlider:SetDefaultValue](https://wiki.facepunch.com/gmod/DNumSlider:SetDefaultValue).
 ---

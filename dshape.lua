@@ -1,6 +1,8 @@
 ---@meta
 
 --- Draw a shape on a derma panel. Only one kind of shape, a rectangle, is available for use.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DShape
 ---@class (partial) DShape : DPanel
 local DShape = {}
 

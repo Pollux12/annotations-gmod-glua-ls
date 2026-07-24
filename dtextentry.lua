@@ -5,7 +5,40 @@
 --- **NOTE**: At least one of your `DTextEntry`'s parents must either be an [EditablePanel](https://wiki.facepunch.com/gmod/EditablePanel) or derived from it (like a [DFrame](https://wiki.facepunch.com/gmod/DFrame), for example), else it won't be able to focus and thus be unselectable.
 ---
 --- You must also call [Panel:MakePopup](https://wiki.facepunch.com/gmod/Panel:MakePopup) on said panel or the `DTextEntry` will not work.
----@class (partial) DTextEntry : TextEntry
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DTextEntry
+---@class DTextEntry : Panel
+--- Text entry input history table, used for up/down arrow navigation.
+---@field History table
+--- Current position in the history table (0 = none selected).
+---@field HistoryPos number
+--- Whether pressing enter is allowed.
+---@field m_bAllowEnter boolean
+--- Whether to update the convar as the user types.
+---@field m_bUpdateOnType boolean
+--- Whether only numeric characters are allowed.
+---@field m_bNumeric boolean
+--- Whether input history is enabled.
+---@field m_bHistory boolean
+--- Whether tab key navigation is disabled.
+---@field m_bDisableTabbing boolean
+--- The font name used for rendering text.
+---@field m_FontName string
+--- Whether to draw a border around the text entry.
+---@field m_bBorder boolean
+--- Whether to paint the background.
+---@field m_bBackground boolean
+--- The color of the text.
+---@field m_colText Color
+--- The color of the highlight/selection.
+---@field m_colHighlight Color
+--- The color of the text cursor.
+---@field m_colCursor Color
+--- The color of the placeholder text.
+---@field m_colPlaceholder Color
+--- The placeholder text shown when the entry is empty.
+---@field m_txtPlaceholder string
 local DTextEntry = {}
 
 ---Adds an entry to [DTextEntry](https://wiki.facepunch.com/gmod/DTextEntry)'s history.
@@ -172,6 +205,47 @@ function DTextEntry:GetUpdateOnType() end
 ---@return boolean # Whether this DTextEntry is being edited or not
 function DTextEntry:IsEditing() end
 
+---Called by [DTextEntry:OnTextChanged](https://wiki.facepunch.com/gmod/DTextEntry:OnTextChanged) when the user modifies the text in the [DTextEntry](https://wiki.facepunch.com/gmod/DTextEntry).
+---
+--- You should override this function to define custom behavior when the [DTextEntry](https://wiki.facepunch.com/gmod/DTextEntry) text changes.
+---@hook OnChange
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DTextEntry:OnChange
+function DTextEntry:OnChange() end
+
+---Called whenever enter is pressed on a [DTextEntry](https://wiki.facepunch.com/gmod/DTextEntry).
+---
+--- **NOTE**: [DTextEntry:IsEditing](https://wiki.facepunch.com/gmod/DTextEntry:IsEditing) will still return true in this callback!
+---@hook OnEnter
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DTextEntry:OnEnter
+---@param value string The current text of the DTextEntry
+function DTextEntry:OnEnter(value) end
+
+---Called whenever the [DTextEntry](https://wiki.facepunch.com/gmod/DTextEntry) gains focus.
+---@hook OnGetFocus
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DTextEntry:OnGetFocus
+function DTextEntry:OnGetFocus() end
+
+---Called from [DTextEntry](https://wiki.facepunch.com/gmod/DTextEntry)'s [TextEntry:OnKeyCodeTyped](https://wiki.facepunch.com/gmod/TextEntry:OnKeyCodeTyped) override whenever a valid character is typed while the text entry is focused.
+---@hook OnKeyCode
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DTextEntry:OnKeyCode
+---@param keyCode number They key code of the key pressed, see Enums/KEY.
+function DTextEntry:OnKeyCode(keyCode) end
+
+---Called whenever the [DTextEntry](https://wiki.facepunch.com/gmod/DTextEntry) lose focus.
+---@hook OnLoseFocus
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DTextEntry:OnLoseFocus
+function DTextEntry:OnLoseFocus() end
+
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
 --- Called internally when the text inside the [DTextEntry](https://wiki.facepunch.com/gmod/DTextEntry) changes. This is an implementation of [TextEntry:OnTextChanged](https://wiki.facepunch.com/gmod/TextEntry:OnTextChanged)
@@ -180,8 +254,25 @@ function DTextEntry:IsEditing() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTextEntry:OnTextChanged
----@param noMenuRemoval boolean Determines whether to remove the autocomplete menu (false) or not (true).
+---@param noMenuRemoval? boolean Determines whether to remove the autocomplete menu (false) or not (true).
 function DTextEntry:OnTextChanged(noMenuRemoval) end
+
+---Called when the text changes of the [DTextEntry](https://wiki.facepunch.com/gmod/DTextEntry) are applied. (And set to the attached console variable, if one is given)
+---
+--- See also [DTextEntry:OnChange](https://wiki.facepunch.com/gmod/DTextEntry:OnChange) for a function that is called on every text change, even if the console variable is not updated.
+---
+--- You should override this function to define custom behavior when the text changes.
+---
+--- This method is called:
+--- * When Enter is pressed after typing
+--- * When [DTextEntry:SetValue](https://wiki.facepunch.com/gmod/DTextEntry:SetValue) is used
+--- * For every key typed - only if [DTextEntry:SetUpdateOnType](https://wiki.facepunch.com/gmod/DTextEntry:SetUpdateOnType) was set to true (default is false)
+---@hook OnValueChange
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DTextEntry:OnValueChange
+---@param value string The DTextEntry text.
+function DTextEntry:OnValueChange(value) end
 
 ---**INTERNAL**: You really should be using [DTextEntry:GetAutoComplete](https://wiki.facepunch.com/gmod/DTextEntry:GetAutoComplete) instead.
 ---

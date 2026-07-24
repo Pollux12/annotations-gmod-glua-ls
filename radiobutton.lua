@@ -4,5 +4,7 @@
 ---
 ---
 --- Currently there are no functions to retrieve checked state of a Radio Button, and their visuals are seemingly broken.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/RadioButton
 ---@class (partial) RadioButton : Panel
 local RadioButton = {}

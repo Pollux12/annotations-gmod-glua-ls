@@ -1,6 +1,8 @@
 ---@meta
 
 ---
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DListBoxItem
 ---@deprecated Used Internally by DListBox.
 ---@class (partial) DListBoxItem : DLabel
 local DListBoxItem = {}

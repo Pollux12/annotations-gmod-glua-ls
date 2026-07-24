@@ -1,5 +1,55 @@
 ---@meta
 
+--- This is the base panel for every other [VGUI](https://wiki.facepunch.com/gmod/vgui) panel.
+---
+--- It contains all of the basic methods, some of which may only work on certain VGUI elements. See also [Panel Hooks](https://wiki.facepunch.com/gmod/Panel_Hooks).
+---
+--- As their functionality is provided at the game's C/C++ level rather than by its Lua script extension, they are unfortunately unavailable for most practical purposes, however, they can still be obtained in a way similar to that provided by the [baseclass](https://wiki.facepunch.com/gmod/baseclass) library:
+---
+--- ```
+--- -- Create a new panel type NewPanel that inherits all of its functionality from DLabel,
+--- -- but has a different SetText method than DLabel does - all without the hassle of that
+--- -- old DLabel's default text getting in the way. Fun stuff.
+---
+--- local PANEL = {}
+---
+--- function PANEL:Init()
+---
+--- 	self:SetText_Base( "" )
+--- 	self:SetText( "Time for something different!" )
+---
+--- end
+---
+--- function PANEL:Paint( aWide, aTall )
+---
+--- 	local TextX, TextY = 0, 0
+--- 	local TextColor = Color( 255, 0, 0, 255 )
+---
+--- 	surface.SetFont( self:GetFont() or "default" )
+--- 	surface.SetTextColor( TextColor )
+--- 	surface.SetTextPos( TextX, TextY )
+--- 	surface.DrawText( self:GetText() )
+---
+--- end
+---
+--- -- And here we go:
+--- PANEL.SetText_Base = FindMetaTable( "Panel" ).SetText
+---
+--- function PANEL:SetText( aText )
+---
+--- 	self.Text = tostring( aText )
+---
+--- end
+---
+--- function PANEL:GetText()
+---
+--- 	return self.Text or ""
+---
+--- end
+---
+--- vgui.Register( "NewPanel", PANEL, "DLabel" )
+--- ```
+---@source https://wiki.facepunch.com/gmod/Panel
 ---@class Panel
 ---@field x number The x position of the panel relative to its parent.
 ---@field y number The y position of the panel relative to its parent.
@@ -12,6 +62,12 @@ Panel = Panel or {}
 ---@param value any The value to set. The type depends on the panel implementation.
 function Panel:SetValue(value) end
 
+---Compatibility alias used by shipped Sandbox code for Panel:SetTooltip.
+---@realm client
+---@realm menu
+---@param text string The tooltip text.
+function Panel:SetToolTip(text) end
+
 ---@class PANEL : Panel
 PANEL = Panel
 
@@ -22,7 +78,9 @@ PANEL = Panel
 ---@generic T : Panel
 ---@overload fun(self: Panel, panel: Panel): Panel # Parents an existing panel to this panel.
 ---@overload fun(self: Panel, panelTable: table): Panel # Creates a panel from a PANEL table and parents it to this panel.
+---@overload fun(self: Panel, className: `T`, parent: Panel): T # Creates a panel by class name with an explicit parent.
 ---@[call_arg("gmod.vgui_panel", "reference")]
+---@[call_arg("gmod.vgui_panel", "parent_self")]
 ---@param className `T` The panel class name to create and add.
 ---@return (instance) T # The created panel.
 function Panel:Add(className) end
@@ -649,15 +707,13 @@ function Panel:GetContentAlignment() end
 ---@return number # The content height of the object.
 function Panel:GetContentSize() end
 
----Gets the value of a cookie stored by the panel object. This can also be done with [cookie.GetString](https://wiki.facepunch.com/gmod/cookie.GetString), using the panel's cookie name, a fullstop, and then the actual name of the cookie.
----
---- Make sure the panel's cookie name has not changed since writing, or the cookie will not be accessible. This can be done with [Panel:GetCookieName](https://wiki.facepunch.com/gmod/Panel:GetCookieName) and [Panel:SetCookieName](https://wiki.facepunch.com/gmod/Panel:SetCookieName).
+---Gets the value of a cookie stored by the panel object.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:GetCookie
 ---@param cookieName string The name of the cookie from which to retrieve the value.
----@param default string The default value to return if the cookie does not exist.
----@return string # The value of the stored cookie, or the default value should the cookie not exist.
+---@param default? string The default value to return if the cookie does not exist.
+---@return string|nil # The value of the stored cookie, the default value, or nil if neither exists.
 function Panel:GetCookie(cookieName, default) end
 
 ---Gets the name the panel uses to store cookies. This is set with [Panel:SetCookieName](https://wiki.facepunch.com/gmod/Panel:SetCookieName).
@@ -670,15 +726,13 @@ function Panel:GetCookie(cookieName, default) end
 --- ```
 function Panel:GetCookieName() end
 
----Gets the value of a cookie stored by the panel object, as a number. This can also be done with [cookie.GetNumber](https://wiki.facepunch.com/gmod/cookie.GetNumber), using the panel's cookie name, a fullstop, and then the actual name of the cookie.
----
---- Make sure the panel's cookie name has not changed since writing, or the cookie will not be accessible. This can be done with [Panel:GetCookieName](https://wiki.facepunch.com/gmod/Panel:GetCookieName) and [Panel:SetCookieName](https://wiki.facepunch.com/gmod/Panel:SetCookieName).
+---Gets the value of a cookie stored by the panel object, as a number.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:GetCookieNumber
 ---@param cookieName string The name of the cookie from which to retrieve the value.
----@param default number The default value to return if the cookie does not exist.
----@return number # The number value of the stored cookie, or the default value should the cookie not exist.
+---@param default? number The default value to return if the cookie does not exist.
+---@return number|nil # The numeric cookie value, the default value, or nil if neither exists.
 function Panel:GetCookieNumber(cookieName, default) end
 
 ---Returns a dock enum for the panel's current docking type.
@@ -1681,13 +1735,13 @@ function Panel:OnDeactivate() end
 
 ---We're being dropped on something
 --- We can create a new panel here and return it, so that instead of dropping us - it drops the new panel instead! We remain where we are!
----
 --- Only works for panels derived from [DDragBase](https://wiki.facepunch.com/gmod/DDragBase).
 ---@hook OnDrop
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/PANEL:OnDrop
+---@param target Panel The panel being dropped onto.
 ---@return Panel # The panel to drop instead of us. By default you should return self.
-function Panel:OnDrop() end
+function Panel:OnDrop(target) end
 
 ---Called whenever the panel gained or lost focus.
 ---
@@ -1979,17 +2033,9 @@ function Panel:RebuildSpawnIconEx(data) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:Receiver
----@param name string Name of DnD panels to receive. This is set on the drag'n'drop-able panels via  Panel:Droppable
----@param func fun(pnl: Panel, tbl: table, dropped: boolean, menuIndex: number, x: number, y: number) This function is called whenever a panel with valid name is hovering above and dropped on this panel.
----
---- Function argument(s):
---- * Panel `pnl` - The receiver panel
---- * table `tbl` - A table of panels dropped onto receiver panel
---- * boolean `dropped` - False if hovering over, true if dropped onto
---- * number `menuIndex` - Index of clicked menu item from third argument of Panel:Receiver
---- * number `x` - Cursor pos, relative to the receiver
---- * number `y` - Cursor pos, relative to the receiver
----@param menu? table A table of strings that will act as a menu if drag'n'drop was performed with a right click
+---@param name string Name of DnD panels to receive. This is set on the drag'n'drop-able panels via Panel:Droppable.
+---@param func fun(pnl: Panel, tbl: table, dropped: boolean, command: any, x: number, y: number) This function is called whenever a panel with valid name is hovering above and dropped on this panel.
+---@param menu? table<any, string> A table of commands to display as a menu if drag'n'drop was performed with a right click.
 function Panel:Receiver(name, func, menu) end
 
 ---Refreshes the HTML panel's current page.
@@ -2076,11 +2122,11 @@ function Panel:SelectAll() end
 ---@source https://wiki.facepunch.com/gmod/Panel:SelectAllOnFocus
 function Panel:SelectAllOnFocus() end
 
----Selects all the text in a panel object. Will not select non-text items; for this, use [Panel:SelectAll](https://wiki.facepunch.com/gmod/Panel:SelectAll).
+---Selects all text in a text-based panel.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:SelectAllText
----@param resetCursorPos boolean Reset cursor pos?
+---@param resetCursorPos? boolean Whether to reset the cursor position.
 ---@deprecated Duplicate of Panel:SelectAll.
 function Panel:SelectAllText(resetCursorPos) end
 
@@ -2202,20 +2248,12 @@ function Panel:SetContentAlignment(alignment) end
 ---@param convar string The console variable to check.
 function Panel:SetConVar(convar) end
 
----Stores a string in the named cookie using [Panel:GetCookieName](https://wiki.facepunch.com/gmod/Panel:GetCookieName) as prefix.
----
---- You can also retrieve and modify this cookie by using the [cookie](https://wiki.facepunch.com/gmod/cookie). Cookies are stored in this format:
----
---- ```
---- panelCookieName.cookieName
---- ```
----
---- **WARNING**: The panel's cookie name MUST be set for this function to work. See [Panel:SetCookieName](https://wiki.facepunch.com/gmod/Panel:SetCookieName).
+---Stores a value in the named cookie using Panel:GetCookieName as prefix.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:SetCookie
----@param cookieName string The unique name used to retrieve the cookie later.
----@param value string The value to store in the cookie. This can be retrieved later as a string or number.
+---@param cookieName string The name of the cookie to set.
+---@param value? string|number|boolean The value to store, or nil to clear the value.
 function Panel:SetCookie(cookieName, value) end
 
 ---Sets the panel's cookie name. Calls [PANEL:LoadCookies](https://wiki.facepunch.com/gmod/PANEL:LoadCookies) if defined.
@@ -2500,11 +2538,12 @@ function Panel:SetPaintBorderEnabled(paintBorder) end
 function Panel:SetPaintedManually(paintedManually) end
 
 ---Sets the parent of the panel.
---- 	**NOTE**: Panels parented to the context menu will not be clickable unless [Panel:SetMouseInputEnabled](https://wiki.facepunch.com/gmod/Panel:SetMouseInputEnabled) and [Panel:SetKeyboardInputEnabled](https://wiki.facepunch.com/gmod/Panel:SetKeyboardInputEnabled(lowercase)) are both true or [Panel:MakePopup](https://wiki.facepunch.com/gmod/Panel:MakePopup) has been called. If you want the panel to have mouse input but you do not want to prevent players from moving, set [Panel:SetKeyboardInputEnabled](https://wiki.facepunch.com/gmod/Panel:SetKeyboardInputEnabled(lowercase)) to false immediately after calling [Panel:MakePopup](https://wiki.facepunch.com/gmod/Panel:MakePopup).
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:SetParent
----@param parent Panel The new parent of the panel.
+---@[call_arg("gmod.vgui_panel", "child_self")]
+---@[call_arg("gmod.vgui_panel", "parent")]
+---@param parent? Panel The new parent of the panel, or nil to detach it.
 function Panel:SetParent(parent) end
 
 ---Used by [AvatarImage](https://wiki.facepunch.com/gmod/AvatarImage) to load an avatar for given player.
@@ -2560,7 +2599,7 @@ function Panel:SetSelected(selected) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:SetSelectionCanvas
----@param set boolean Whether to enable selection.
+---@param set boolean|Panel Whether to enable selection, or an existing selection canvas value.
 function Panel:SetSelectionCanvas(set) end
 
 ---Sets the size of the panel.
@@ -2990,3 +3029,12 @@ function Panel:UpdateHTMLTexture() end
 ---@return boolean # Whether the panel is valid or not, true being it is, false being it isn't.
 ---@deprecated Use Panel:IsValid instead.
 function Panel:Valid() end
+
+---Called by VGUI when this panel should lay out its children.
+---@hook PerformLayout
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/PANEL:PerformLayout
+---@param width? number The panel's current width.
+---@param height? number The panel's current height.
+function Panel:PerformLayout(width, height) end

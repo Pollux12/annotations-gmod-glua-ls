@@ -3,47 +3,50 @@
 --- **INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
 --- A VGUI base panel providing drag/drop functionality. Used by [DIconLayout](https://wiki.facepunch.com/gmod/DIconLayout), [DListLayout](https://wiki.facepunch.com/gmod/DListLayout) and [DTileLayout](https://wiki.facepunch.com/gmod/DTileLayout).
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DDragBase
 ---@class (partial) DDragBase : DPanel
 local DDragBase = {}
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
---- Internal function used in [DDragBase:MakeDroppable](https://wiki.facepunch.com/gmod/DDragBase:MakeDroppable)
+--- Internal function used in DDragBase:MakeDroppable.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DDragBase:DropAction_Copy
----@param drops table
----@param bDoDrop boolean
----@param command string
----@param y number
----@param x number
-function DDragBase:DropAction_Copy(drops, bDoDrop, command, y, x) end
+---@param drops Panel[] The list of panels being dropped.
+---@param bDoDrop boolean Whether this is an actual drop or just a hover preview.
+---@param command string The drop command string.
+---@param x number Cursor X position.
+---@param y number Cursor Y position.
+function DDragBase:DropAction_Copy(drops, bDoDrop, command, x, y) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
---- Internal function used in [DDragBase:DropAction_Copy](https://wiki.facepunch.com/gmod/DDragBase:DropAction_Copy)
+--- Internal function used in DDragBase:MakeDroppable. Handles the normal drop action with positional drop targeting.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DDragBase:DropAction_Normal
----@param drops table
----@param bDoDrop boolean
----@param command string
----@param y number
----@param x number
-function DDragBase:DropAction_Normal(drops, bDoDrop, command, y, x) end
+---@param drops Panel[] The list of panels being dropped.
+---@param bDoDrop boolean Whether this is an actual drop or just a hover preview.
+---@param command string The drop command string ("copy", "move", etc.)
+---@param x number Cursor X position relative to the panel.
+---@param y number Cursor Y position relative to the panel.
+function DDragBase:DropAction_Normal(drops, bDoDrop, command, x, y) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
---- Internal function used in [DDragBase:DropAction_Normal](https://wiki.facepunch.com/gmod/DDragBase:DropAction_Normal)
+--- Internal function used in DDragBase:DropAction_Normal. Handles dropping without positional targeting.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DDragBase:DropAction_Simple
----@param drops table
----@param bDoDrop boolean
----@param command string
----@param y number
----@param x number
-function DDragBase:DropAction_Simple(drops, bDoDrop, command, y, x) end
+---@param drops Panel[] The list of panels being dropped.
+---@param bDoDrop boolean Whether this is an actual drop or just a hover preview.
+---@param command string The drop command string.
+---@param x number Cursor X position.
+---@param y number Cursor Y position.
+function DDragBase:DropAction_Simple(drops, bDoDrop, command, x, y) end
 
 ---Returns the drag'n'drop group this panel belongs to. See [DDragBase:MakeDroppable](https://wiki.facepunch.com/gmod/DDragBase:MakeDroppable). An [Global.AccessorFunc](https://wiki.facepunch.com/gmod/Global.AccessorFunc)
 ---@realm client
@@ -75,6 +78,13 @@ function DDragBase:GetUseLiveDrag() end
 ---@param name string The unique name for the receiver slot. Only droppable panels with the same DnD name as this can be dropped on the panel.
 ---@param allowCopy boolean Whether or not to allow droppable panels to be copied when the Ctrl key is held down.
 function DDragBase:MakeDroppable(name, allowCopy) end
+
+---Called when anything is dropped on or rearranged within the [DDragBase](https://wiki.facepunch.com/gmod/DDragBase). For Override
+---@hook OnModified
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DDragBase:OnModified
+function DDragBase:OnModified() end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---  Used internally by [DDragBase:MakeDroppable](https://wiki.facepunch.com/gmod/DDragBase:MakeDroppable).

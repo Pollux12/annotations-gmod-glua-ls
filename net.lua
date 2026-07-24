@@ -19,8 +19,6 @@ function net.Abort() end
 function net.Broadcast() end
 
 ---Returns the amount of data left to read in the current message. Does nothing when sending data.
----
---- **NOTE**: This will include 6 extra bits (or 1 byte rounded-up) used by the engine internally.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/net.BytesLeft
 ---@return number # The amount of data left to read in the current net message in **bytes**.

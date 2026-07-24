@@ -1,5 +1,24 @@
 ---@meta
 
+--- Table structure used by [undo.Do_Undo](https://wiki.facepunch.com/gmod/undo.Do_Undo) and [GM:CanUndo](https://wiki.facepunch.com/gmod/GM:CanUndo).
+---@realm server
+---@source https://wiki.facepunch.com/gmod/Structures/Undo
+---@class (partial) Undo
+---The player responsible who owns the undo
+---@field Owner Player
+---The name of the text to report to the player
+---@field Name string
+---A table of entities to be removed by the undo
+---@field Entities Entity[]
+---A table of {function_to_call, func_arg2, func_arg3}
+---@field Functions table[]
+---A custom undo text to show the client
+---@field CustomUndoText string
+---A "nice" name of the undo, which will be used for the UI
+---@field NiceText string
+
+local Undo = {}
+
 --- The undo library allows you to add custom entities to the undo list, allowing users to "undo" their creation with their undo (default: Z) key.
 undo = {}
 

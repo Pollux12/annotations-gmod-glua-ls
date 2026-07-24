@@ -2,6 +2,9 @@
 
 --- Choose a number from a number line, with zooming for precision.
 --- Zoom in by moving your mouse forward and moving back does the opposite. Looks like a blue circle until you click and hold on it
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DNumberScratch
 ---@class (partial) DNumberScratch : DImageButton
 local DNumberScratch = {}
 
@@ -134,6 +137,14 @@ function DNumberScratch:IsEditing() end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DNumberScratch:LockCursor
 function DNumberScratch:LockCursor() end
+
+---Called when the value of the [DNumberScratch](https://wiki.facepunch.com/gmod/DNumberScratch) is changed.
+---@hook OnValueChanged
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DNumberScratch:OnValueChanged
+---@param newValue number The new value
+function DNumberScratch:OnValueChanged(newValue) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---

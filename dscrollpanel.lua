@@ -1,5 +1,15 @@
 ---@meta
 
+--- DScrollPanel is a VGUI Element similar to DPanel however it has a vertical scrollbar docked to the right which can be used to put more content in a smaller area. DScrollPanels are essentially [DPanel](https://wiki.facepunch.com/gmod/DPanel)s with the Scroll Bar.
+---
+--- This can be used to replace the [DPanelList](https://wiki.facepunch.com/gmod/DPanelList) with [DPanelList:EnableVerticalScrollbar](https://wiki.facepunch.com/gmod/DPanelList:EnableVerticalScrollbar) and get similar functionality as well as using a non-deprecated element.
+---
+--- If you would like to paint or edit the elements of the scrollbar use [DScrollPanel:GetVBar](https://wiki.facepunch.com/gmod/DScrollPanel:GetVBar). If you want to see if the scrollbar is visible then use the VBar.Enabled variable on the scrollbar's VBar.
+---
+--- **NOTE**: [Panel:DockPadding](https://wiki.facepunch.com/gmod/Panel:DockPadding) will not have an effect on children of this panel. Use the function on [DScrollPanel:GetCanvas](https://wiki.facepunch.com/gmod/DScrollPanel:GetCanvas) instead.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DScrollPanel
 ---@class DScrollPanel : DPanel
 ---@field pnlCanvas Panel The canvas panel that contains all child elements. Accessible via [DScrollPanel:GetCanvas](https://wiki.facepunch.com/gmod/DScrollPanel:GetCanvas).
 ---@field VBar DVScrollBar The vertical scroll bar.

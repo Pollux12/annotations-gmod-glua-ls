@@ -4,18 +4,23 @@
 ---
 --- The ContentHeader is used internally by the Spawnmenu and only use this if you know
 --- what you're doing because you can break a few things with it.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/ContentHeader
 ---@class (partial) ContentHeader : DLabelEditable
 local ContentHeader = {}
 
----Creates a [Global.DermaMenu](https://wiki.facepunch.com/gmod/Global.DermaMenu) and adds a delete option before opening the menu
+---Creates a DermaMenu with a delete option and opens it. Called internally on right-click.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/ContentHeader:OpenMenu
----@param style string
----@param hookname? string A Populate Hook like PopulateEntities
-function ContentHeader:OpenMenu(style, hookname) end
+function ContentHeader:OpenMenu() end
 
 ---
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/ContentHeader:ToTable
 ---@param bigtable table
 function ContentHeader:ToTable(bigtable) end
+
+---Returns the spawnmenu tile layout that owns this content header.
+---@realm client
+---@return DTileLayout
+function ContentHeader:GetParent() end

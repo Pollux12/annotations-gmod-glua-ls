@@ -643,6 +643,17 @@ local DynamicLight = {}
 
 local EmitSoundInfo = {}
 
+--- Information about the ENT structure, which represents a Scripted Entity class definition.
+---
+--- To learn more about scripted entities, [see this page](https://wiki.facepunch.com/gmod/Scripted_Entities).
+---
+--- See also [ENTITY Hooks](https://wiki.facepunch.com/gmod/ENTITY_Hooks) for a list of events scripted entities can have. See [Custom Entity Fields](https://wiki.facepunch.com/gmod/Custom_Entity_Fields) for a list of events and fields all entities can have.
+---
+--- While some of the fields may be serverside or clientside only, it is recommended to provide them on both so addons could use their values.
+---
+--- **NOTE**: Values defined in ENT table can't be changed per instance. Initialize default values in [ENTITY:Initialize](https://wiki.facepunch.com/gmod/ENTITY:Initialize) or other hook.
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/Structures/ENT
 ---@class ENT : ENTITY
 ---The base entity to derive from. This **must** be a valid Lua entity
 ---@field Base string
@@ -741,31 +752,56 @@ local EmitSoundInfo = {}
 
 ENT = {}
 
----Data structure used by the duplicator to store and load entity data.
+--- Data structure used by the [duplicator](https://wiki.facepunch.com/gmod/duplicator) to store and load entity data.
 ---
----It is created by duplicator.CopyEntTable and can be loaded by duplicator.CreateEntityFromTable.
----When used as input to duplicator.CreateEntityFromTable, only the construction fields are required.
+--- It is created by [duplicator.CopyEntTable](https://wiki.facepunch.com/gmod/duplicator.CopyEntTable) and can be loaded by [duplicator.CreateEntityFromTable](https://wiki.facepunch.com/gmod/duplicator.CreateEntityFromTable).
+---
+--- It also shows up in several other contexts:
+--- * [duplicator.RegisterEntityClass](https://wiki.facepunch.com/gmod/duplicator.RegisterEntityClass)
+--- * [ENTITY:OnEntityCopyTableFinish](https://wiki.facepunch.com/gmod/ENTITY:OnEntityCopyTableFinish)
+--- * [ENTITY:OnDuplicated](https://wiki.facepunch.com/gmod/ENTITY:OnDuplicated)
+---
+--- **NOTE**: In addition to all fields listed here, any field saved on the entity will be saved as-is to this table. For example, if you set `ent.FavoriteFood = "Steak"` before duplicating it, this structure will also contain the field `FavoriteFood` with the value `"Steak"`.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/Structures/EntityCopyData
 ---@class (partial) EntityCopyData
----@field Class string The entity's class name, see Entity:GetClass.
----@field Pos? Vector The entity's position, relative to the duplication origin point. When loading, the duplicator only applies it if present.
----@field Angle? Angle The entity's angle, relative to the duplication angle. When loading, the duplicator only applies it if present.
----@field Name? string The entity's name, see Entity:GetName.
----@field DT? table The entity's Network Vars, see ENTITY:SetupDataTables and Networking Entities.
----@field Model? string The entity's model, see Entity:GetModel.
----@field ModelScale? number The entity's model scale, see Entity:GetModelScale.
----@field Skin? number The entity's active skin, see Entity:GetSkin.
----@field ColGroup? number The entity's collision group. Uses the Enums/COLLISION_GROUP.
----@field Mins? Vector The entity's collision bound minimums.
----@field Maxs? Vector The entity's collision bound maximums.
----@field PhysicsObjects? table Data about the entity's PhysObjs.
----@field FlexScale? number The entity's Flex Scale, see Entity:GetFlexScale.
----@field Flex? table Each flex bone's flex weight.
----@field BodyG? table The entity's body groups.
----@field BoneManip? table Bone manipulation data.
----@field MapCreationID? number The entity's MapCreationID, only exists for entities that were created by the map.
----@field WorkshopID? number Deprecated, always 0. See Entity:GetWorkshopID.
+---The entity's name, see Entity:GetName.
+---@field Name string
+---The entity's class name, see Entity:GetClass.
+---@field Class string
+---The entity's position, relative to the duplication origin point.
+---@field Pos Vector
+---The entity's angle, relative to the duplication angle.
+---@field Angle Angle
+---The entity's Network Vars, see ENTITY:SetupDataTables and Networking Entities.
+---@field DT table
+---The entity's model, see Entity:GetModel.
+---@field Model string
+---The entity's model scale, see Entity:GetModelScale. This will only be present if the model scale isn't 1.
+---@field ModelScale number
+---The entity's active skin, see Entity:GetSkin.
+---@field Skin number
+---The entity's collision group, see Entity:GetCollisionGroup. Uses the Enums/COLLISION_GROUP.
+---@field ColGroup number
+---The entity's collision bound minimums, see Entity:GetCollisionBounds.
+---@field Mins Vector
+---The entity's collision bound maximums, see Entity:GetCollisionBounds.
+---@field Maxs Vector
+---Data about the entity's PhysObjs, see Entity:GetPhysicsObjectNum. The key is the physics object index (starts from 0), and the value is a Structures/PhysicsObjectSave. Unlike other tables in this structure, if there are no physics objects for this entity this will be an empty table.
+---@field PhysicsObjects table
+---The entity's Flex Scale, see Entity:GetFlexScale.
+---@field FlexScale number
+---Each flex bone's flex weight, see Entity:GetFlexWeight. The key is the flex's index and the value is the weight. Only flexes with a non-default (nonzero) weight are listed, and if none exist, this field will be nil.
+---@field Flex table
+---The entity's body groups, see Entity:GetBodygroup. The key is the bodygroup ID and the value is the assigned bodygroup number. Only body groups with a non-default (> 0) value are listed, and if none exist, this field will be nil.
+---@field BodyG table
+---Bone manipulation data, see Entity:HasBoneManipulations. The key is the bone index and the value is a Structures/BoneManipulationData. Only bones that have been manipulated with non-default values are listed, and if none exist, this field will be nil.
+---@field BoneManip table
+---The entity's MapCreationID, only exists for entities that were created by the map. See Entity:MapCreationID.
+---@field MapCreationID number
+---Deprecated, always 0. See Entity:GetWorkshopID.
+---@field WorkshopID number
+
 local EntityCopyData = {}
 
 --- The table structure used for bullets that have already been fired.
@@ -900,40 +936,7 @@ local FontData = {}
 
 local FormattedTime = {}
 
----@alias HTTPRequestHeaderValue string
----@alias HTTPRequestHeaders table<string, HTTPRequestHeaderValue>
-
----@alias HTTPResponseHeaderValue string
----@alias HTTPResponseHeaders table<string, HTTPResponseHeaderValue>
-
----@alias HTTPRequestParameterValue string|number|boolean
----@alias HTTPRequestParameters table<string, HTTPRequestParameterValue>
-
----@alias HTTPRequestFailureCallback fun(reason: string)
----@alias HTTPRequestSuccessCallback fun(code: number, body: string, headers: HTTPResponseHeaders)
-
----@alias HTTPRequestMethodWithParameters
----| "GET"
----| "POST"
----| "HEAD"
----| "get"
----| "post"
----| "head"
-
----@alias HTTPRequestMethodWithoutParameters
----| "PUT"
----| "DELETE"
----| "PATCH"
----| "OPTIONS"
----| "put"
----| "delete"
----| "patch"
----| "options"
-
----@alias HTTPRequestMethod HTTPRequestMethodWithParameters|HTTPRequestMethodWithoutParameters
-
 --- Table used by [Global.HTTP](https://wiki.facepunch.com/gmod/Global.HTTP) function.
---- Common request fields shared by all supported HTTP methods.
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Structures/HTTPRequest
@@ -942,15 +945,15 @@ local FormattedTime = {}
 ---
 --- Function argument(s):
 --- * string `reason` - Reason for the failure.
----@field failed? HTTPRequestFailureCallback
+---@field failed fun(reason: string)
 ---Function to be called on success.
 ---
 --- Function argument(s):
 --- * number `code` - The HTTP result code
 --- * string `body` - The document data, usually HTML or JSON contents.
 --- * table `headers` - List of headers the server provided.
----@field success? HTTPRequestSuccessCallback
----Request method, case insensitive. Common values are:
+---@field success fun(code: number, body: string, headers: table)
+---Request method, case insensitive. Possible values are:
 --- * GET
 --- * POST
 --- * HEAD
@@ -959,100 +962,83 @@ local FormattedTime = {}
 --- * PATCH
 --- * OPTIONS
 ---
----Default: `GET`
----@field method? string
----The target url.
----@field url string
----KeyValue table for [URL parameters](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams).
 ---
---- Valid only for `GET`, `POST`, and `HEAD`.
---- For `POST`, `body` takes precedence and parameters are ignored when both are supplied.
----@field parameters? HTTPRequestParameters
----KeyValue table for headers.
----@field headers? HTTPRequestHeaders
----Body string for request data.
---- Supported by methods such as `POST`, `PUT`, `PATCH`, and `DELETE`.
----@field body? string
+--- Default: `GET`
+---@field method string="GET"
+---The target url
+---@field url string
+---KeyValue table for [URL parameters](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams). This is only applicable to the following request methods:
+--- * GET
+--- * POST (sent in body, so if `body` is set, parameters are ignored)
+--- * HEAD
+---@field parameters table
+---KeyValue table for headers
+---@field headers table
+---Body string for POST data. If set, will override parameters
+---@field body string
 ---Content type for body.
 ---
----Default: `text/plain; charset=utf-8`
----@field type? string
+--- Default: `text/plain; charset=utf-8`
+---@field type string="text/plain; charset=utf-8"
 ---The timeout for the connection.
 ---
----Default: `60`
----@field timeout? number
+--- Default: `60`
+---@field timeout number=60
+
 local HTTPRequest = {}
-
----`GET`, `POST`, and `HEAD` requests may include URL parameters.
---- Omitting `method` is treated as `GET`.
----@class (exact) HTTPRequestWithParameters : HTTPRequest
----Request method, case insensitive.
----
----Default: `GET`
----@field method? HTTPRequestMethodWithParameters
----KeyValue table for [URL parameters](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams).
----
---- Valid only for `GET`, `POST`, and `HEAD`.
---- For `POST`, `body` takes precedence and parameters are ignored when both are supplied.
----@field parameters? HTTPRequestParameters
-
----Methods that do not support the `parameters` field.
----@class (exact) HTTPRequestWithoutParameters : HTTPRequest
----Request method, case insensitive.
----@field method HTTPRequestMethodWithoutParameters
----@field parameters nil
 
 --- Table used by [util.TraceHull](https://wiki.facepunch.com/gmod/util.TraceHull).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Structures/HullTrace
----@class HullTrace
-local HullTrace = {}
-
+---@class (partial) HullTrace
 ---The start position of the trace
----@type Vector
-HullTrace.start = nil
-
+---@field start Vector
 ---The end position of the trace
----@type Vector
-HullTrace.endpos = nil
-
+---@field endpos Vector
 ---The 3D vector local to the start/endpos with the highest values. This will represent the corner with the upper bounds of the box.
----@type Vector
-HullTrace.maxs = nil
-
+---@field maxs Vector
 ---The 3D vector local to the start/endpos with the lowest (often negative) values. This will represent the corner with the lower bounds of the box.
----@type Vector
-HullTrace.mins = nil
-
----Things the trace should not hit. Can be an entity, a table of entities, a table of entity classes, a mixed table, or a function.
+---@field mins Vector
+---Things the trace should not hit. Can be an entity, a table of entities, a table of entity classes or a function:
+---
+---
+---
+--- Function argument(s):
+--- * Entity `ent` - The entity that the trace hit
+---
+--- Function return value(s):
+--- * boolean `undefined` - Return `true` to hit the entity, `false` to skip it.
 ---
 --- Using a function here is super slow. Try to avoid it.
----@type any
-HullTrace.filter = nil
-
+---
+--- Default: `nil`
+---@field filter? Entity|table<Entity>|table<string>|function
 ---The trace mask Enums/MASK. This determines what the trace should hit and what it shouldn't hit.
----@type MASK?
-HullTrace.mask = MASK_SOLID
-
+---
+--- Default: `MASK_SOLID`
+---@field mask MASK="MASK_SOLID"
 ---The collision group Enums/COLLISION_GROUP. This determines what the trace should hit in regards to the entity's collision group.
----@type COLLISION_GROUP?
-HullTrace.collisiongroup = COLLISION_GROUP_NONE
-
+---
+--- Default: `COLLISION_GROUP_NONE`
+---@field collisiongroup COLLISION_GROUP="COLLISION_GROUP_NONE"
 ---Should the trace ignore world or not.
----@type boolean?
-HullTrace.ignoreworld = false
-
+---
+--- Default: `false`
+---@field ignoreworld boolean=false
 ---If set, the trace result will be written to the supplied table instead of returning a new table
----@type TraceResult|table|nil
-HullTrace.output = nil
-
+---
+--- Default: `nil`
+---@field output? TraceResult
 ---Turns the `filter` field into a whitelist, if it is a table.
----@type boolean?
-HullTrace.whitelist = false
-
+---
+--- Default: `false`
+---@field whitelist boolean=false
 ---Enables traces to hit clientside only entities. Keep in mind that most naturally spawned entities are classified as debris, so extra `mask` values might be required.
----@type boolean?
-HullTrace.hitclientonly = false
+---
+--- Default: `false`
+---@field hitclientonly boolean=false
+
+local HullTrace = {}
 
 --- Table structure used for [render.SetLocalModelLights](https://wiki.facepunch.com/gmod/render.SetLocalModelLights).
 ---@realm client
@@ -1091,9 +1077,13 @@ HullTrace.hitclientonly = false
 --- Default: `45`
 ---@field outerAngle number=45
 ---The distance at which the light will fade to 50% of its brightness.
----@field fiftyPercentDistance number
+---
+--- Default: `nil`
+---@field fiftyPercentDistance? number
 ---The distance at which the light will completely fade out.
----@field zeroPercentDistance number
+---
+--- Default: `nil`
+---@field zeroPercentDistance? number
 ---The quadratic term of the light falloff. This will only be used if fiftyPercentDistance and zeroPercentDistance are not supplied, and allows finer control over light attenuation.
 ---
 --- Default: `0`
@@ -1119,16 +1109,16 @@ local LocalLight = {}
 ---
 --- Function argument(s):
 --- * table `self` - The table structure itself
---- * string `name` - The material name
+--- * IMaterial `mat` - The material.
 --- * table `values` - The material key values
----@field init fun(self: table, name: string, values: table)
+---@field init fun(self: table, mat: IMaterial, values: table)
 ---The function used to apply the proxy. This is called every frame while any materials with this proxy are used in world.
 ---
 --- Function argument(s):
 --- * table `self` - The table structure itself.
---- * string `name` - The material name.
+--- * IMaterial `mat` - The material.
 --- * Entity `ent` - The entity the material instance is applied to, if any.
----@field bind fun(self: table, name: string, ent: Entity)
+---@field bind fun(self: table, mat: IMaterial, ent: Entity)
 
 local MatProxyData = {}
 
@@ -1628,21 +1618,98 @@ local Preset = {}
 
 local Problem = {}
 
----Structure used for [properties.Add](https://wiki.facepunch.com/gmod/properties.Add).
+--- Structure used for [properties.Add](https://wiki.facepunch.com/gmod/properties.Add).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Structures/PropertyAdd
 ---@class (partial) PropertyAdd
----@field Type? string|"simple"|"toggle" Can be set to "toggle" to make this property a toggle property.
----@field MenuLabel string Label to show on opened menu.
----@field MenuIcon? string Icon to show on opened menu for this item. Optional for simple properties and unused for toggle properties.
----@field Order number Where in the list this property should be positioned, relative to other properties.
----@field PrependSpacer? boolean Whether to add a spacer before this property.
----@field Filter fun(self: table, ent: Entity, player: Player):(check: boolean) Used clientside to decide whether this property should be shown for an entity.
----@field Checked? fun(self: table, ent: Entity, tr: table):(check: boolean) Required only for toggle properties.
----@field Action fun(self: table, ent: Entity, tr: table) Called clientside when the property is clicked.
----@field Receive? fun(self: table, len: number, ply: Player) Called serverside if the client sends a message in the Action function.
----@field MenuOpen? fun(self: table, option: DMenuOption, ent: Entity, tr: table) Called clientside when the property option has been created in the right-click menu.
----@field OnCreate? fun(self: table, menu: DMenu, option: DMenuOption) Called clientside after the property option has been created.
+---Can be set to "toggle" to make this property a toggle property.
+---
+--- Default: `simple`
+---@field Type string="simple"
+---Label to show on opened menu
+---@field MenuLabel string
+---Icon to show on opened menu for this item. Optional for simple properties and unused for toggle properties.
+---@field MenuIcon string
+---Where in the list should the property be positioned, relative to other properties.
+---
+--- For reference, here are the default properties and their Order values:
+---
+--- Property |  Order |
+--- ---------|-------|
+--- | Bone Manipulate | 500 |
+--- | Bodygroups | 600 |
+--- | Skin | 601 |
+--- | Keep Upright | 900 |
+--- | Ignite/Extinguish | 999 |
+--- | Remove | 1000 |
+--- | Gravity | 1001 |
+--- | Drive | 1100 |
+--- | Collision | 1500 |
+--- | Statue | 1501 |
+--- | NPC Biggify/Smallify | 1799, 1800 |
+--- | Motion Control (Kinect) | 2500 |
+--- | Editable_Entities | 90001 |
+---@field Order number
+---Whether to add a spacer before this property. This should generally be true for the first property in a group of properties.
+---
+--- Default: `false`
+---@field PrependSpacer boolean=false
+---Used **clientside** to decide whether this property should be shown for an entity.
+---
+--- It's good practice to call GM:CanProperty in this hook via gamemode.Call or hook.Run.
+---
+--- Function argument(s):
+--- * table `self` - the property table
+--- * Entity `ent` - the entity the player clicked
+--- * Player `player` - the Global.LocalPlayer
+---
+--- Function return value(s):
+--- * boolean `check` - Return true if the property should be shown for this entity.
+---@field Filter fun(self: table, ent: Entity, player: Player):(check: boolean)
+---Required for toggle properties (clientside).
+---
+--- Function argument(s):
+--- * table `self` - the property table
+--- * Entity `ent` - the entity the player clicked
+--- * table `tr` - the player's eye trace
+---
+--- Function return value(s):
+--- * boolean `check` - Return true if the property should appear checked in the UI.
+---@field Checked fun(self: table, ent: Entity, tr: table):(check: boolean)
+---Called **clientside** when the property is clicked
+---
+--- Function argument(s):
+--- * table `self` - the property table
+--- * Entity `ent` - the entity the player clicked
+--- * table `tr` - the player's eye trace
+---
+--- When appropriate, within this function you can call `self:MsgStart()`, write data with the net.`Write*` functions, and finish with `self:MsgEnd()`. This will activate the `Receive` function on the server. In most cases, you will want to send the entity to the server, as it's not done by default.
+---@field Action fun(self: table, ent: Entity, tr: table)
+---Called **serverside** if the client sends a message in the `Action` function (see above).
+---
+--- Function argument(s):
+--- * table `self` - the property table
+--- * number `len` - the net message length, although this includes the property identifier used internally (the name of the property)
+--- * Player `ply` - the player who clicked the property
+---
+--- You can read data received from the client with the net.`Read*` functions. It's good practice to check GM:CanProperty here via gamemode.Call or hook.Run.
+---@field Receive fun(self: table, len: number, ply: Player)
+---Called **clientside** when the property option has been created in the right-click menu. This is not called for toggle properties!
+---
+--- Function argument(s):
+--- * table `self` - the property table
+--- * DMenuOption `option` - the menu option
+--- * Entity `ent` - the entity the player right-clicked
+--- * table `tr` - the player's eye trace
+---@field MenuOpen fun(self: table, option: DMenuOption, ent: Entity, tr: table)
+---Same as `MenuOpen`, but also called for toggle properties and has different arguments. This is called immediately after `MenuOpen`, but nothing happens in between so you should only ever use one or the other.
+---
+--- Function argument(s):
+--- * table `self` - the property table
+--- * DMenu `menu` - the property menu
+--- * DMenuOption `option` - the menu option
+---@field OnCreate fun(self: table, menu: DMenu, option: DMenuOption)
+
 local PropertyAdd = {}
 
 --- Used for [cam.Start](https://wiki.facepunch.com/gmod/cam.Start).
@@ -1902,52 +1969,50 @@ local ShadowControlParams = {}
 
 local Sky3DParams = {}
 
+--- Table used in [sound.Add](https://wiki.facepunch.com/gmod/sound.Add) and [sound.GetProperties](https://wiki.facepunch.com/gmod/sound.GetProperties).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Structures/SoundData
----@class SoundData
-local SoundData = {}
-
+---@class (partial) SoundData
 ---Path to the sound file to be used in this sound effect, relative to `sound/` directory (so exclude the `sound/` part).
 ---
 --- Can be a table of sound files, in which case the sound will be chosen randomly every time from the provided list.
 ---
 --- Each sound path can be prepended with a special character for special effects. You can learn more about this [here](https://developer.valvesoftware.com/wiki/Soundscripts#Sound_Characters).
----@type string|string[]
-SoundData.sound = nil
-
+---@field sound string|table<string>
 ---The name of the soundscript, to be referenced by in functions such as Entity:EmitSound.
----@type string
-SoundData.name = nil
-
+---@field name string
 ---The sound channel to play in. See Enums/CHAN
----@type CHAN
-SoundData.channel = nil
-
+---
+--- Default: `CHAN_AUTO`
+---@field channel CHAN="CHAN_AUTO"
 ---The soundlevel of the sound in dB. See Enums/SNDLVL. This will affect how far the sound can be heard.
----@type SNDLVL
-SoundData.level = nil
-
+---
+--- Default: `SNDLVL_NORM`
+---@field level SNDLVL="SNDLVL_NORM"
 ---The volume of the sound as a decimal between `0` and `1`. Can be a table of two numbers, a minimum and a maximum value.
 ---
 --- **Warning:** Volume of `0` will act as volume of `1`
----@type number?
-SoundData.volume = 1.0
-
+---
+--- Default: `1.0`
+---@field volume number|table<number>=1.0
 ---The pitch of the sound. Can be a table of two numbers, a minimum and a maximum value.
----@type number|number[]?
-SoundData.pitch = 100
-
+---
+--- Default: `100`
+---@field pitch number|table<number>=100
 ---@deprecated Use pitch instead.
 ---The initial pitch.
---- Use pitch instead.
----@type number?
-SoundData.pitchstart = 100
-
+--- 	Use pitch instead.
+---
+--- Default: `100`
+---@field pitchstart number=100
 ---@deprecated Use pitch instead.
 ---The pitch end.
 --- Use pitch instead.
----@type number?
-SoundData.pitchend = 100
+---
+--- Default: `100`
+---@field pitchend number=100
+
+local SoundData = {}
 
 --- Table describing a sound hint, used by [NPC:GetBestSoundHint](https://wiki.facepunch.com/gmod/NPC:GetBestSoundHint) and [sound.GetLoudestSoundHint](https://wiki.facepunch.com/gmod/sound.GetLoudestSoundHint).
 ---@realm server
@@ -2056,7 +2121,27 @@ local SunInfo = {}
 
 local SurfacePropertyData = {}
 
+--- Information about [Scripted Weapons](https://wiki.facepunch.com/gmod/Scripted_Entities) (SWEPs),
+--- 		used by [SANDBOX:PlayerGiveSWEP](https://wiki.facepunch.com/gmod/SANDBOX:PlayerGiveSWEP) and in SWEP creation.
+---
+--- For list of callbacks, see [WEAPON Hooks](https://wiki.facepunch.com/gmod/WEAPON_Hooks).
+---
+--- While some of the fields may be serverside or clientside only, it is recommended to provide them on both so
+--- addons could use their values.
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/Structures/SWEP
 ---@class SWEP : WEAPON
+---@field Tool? table<string, Tool> Map of tool mode name → instantiated tool object. Set by gmod_tool SWEP.
+---@field Mode? string Currently active tool mode name (e.g. "weld"). Set in SWEP:Think by gmod_tool.
+---@field current_mode? string The tool mode active this frame.
+---@field last_mode? string The tool mode active the previous frame.
+---@field m_uHolsterFrame? number Frame number on which the weapon was holstered (used to skip the extra Think call).
+---@field Icons? table<string, IMaterial> Cache of loaded icon materials keyed by path. Set by gmod_tool SWEP DrawHUD.
+---@field ToolNameHeight? number Height of the tool name HUD element. Used by gmod_tool SWEP.
+---@field InfoBoxHeight? number Height of the tool info box HUD element. Used by gmod_tool SWEP.
+---@field Gradient? number Texture ID of the gradient texture used for the HUD background.
+---@field InfoIcon? number Texture ID of the info icon used for the HUD.
+---@field WepSelectIcon? number Texture ID of the weapon select icon.
 ---Entity class name of the SWEP (file or folder name of your SWEP). This is
 ---             set automatically
 ---@field ClassName string
@@ -2197,15 +2282,6 @@ local SurfacePropertyData = {}
 ---
 --- Default: `surface.GetTextureID( 'gui/speech_lid' )`
 ---@field SpeechBubbleLid number="surface.GetTextureID( 'gui/speech_lid' )"
----Path to
----             a material. Override this in your SWEP to set the icon in the weapon selection. This must be the texture ID,
----             see surface.GetTextureID. Keep in mind that the path must be to a `.vmt` file, NOT `.vtf`.
----
---- Alternatively you can render custom weapon selection via WEAPON:DrawWeaponSelection.
----
----
---- Default: `surface.GetTextureID( 'weapons/swep' )`
----@field WepSelectIcon number="surface.GetTextureID( 'weapons/swep' )"
 ---Should we use Counter-Strike muzzle
 ---             flashes upon firing? This is required for DoD:S or CS:S view models to fix their muzzle flashes.
 ---
@@ -2335,69 +2411,6 @@ local TextData = {}
 
 local TextureData = {}
 
----If set to false, the tool won't be added to the tool menu and players will have to access it by other means.
----@type boolean?
-TOOL.AddToMenu = true
-
----The tool menu category under which the tool should be listed.
----@type string?
-TOOL.Category = "New Category"
-
----The console command to execute upon being selected in the Q menu.
----@type string?
-TOOL.Command = "gmod_toolmode [tool]"
-
----The name of the tool in the Q menu.
---- Common practice is to set this to "#tool.[lua filename].name" to match the name displayed in the tool information box.
----@type string?
-TOOL.Name = "#[tool mode]"
-
----A key-value ( convar name-default value ) table containing the client-side convars to create. All convars will be prefixed with the filename of the tool.
---- You can later use Tool:GetClientNumber or Tool:GetClientInfo to retrieve these values.
----@type table
-TOOL.ClientConVar = nil
-
----Same as above, but created server-side instead.
----@type table
-TOOL.ServerConVar = nil
-
----A key-value ( string name - ConVar object ) table containing the cached convar objected created from `ClientConVar`.
----@type table
-TOOL.ClientConVars = nil
-
----Same as above, but server-side (`ServerConVar`) instead.
----@type table
-TOOL.ServerConVars = nil
-
----The function that is called to build the context menu for your tool. It has one argument, namely the context menu's base panel to which all of your custom panels are going to be parented to.
----
---- While it might sound like a hook, it isn't - you won't receive a `self` argument inside the function. See TOOL.BuildCPanel.
----@type fun(panel: ControlPanel)
-TOOL.BuildCPanel = nil
-
----Allows you to override the tool usage information shown when the tool is equipped.
---- See Tool Information Display for more information.
----@type table
-TOOL.Information = nil
-
----Class name of the tool. (name of the .lua file)
----
---- This is set automatically.
----@type string
-TOOL.Mode = nil
-
----The tool tab (spawnmenu.AddToolTab) to add this tool to. (The internal name, first argument)
----@type string
-TOOL.Tab = nil
-
----When enabled the game tries to run the left mouse click as soon as possible
----@type boolean?
-TOOL.LeftClickAutomatic = false
-
----When enabled the game tries to run the right mouse click as soon as possible
----@type boolean?
-TOOL.RightClickAutomatic = false
-
 --- Table returned by [Vector:ToScreen](https://wiki.facepunch.com/gmod/Vector:ToScreen).
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/Structures/ToScreenData
@@ -2414,46 +2427,55 @@ local ToScreenData = {}
 --- Table structure used for [util.TraceLine](https://wiki.facepunch.com/gmod/util.TraceLine).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Structures/Trace
----@class Trace
-local Trace = {}
-
+---@class (partial) Trace
 ---The start position of the trace
----@type Vector?
-Trace.start = Vector(0, 0, 0)
-
+---
+--- Default: `Vector(0, 0, 0)`
+---@field start Vector="Vector(0, 0, 0)"
 ---The end position of the trace
----@type Vector?
-Trace.endpos = Vector(0, 0, 0)
-
----Things the trace should not hit. Can be an entity, a table of entities, a table of entity classes, a mixed table, or a function.
+---
+--- Default: `Vector(0, 0, 0)`
+---@field endpos Vector="Vector(0, 0, 0)"
+---Things the trace should not hit. Can be an entity, a table of entities, a table of entity classes or a function:
+---
+---
+---
+--- Function argument(s):
+--- * Entity `ent` - The entity that the trace hit
+---
+--- Function return value(s):
+--- * boolean `undefined` - Return `true` to hit the entity, `false` to skip it.
 ---
 --- Using a function here is super slow. Try to avoid it.
----@type any
-Trace.filter = nil
-
+---
+--- Default: `nil`
+---@field filter? Entity|table<Entity>|table<string>|function
 ---The trace mask Enums/MASK. This determines what the trace should hit and what it shouldn't hit. A mask is a combination of Enums/CONTENTS - you can use these for more advanced masks.
----@type MASK?
-Trace.mask = MASK_SOLID
-
+---
+--- Default: `MASK_SOLID`
+---@field mask MASK="MASK_SOLID"
 ---The collision group Enums/COLLISION_GROUP. This determines what the trace should hit in regards to the entity's collision group.
----@type COLLISION_GROUP?
-Trace.collisiongroup = COLLISION_GROUP_NONE
-
+---
+--- Default: `COLLISION_GROUP_NONE`
+---@field collisiongroup COLLISION_GROUP="COLLISION_GROUP_NONE"
 ---Should the trace ignore world or not
----@type boolean?
-Trace.ignoreworld = false
-
+---
+--- Default: `false`
+---@field ignoreworld boolean=false
 ---If set, the trace result will be written to the supplied table instead of returning a new table
----@type TraceResult|table|nil
-Trace.output = nil
-
+---
+--- Default: `nil`
+---@field output? TraceResult
 ---Turns the `filter` field into a whitelist, if it is a table.
----@type boolean?
-Trace.whitelist = false
-
+---
+--- Default: `false`
+---@field whitelist boolean=false
 ---Enables traces to hit clientside only entities. Keep in mind that most naturally spawned entities are classified as debris, so extra `mask` values might be required.
----@type boolean?
-Trace.hitclientonly = false
+---
+--- Default: `false`
+---@field hitclientonly boolean=false
+
+local Trace = {}
 
 --- Table structure used as trace result. Default values are when the trace hits nothing.
 ---
@@ -2643,25 +2665,6 @@ local TraceResult = {}
 ---@field extra_previews table[]
 
 local UGCFileInfo = {}
-
---- Table structure used by [undo.Do_Undo](https://wiki.facepunch.com/gmod/undo.Do_Undo) and [GM:CanUndo](https://wiki.facepunch.com/gmod/GM:CanUndo).
----@realm server
----@source https://wiki.facepunch.com/gmod/Structures/Undo
----@class (partial) Undo
----The player responsible who owns the undo
----@field Owner Player
----The name of the text to report to the player
----@field Name string
----A table of entities to be removed by the undo
----@field Entities Entity[]
----A table of {function_to_call, func_arg2, func_arg3}
----@field Functions table[]
----A custom undo text to show the client
----@field CustomUndoText string
----A "nice" name of the undo, which will be used for the UI
----@field NiceText string
-
-local Undo = {}
 
 --- The structure used by [Vehicle:SetVehicleParams](https://wiki.facepunch.com/gmod/Vehicle:SetVehicleParams) and [Vehicle:GetVehicleParams](https://wiki.facepunch.com/gmod/Vehicle:GetVehicleParams).
 ---@realm server
@@ -2892,21 +2895,38 @@ Possible valid keys that can be set are:
 
 local VehicleTable = {}
 
----Table structure used by [video.Record](https://wiki.facepunch.com/gmod/video.Record).
+--- Table structure used by [video.Record](https://wiki.facepunch.com/gmod/video.Record).
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Structures/VideoData
 ---@class (partial) VideoData
----@field container string The video container format.
----@field video string The video codec.
----@field audio string The audio codec.
----@field quality number The video quality.
----@field bitrate number The record bitrate.
----@field fps number Frames per second.
----@field lockfps? boolean Lock the frame count per second.
----@field name string The file name for the video.
----@field width number The video's width.
----@field height number The video's height.
+---The video container format.
+---
+--- Valid options are: `webm`, `ogg`
+---@field container string
+---The video codec.
+---
+--- Valid options are: `vp8`, `theora`
+---@field video string
+---The audio codec.
+---
+--- Valid options are: `vorbis`
+---@field audio string
+---The video quality
+---@field quality number
+---The record bitrate
+---@field bitrate number
+---Frames per second
+---@field fps number
+---Lock the frame count per second
+---@field lockfps boolean
+---The file name for the video
+---@field name string
+---The videos width
+---@field width number
+---The videos height
+---@field height number
+
 local VideoData = {}
 
 --- Table structure used for [render.RenderView](https://wiki.facepunch.com/gmod/render.RenderView).
@@ -2916,19 +2936,39 @@ local VideoData = {}
 ---@source https://wiki.facepunch.com/gmod/Structures/ViewData
 ---@class (partial) ViewData
 ---The view's original position
----@field origin Vector
+---
+--- Default: `The current view's origin`
+---@field origin Vector="The current view's origin"
 ---The view's angles
----@field angles Angle
+---
+--- Default: `The current view's angles`
+---@field angles Angle="The current view's angles"
 ---Default width divided by height. Has a deprecated alias `aspectratio`.
----@field aspect number
+---
+--- Default: `w / h`
+---@field aspect number="w / h"
+---The deprecated alias of `aspect`.
+---
+--- **Deprecated**: Use `aspect` instead!
+---
+--- Default: `w / h`
+---@field aspectratio number="w / h"
 ---The x position of the viewport to render in
----@field x number
+---
+--- Default: `0`
+---@field x number=0
 ---The y position of the viewport to render in
----@field y number
+---
+--- Default: `0`
+---@field y number=0
 ---The width of the viewport to render in
----@field w number
+---
+--- Default: `The current viewport's width`
+---@field w number="The current viewport's width"
 ---The height of the viewport to render in
----@field h number
+---
+--- Default: `The current viewport's height`
+---@field h number="The current viewport's height"
 ---Draw the HUD and call the hud painting related hooks
 ---
 --- Default: `false`
@@ -2946,39 +2986,61 @@ local VideoData = {}
 --- Default: `false`
 ---@field drawviewer boolean=false
 ---The viewmodel's FOV
----@field viewmodelfov number
+---
+--- Default: `The current viewmodel FOV`
+---@field viewmodelfov number="The current viewmodel FOV"
 ---The main view's FOV
----@field fov number
+---
+--- Default: `The current view's FOV`
+---@field fov number="The current view's FOV"
 ---If set, renders the view orthogonally. A table with these keys:
 --- * left
 --- * right
 --- * top
 --- * bottom
----@field ortho table
+---
+--- Default: `nil`
+---@field ortho? table
 ---Coordinate for the left clipping plane. Requires `ortho` to be set to `true`.
 ---
 --- **Deprecated**: Use `ortho` table instead!
----@field ortholeft number
+---
+--- Default: `nil`
+---@field ortholeft? number
 ---Coordinate for the right clipping plane. Requires `ortho` to be set to `true`.
 ---
 --- **Deprecated**: Use `ortho` table instead!
----@field orthoright number
+---
+--- Default: `nil`
+---@field orthoright? number
 ---Coordinate for the top clipping plane. Requires `ortho` to be set to `true`.
 ---
 --- **Deprecated**: Use `ortho` table instead!
----@field orthotop number
+---
+--- Default: `nil`
+---@field orthotop? number
 ---Coordinate for the bottom clipping plane. Requires `ortho` to be set to `true`.
 ---
 --- **Deprecated**: Use `ortho` table instead!
----@field orthobottom number
+---
+--- Default: `nil`
+---@field orthobottom? number
 ---The distance of the view's origin to the near clipping plane
----@field znear number
+---
+--- Default: `The current view's near clipping distance`
+---@field znear number="The current view's near clipping distance"
 ---The distance of the view's origin to the far clipping plane
----@field zfar number
+---
+--- Default: `The current view's far clipping distance`
+---@field zfar number="The current view's far clipping distance"
 ---The distance of the view's origin to the near clipping plane for the viewmodel
----@field znearviewmodel number
+---
+--- Default: `The viewmodel's current near clipping distance`
+---@field znearviewmodel number="The viewmodel's current near clipping distance"
 ---The distance of the view's origin to the far clipping plane for the viewmodel
----@field zfarviewmodel number
+---
+--- Default: `The viewmodel's current far clipping distance`
+---@field zfarviewmodel number="The viewmodel's current far clipping distance"
 ---Currently works identically to the "bloomtone" option (it also overrides it if you set this to false).
 ---
 --- Default: `false`
@@ -3002,7 +3064,9 @@ local VideoData = {}
 --- Note that top and bottom are reversed.
 ---
 --- Values outside the viewport are allowed, but not recommended - instead you should increase the view FOV.
----@field offcenter table
+---
+--- Default: `nil`
+---@field offcenter? table
 
 local ViewData = {}
 
@@ -3068,3 +3132,487 @@ local ViewData = {}
 ---@field offcenter table
 
 local ViewSetup = {}
+
+---Data structure used by the duplicator to store and load entity data.
+---
+---It is created by duplicator.CopyEntTable and can be loaded by duplicator.CreateEntityFromTable.
+---When used as input to duplicator.CreateEntityFromTable, only the construction fields are required.
+---@realm server
+---@source https://wiki.facepunch.com/gmod/Structures/EntityCopyData
+---@class (partial) EntityCopyData
+---@field Class string The entity's class name, see Entity:GetClass.
+---@field Pos? Vector The entity's position, relative to the duplication origin point. When loading, the duplicator only applies it if present.
+---@field Angle? Angle The entity's angle, relative to the duplication angle. When loading, the duplicator only applies it if present.
+---@field Name? string The entity's name, see Entity:GetName.
+---@field DT? table The entity's Network Vars, see ENTITY:SetupDataTables and Networking Entities.
+---@field Model? string The entity's model, see Entity:GetModel.
+---@field ModelScale? number The entity's model scale, see Entity:GetModelScale.
+---@field Skin? number The entity's active skin, see Entity:GetSkin.
+---@field ColGroup? number The entity's collision group. Uses the Enums/COLLISION_GROUP.
+---@field Mins? Vector The entity's collision bound minimums.
+---@field Maxs? Vector The entity's collision bound maximums.
+---@field PhysicsObjects? table Data about the entity's PhysObjs.
+---@field FlexScale? number The entity's Flex Scale, see Entity:GetFlexScale.
+---@field Flex? table Each flex bone's flex weight.
+---@field BodyG? table The entity's body groups.
+---@field BoneManip? table Bone manipulation data.
+---@field MapCreationID? number The entity's MapCreationID, only exists for entities that were created by the map.
+---@field WorkshopID? number Deprecated, always 0. See Entity:GetWorkshopID.
+local EntityCopyData = {}
+
+---@alias HTTPRequestHeaderValue string
+---@alias HTTPRequestHeaders table<string, HTTPRequestHeaderValue>
+
+---@alias HTTPResponseHeaderValue string
+---@alias HTTPResponseHeaders table<string, HTTPResponseHeaderValue>
+
+---@alias HTTPRequestParameterValue string|number|boolean
+---@alias HTTPRequestParameters table<string, HTTPRequestParameterValue>
+
+---@alias HTTPRequestFailureCallback fun(reason: string)
+---@alias HTTPRequestSuccessCallback fun(code: number, body: string, headers: HTTPResponseHeaders)
+
+---@alias HTTPRequestMethodWithParameters
+---| "GET"
+---| "POST"
+---| "HEAD"
+---| "get"
+---| "post"
+---| "head"
+
+---@alias HTTPRequestMethodWithoutParameters
+---| "PUT"
+---| "DELETE"
+---| "PATCH"
+---| "OPTIONS"
+---| "put"
+---| "delete"
+---| "patch"
+---| "options"
+
+---@alias HTTPRequestMethod HTTPRequestMethodWithParameters|HTTPRequestMethodWithoutParameters
+
+--- Table used by [Global.HTTP](https://wiki.facepunch.com/gmod/Global.HTTP) function.
+--- Common request fields shared by all supported HTTP methods.
+---@realm shared
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/Structures/HTTPRequest
+---@class (partial) HTTPRequest
+---Function to be called on failure.
+---
+--- Function argument(s):
+--- * string `reason` - Reason for the failure.
+---@field failed? HTTPRequestFailureCallback
+---Function to be called on success.
+---
+--- Function argument(s):
+--- * number `code` - The HTTP result code
+--- * string `body` - The document data, usually HTML or JSON contents.
+--- * table `headers` - List of headers the server provided.
+---@field success? HTTPRequestSuccessCallback
+---Request method, case insensitive. Common values are:
+--- * GET
+--- * POST
+--- * HEAD
+--- * PUT
+--- * DELETE
+--- * PATCH
+--- * OPTIONS
+---
+---Default: `GET`
+---@field method? string
+---The target url.
+---@field url string
+---KeyValue table for [URL parameters](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams).
+---
+--- Valid only for `GET`, `POST`, and `HEAD`.
+--- For `POST`, `body` takes precedence and parameters are ignored when both are supplied.
+---@field parameters? HTTPRequestParameters
+---KeyValue table for headers.
+---@field headers? HTTPRequestHeaders
+---Body string for request data.
+--- Supported by methods such as `POST`, `PUT`, `PATCH`, and `DELETE`.
+---@field body? string
+---Content type for body.
+---
+---Default: `text/plain; charset=utf-8`
+---@field type? string
+---The timeout for the connection.
+---
+---Default: `60`
+---@field timeout? number
+local HTTPRequest = {}
+
+---`GET`, `POST`, and `HEAD` requests may include URL parameters.
+--- Omitting `method` is treated as `GET`.
+---@class (exact) HTTPRequestWithParameters : HTTPRequest
+---Request method, case insensitive.
+---
+---Default: `GET`
+---@field method? HTTPRequestMethodWithParameters
+---KeyValue table for [URL parameters](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams).
+---
+--- Valid only for `GET`, `POST`, and `HEAD`.
+--- For `POST`, `body` takes precedence and parameters are ignored when both are supplied.
+---@field parameters? HTTPRequestParameters
+
+---Methods that do not support the `parameters` field.
+---@class (exact) HTTPRequestWithoutParameters : HTTPRequest
+---Request method, case insensitive.
+---@field method HTTPRequestMethodWithoutParameters
+---@field parameters nil
+
+--- Table used by [util.TraceHull](https://wiki.facepunch.com/gmod/util.TraceHull).
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/Structures/HullTrace
+---@class HullTrace
+local HullTrace = {}
+
+---The start position of the trace
+---@type Vector
+HullTrace.start = nil
+
+---The end position of the trace
+---@type Vector
+HullTrace.endpos = nil
+
+---The 3D vector local to the start/endpos with the highest values. This will represent the corner with the upper bounds of the box.
+---@type Vector
+HullTrace.maxs = nil
+
+---The 3D vector local to the start/endpos with the lowest (often negative) values. This will represent the corner with the lower bounds of the box.
+---@type Vector
+HullTrace.mins = nil
+
+---Things the trace should not hit. Can be an entity, a table of entities, a table of entity classes, a mixed table, or a function.
+---
+--- Using a function here is super slow. Try to avoid it.
+---@type any
+HullTrace.filter = nil
+
+---The trace mask Enums/MASK. This determines what the trace should hit and what it shouldn't hit.
+---@type MASK?
+HullTrace.mask = MASK_SOLID
+
+---The collision group Enums/COLLISION_GROUP. This determines what the trace should hit in regards to the entity's collision group.
+---@type COLLISION_GROUP?
+HullTrace.collisiongroup = COLLISION_GROUP_NONE
+
+---Should the trace ignore world or not.
+---@type boolean?
+HullTrace.ignoreworld = false
+
+---If set, the trace result will be written to the supplied table instead of returning a new table
+---@type TraceResult|table|nil
+HullTrace.output = nil
+
+---Turns the `filter` field into a whitelist, if it is a table.
+---@type boolean?
+HullTrace.whitelist = false
+
+---Enables traces to hit clientside only entities. Keep in mind that most naturally spawned entities are classified as debris, so extra `mask` values might be required.
+---@type boolean?
+HullTrace.hitclientonly = false
+
+---Table structure used by [matproxy.Add](https://wiki.facepunch.com/gmod/matproxy.Add).
+---@realm client
+---@source https://wiki.facepunch.com/gmod/Structures/MatProxyData
+---@class (partial) MatProxyData
+---The name of the material proxy.
+---@field name string
+---The function used to get variables from the ".vmt". Called once per each ".vmt".
+---
+---Function argument(s):
+---* MatProxyData `self` - The table structure itself.
+---* IMaterial `mat` - Material the material proxy is applied to.
+---* table `values` - The material key values.
+---@field init? fun(self: MatProxyData, mat: IMaterial, values: table)
+---The function used to apply the proxy. This is called every frame while any materials with this proxy are used in world.
+---
+---Function argument(s):
+---* MatProxyData `self` - The table structure itself.
+---* IMaterial `mat` - Material the material proxy is applied to.
+---* Entity `ent` - The entity the material instance is applied to, if any.
+---@field bind fun(self: MatProxyData, mat: IMaterial, ent: Entity)
+local MatProxyData = {}
+
+---Structure used for [properties.Add](https://wiki.facepunch.com/gmod/properties.Add).
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/Structures/PropertyAdd
+---@class (partial) PropertyAdd
+---@field Type? string|"simple"|"toggle" Can be set to "toggle" to make this property a toggle property.
+---@field MenuLabel string Label to show on opened menu.
+---@field MenuIcon? string Icon to show on opened menu for this item. Optional for simple properties and unused for toggle properties.
+---@field Order number Where in the list this property should be positioned, relative to other properties.
+---@field PrependSpacer? boolean Whether to add a spacer before this property.
+---@field InternalName? string Internal lower-case property name assigned by properties.Add.
+---@field Filter fun(self: PropertyAddRuntime, ent: Entity, player: Player):(check: boolean) Used clientside to decide whether this property should be shown for an entity.
+---@field Checked? fun(self: PropertyAddRuntime, ent: Entity, tr: table):(check: boolean) Required only for toggle properties.
+---@field Action fun(self: PropertyAddRuntime, ent: Entity, tr: table) Called clientside when the property is clicked.
+---@field Receive? fun(self: PropertyAddRuntime, len: number, ply: Player) Called serverside if the client sends a message in the Action function.
+---@field MenuOpen? fun(self: PropertyAddRuntime, option: DMenuOption, ent: Entity, tr: table) Called clientside when the property option has been created in the right-click menu.
+---@field OnCreate? fun(self: PropertyAddRuntime, menu: DMenu, option: DMenuOption) Called clientside after the property option has been created.
+local PropertyAdd = {}
+
+---@class (partial) PropertyAddRuntime : PropertyAdd
+---@field [string] any Additional property-specific data or helper methods.
+---@field InternalName string Internal lower-case property name assigned by properties.Add.
+---@field MsgStart fun(self: PropertyAddRuntime) Starts a properties net message for this property.
+---@field MsgEnd fun(self: PropertyAddRuntime) Sends the current properties net message to the server.
+local PropertyAddRuntime = {}
+
+--- Used for [serverlist.Query](https://wiki.facepunch.com/gmod/serverlist.Query).
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/Structures/ServerQueryData
+---@class (partial) ServerQueryData
+---The game directory to get the servers for.
+---
+--- Default: `garrysmod`
+---@field GameDir string
+---Type of servers to retrieve. Valid values are `internet`, `favorite`, `history` and `lan`.
+---@field Type string
+---Steam application ID to get the servers for.
+---
+--- Default: `4000`
+---@field AppID number
+---Called when a new server is found and queried.
+---@field Callback fun(ping: number, name: string, desc: string, map: string, players: number, maxplayers: number, botplayers: number, pass: boolean, lastplayed: number, address: string, gamemode: string, workshopid: number, isanon: boolean, netversion: string, luaversion: string, localization: string, gmcategory: string):(stop: boolean)
+---Called if the query has failed, called with the server IP address.
+---@field CallbackFailed function
+---Called when the query is finished. No arguments.
+---@field Finished function
+local ServerQueryData = {}
+
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/Structures/SoundData
+---@class SoundData
+local SoundData = {}
+
+---Path to the sound file to be used in this sound effect, relative to `sound/` directory (so exclude the `sound/` part).
+---
+--- Can be a table of sound files, in which case the sound will be chosen randomly every time from the provided list.
+---
+--- Each sound path can be prepended with a special character for special effects. You can learn more about this [here](https://developer.valvesoftware.com/wiki/Soundscripts#Sound_Characters).
+---@type string|string[]
+SoundData.sound = nil
+
+---The name of the soundscript, to be referenced by in functions such as Entity:EmitSound.
+---@type string
+SoundData.name = nil
+
+---The sound channel to play in. See Enums/CHAN
+---@type CHAN
+SoundData.channel = nil
+
+---The soundlevel of the sound in dB. See Enums/SNDLVL. This will affect how far the sound can be heard.
+---@type SNDLVL
+SoundData.level = nil
+
+---The volume of the sound as a decimal between `0` and `1`. Can be a table of two numbers, a minimum and a maximum value.
+---
+--- **Warning:** Volume of `0` will act as volume of `1`
+---@type number?
+SoundData.volume = 1.0
+
+---The pitch of the sound. Can be a table of two numbers, a minimum and a maximum value.
+---@type number|number[]?
+SoundData.pitch = 100
+
+---@deprecated Use pitch instead.
+---The initial pitch.
+--- Use pitch instead.
+---@type number?
+SoundData.pitchstart = 100
+
+---@deprecated Use pitch instead.
+---The pitch end.
+--- Use pitch instead.
+---@type number?
+SoundData.pitchend = 100
+
+---If set to false, the tool won't be added to the tool menu and players will have to access it by other means.
+---@type boolean?
+TOOL.AddToMenu = true
+
+---The tool menu category under which the tool should be listed.
+---@type string?
+TOOL.Category = "New Category"
+
+---The console command to execute upon being selected in the Q menu.
+---@type string?
+TOOL.Command = "gmod_toolmode [tool]"
+
+---The name of the tool in the Q menu.
+--- Common practice is to set this to "#tool.[lua filename].name" to match the name displayed in the tool information box.
+---@type string?
+TOOL.Name = "#[tool mode]"
+
+---A key-value ( convar name-default value ) table containing the client-side convars to create. All convars will be prefixed with the filename of the tool.
+--- You can later use Tool:GetClientNumber or Tool:GetClientInfo to retrieve these values.
+---@type table
+TOOL.ClientConVar = nil
+
+---Same as above, but created server-side instead.
+---@type table
+TOOL.ServerConVar = nil
+
+---A key-value ( string name - ConVar object ) table containing the cached convar objected created from `ClientConVar`.
+---@type table
+TOOL.ClientConVars = nil
+
+---Same as above, but server-side (`ServerConVar`) instead.
+---@type table
+TOOL.ServerConVars = nil
+
+---The function that is called to build the context menu for your tool. It has one argument, namely the context menu's base panel to which all of your custom panels are going to be parented to.
+---
+--- While it might sound like a hook, it isn't - you won't receive a `self` argument inside the function. See TOOL.BuildCPanel.
+---@type fun(panel: ControlPanel, ...any)
+TOOL.BuildCPanel = nil
+
+---Allows you to override the tool usage information shown when the tool is equipped.
+--- See Tool Information Display for more information.
+---@type table
+TOOL.Information = nil
+
+---Class name of the tool. (name of the .lua file)
+---
+--- This is set automatically.
+---@type string
+TOOL.Mode = nil
+
+---The tool tab (spawnmenu.AddToolTab) to add this tool to. (The internal name, first argument)
+---@type string
+TOOL.Tab = nil
+
+---When enabled the game tries to run the left mouse click as soon as possible
+---@type boolean?
+TOOL.LeftClickAutomatic = false
+
+---When enabled the game tries to run the right mouse click as soon as possible
+---@type boolean?
+TOOL.RightClickAutomatic = false
+
+--- Table structure used for [util.TraceLine](https://wiki.facepunch.com/gmod/util.TraceLine).
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/Structures/Trace
+---@class Trace
+local Trace = {}
+
+---The start position of the trace
+---@type Vector?
+Trace.start = Vector(0, 0, 0)
+
+---The end position of the trace
+---@type Vector?
+Trace.endpos = Vector(0, 0, 0)
+
+---Things the trace should not hit. Can be an entity, a table of entities, a table of entity classes, a mixed table, or a function.
+---
+--- Using a function here is super slow. Try to avoid it.
+---@type any
+Trace.filter = nil
+
+---The trace mask Enums/MASK. This determines what the trace should hit and what it shouldn't hit. A mask is a combination of Enums/CONTENTS - you can use these for more advanced masks.
+---@type MASK?
+Trace.mask = MASK_SOLID
+
+---The collision group Enums/COLLISION_GROUP. This determines what the trace should hit in regards to the entity's collision group.
+---@type COLLISION_GROUP?
+Trace.collisiongroup = COLLISION_GROUP_NONE
+
+---Should the trace ignore world or not
+---@type boolean?
+Trace.ignoreworld = false
+
+---If set, the trace result will be written to the supplied table instead of returning a new table
+---@type TraceResult|table|nil
+Trace.output = nil
+
+---Turns the `filter` field into a whitelist, if it is a table.
+---@type boolean?
+Trace.whitelist = false
+
+---Enables traces to hit clientside only entities. Keep in mind that most naturally spawned entities are classified as debris, so extra `mask` values might be required.
+---@type boolean?
+Trace.hitclientonly = false
+
+---Table structure used by [video.Record](https://wiki.facepunch.com/gmod/video.Record).
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/Structures/VideoData
+---@class (partial) VideoData
+---@field container string The video container format.
+---@field video string The video codec.
+---@field audio string The audio codec.
+---@field quality number The video quality.
+---@field bitrate number The record bitrate.
+---@field fps number Frames per second.
+---@field lockfps? boolean Lock the frame count per second.
+---@field name string The file name for the video.
+---@field width number The video's width.
+---@field height number The video's height.
+local VideoData = {}
+
+---Table structure used for [render.RenderView](https://wiki.facepunch.com/gmod/render.RenderView).
+---
+---Missing values are inherited from the current engine view setup.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/Structures/ViewData
+---@class (partial) ViewData
+---@field origin? Vector The view's original position.
+---@field angles? Angle The view's angles.
+---@field aspect? number Default width divided by height. Has a deprecated alias `aspectratio`.
+---@field x? number The x position of the viewport to render in.
+---@field y? number The y position of the viewport to render in.
+---@field w? number The width of the viewport to render in.
+---@field h? number The height of the viewport to render in.
+---@field drawhud? boolean Draw the HUD and call the hud painting related hooks.
+---@field drawmonitors? boolean Draw monitors.
+---@field drawviewmodel? boolean The weapon's viewmodel.
+---@field drawviewer? boolean Whether to force draw the local player or not.
+---@field viewmodelfov? number The viewmodel's FOV.
+---@field fov? number The main view's FOV.
+---@field ortho? table If set, renders the view orthogonally.
+---@field ortholeft? number Deprecated left clipping plane coordinate.
+---@field orthoright? number Deprecated right clipping plane coordinate.
+---@field orthotop? number Deprecated top clipping plane coordinate.
+---@field orthobottom? number Deprecated bottom clipping plane coordinate.
+---@field znear? number The distance of the view's origin to the near clipping plane.
+---@field zfar? number The distance of the view's origin to the far clipping plane.
+---@field znearviewmodel? number The distance to the near clipping plane for the viewmodel.
+---@field zfarviewmodel? number The distance to the far clipping plane for the viewmodel.
+---@field dopostprocess? boolean Disables post processing.
+---@field bloomtone? boolean Disables default engine bloom and pauses HDR brightness changes.
+---@field viewid? VIEW Which logical part of the scene an entity is rendered in.
+---@field offcenter? table Portion of the screen to draw for off-center rendering.
+local ViewData = {}
+
+--- Override: make `text` and `pos` optional so that incrementally-built
+--- TextData tables (e.g. in gmod_tool SWEP DrawHUD) do not produce
+--- missing-fields / param-type-mismatch diagnostics.
+--- The real draw.Text / draw.TextShadow functions do require these values
+--- to be set before calling, but they are set on the same local table
+--- before each call, not at construction time.
+---@class (partial) TextData
+---Text to be drawn.
+---@field text? string
+---This holds the X and Y coordinates. Key value 1 is x, key value 2 is y.
+---@field pos? table
+
+--- Override: make all TextureData fields optional so that incrementally-built
+--- TextureData tables (e.g. in gmod_tool SWEP DrawHUD) do not produce
+--- missing-fields diagnostics.
+--- The real draw.TexturedQuad function does require these values to be set
+--- before calling, but they are set on the same local table before each call.
+---@class (partial) TextureData
+---surface.GetTextureID number of the texture to be drawn.
+---@field texture? number
+---The x Coordinate.
+---@field x? number
+---The y Coordinate.
+---@field y? number
+---The width of the texture.
+---@field w? number
+---The height of the texture.
+---@field h? number

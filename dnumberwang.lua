@@ -1,6 +1,9 @@
 ---@meta
 
 --- DNumberWang is a VGUI element that allows you to input a numeric value using up and down arrows or direct entry.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DNumberWang
 ---@class (partial) DNumberWang : DTextEntry
 local DNumberWang = {}
 
@@ -65,6 +68,14 @@ function DNumberWang:GetValue() end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DNumberWang:HideWang
 function DNumberWang:HideWang() end
+
+---Called when the number selector value is changed.
+---@hook OnValueChanged
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DNumberWang:OnValueChanged
+---@param val number The new value of the number selector.
+function DNumberWang:OnValueChanged(val) end
 
 ---Sets the amount of decimal places allowed in the number selector.
 ---@realm client

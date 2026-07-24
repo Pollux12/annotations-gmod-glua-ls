@@ -5,6 +5,9 @@
 --- See [DColorCube](https://wiki.facepunch.com/gmod/DColorCube) for a color picker which controls brightness and saturation.
 ---
 --- See [DColorMixer](https://wiki.facepunch.com/gmod/DColorMixer) for a color picker that allows control over hue, saturation, and brightness at once.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DRGBPicker
 ---@class (partial) DRGBPicker : DPanel
 local DRGBPicker = {}
 
@@ -27,6 +30,14 @@ function DRGBPicker:GetPosColor(x, y) end
 ---@source https://wiki.facepunch.com/gmod/DRGBPicker:GetRGB
 ---@return Color # The color set on the color picker, see Color.
 function DRGBPicker:GetRGB() end
+
+---Function which is called when the cursor is clicked and/or moved on the color picker. Meant to be overridden.
+---@hook OnChange
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DRGBPicker:OnChange
+---@param col Color The color that is selected on the color picker (Color form).
+function DRGBPicker:OnChange(col) end
 
 ---Sets the color stored in the color picker.
 ---

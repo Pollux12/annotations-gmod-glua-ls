@@ -5,6 +5,8 @@
 --- Color picker control for a DProperties panel. Opens a [DColorCombo](https://wiki.facepunch.com/gmod/DColorCombo) if the color preview is clicked.
 ---
 --- See [Editable Entities](https://wiki.facepunch.com/gmod/Editable_Entities) for how this is used ingame.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DProperty_VectorColor
 ---@class (partial) DProperty_VectorColor : DProperty_Generic
 local DProperty_VectorColor = {}
 

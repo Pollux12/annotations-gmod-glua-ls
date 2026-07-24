@@ -1,6 +1,8 @@
 ---@meta
 
 --- Vertical version of [DHorizontalDivider](https://wiki.facepunch.com/gmod/DHorizontalDivider).
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DVerticalDivider
 ---@class (partial) DVerticalDivider : DPanel
 local DVerticalDivider = {}
 

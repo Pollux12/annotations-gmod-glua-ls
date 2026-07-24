@@ -2,6 +2,9 @@
 
 --- Simply a [DIconLayout](https://wiki.facepunch.com/gmod/DIconLayout) which automatically displays all of the [Silkicons](https://wiki.facepunch.com/gmod/silkicons).
 --- Used as a way to get the user to select an icon.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DIconBrowser
 ---@class (partial) DIconBrowser : DScrollPanel
 local DIconBrowser = {}
 

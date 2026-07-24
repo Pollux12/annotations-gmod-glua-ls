@@ -1,5 +1,9 @@
 ---@meta
 
+--- This is a list of all available methods for all entities, which includes [Players](https://wiki.facepunch.com/gmod/Player), [Weapons](https://wiki.facepunch.com/gmod/Weapon), [NPCs](https://wiki.facepunch.com/gmod/NPC) and [Vehicles](https://wiki.facepunch.com/gmod/Vehicle).
+---
+--- For a list of possible members of [Scripted Entities](https://wiki.facepunch.com/gmod/Scripted_Entities) see [ENT Structure](https://wiki.facepunch.com/gmod/Structures/ENT).
+---@source https://wiki.facepunch.com/gmod/Entity
 --- For a list of possible members of [Scripted Entities](https://wiki.facepunch.com/gmod/Scripted_Entities) see [ENT Structure](https://wiki.facepunch.com/gmod/Structures/ENT).
 ---@class Entity
 ---@field BaseClass Entity? The base class table of this entity, used for inheritance in the scripted entity system.
@@ -7,6 +11,27 @@
 local Entity = {}
 ---@class ENTITY : Entity
 ENTITY = Entity
+
+--- Base class name for inheritance (e.g. "base_entity").
+---@field Base string
+--- Entity type (e.g. "anim", "ai", "nextbot", "point").
+---@field Type string
+--- Whether the entity can be spawned from the spawn menu.
+---@field Spawnable boolean
+--- Whether only admins can spawn this entity.
+---@field AdminOnly boolean
+--- Display name shown in the spawn menu.
+---@field PrintName string
+--- Author name shown in the spawn menu.
+---@field Author string
+--- Contact info shown in the spawn menu.
+---@field Contact string
+--- Purpose description shown in the spawn menu.
+---@field Purpose string
+--- Usage instructions shown in the spawn menu.
+---@field Instructions string
+--- Whether the entity animates automatically.
+---@field AutomaticFrameAdvance boolean
 
 ---Returns a table containing all key-value pairs stored on this entity's Lua table.
 ---The returned table contains all fields but method calls via `:` are not supported.
@@ -556,25 +581,14 @@ function Entity:DrawTranslucent(flags) end
 ---@param maxDist? number Max trace dist.
 function Entity:DropToFloor(mask, ignoreEnt, maxDist) end
 
----**INTERNAL**: You should use [Entity:NetworkVar](https://wiki.facepunch.com/gmod/Entity:NetworkVar) instead
----
---- Sets up a self.dt.NAME alias for a Data Table variable.
+---Adds a datatable variable accessor on an entity.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Entity:DTVar
 ---@overload fun(type: string, name: string)
----@param type string The type of the DTVar being set up. Supported choices:
----
---- * `String` (up to 511 characters)
---- * `Bool`
---- * `Float`
---- * `Int` (32-bit signed integer)
---- * `Vector`
---- * `Angle`
---- * `Entity`
----@param slot number The ID of the DTVar. Can be between `0` and `3` for strings, `0` and `31` for everything else.
----
---- This can be omitted entirely (arguments will shift) and it will use the next available slot.
----@param name string Name by which you will refer to DTVar. It must be a valid variable name. (No spaces!)
+---@overload fun(type: string, slot: nil, name: string)
+---@param type string The type of the DTVar being set up.
+---@param slot number The DTVar slot. Can be omitted to use the next available slot.
+---@param name string Name by which you will refer to the DTVar.
 function Entity:DTVar(type, slot, name) end
 
 ---Plays a sound on an entity. See also [Global.EmitSound](https://wiki.facepunch.com/gmod/Global.EmitSound) if you wish to play sounds without an entity.
@@ -801,16 +815,11 @@ function Entity:FollowBone(parent, boneid) end
 ---@source https://wiki.facepunch.com/gmod/Entity:ForcePlayerDrop
 function Entity:ForcePlayerDrop() end
 
----Advances the cycle of an animated entity.
----
---- Animations that loop will automatically reset the cycle so you don't have to - ones that do not will stop animating once you reach the end of their sequence.
----
---- **WARNING**: Do not call this function multiple times a frame, as it can cause unexpected results, such as animations playing at increased rate, etc.
----
---- [NextBot:BodyMoveXY](https://wiki.facepunch.com/gmod/NextBot:BodyMoveXY) calls this internally, so do not call this function before or after [NextBot:BodyMoveXY](https://wiki.facepunch.com/gmod/NextBot:BodyMoveXY).
+---Advances the entity's animation frame.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Entity:FrameAdvance
-function Entity:FrameAdvance() end
+---@param delta? number The time delta to advance by. If omitted, the engine advances by its default frame interval.
+function Entity:FrameAdvance(delta) end
 
 ---Returns the entity's velocity.
 ---
@@ -1726,7 +1735,7 @@ function Entity:GetNetworkAngles() end
 ---@generic T
 ---@overload fun(self: Entity, key: string): Angle # The value associated with the key
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value.
+---@param fallback? T=Angle( 0, 0, 0 ) The value to return if we failed to retrieve the value.
 ---@return Angle|T # The value associated with the key
 ---@deprecated You should be using Entity:GetNW2Angle instead.
 function Entity:GetNetworked2Angle(key, fallback) end
@@ -1737,7 +1746,7 @@ function Entity:GetNetworked2Angle(key, fallback) end
 ---@generic T
 ---@overload fun(self: Entity, key: string): boolean # The value associated with the key
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value.
+---@param fallback? T=false The value to return if we failed to retrieve the value.
 ---@return boolean|T # The value associated with the key
 ---@deprecated You should be using Entity:GetNW2Bool instead.
 function Entity:GetNetworked2Bool(key, fallback) end
@@ -1748,7 +1757,7 @@ function Entity:GetNetworked2Bool(key, fallback) end
 ---@generic T
 ---@overload fun(self: Entity, key: string): Entity|NULL # The value associated with the key
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value.
+---@param fallback? T=NULL The value to return if we failed to retrieve the value.
 ---@return Entity|T # The value associated with the key
 ---@deprecated You should be using Entity:GetNW2Entity instead.
 function Entity:GetNetworked2Entity(key, fallback) end
@@ -1759,7 +1768,7 @@ function Entity:GetNetworked2Entity(key, fallback) end
 ---@generic T
 ---@overload fun(self: Entity, key: string): number # The value associated with the key
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value.
+---@param fallback? T=0 The value to return if we failed to retrieve the value.
 ---@return number|T # The value associated with the key
 ---@deprecated You should be using Entity:GetNW2Float instead.
 function Entity:GetNetworked2Float(key, fallback) end
@@ -1770,7 +1779,7 @@ function Entity:GetNetworked2Float(key, fallback) end
 ---@generic T
 ---@overload fun(self: Entity, key: string): number # The value associated with the key
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value.
+---@param fallback? T=0 The value to return if we failed to retrieve the value.
 ---@return number|T # The value associated with the key
 ---@deprecated You should be using Entity:GetNW2Int instead.
 function Entity:GetNetworked2Int(key, fallback) end
@@ -1781,7 +1790,7 @@ function Entity:GetNetworked2Int(key, fallback) end
 ---@generic T
 ---@overload fun(self: Entity, key: string): string # The value associated with the key
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value.
+---@param fallback? T="" The value to return if we failed to retrieve the value.
 ---@return string|T # The value associated with the key
 ---@deprecated You should be using Entity:GetNW2String instead.
 function Entity:GetNetworked2String(key, fallback) end
@@ -1816,7 +1825,7 @@ function Entity:GetNetworked2VarTable() end
 ---@generic T
 ---@overload fun(self: Entity, key: string): Vector # The value associated with the key
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value.
+---@param fallback? T=Vector( 0, 0, 0 ) The value to return if we failed to retrieve the value.
 ---@return Vector|T # The value associated with the key
 ---@deprecated You should be using Entity:GetNW2Vector instead.
 function Entity:GetNetworked2Vector(key, fallback) end
@@ -1827,7 +1836,7 @@ function Entity:GetNetworked2Vector(key, fallback) end
 ---@generic T
 ---@overload fun(self: Entity, key: string): Angle # The retrieved value
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value. ( If it isn't set )
+---@param fallback? T=Angle( 0, 0, 0 ) The value to return if we failed to retrieve the value. ( If it isn't set ).
 ---@return Angle|T # The retrieved value
 ---@deprecated You should use Entity:GetNWAngle instead.
 function Entity:GetNetworkedAngle(key, fallback) end
@@ -1838,7 +1847,7 @@ function Entity:GetNetworkedAngle(key, fallback) end
 ---@generic T
 ---@overload fun(self: Entity, key: string): boolean # The retrieved value
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value. ( If it isn't set )
+---@param fallback? T=false The value to return if we failed to retrieve the value. ( If it isn't set ).
 ---@return boolean|T # The retrieved value
 ---@deprecated You should use Entity:GetNWBool instead.
 function Entity:GetNetworkedBool(key, fallback) end
@@ -1849,7 +1858,7 @@ function Entity:GetNetworkedBool(key, fallback) end
 ---@generic T
 ---@overload fun(self: Entity, key: string): Entity|NULL # The retrieved value
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value. ( If it isn't set )
+---@param fallback? T=NULL The value to return if we failed to retrieve the value. ( If it isn't set ).
 ---@return Entity|T # The retrieved value
 ---@deprecated You should use Entity:GetNWEntity instead.
 function Entity:GetNetworkedEntity(key, fallback) end
@@ -1862,7 +1871,7 @@ function Entity:GetNetworkedEntity(key, fallback) end
 ---@generic T
 ---@overload fun(self: Entity, key: string): number # The retrieved value
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value. ( If it isn't set )
+---@param fallback? T=0 The value to return if we failed to retrieve the value. ( If it isn't set ).
 ---@return number|T # The retrieved value
 ---@deprecated You should use Entity:GetNWFloat instead.
 function Entity:GetNetworkedFloat(key, fallback) end
@@ -1873,7 +1882,7 @@ function Entity:GetNetworkedFloat(key, fallback) end
 ---@generic T
 ---@overload fun(self: Entity, key: string): number # The retrieved value
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value. ( If it isn't set )
+---@param fallback? T=0 The value to return if we failed to retrieve the value. ( If it isn't set ).
 ---@return number|T # The retrieved value
 ---@deprecated You should use Entity:GetNWInt instead.
 function Entity:GetNetworkedInt(key, fallback) end
@@ -1884,7 +1893,7 @@ function Entity:GetNetworkedInt(key, fallback) end
 ---@generic T
 ---@overload fun(self: Entity, key: string): string # The retrieved value
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value. ( If it isn't set )
+---@param fallback? T="" The value to return if we failed to retrieve the value. ( If it isn't set ).
 ---@return string|T # The retrieved value
 ---@deprecated You should use Entity:GetNWString instead.
 function Entity:GetNetworkedString(key, fallback) end
@@ -1924,7 +1933,7 @@ function Entity:GetNetworkedVarTable() end
 ---@generic T
 ---@overload fun(self: Entity, key: string): Vector # The retrieved value
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value. ( If it isn't set )
+---@param fallback? T=Vector( 0, 0, 0 ) The value to return if we failed to retrieve the value. ( If it isn't set ).
 ---@return Vector|T # The retrieved value
 ---@deprecated You should use Entity:GetNWVector instead.
 function Entity:GetNetworkedVector(key, fallback) end
@@ -1984,7 +1993,7 @@ function Entity:GetNumPoseParameters() end
 ---@generic T
 ---@overload fun(self: Entity, key: string): Angle # The value associated with the key
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value.
+---@param fallback? T=Angle( 0, 0, 0 ) The value to return if we failed to retrieve the value.
 ---@return Angle|T # The value associated with the key
 function Entity:GetNW2Angle(key, fallback) end
 
@@ -1994,7 +2003,7 @@ function Entity:GetNW2Angle(key, fallback) end
 ---@generic T
 ---@overload fun(self: Entity, key: string): boolean # The value associated with the key
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value.
+---@param fallback? T=false The value to return if we failed to retrieve the value.
 ---@return boolean|T # The value associated with the key
 function Entity:GetNW2Bool(key, fallback) end
 
@@ -2004,7 +2013,7 @@ function Entity:GetNW2Bool(key, fallback) end
 ---@generic T
 ---@overload fun(self: Entity, key: string): Entity|NULL # The value associated with the key
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value.
+---@param fallback? T=NULL The value to return if we failed to retrieve the value.
 ---@return Entity|T # The value associated with the key
 function Entity:GetNW2Entity(key, fallback) end
 
@@ -2014,7 +2023,7 @@ function Entity:GetNW2Entity(key, fallback) end
 ---@generic T
 ---@overload fun(self: Entity, key: string): number # The value associated with the key
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value.
+---@param fallback? T=0 The value to return if we failed to retrieve the value.
 ---@return number|T # The value associated with the key
 function Entity:GetNW2Float(key, fallback) end
 
@@ -2024,7 +2033,7 @@ function Entity:GetNW2Float(key, fallback) end
 ---@generic T
 ---@overload fun(self: Entity, key: string): number # The value associated with the key
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value.
+---@param fallback? T=0 The value to return if we failed to retrieve the value.
 ---@return number|T # The value associated with the key
 function Entity:GetNW2Int(key, fallback) end
 
@@ -2034,7 +2043,7 @@ function Entity:GetNW2Int(key, fallback) end
 ---@generic T
 ---@overload fun(self: Entity, key: string): string # The value associated with the key
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value.
+---@param fallback? T="" The value to return if we failed to retrieve the value.
 ---@return string|T # The value associated with the key
 function Entity:GetNW2String(key, fallback) end
 
@@ -2072,7 +2081,7 @@ function Entity:GetNW2VarTable() end
 ---@generic T
 ---@overload fun(self: Entity, key: string): Vector # The value associated with the key
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value.
+---@param fallback? T=Vector( 0, 0, 0 ) The value to return if we failed to retrieve the value.
 ---@return Vector|T # The value associated with the key
 function Entity:GetNW2Vector(key, fallback) end
 
@@ -2082,7 +2091,7 @@ function Entity:GetNW2Vector(key, fallback) end
 ---@generic T
 ---@overload fun(self: Entity, key: string): Angle # The value associated with the key
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value.
+---@param fallback? T=Angle( 0, 0, 0 ) The value to return if we failed to retrieve the value.
 ---@return Angle|T # The value associated with the key
 function Entity:GetNWAngle(key, fallback) end
 
@@ -2092,7 +2101,7 @@ function Entity:GetNWAngle(key, fallback) end
 ---@generic T
 ---@overload fun(self: Entity, key: string): boolean # The value associated with the key
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value.
+---@param fallback? T=false The value to return if we failed to retrieve the value.
 ---@return boolean|T # The value associated with the key
 function Entity:GetNWBool(key, fallback) end
 
@@ -2102,7 +2111,7 @@ function Entity:GetNWBool(key, fallback) end
 ---@generic T
 ---@overload fun(self: Entity, key: string): Entity|NULL # The value associated with the key
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value.
+---@param fallback? T=NULL The value to return if we failed to retrieve the value.
 ---@return Entity|T # The value associated with the key
 function Entity:GetNWEntity(key, fallback) end
 
@@ -2112,7 +2121,7 @@ function Entity:GetNWEntity(key, fallback) end
 ---@generic T
 ---@overload fun(self: Entity, key: string): number # The value associated with the key
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value.
+---@param fallback? T=0 The value to return if we failed to retrieve the value.
 ---@return number|T # The value associated with the key
 function Entity:GetNWFloat(key, fallback) end
 
@@ -2122,7 +2131,7 @@ function Entity:GetNWFloat(key, fallback) end
 ---@generic T
 ---@overload fun(self: Entity, key: string): number # The value associated with the key
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value.
+---@param fallback? T=0 The value to return if we failed to retrieve the value.
 ---@return number|T # The value associated with the key
 function Entity:GetNWInt(key, fallback) end
 
@@ -2132,7 +2141,7 @@ function Entity:GetNWInt(key, fallback) end
 ---@generic T
 ---@overload fun(self: Entity, key: string): string # The value associated with the key
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value.
+---@param fallback? T="" The value to return if we failed to retrieve the value.
 ---@return string|T # The value associated with the key
 function Entity:GetNWString(key, fallback) end
 
@@ -2162,16 +2171,14 @@ function Entity:GetNWVarTable() end
 ---@generic T
 ---@overload fun(self: Entity, key: string): Vector # The value associated with the key
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value.
+---@param fallback? T=Vector( 0, 0, 0 ) The value to return if we failed to retrieve the value.
 ---@return Vector|T # The value associated with the key
 function Entity:GetNWVector(key, fallback) end
 
----Returns the owner entity of this entity. See [Entity:SetOwner](https://wiki.facepunch.com/gmod/Entity:SetOwner) for more info.
----
---- 	**NOTE**: This function is generally used to disable physics interactions on projectiles being fired by their owner, but can also be used for normal ownership in case physics interactions are not involved at all. The Gravity gun will be able to pick up the entity even if the owner can't collide with it, the Physics gun however will not.
+---Returns the owner entity of this entity.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Entity:GetOwner
----@return Entity # The owner entity of this entity.
+---@return Entity|NULL # The owner entity of this entity, or NULL when it has no owner.
 function Entity:GetOwner() end
 
 ---Returns the parent entity of this entity.
@@ -2873,8 +2880,9 @@ function Entity:IsConstraint() end
 
 ---Returns whether the entity is dormant or not.
 ---
---- Client/server entities become dormant when they leave the PVS on the server. Client side entities can decide for themselves whether to become dormant.
---- This mainly applies to [PVS (Potential Visibility Set)](https://developer.valvesoftware.com/wiki/PVS "PVS - Valve Developer Community").
+--- Networked entities become dormant clientside when they leave the [PVS (Potential Visibility Set)](https://developer.valvesoftware.com/wiki/PVS "PVS - Valve Developer Community"). This typically means they are no longer visible by the local player, and will not receive updates from the server.
+---
+--- Server side, entities can only be dormant during level transitions by default.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Entity:IsDormant
 ---@return boolean # Whether the entity is dormant or not.
@@ -2950,12 +2958,10 @@ function Entity:IsMarkedForDeletion() end
 ---@return boolean # Whether the entity is an NextBot entity or not.
 function Entity:IsNextBot() end
 
----Checks if the entity is an [NPC](https://wiki.facepunch.com/gmod/NPC) or not.
----
---- This will return false for [NextBot](https://wiki.facepunch.com/gmod/NextBot)s, see [Entity:IsNextBot](https://wiki.facepunch.com/gmod/Entity:IsNextBot) for that.
+---Returns whether this entity is an NPC.
 ---@realm shared
----@source https://wiki.facepunch.com/gmod/Entity:IsNPC
----@return boolean # Whether the entity is an NPC.
+---@return boolean
+---@return_cast self NPC
 function Entity:IsNPC() end
 
 ---Returns whether the entity is on fire.
@@ -3033,21 +3039,11 @@ function Entity:IsSequenceFinished() end
 function Entity:IsSolid() end
 
 ---Returns whether the entity is a valid entity or not.
----
---- An entity is valid if:
---- * It is not a [NULL](https://wiki.facepunch.com/gmod/Global_Variables) entity
---- * It is not the worldspawn entity ([game.GetWorld](https://wiki.facepunch.com/gmod/game.GetWorld))
----
---- **NOTE**: Instead of calling this method directly, it's a good idea to call the global [Global.IsValid](https://wiki.facepunch.com/gmod/Global.IsValid) instead, however if you're sure the variable you're using is always an entity object it's better to use this method
----
---- It will check whether the given variable contains an object (an Entity) or nothing at all for you. See examples.
----
---- **WARNING**: NULL entities can still be assigned with key/value pairs, but they will be instantly negated. See example 3
----
---- This might be a cause for a lot of headache. Usually happening during networking etc., when completely valid entities suddenly become invalid on the client, but are never filtered with IsValid(). See [GM:InitPostEntity](https://wiki.facepunch.com/gmod/GM:InitPostEntity) for more details.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Entity:IsValid
----@return boolean # true if the entity is valid, false otherwise
+---@return boolean # Whether the entity is valid.
+---@return_cast self Entity
+---@[self_guard("gmod.entity")]
 function Entity:IsValid() end
 
 ---Returns whether the given layer ID is valid and exists on this entity.
@@ -3059,10 +3055,10 @@ function Entity:IsValid() end
 ---@return boolean # Whether the given layer ID is valid and exists on this entity.
 function Entity:IsValidLayer(layerID) end
 
----Checks if the entity is a vehicle or not.
+---Returns whether this entity is a vehicle.
 ---@realm shared
----@source https://wiki.facepunch.com/gmod/Entity:IsVehicle
----@return boolean # Whether the entity is a vehicle.
+---@return boolean
+---@return_cast self Vehicle
 function Entity:IsVehicle() end
 
 ---Checks if the entity is a weapon or not.
@@ -3497,6 +3493,18 @@ function Entity:OnTaskComplete() end
 ---@param failReason string If set, a custom reason for the failure.
 function Entity:OnTaskFailed(failCode, failReason) end
 
+---Called when a trace attack is done against the entity, allowing override of the damage being dealt by altering the [CTakeDamageInfo](https://wiki.facepunch.com/gmod/CTakeDamageInfo).
+---
+--- This is called before [ENTITY:OnTakeDamage](https://wiki.facepunch.com/gmod/ENTITY:OnTakeDamage).
+--- **NOTE**: This hook is only called for `ai`, `nextbot` and `anim` type entities.
+---@hook OnTraceAttack
+---@realm server
+---@source https://wiki.facepunch.com/gmod/ENTITY:OnTraceAttack
+---@param info CTakeDamageInfo The damage info
+---@param dir Vector The direction the damage goes in
+---@param trace TraceResult The Structures/TraceResult of the attack, containing the hitgroup.
+function Entity:OnTraceAttack(info, dir, trace) end
+
 ---Called to completely override NPC movement. This can be used for example for flying NPCs.
 ---
 --- **NOTE**: This hook only exists for `ai` type SENTs.
@@ -3772,6 +3780,17 @@ function Entity:PhysicsUpdate(phys) end
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Entity:PhysWake
 function Entity:PhysWake() end
+
+---Plays a sound of a step depending on the surface below the entity's foot.
+---
+--- It will use attachments `"RightFoot"` or `"LeftFoot"` to decide where to check the surface at. If the attachments do not exist, it will use regular Valve Biped skeleton bones. If they don't exist, it will fallback to the entity's origin.
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/Entity:PlayFootstepSound
+---@param isLeftFoot boolean Determines whether the step is a right foot or a left foot.
+---
+--- This is used for certain NPCs such as Eli to determine what sound should be played. This also determines the position of the sound.
+---@param volume? number The volume, from 0 to 1.
+function Entity:EmitStepSound(isLeftFoot, volume) end
 
 ---Makes the entity play a .vcd scene. [All scenes from Half-Life 2](https://developer.valvesoftware.com/wiki/Half-Life_2_Scenes_List).
 ---@realm server
@@ -5498,13 +5517,9 @@ function Entity:SetPreventTransmit(player, stopTransmitting) end
 ---@param pos Angle Angle to set
 function Entity:SetRagdollAng(boneid, pos) end
 
----Sets the function to build the ragdoll. This is used alongside Kinect, for more info see `ragdoll_motion` entity in the game files.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/Entity:SetRagdollBuildFunction
----@param builder fun(ragdoll: Entity) The build function.
----
---- Function argument(s):
---- * Entity `ragdoll` - The ragdoll to build
+---@param builder fun(ragdoll: Entity)|nil
 function Entity:SetRagdollBuildFunction(builder) end
 
 ---Sets the bone position. This is used alongside Kinect in [Entity:SetRagdollBuildFunction](https://wiki.facepunch.com/gmod/Entity:SetRagdollBuildFunction), for more info see ragdoll_motion entity.
@@ -5585,23 +5600,10 @@ function Entity:SetRenderOrigin(newOrigin) end
 ---@return boolean # Key successfully set
 function Entity:SetSaveValue(name, value) end
 
----Sets the entity's model sequence.
----
---- If the specified sequence is already active, the animation will not be restarted. See [Entity:ResetSequence](https://wiki.facepunch.com/gmod/Entity:ResetSequence) for a function that restarts the animation even if it is already playing.
----
---- In some cases you want to run [Entity:ResetSequenceInfo](https://wiki.facepunch.com/gmod/Entity:ResetSequenceInfo) to make this function run.
----
---- **NOTE**: This will not work properly if called directly after calling [Entity:SetModel](https://wiki.facepunch.com/gmod/Entity:SetModel). Consider waiting until the next Tick.
----
---- Will not work on players due to the animations being reset every frame by the base gamemode animation system. See [GM:CalcMainActivity](https://wiki.facepunch.com/gmod/GM:CalcMainActivity).
----
---- For custom scripted entities you will want to apply example from [ENTITY:Think](https://wiki.facepunch.com/gmod/ENTITY:Think) to make animations work.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Entity:SetSequence
----@param sequence number|string The sequence to play.
----
---- If set to a number, the input is treated as the sequence ID.
---- If set to a string, the function will automatically call Entity:LookupSequence to retrieve the sequence ID.
+---@param sequence number|string
+---@return number duration
 function Entity:SetSequence(sequence) end
 
 ---Sets whether or not the entity should make a physics contact sound when it's been picked up by a player.
@@ -6305,3 +6307,9 @@ function Entity:WorldToLocal(wpos) end
 ---@param ang Angle A worldspace angle.
 ---@return Angle # The corresponding local space angle.
 function Entity:WorldToLocalAngles(ang) end
+
+---@realm shared
+---@source https://github.com/Facepunch/garrysmod/blob/master/garrysmod/lua/includes/extensions/entity.lua
+---@param variable string
+---@param value string
+function Entity:EditValue(variable, value) end

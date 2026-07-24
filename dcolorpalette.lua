@@ -3,6 +3,9 @@
 --- The **DColorPalette** allows the player to select a color from a list of given colors.
 --- This panel supports saving across sessions via the panel cookie system.
 --- Use [Panel:SetCookieName](https://wiki.facepunch.com/gmod/Panel:SetCookieName) to change "save files".
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DColorPalette
 ---@class (partial) DColorPalette : DIconLayout
 local DColorPalette = {}
 
@@ -92,6 +95,14 @@ function DColorPalette:NetworkColorChange() end
 ---@source https://wiki.facepunch.com/gmod/DColorPalette:OnRightClickButton
 ---@param pnl Panel The DColorButton that was pressed.
 function DColorPalette:OnRightClickButton(pnl) end
+
+---Called when the color is changed after clicking a new value. For Override
+---@hook OnValueChanged
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DColorPalette:OnValueChanged
+---@param newcol Color The new color of the DColorPalette
+function DColorPalette:OnValueChanged(newcol) end
 
 ---Resets this entire color palette to a default preset one, without saving.
 ---

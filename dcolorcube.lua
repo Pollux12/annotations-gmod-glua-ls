@@ -1,7 +1,16 @@
 ---@meta
 
 --- The DColorCube allows a user to select saturation and value but not hue. Uses HSV colors
----@class (partial) DColorCube : DSlider
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DColorCube
+---@class DColorCube : DSlider
+---@field BGSaturation DImage
+---@field BGValue DImage
+---@field m_BaseRGB Color
+---@field m_Hue number
+---@field m_OutRGB Color
+---@field m_DefaultColor Color
 local DColorCube = {}
 
 ---An [Global.AccessorFunc](https://wiki.facepunch.com/gmod/Global.AccessorFunc) that returns the base Color set by [DColorCube:SetBaseRGB](https://wiki.facepunch.com/gmod/DColorCube:SetBaseRGB).
@@ -31,6 +40,14 @@ function DColorCube:GetHue() end
 ---@source https://wiki.facepunch.com/gmod/DColorCube:GetRGB
 ---@return Color # The set color, uses Color.
 function DColorCube:GetRGB() end
+
+---Function which is called when the color cube slider is moved (through user input). Meant to be overridden.
+---@hook OnUserChanged
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DColorCube:OnUserChanged
+---@param color Color The new color, uses Color.
+function DColorCube:OnUserChanged(color) end
 
 ---Sets the color to whatever [DColorCube:GetDefaultColor](https://wiki.facepunch.com/gmod/DColorCube:GetDefaultColor) returns
 ---@realm client

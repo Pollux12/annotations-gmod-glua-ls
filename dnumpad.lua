@@ -1,6 +1,20 @@
 ---@meta
 
 --- GMod 12 style "number pad" panel used by tools for binding keys to tool actions. Deprecated in favor of [DBinder](https://wiki.facepunch.com/gmod/DBinder).
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DNumPad
 ---@deprecated You should use DBinder instead.
----@class (partial) DNumPad : DPanel
+---@class DNumPad : Panel
+--- Table of DButton panels for each keypad button (0-15).
+---@field Buttons table<integer, DButton>
+--- The currently selected button panel.
+---@field m_SelectedButton DButton
+--- The currently selected number (0-15 or -1 if none).
+---@field m_iSelectedNumber number
+--- Padding between buttons.
+---@field m_iPadding number
+--- Button size in pixels.
+---@field m_bButtonSize number
+--- Whether keys stay selected when pressed (sticky keys mode).
+---@field m_bStickyKeys boolean
 local DNumPad = {}

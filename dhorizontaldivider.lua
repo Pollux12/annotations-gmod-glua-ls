@@ -1,6 +1,8 @@
 ---@meta
 
 --- Creates an invisible vertical divider between two GUI elements.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DHorizontalDivider
 ---@class (partial) DHorizontalDivider : DPanel
 local DHorizontalDivider = {}
 
@@ -85,7 +87,7 @@ function DHorizontalDivider:SetHoldPos(x) end
 ---Sets the left side content of the [DHorizontalDivider](https://wiki.facepunch.com/gmod/DHorizontalDivider).
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DHorizontalDivider:SetLeft
----@param pnl Panel The panel to set as the left side
+---@param pnl Panel? The panel to set as the left side, or nil to detach.
 function DHorizontalDivider:SetLeft(pnl) end
 
 ---Sets the minimum width of the left side
@@ -108,10 +110,10 @@ function DHorizontalDivider:SetLeftWidth(width) end
 ---@param middle Panel The middle content
 function DHorizontalDivider:SetMiddle(middle) end
 
----Sets the right side content
+---Sets the right side content of the [DHorizontalDivider](https://wiki.facepunch.com/gmod/DHorizontalDivider).
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DHorizontalDivider:SetRight
----@param pnl Panel The right side content
+---@param pnl Panel? The panel to set as the right side, or nil to detach.
 function DHorizontalDivider:SetRight(pnl) end
 
 ---Sets the minimum width of the right side

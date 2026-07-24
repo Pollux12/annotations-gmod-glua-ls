@@ -3,7 +3,15 @@
 --- A preset manager, found at the top of almost every default tool's C-menu.
 ---
 --- This control only exists in Sandbox derived gamemodes.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/ControlPresets
 ---@class (partial) ControlPresets : Panel
+---@field Label DLabel The visible preset group label, assigned by the control panel builder.
+---@field DropDown DComboBox The preset selection dropdown.
+---@field Button DImageButton The edit-preset button.
+---@field AddButton DImageButton The quick-save button.
+---@field Options table<string, any> Available preset option data.
+---@field ConVars table<string, any> Console variables managed by this preset control.
 local ControlPresets = {}
 
 ---Adds a convar to be managed by this control.

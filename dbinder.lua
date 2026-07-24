@@ -1,6 +1,8 @@
 ---@meta
 
 --- Input which can bind a command to a key. Used for binding inputs and outputs of TOOLs.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DBinder
 ---@class (partial) DBinder : DButton
 local DBinder = {}
 
@@ -15,6 +17,13 @@ function DBinder:GetSelectedNumber() end
 ---@source https://wiki.facepunch.com/gmod/DBinder:GetValue
 ---@return number # The key code of the bound key. See Enums/KEY.
 function DBinder:GetValue() end
+
+---Called when the player selects a new bind. Meant to be Overridden
+---@hook OnChange
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DBinder:OnChange
+---@param iNum number The new bound key. See input.GetKeyName.
+function DBinder:OnChange(iNum) end
 
 ---Sets the current key bound by the [DBinder](https://wiki.facepunch.com/gmod/DBinder), and updates the button's text as well as the [ConVar](https://wiki.facepunch.com/gmod/ConVar).
 ---@realm client

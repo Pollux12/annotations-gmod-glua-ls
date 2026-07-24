@@ -1,9 +1,28 @@
 ---@meta
 
+--- Displays elements in a horizontal or vertical list. A scrollbar is automatically shown if necessary.
+--- You can get its vertical bar via `DPanelList.VBar`.
+--- [DPanelList](https://wiki.facepunch.com/gmod/DPanelList) was succeeded in version 13 by more specialised layout elements.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DPanelList
+---@deprecated Use a combination of DIconLayout, DListLayout and DScrollPanel instead.
 ---@class DPanelList : DPanel
+---@field pnlCanvas DPanel
 ---@field Items Panel[]
----@field VBar DVScrollBar
+---@field YOffset number
+---@field m_fAnimTime number
+---@field m_fAnimEase number
+---@field m_iBuilds integer
+---@field Horizontal boolean
+---@field VBar? DVScrollBar
 local DPanelList = {}
+
+---Enables horizontal layout for child panels in this list.
+---@realm client
+---@source https://github.com/Facepunch/garrysmod/blob/master/garrysmod/lua/vgui/dpanellist.lua
+---@param horizontal boolean Whether child panels should be laid out horizontally.
+function DPanelList:EnableHorizontal(horizontal) end
 
 ---Adds a existing panel to the end of [DPanelList](https://wiki.facepunch.com/gmod/DPanelList).
 ---@realm client
@@ -22,7 +41,7 @@ function DPanelList:CleanList() end
 ---Hides all child panels, and optionally deletes them.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DPanelList:Clear
----@param remove boolean Whether to actually delete the panels, not just hide them.
+---@param remove? boolean Whether to actually delete the panels, not just hide them.
 function DPanelList:Clear(remove) end
 
 ---Enables/creates the vertical scroll bar so that the panel list can be scrolled through.
@@ -88,3 +107,18 @@ function DPanelList:SetPadding(Offset) end
 ---@source https://wiki.facepunch.com/gmod/DPanelList:SetSpacing
 ---@param Distance number Distance between panels
 function DPanelList:SetSpacing(Distance) end
+
+---Scrolls the panel list to center a child panel vertically.
+---@realm client
+---@realm menu
+---@source https://github.com/Facepunch/garrysmod/blob/master/garrysmod/lua/vgui/dpanellist.lua#L391
+---@param panel Panel The child panel to scroll to.
+function DPanelList:ScrollToChild(panel) end
+
+---Sorts the list's items by a table member.
+---@realm client
+---@realm menu
+---@source https://github.com/Facepunch/garrysmod/blob/master/garrysmod/lua/vgui/dpanellist.lua#L403
+---@param key any The member key to sort by.
+---@param desc? boolean Whether to sort in descending order. Defaults to true.
+function DPanelList:SortByMember(key, desc) end

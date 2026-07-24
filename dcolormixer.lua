@@ -1,7 +1,29 @@
 ---@meta
 
 --- A standard Derma color mixer
----@class (partial) DColorMixer : DPanel
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DColorMixer
+---@class DColorMixer : DPanel
+---@field Palette DColorPalette
+---@field label DLabel
+---@field WangsPanel Panel
+---@field txtR DNumberWang
+---@field txtG DNumberWang
+---@field txtB DNumberWang
+---@field txtA DNumberWang
+---@field HSV DColorCube
+---@field RGB DRGBPicker
+---@field Alpha DAlphaBar
+---@field NextConVarCheck number
+---@field m_bPalette? boolean
+---@field m_bAlpha boolean
+---@field m_bWangsPanel boolean
+---@field m_ConVarR? string
+---@field m_ConVarG? string
+---@field m_ConVarB? string
+---@field m_ConVarA? string
+---@field m_Color Color
 local DColorMixer = {}
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -231,3 +253,13 @@ function DColorMixer:UpdateConVars(clr) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DColorMixer:UpdateDefaultColor
 function DColorMixer:UpdateDefaultColor() end
+
+---Called when the player changes the color of the [DColorMixer](https://wiki.facepunch.com/gmod/DColorMixer). Meant to be overridden.
+---
+--- The returned color will not have the color metatable.
+---@hook ValueChanged
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DColorMixer:ValueChanged
+---@param col Color The new color. See Color
+function DColorMixer:ValueChanged(col) end

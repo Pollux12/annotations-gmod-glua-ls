@@ -4,6 +4,8 @@
 ---
 ---
 --- Engine checkbox
+---@realm client
+---@source https://wiki.facepunch.com/gmod/CheckButton
 ---@deprecated Use DCheckBoxLabel instead.
 ---@class (partial) CheckButton
 local CheckButton = {}

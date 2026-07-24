@@ -1,6 +1,8 @@
 ---@meta
 
 --- Used as scroll bar for [PanelList](https://wiki.facepunch.com/gmod/PanelList)
+---@realm client
+---@source https://wiki.facepunch.com/gmod/SlideBar
 ---@deprecated Used in deprecated  PanelList. Use DVScrollBar (Used in DScrollPanel).
 ---@class (partial) SlideBar : Panel
 local SlideBar = {}

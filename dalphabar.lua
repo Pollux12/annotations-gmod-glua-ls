@@ -1,6 +1,9 @@
 ---@meta
 
 --- A bar to select the opacity (alpha level) of a color.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DAlphaBar
 ---@class (partial) DAlphaBar : DPanel
 local DAlphaBar = {}
 
@@ -17,6 +20,14 @@ function DAlphaBar:GetBarColor() end
 ---@source https://wiki.facepunch.com/gmod/DAlphaBar:GetValue
 ---@return number # The current alpha value.
 function DAlphaBar:GetValue() end
+
+---Called when user changes the desired alpha value with the control. This function is meant to be overridden
+---@hook OnChange
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DAlphaBar:OnChange
+---@param alpha number The new alpha value
+function DAlphaBar:OnChange(alpha) end
 
 ---Sets the base color of the alpha bar. This is the color for which the alpha channel is being modified. An [Global.AccessorFunc](https://wiki.facepunch.com/gmod/Global.AccessorFunc)
 ---@realm client

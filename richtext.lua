@@ -7,5 +7,7 @@
 --- The **RichText** element has a `64000` character limit.
 ---
 --- You can hide the RichText scrollbar with the following function: [Panel:SetVerticalScrollbarEnabled](https://wiki.facepunch.com/gmod/Panel:SetVerticalScrollbarEnabled)
+---@realm client
+---@source https://wiki.facepunch.com/gmod/RichText
 ---@class (partial) RichText : Panel
 local RichText = {}

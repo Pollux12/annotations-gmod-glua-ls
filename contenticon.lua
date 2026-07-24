@@ -5,6 +5,8 @@
 --- (like a [DFrame](https://wiki.facepunch.com/gmod/DFrame), for example), else it won't be able to focus and thus be unclickable.
 ---
 --- This control only exists in Sandbox derived gamemodes.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/ContentIcon
 ---@class (partial) ContentIcon : DButton
 local ContentIcon = {}
 
@@ -78,3 +80,8 @@ function ContentIcon:SetNPCWeapon(weapons) end
 ---@source https://wiki.facepunch.com/gmod/ContentIcon:SetSpawnName
 ---@param name string Internal "name" to be used when user left clicks the icon.
 function ContentIcon:SetSpawnName(name) end
+
+---Returns the spawnmenu tile layout that owns this content icon.
+---@realm client
+---@return DTileLayout
+function ContentIcon:GetParent() end

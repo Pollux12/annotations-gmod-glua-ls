@@ -5,6 +5,8 @@
 --- This makes use of the [DAdjustableModelPanel](https://wiki.facepunch.com/gmod/DAdjustableModelPanel) element.
 ---
 --- **NOTE**: This panel is only available in Sandbox and Sandbox derived gamemodes!
+---@realm client
+---@source https://wiki.facepunch.com/gmod/IconEditor
 ---@class (partial) IconEditor : DFrame
 local IconEditor = {}
 
@@ -78,10 +80,10 @@ function IconEditor:SetDefaultLighting() end
 ---@param ent Entity The entity to retrieve the model and skin from.
 function IconEditor:SetFromEntity(ent) end
 
----Sets the [SpawnIcon](https://wiki.facepunch.com/gmod/SpawnIcon) to modify. You should call [Panel:Refresh](https://wiki.facepunch.com/gmod/Panel:Refresh) immediately after this, as the user will not be able to make changes to the icon beforehand.
+---Sets the spawn icon edited by this icon editor.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/IconEditor:SetIcon
----@param icon Panel The SpawnIcon object to be modified.
+---@param icon SpawnIcon The SpawnIcon object to modify.
 function IconEditor:SetIcon(icon) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.

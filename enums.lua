@@ -8149,14 +8149,17 @@ MAT_WARPSHIELD = 90
 --- For more information, see [Point Primitives](https://wiki.facepunch.com/gmod/mesh_primitives#points)
 ---@readonly
 MATERIAL_POINTS = 0
---- **WARNING**: The primitive type `MATERIAL_LINES` does not currently work and will not produce any visual effect if used.
+--- Creates line using 2 vertices.
+---
+--- The `primitiveCount` argument of [mesh.Begin](https://wiki.facepunch.com/gmod/mesh.Begin) should be the total number of line multiply by 2 that the Mesh will contain.
+--- E.g. `(vertexCount * 2)`
 ---
 --- For more information, see [Line Primitives](https://wiki.facepunch.com/gmod/mesh_primitives#lines)
 ---@readonly
 MATERIAL_LINES = 1
 --- Creates triangles from groupings of 3 vertices.
 ---
---- TThe `primitiveCount` argument of [mesh.Begin](https://wiki.facepunch.com/gmod/mesh.Begin) should be the total number of triangles that the Mesh will contain.
+--- The `primitiveCount` argument of [mesh.Begin](https://wiki.facepunch.com/gmod/mesh.Begin) should be the total number of triangles that the Mesh will contain.
 --- E.g. `(vertexCount / 3)`
 ---
 --- For more information, see [Triangle Primitives](https://wiki.facepunch.com/gmod/mesh_primitives#triangles)
@@ -8170,12 +8173,15 @@ MATERIAL_TRIANGLES = 2
 --- For more information, see [Triangle Strip Primitives](https://wiki.facepunch.com/gmod/mesh_primitives#trianglestrips)
 ---@readonly
 MATERIAL_TRIANGLE_STRIP = 3
---- **WARNING**: The primitive type `MATERIAL_LINE_STRIP` does not currently work and will not produce any visual effect if used.
+--- Creates a set of lines that all share a single vertex and each share a vertex with the previous lines.
+---
+--- The `primitiveCount` argument of [mesh.Begin](https://wiki.facepunch.com/gmod/mesh.Begin) should be the total number of line connection that the Mesh will contain.
+--- E.g. `(vertexCount)`
 ---
 --- For more information, see [Line Strip Primitives](https://wiki.facepunch.com/gmod/mesh_primitives#linestrips)
 ---@readonly
 MATERIAL_LINE_STRIP = 4
---- **WARNING**: The primitive type `MATERIAL_LINE_LOOP` does not currently work and will not produce any visual effect if used.
+--- Exactly like MATERIAL_LINE_STRIP do, but the first and the last vertex will always be connected together.
 ---
 --- For more information, see [Line Loop Primitives](https://wiki.facepunch.com/gmod/mesh_primitives#lineloops)
 ---@readonly
@@ -8904,43 +8910,29 @@ PLAYERANIMEVENT_CANCEL_RELOAD = 23
 ---| 22 # PLAYERANIMEVENT_CUSTOM_GESTURE_SEQUENCE
 ---| 23 # PLAYERANIMEVENT_CANCEL_RELOAD
 
---- Enumerations used by [Global.ClientsideModel](https://wiki.facepunch.com/gmod/Global.ClientsideModel), `ENT.RenderGroup` in [Structures/ENT](https://wiki.facepunch.com/gmod/Structures/ENT) and [Entity:GetRenderGroup](https://wiki.facepunch.com/gmod/Entity:GetRenderGroup).
+---Enumerations used by `ClientsideModel`, `ENT.RenderGroup`, and `Entity:GetRenderGroup`.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Enums/RENDERGROUP
---- Huge static prop, possibly leftover from goldsrc
 ---@readonly
 RENDERGROUP_STATIC_HUGE = 0
---- Huge opaque entity, possibly leftover from goldsrc
 ---@readonly
 RENDERGROUP_OPAQUE_HUGE = 1
---- Static props?
+---@readonly
+RENDERGROUP_NONE = 5
 ---@readonly
 RENDERGROUP_STATIC = 6
---- For non transparent/solid entities.
----
---- For scripted entities, this will have [ENTITY:Draw](https://wiki.facepunch.com/gmod/ENTITY:Draw) called
 ---@readonly
 RENDERGROUP_OPAQUE = 7
---- For translucent/transparent entities
----
---- For scripted entities, this will have [ENTITY:DrawTranslucent](https://wiki.facepunch.com/gmod/ENTITY:DrawTranslucent) called
 ---@readonly
 RENDERGROUP_TRANSLUCENT = 8
---- For both translucent/transparent and opaque/solid anim entities
----
---- For scripted entities, this will have both, [ENTITY:Draw](https://wiki.facepunch.com/gmod/ENTITY:Draw) and [ENTITY:DrawTranslucent](https://wiki.facepunch.com/gmod/ENTITY:DrawTranslucent) called
 ---@readonly
 RENDERGROUP_BOTH = 9
---- Solid weapon view models
 ---@readonly
 RENDERGROUP_VIEWMODEL = 10
---- Transparent overlays etc
 ---@readonly
 RENDERGROUP_VIEWMODEL_TRANSLUCENT = 11
---- For brush entities
 ---@readonly
 RENDERGROUP_OPAQUE_BRUSH = 12
---- Unclassfied. Won't get drawn.
 ---@readonly
 RENDERGROUP_OTHER = 13
 
@@ -8948,6 +8940,7 @@ RENDERGROUP_OTHER = 13
 ---| number # Raw numeric enum value
 ---| 0 # RENDERGROUP_STATIC_HUGE
 ---| 1 # RENDERGROUP_OPAQUE_HUGE
+---| 5 # RENDERGROUP_NONE
 ---| 6 # RENDERGROUP_STATIC
 ---| 7 # RENDERGROUP_OPAQUE
 ---| 8 # RENDERGROUP_TRANSLUCENT

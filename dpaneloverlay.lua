@@ -1,6 +1,9 @@
 ---@meta
 
 --- Adds curved corners.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DPanelOverlay
 ---@class (partial) DPanelOverlay : DPanel
 local DPanelOverlay = {}
 

@@ -3,8 +3,15 @@
 --- A "spawn icon" displays an image for the given model path.
 --- It is mostly used in the Spawn Menu (Q).
 --- It uses [ModelImage](https://wiki.facepunch.com/gmod/ModelImage) internally.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/SpawnIcon
 ---@class (partial) SpawnIcon : DButton
 local SpawnIcon = {}
+
+---Returns the icon name/path stored by the spawn icon.
+---@realm client
+---@return string # The icon name.
+function SpawnIcon:GetIconName() end
 
 ---Returns the currently active [Sub Model IDs](https://wiki.facepunch.com/gmod/Structures/BodyGroupData#submodels) for each Body Group of the spawn icon.
 ---

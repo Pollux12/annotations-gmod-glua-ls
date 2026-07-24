@@ -2,6 +2,9 @@
 
 --- The DHTML control wraps the internal web engine, supports calling Javascript functions from Lua,
 --- as well as running Lua from within the HTML. Running Lua code is disabled by default.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DHTML
 ---@class (partial) DHTML : HTML
 DHTML = {}
 

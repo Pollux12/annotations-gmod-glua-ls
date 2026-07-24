@@ -1,7 +1,13 @@
 ---@meta
 
 --- A simple menu bar.
----@class (partial) DMenuBar : DPanel
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DMenuBar
+---@class DMenuBar : DPanel
+---@field Menus table<string, DMenu>
+---@field m_bBackground boolean
+---@field m_bIsMenuComponent boolean
 local DMenuBar = {}
 
 ---Creates a new menu panel on the menu bar.

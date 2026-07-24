@@ -1,12 +1,5 @@
 ---@meta
 
---- Used to interface with the built-in game events system.
----
---- **NOTE**: All Serverside gameevents are networked and called clientside. It could happen that a gameevent is called twice because of this like [OnRequestFullUpdate](https://wiki.facepunch.com/gmod/gameevent/OnRequestFullUpdate).
----
---- The following is a list of all available game events.
-gameevent = {}
-
 --- Called when a player earns an achievement.
 ---@realm shared
 ---@realm menu
@@ -333,13 +326,6 @@ local hltv_title = {}
 ---@class (partial) host_quit
 local host_quit = {}
 
----Adds a [game event](https://wiki.facepunch.com/gmod/gameevent) listener, creating a new hook using the [hook](https://wiki.facepunch.com/gmod/hook) library, which can be listened to via [hook.Add](https://wiki.facepunch.com/gmod/hook.Add) with the given `eventName` as event.
---- **NOTE**: All gameevents are called in the **Menu State**, but if you want to use them you need to use some DLL(like [this](https://github.com/RaphaelIT7/gmod-gameevent) one) or you need to create your own.
----@realm shared
----@source https://wiki.facepunch.com/gmod/gameevent.Listen
----@param eventName string The event to listen to. List of valid events (with examples) can be found [here](https://wiki.facepunch.com/gmod/gameevent).
-function gameevent.Listen(eventName) end
-
 --- Called when a player requests a full update from the server.
 --- Called Clientside when the Update is received or when another player requested a full update.
 ---
@@ -643,3 +629,17 @@ local show_freezepanel = {}
 ---@source https://wiki.facepunch.com/gmod/gameevent/user_data_downloaded
 ---@class (partial) user_data_downloaded
 local user_data_downloaded = {}
+
+--- Used to interface with the built-in game events system.
+---
+--- **NOTE**: All Serverside gameevents are networked and called clientside. It could happen that a gameevent is called twice because of this like [OnRequestFullUpdate](https://wiki.facepunch.com/gmod/gameevent/OnRequestFullUpdate).
+---
+--- The following is a list of all available game events.
+gameevent = {}
+
+---Adds a [game event](https://wiki.facepunch.com/gmod/gameevent) listener, creating a new hook using the [hook](https://wiki.facepunch.com/gmod/hook) library, which can be listened to via [hook.Add](https://wiki.facepunch.com/gmod/hook.Add) with the given `eventName` as event.
+--- **NOTE**: All gameevents are called in the **Menu State**, but if you want to use them you need to use some DLL(like [this](https://github.com/RaphaelIT7/gmod-gameevent) one) or you need to create your own.
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/gameevent.Listen
+---@param eventName string The event to listen to. List of valid events (with examples) can be found [here](https://wiki.facepunch.com/gmod/gameevent).
+function gameevent.Listen(eventName) end

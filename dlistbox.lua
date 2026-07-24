@@ -2,6 +2,8 @@
 
 --- A simple list box with optional multi-select.
 --- As this is deprecated, it is recommended that you use [DListView](https://wiki.facepunch.com/gmod/DListView), which contains the same functionality with multi-column options.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DListBox
 ---@deprecated Derived from the deprecated DPanelList.
 ---@class (partial) DListBox : DPanelList
 local DListBox = {}

@@ -3,13 +3,33 @@
 --- A very basic horizontal scrollable panel, similar to [DScrollPanel](https://wiki.facepunch.com/gmod/DScrollPanel).
 ---
 --- Used internally in [DPropertySheet](https://wiki.facepunch.com/gmod/DPropertySheet).
----@class (partial) DHorizontalScroller : Panel
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DHorizontalScroller
+---@class DHorizontalScroller : Panel
+---@field Panels Panel[]
+---@field OffsetX number
+---@field FrameTime number
+---@field pnlCanvas DDragBase
+---@field btnLeft DButton
+---@field btnRight DButton
 local DHorizontalScroller = {}
 
----Adds a panel to the [DHorizontalScroller](https://wiki.facepunch.com/gmod/DHorizontalScroller).
+---Returns the internal canvas panel where the content of DHorizontalScroller are placed on.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DHorizontalScroller:GetCanvas
+---@return DDragBase
+function DHorizontalScroller:GetCanvas()
+	return self.pnlCanvas
+end
+
+---Adds a panel to the DHorizontalScroller.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DHorizontalScroller:AddPanel
+---@[call_arg("gmod.vgui_panel", "reference")]
+---@[call_arg_field("gmod.vgui_panel", "parent_self", "pnlCanvas")]
 ---@param pnl Panel The panel to add. It will be automatically parented.
 function DHorizontalScroller:AddPanel(pnl) end
 
@@ -41,6 +61,13 @@ function DHorizontalScroller:GetShowDropTargets() end
 ---@source https://wiki.facepunch.com/gmod/DHorizontalScroller:MakeDroppable
 ---@param name string
 function DHorizontalScroller:MakeDroppable(name) end
+
+---Called when the panel is scrolled.
+---@hook OnDragModified
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DHorizontalScroller:OnDragModified
+function DHorizontalScroller:OnDragModified() end
 
 ---Scrolls the [DHorizontalScroller](https://wiki.facepunch.com/gmod/DHorizontalScroller) to given child panel.
 ---@realm client

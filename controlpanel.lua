@@ -1,6 +1,9 @@
 ---@meta
 
 --- Used by the context menu in sandbox.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/ControlPanel
+--- Used by the context menu in sandbox.
 ---@class ControlPanel : DForm
 local ControlPanel = {}
 
@@ -9,6 +12,13 @@ local ControlPanel = {}
 ---@param text string The text to display.
 ---@return DLabel # The created DLabel.
 function ControlPanel:Label(text) end
+
+---Creates the tool preset selector panel for this control panel.
+---@realm client
+---@param group string The presets group. Must be unique.
+---@param cvarList table<string, any> The convar defaults used by the preset control.
+---@return ControlPresets # The created ControlPresets panel.
+function ControlPanel:ToolPresets(group, cvarList) end
 
 --- The controlpanel library.
 controlpanel = {}
@@ -72,7 +82,7 @@ function ControlPanel:FillViaFunction(func) end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/controlpanel.Get
 ---@param name string The name of the panel.
----@return ControlPanel # The ControlPanel panel.
+---@return ControlPanel? # The ControlPanel panel, or nil if it cannot be created yet.
 function controlpanel.Get(name) end
 
 ---Returns this control panel.

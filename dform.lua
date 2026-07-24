@@ -1,7 +1,12 @@
 ---@meta
 
 --- An easy form with functions to quickly add form elements
----@class (partial) DForm : DCollapsibleCategory
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DForm
+---An easy form with helpers for adding labelled controls.
+---@class DForm : DCollapsibleCategory
+---@field Items DSizeToContents[] The layout containers created by DForm:AddItem.
 local DForm = {}
 
 ---Adds one or two items to the DForm.
@@ -35,12 +40,12 @@ function DForm:Button(text, concommand, ...) end
 ---@return DCheckBoxLabel # The created DCheckBoxLabel
 function DForm:CheckBox(label, convar) end
 
----Adds a [DComboBox](https://wiki.facepunch.com/gmod/DComboBox) onto the [DForm](https://wiki.facepunch.com/gmod/DForm)
+---Adds a combo box to the form.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DForm:ComboBox
----@param title string Text to the left of the combo box
----@param convar string Console variable to change when the user selects something from the dropdown.
+---@param title string Text to the left of the combo box.
+---@param convar? string Console variable to change when the user selects something from the dropdown.
 ---@return DComboBox # The created DComboBox
 ---@return DLabel # The created DLabel
 function DForm:ComboBox(title, convar) end
@@ -165,10 +170,9 @@ function DForm:SetSpacing(number) end
 
 ---Adds a [DTextEntry](https://wiki.facepunch.com/gmod/DTextEntry) to a [DForm](https://wiki.facepunch.com/gmod/DForm)
 ---@realm client
----@realm menu
 ---@source https://wiki.facepunch.com/gmod/DForm:TextEntry
----@param label string The label to be next to the text entry
----@param convar string The console variable to be changed when the text entry is changed
+---@param label string The label for the text entry.
+---@param convar? string The convar to link the text entry to.
 ---@return DTextEntry # The created DTextEntry
----@return DLabel # The created DLabel
+---@return DLabel # The label created for the text entry.
 function DForm:TextEntry(label, convar) end

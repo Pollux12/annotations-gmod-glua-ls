@@ -1,6 +1,9 @@
 ---@meta
 
 --- A simple Derma Drawer
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DDrawer
 ---@class (partial) DDrawer : Panel
 local DDrawer = {}
 

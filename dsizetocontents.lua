@@ -1,6 +1,9 @@
 ---@meta
 
 --- A helper panel that will automatically resize itself to fit all its children using [Panel:SizeToChildren](https://wiki.facepunch.com/gmod/Panel:SizeToChildren).
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DSizeToContents
 ---@class (partial) DSizeToContents : Panel
 local DSizeToContents = {}
 

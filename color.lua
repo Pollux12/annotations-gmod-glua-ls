@@ -1,5 +1,23 @@
 ---@meta
 
+--[[
+List of all possible functions to manipulate colors.
+
+Colors are implemented in Lua thus [Global.type](https://wiki.facepunch.com/gmod/Global.type)(color) == "table" and [Global.TypeID](https://wiki.facepunch.com/gmod/Global.TypeID)(color) == [TYPE_TABLE](https://wiki.facepunch.com/gmod/Enums/TYPE#table).
+
+For type checking use [Global.IsColor](https://wiki.facepunch.com/gmod/Global.IsColor).
+
+Created by [Global.Color](https://wiki.facepunch.com/gmod/Global.Color), [Global.HSVToColor](https://wiki.facepunch.com/gmod/Global.HSVToColor), and [Global.HSLToColor](https://wiki.facepunch.com/gmod/Global.HSLToColor).
+
+| Type                | Name  | Description                       |
+| ------------------- | ----- | --------------------------------- |
+| [number](https://wiki.facepunch.com/gmod/number) | **r** | The red component of the color.   |
+| [number](https://wiki.facepunch.com/gmod/number) | **g** | The green component of the color. |
+| [number](https://wiki.facepunch.com/gmod/number) | **b** | The blue component of the color.  |
+| [number](https://wiki.facepunch.com/gmod/number) | **a** | The alpha component of the color. |
+--]]
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/Color
 ---@class Color
 ---@field r number The red component of the color.
 ---@field g number The green component of the color.

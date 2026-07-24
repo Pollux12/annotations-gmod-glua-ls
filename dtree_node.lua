@@ -4,8 +4,30 @@
 ---
 --- This panel is created whenever you add a node to a [DTree](https://wiki.facepunch.com/gmod/DTree).
 --- The root node of a [DTree](https://wiki.facepunch.com/gmod/DTree) is also a [DTree_Node](https://wiki.facepunch.com/gmod/DTree_Node) and controls much of its action. it can be accessed with [DTree:Root](https://wiki.facepunch.com/gmod/DTree:Root).
----@class (partial) DTree_Node : DPanel
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DTree_Node
+---@class DTree_Node : DPanel
+---@field Label DTree_Node_Button
+---@field Expander DExpandButton
+---@field Icon DImage
+---@field animSlide DermaAnimation The sliding expand/collapse animation, created in Init via Derma_Anim.
+---@field fLastClick number
+---@field m_pRoot? DTree
+---@field m_pParentNode? DTree|DTree_Node
+---@field ChildNodes? DListLayout
+---@field PropPanel? ContentContainer Content panel for this category node, set by sandbox content hooks.
+---@field SMContentPanel? Panel Content container used by the custom spawnlist node (custom.lua).
+---@field CustomSpawnlist? boolean Whether this is a custom user spawnlist node.
+---@field AddonSpawnlist? boolean Whether this is an addon-provided spawnlist node.
 local DTree_Node = {}
+
+---Returns the child node at the given index.
+---@realm client
+---@realm menu
+---@param num number The zero-based child node index.
+---@return Panel? # The child panel, if any.
+function DTree_Node:GetChildNode(num) end
 
 ---A helper function that adds a new node and calls to [DTree_Node:MakeFolder](https://wiki.facepunch.com/gmod/DTree_Node:MakeFolder) on it.
 ---@realm client
@@ -20,13 +42,13 @@ local DTree_Node = {}
 ---@return Panel # The created DTree_Node
 function DTree_Node:AddFolder(name, folder, path, showFiles, wildcard, bDontForceExpandable) end
 
----Add a child node to the DTree_Node
+---Adds a child node to this tree node.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:AddNode
 ---@param name string Name of the node.
----@param icon? string The icon that will show next to the node in the DTree.
----@return Panel # Returns the created DTree_Node panel.
+---@param icon? string The icon shown next to the node.
+---@return DTree_Node # The created node.
 function DTree_Node:AddNode(name, icon) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -44,18 +66,16 @@ function DTree_Node:AddPanel(pnl) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:AnimSlide
----@param anim table
----@param delta number
----@param data table
+---@param anim DermaAnimation The running animation object.
+---@param delta number The animation progress delta (0..1).
+---@param data table User data passed to the animation.
 function DTree_Node:AnimSlide(anim, delta, data) end
 
----**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
----
---- Called when a child node is expanded or collapsed to propagate this event to parent nodes to update layout.
+---Called when a child node is expanded or collapsed to propagate this event to parent nodes to update layout.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:ChildExpanded
----@param expanded boolean
+---@param expanded? boolean
 function DTree_Node:ChildExpanded(expanded) end
 
 ---Cleans up the internal table of items (sub-nodes) of this node from invalid panels or sub-nodes that were moved from this node to another.
@@ -81,7 +101,29 @@ function DTree_Node:Copy() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:CreateChildNodes
+---@outparam self.ChildNodes DListLayout
 function DTree_Node:CreateChildNodes() end
+
+---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
+---
+--- Called automatically to update the status of [DTree_Node:GetLastChild](https://wiki.facepunch.com/gmod/DTree_Node:GetLastChild) on children of this node.
+---@hook DoChildrenOrder
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DTree_Node:DoChildrenOrder
+function DTree_Node:DoChildrenOrder() end
+
+---@realm client
+---@realm menu
+---@source garrysmod/lua/vgui/dtree_node.lua
+---@return boolean # Return true to handle the click.
+function DTree_Node:DoClick() end
+
+---@realm client
+---@realm menu
+---@source garrysmod/lua/vgui/dtree_node.lua
+---@return boolean # Return true to handle the right-click.
+function DTree_Node:DoRightClick() end
 
 ---Expands or collapses this node, as well as ALL child nodes of this node.
 ---
@@ -284,13 +326,13 @@ function DTree_Node:GetParentNode() end
 ---@return string # The Path ID
 function DTree_Node:GetPathID() end
 
----Returns the root node, the [DTree](https://wiki.facepunch.com/gmod/DTree) this node is under.
+---Returns the root node, the DTree this node is under.
 ---
 --- See also [DTree_Node:GetParentNode](https://wiki.facepunch.com/gmod/DTree_Node:GetParentNode).
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:GetRoot
----@return Panel # The root node
+---@return DTree # The root DTree.
 function DTree_Node:GetRoot() end
 
 ---Returns whether or not nodes for files should/will be added when populating the node from filesystem.
@@ -397,6 +439,29 @@ function DTree_Node:MoveChildTo(node) end
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:MoveToTop
 function DTree_Node:MoveToTop() end
 
+---@realm client
+---@realm menu
+---@source garrysmod/lua/vgui/dtree_node.lua
+function DTree_Node:OnModified() end
+
+---@realm client
+---@realm menu
+---@source garrysmod/lua/vgui/dtree_node.lua
+---@param node Panel The panel added to this node.
+function DTree_Node:OnNodeAdded(node) end
+
+---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
+---
+--- Called when this or a sub node is selected. Do not use this, it is not for override.
+---
+--- Use [DTree:OnNodeSelected](https://wiki.facepunch.com/gmod/DTree:OnNodeSelected) or [DTree_Node:DoClick](https://wiki.facepunch.com/gmod/DTree_Node:DoClick) instead.
+---@hook OnNodeSelected
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DTree_Node:OnNodeSelected
+---@param node DTree_Node
+function DTree_Node:OnNodeSelected(node) end
+
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
 --- Called automatically to perform layout on this node if this node [DTree_Node:IsRootNode](https://wiki.facepunch.com/gmod/DTree_Node:IsRootNode).
@@ -415,11 +480,11 @@ function DTree_Node:PopulateChildren() end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
---- Called automatically from [DTree_Node:SetExpanded](https://wiki.facepunch.com/gmod/DTree_Node:SetExpanded) (or when user manually expands the node) to populate the node with sub-nodes from the filesystem if this was enabled via [DTree_Node:MakeFolder](https://wiki.facepunch.com/gmod/DTree_Node:MakeFolder).
+---Called automatically from [DTree_Node:SetExpanded](https://wiki.facepunch.com/gmod/DTree_Node:SetExpanded) to populate the node with sub-nodes from the filesystem if this was enabled via [DTree_Node:MakeFolder](https://wiki.facepunch.com/gmod/DTree_Node:MakeFolder).
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:PopulateChildrenAndSelf
----@param expand boolean Expand self once population process is finished.
+---@param expand? boolean Expand self once population process is finished.
 function DTree_Node:PopulateChildrenAndSelf(expand) end
 
 ---Appears to have no effect on the [DTree_Node](https://wiki.facepunch.com/gmod/DTree_Node).
@@ -575,13 +640,11 @@ function DTree_Node:SetRoot(root) end
 ---@param selected boolean Whether this node is currently selected or not.
 function DTree_Node:SetSelected(selected) end
 
----**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
----
---- Sets whether or not nodes for files should be added when populating the node from filesystem.
+---Sets whether or not nodes for files should be added when populating the node from filesystem.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:SetShowFiles
----@param showFiles boolean
+---@param showFiles? boolean
 function DTree_Node:SetShowFiles(showFiles) end
 
 ---Currently does nothing, not implemented.
@@ -592,13 +655,11 @@ function DTree_Node:SetupCopy() end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
---- Sets the search wildcard.
----
---- Use [DTree_Node:MakeFolder](https://wiki.facepunch.com/gmod/DTree_Node:MakeFolder) instead
+---Sets the wildcard filter for populating the node from filesystem.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:SetWildCard
----@param wildcard string The wildcard to set
+---@param wildcard? string The wildcard to set.
 function DTree_Node:SetWildCard(wildcard) end
 
 ---Returns whether or not the [DTree](https://wiki.facepunch.com/gmod/DTree) this node is in has icons enabled.

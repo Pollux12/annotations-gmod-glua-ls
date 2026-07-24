@@ -93,28 +93,19 @@ function debug.gethook(thread) end
 ---@nodiscard
 function debug.getinfo(thread, f, what) end
 
----Gets the name and value of a local variable indexed from the level.
---- 	**WARNING**: When a function has a tailcall return, you cannot access the locals of this function.
+---Returns the name and value of a local variable at a stack level or in a function.
+---
+---The thread argument is optional. An out-of-range stack level or local index returns nil.
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/debug.getlocal
----@param thread? thread The thread.
----@param level number The level above the thread.
---- * 0 = the function that was called (most always this function)'s arguments.
---- * 1 = the thread that had called this function.
---- * 2 = the thread that had called the function that started the thread that called this function.
----
---- A function defined in Lua can also be passed as the level. The index will specify the parameter's name to be returned (a parameter will have a value of nil).
----@param index number The variable's index you want to get.
---- * 1 = the first local defined in the thread.
---- * 2 = the second local defined in the thread.
---- * etc...
----@return string # The name of the variable.
----
---- Sometimes this will be `(*temporary)` if the local variable had no name.
----
---- Variables with names starting with **(** are **internal variables**.
----@return any # The value of the local variable.
+---@overload fun(level: integer|function, index: integer): string?, any
+---@param thread thread
+---@param level integer|function
+---@param index integer
+---@return string?
+---@return any
+---@nodiscard
 function debug.getlocal(thread, level, index) end
 
 ---Returns the metatable of an object. This function ignores the metatable's __metatable field.
@@ -136,7 +127,7 @@ function debug.getmetatable(object) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/debug.getregistry
 ---@return table # The Lua registry.
----@deprecated This function now returns a table that serves as a proxy to Global.FindMetaTable and Global.RegisterMetaTable. If you previously used the registry to get/add metatables, you should use those functions directly instead.
+---@deprecated This function now returns a table that serves as a proxy to Global.FindMetaTable and Global.RegisterMetaTable. If you previously used the registry to get/add metatables, you should use those functions directly instead. ```lua -- -- Hack for debug.getregistry -- local meta = {} function meta.__index( self, key ) 	return FindMetaTable( key ) end function meta.__newindex( self, key, value ) 	rawset( self, key, value )  	if ( isstring( key ) and istable( value ) ) then 		RegisterMetaTable( key, value ) 	end end  local tbl = {} setmetatable( tbl, meta ) function debug.getregistry() return tbl end ```
 function debug.getregistry() end
 
 ---Used for getting variable values in an index from the passed function. This does nothing for C functions.
@@ -162,19 +153,16 @@ function debug.getupvalue(func, index) end
 ---@return table # The object.
 function debug.setfenv(object, env) end
 
----Sets the given function as a Lua hook. This is completely different to gamemode hooks. The thread argument can be completely omitted and calling this function with no arguments will remove the current hook. This is used by default for infinite loop detection. More information on hooks can be found at http://www.lua.org/pil/23.2.html and https://www.gammon.com.au/scripts/doc.php?lua=debug.sethook
----
---- Hooks are not always ran when code that has been compiled by LuaJIT's JIT compiler is being executed, this is due to Intermediate Representation internally storing constantly running bytecode for performance reasons.
+---Sets a Lua debug hook, or removes the current hook when called without arguments.
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/debug.sethook
----@param thread thread Thread to set the hook on. This argument can be omitted.
----@param hook function Function for the hook to call. First argument in this function will be the mask event that called the hook as a full string (not as 'c' but instead as 'call').
----@param mask string The hook's mask. Can be one or more of the following events:
---- * c - Triggers the hook on each function call made from Lua.
---- * r - Triggers the hook on each function return made from Lua.
---- * l - Triggers the hook on each line compiled of code.
----@param count number How often to call the hook (in instructions). 0 for every instruction. Can be omitted.
+---@overload fun()
+---@overload fun(hook: function, mask: string, count?: number)
+---@param thread thread
+---@param hook function
+---@param mask string
+---@param count? number
 function debug.sethook(thread, hook, mask, count) end
 
 ---This function was removed due to security concerns.

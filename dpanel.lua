@@ -1,6 +1,9 @@
 ---@meta
 
 --- A simple rectangular box, commonly used for parenting other elements to. Pretty much all elements are based on this.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DPanel
 ---@class (partial) DPanel : Panel
 local DPanel = {}
 

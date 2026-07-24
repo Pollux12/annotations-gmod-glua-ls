@@ -41,10 +41,10 @@ function cookie.GetNumber(name, default) end
 ---@return string # The cookie value.
 function cookie.GetString(name, default) end
 
----Creates / updates a cookie in the [Database](https://wiki.facepunch.com/gmod/cookie).
+---Creates or updates a cookie in the database.
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/cookie.Set
 ---@param key string The name of the cookie.
----@param value string The data stored in the cookie.
+---@param value? string|number|boolean The value to store, or nil to clear the value.
 function cookie.Set(key, value) end

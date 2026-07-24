@@ -55,9 +55,11 @@ function table.concat(tbl, concatenator, startPos, endPos) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/table.Copy
 ---@generic T : table
----@param originalTable T The table to be copied.
----@return T # A deep copy of the original table
-function table.Copy(originalTable) end
+---@overload fun(originalTable: nil): nil
+---@param originalTable T? The table to be copied.
+---@param lookupTable? table<any, any> Table used internally to preserve cyclic references.
+---@return T? # A deep copy of the original table, or nil when originalTable is nil.
+function table.Copy(originalTable, lookupTable) end
 
 ---Empties the target table, and merges all values from the source table into it.
 ---@realm shared

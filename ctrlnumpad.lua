@@ -10,6 +10,9 @@
 --- By default, the [DLabel:SetDark](https://wiki.facepunch.com/gmod/DLabel:SetDark) function is activated on both DLabels.
 ---
 --- To retrieve the value of the `CtrlNumPad` you can use these functions : [Player:GetInfoNum](https://wiki.facepunch.com/gmod/Player:GetInfoNum), [CtrlNumPad:GetValue1](https://wiki.facepunch.com/gmod/CtrlNumPad:GetValue1) or [CtrlNumPad:GetValue2](https://wiki.facepunch.com/gmod/CtrlNumPad:GetValue2)
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/CtrlNumPad
 ---@class (partial) CtrlNumPad
 local CtrlNumPad = {}
 

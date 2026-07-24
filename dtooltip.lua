@@ -3,6 +3,9 @@
 --- **INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
 --- The panel used internally for tooltips. See [Panel:SetTooltip](https://wiki.facepunch.com/gmod/Panel:SetTooltip) for more information.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DTooltip
 ---@class (partial) DTooltip : DLabel
 local DTooltip = {}
 

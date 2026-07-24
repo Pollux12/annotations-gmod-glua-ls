@@ -3,6 +3,8 @@
 --- An editable [DLabel](https://wiki.facepunch.com/gmod/DLabel), double click on it to edit.
 ---
 --- This is used in the spawnmenu spawnlist headers.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DLabelEditable
 ---@class (partial) DLabelEditable : DLabel
 local DLabelEditable = {}
 

@@ -44,12 +44,11 @@ function steamworks.DownloadUGC(workshopID, resultCallback) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/steamworks.FileInfo
 ---@param workshopItemID string The ID of Steam Workshop item.
----@param resultCallback fun(data: table) The function to process retrieved data.
+---@param resultCallback fun(data: UGCFileInfo?) The function to process retrieved data.
 ---
 --- Function argument(s):
 --- * table `data` - The data about the item, if the request succeeded, `nil` otherwise. See Structures/UGCFileInfo.
----@param extraInfo? boolean If set, the function will retrieve more info about the workshop item, such as longer description and additional preview images. Only use this if absolutely necessary.
-function steamworks.FileInfo(workshopItemID, resultCallback, extraInfo) end
+function steamworks.FileInfo(workshopItemID, resultCallback) end
 
 ---Retrieves a customized list of Steam Workshop addons.
 ---@realm shared
@@ -202,3 +201,23 @@ function steamworks.Vote(workshopItemID, upOrDown) end
 --- * table `data` - The vote information. See Structures/UGCFileInfo.
 ---@deprecated Use data steamworks.FileInfo instead.
 function steamworks.VoteInfo(workshopItemID, resultCallback) end
+
+---Retrieves local file/user data for a Steam Workshop addon.
+---@realm client
+---@realm menu
+---@param workshopItemID string The ID of Steam Workshop item.
+---@param callback fun(info: SteamworksFileUserInfo) The function to process the returned info.
+---@deprecated Used internally for in-game menus.
+function steamworks.FileUserInfo(workshopItemID, callback) end
+
+---@class (partial) SteamworksFileUserInfo
+---@field error? number Error code from steamworks, if any.
+local SteamworksFileUserInfo = {}
+
+---Returns a list of downloaded UGC item IDs.
+---
+---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
+---@realm client
+---@realm menu
+---@return string[] # A list of workshop item IDs.
+function steamworks.GetDownloadedItems() end

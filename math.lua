@@ -615,16 +615,16 @@ function math.log10(x) end
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/math.max
----@param ... any Numbers to get the largest from
----@return number # The largest number
+---@param ... number Numbers to get the largest from.
+---@return number # The largest number.
 function math.max(...) end
 
 ---Returns the smallest value of all arguments.
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/math.min
----@param ... any Numbers to get the smallest from.
----@return number # The smallest number
+---@param ... number Numbers to get the smallest from.
+---@return number # The smallest number.
 function math.min(...) end
 
 ---Returns the modulus of the specified values. Same as [math.fmod](https://wiki.facepunch.com/gmod/math.fmod).

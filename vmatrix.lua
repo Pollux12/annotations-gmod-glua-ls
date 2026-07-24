@@ -1,5 +1,20 @@
 ---@meta
 
+--- A 4x4 matrix.
+---
+--- This page lists all possible functions to manipulate matrices.
+---
+--- This object can be created by [Global.Matrix](https://wiki.facepunch.com/gmod/Global.Matrix).
+---
+--- Metamethod | Second Operand | Description
+--- ---------- | -------------- | -----------
+--- `__add` | [VMatrix](https://wiki.facepunch.com/gmod/VMatrix) | Returns new [VMatrix](https://wiki.facepunch.com/gmod/VMatrix) with the result of addition.
+--- `__eq` | [any](https://wiki.facepunch.com/gmod/any) | Compares 2 operands, if they both are [VMatrix](https://wiki.facepunch.com/gmod/VMatrix), compares each individual component.
+--- `__mul` | [VMatrix](https://wiki.facepunch.com/gmod/VMatrix) or [Vector](https://wiki.facepunch.com/gmod/Vector) | Returns new [VMatrix](https://wiki.facepunch.com/gmod/VMatrix) or [Vector](https://wiki.facepunch.com/gmod/Vector) with the result of multiplication.
+--- `__sub` | [VMatrix](https://wiki.facepunch.com/gmod/VMatrix) | Returns new [VMatrix](https://wiki.facepunch.com/gmod/VMatrix) with the result of subtraction.
+--- `__tostring` |  | Returns a [string](https://wiki.facepunch.com/gmod/string) in format `[%f,\t%f,\t%f,\t%f]\n[%f,\t%f,\t%f,\t%f]\n[%f,\t%f,\t%f,\t%f]\n[%f,\t%f,\t%f,\t%f]`.
+--- `__unm` | | Returns new [VMatrix](https://wiki.facepunch.com/gmod/VMatrix) with the result of negation.
+---@source https://wiki.facepunch.com/gmod/VMatrix
 ---@class VMatrix
 --- A 4x4 matrix.
 ---

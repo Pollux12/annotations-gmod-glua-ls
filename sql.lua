@@ -129,3 +129,7 @@ function sql.SQLStr(string, bNoQuotes) end
 ---@param tableName string The name of the table to check.
 ---@return boolean # exists
 function sql.TableExists(tableName) end
+
+---Last SQL error string, assigned by the engine DLL.
+---@type string
+sql.m_strError = nil

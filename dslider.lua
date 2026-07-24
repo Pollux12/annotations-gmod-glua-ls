@@ -1,7 +1,11 @@
 ---@meta
 
 --- Creates a slider that can be moved along the X and/or Y axis
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DSlider
 ---@class (partial) DSlider : Panel
+---@field Knob DButton The draggable knob button created in Init.
 local DSlider = {}
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -99,6 +103,15 @@ function DSlider:GetTrapInside() end
 ---@return boolean #
 function DSlider:IsEditing() end
 
+---Called when the values of this slider panel were changed.
+---@hook OnValueChanged
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DSlider:OnValueChanged
+---@param x number The X axis position of the slider in range 0-1
+---@param y number The Y axis position of the slider in range 0-1
+function DSlider:OnValueChanged(x, y) end
+
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
 --- Used internally to fire [DSlider:OnValueChanged](https://wiki.facepunch.com/gmod/DSlider:OnValueChanged)
@@ -106,6 +119,17 @@ function DSlider:IsEditing() end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DSlider:OnValuesChangedInternal
 function DSlider:OnValuesChangedInternal() end
+
+---This function is called by the [DSlider](https://wiki.facepunch.com/gmod/DSlider) when user middle mouse clicks on the draggable knob of the slider.
+---
+--- You are meant to override this function to do reset the slider to desired defaults on both axes.
+---
+--- By default, will reset the slider to `0.5` on both axes.
+---@hook ResetToDefaultValue
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DSlider:ResetToDefaultValue
+function DSlider:ResetToDefaultValue() end
 
 ---Sets the background for the slider.
 ---@realm client
@@ -183,7 +207,7 @@ function DSlider:SetNotchColor(clr) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DSlider:SetNotches
----@param notches number
+---@param notches? number
 function DSlider:SetNotches(notches) end
 
 ---Does nothing.
@@ -213,3 +237,14 @@ function DSlider:SetSlideY(y) end
 ---@source https://wiki.facepunch.com/gmod/DSlider:SetTrapInside
 ---@param trap boolean
 function DSlider:SetTrapInside(trap) end
+
+---For override by child panels, such as [DNumSlider](https://wiki.facepunch.com/gmod/DNumSlider). Allows changing the output values of the slider.
+---@hook TranslateValues
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DSlider:TranslateValues
+---@param x number The input X coordinate, in range of 0-1.
+---@param y number The input Y coordinate, in range of 0-1.
+---@return number # The output X coordinate, in range of 0-1.
+---@return number # The output X coordinate, in range of 0-1.
+function DSlider:TranslateValues(x, y) end

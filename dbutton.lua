@@ -3,6 +3,9 @@
 --- A standard Derma button.
 ---
 --- By default, a [DButton](https://wiki.facepunch.com/gmod/DButton) is 22px tall.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DButton
 ---@class (partial) DButton : DLabel
 local DButton = {}
 
@@ -64,9 +67,9 @@ function DButton:SetImage(img) end
 ---@param img? IMaterial The material to use. If this is nil, the image background is removed.
 function DButton:SetMaterial(img) end
 
----A hook called from within [DLabel](https://wiki.facepunch.com/gmod/DLabel)'s [PANEL:ApplySchemeSettings](https://wiki.facepunch.com/gmod/PANEL:ApplySchemeSettings) to determine the color of the text on display.
+---A hook called from within DLabel's PANEL:ApplySchemeSettings to determine the color of the text on display.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DButton:UpdateColours
----@param skin table A table supposed to contain the color values listed above.
+---@param skin SKIN The active Derma skin table.
 function DButton:UpdateColours(skin) end

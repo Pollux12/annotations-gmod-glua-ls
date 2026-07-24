@@ -3,7 +3,22 @@
 --- A generic horizontal scrollbar. See the vertical alternative [here](https://wiki.facepunch.com/gmod/DVScrollBar).
 ---
 --- The scrollbar notably contains `DHScrollBar.btnLeft`, `DHScrollBar.btnRight`, and `DHScrollBar.btnGrip` which are the left button, right button, and grip respectively. Editing the paint functions of these allows custom scrollbar styling, although it is a better idea to use [Derma Skins](https://wiki.facepunch.com/gmod/Derma_Skin_Creation).
----@class (partial) DHScrollBar : Panel
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DHScrollBar
+---@class DHScrollBar : Panel
+---@field Offset number
+---@field Scroll number
+---@field CanvasSize number
+---@field BarSize number
+---@field btnLeft DButton
+---@field btnRight DButton
+---@field btnGrip DScrollBarGrip
+---@field HasChanged? boolean
+---@field Enabled? boolean
+---@field Dragging? boolean
+---@field DraggingCanvas? any
+---@field HoldPos? number
 local DHScrollBar = {}
 
 ---Adds specified amount of scroll in pixels.

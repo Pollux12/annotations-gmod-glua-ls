@@ -4,16 +4,14 @@
 --- **WARNING**: Kinect feature works only on 32-bit version of the game.
 motionsensor = {}
 
----**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
----  Called to build the skeleton. See [Using The Kinect](https://wiki.facepunch.com/gmod/Using_The_Kinect) and [Kinect developing](https://wiki.facepunch.com/gmod/Kinect_developing).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/motionsensor.BuildSkeleton
----@param translator table `list.Get( "SkeletonConvertor" )` and motionsensor.ChooseBuilderFromEntity.
----@param player Player The player to get motion sensor positions from.
----@param rotation Angle Global rotation of the player?
----@return Vector # Position
----@return Angle # Angles
----@return table # Sensor
+---@param translator SkeletonConvertor
+---@param player Player
+---@param rotation Angle
+---@return table<integer, Vector> pos
+---@return table<integer, Angle> ang
+---@return table<integer, Vector> sensor
 function motionsensor.BuildSkeleton(translator, player, rotation) end
 
 ---@realm shared

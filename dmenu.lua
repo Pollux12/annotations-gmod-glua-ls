@@ -1,7 +1,11 @@
 ---@meta
 
 --- A simple menu with sub menu, icon and convar support.
----@class (partial) DMenu : DScrollPanel
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DMenu
+---@class DMenu : DScrollPanel
+---@field m_pOpenSubMenu? Panel
 local DMenu = {}
 
 ---Creates a [DMenuOptionCVar](https://wiki.facepunch.com/gmod/DMenuOptionCVar) and adds it as an option into the menu. Checking and unchecking the option will alter the given console variable's value.
@@ -35,13 +39,14 @@ function DMenu:AddOption(name, func) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DMenu:AddPanel
 ---@generic T : Panel
----@param pnl `T` The panel that you want to add.
+---@param pnl T The panel that you want to add.
 function DMenu:AddPanel(pnl) end
 
----Adds a horizontal line spacer.
+---Adds a spacer to the DMenu.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DMenu:AddSpacer
+---@return (instance) DPanel #The created spacer panel.
 function DMenu:AddSpacer() end
 
 ---Add a sub menu to the DMenu
@@ -224,9 +229,9 @@ function DMenu:SetMinimumWidth(minWidth) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
---- Used internally to store the open submenu by [DMenu:Hide](https://wiki.facepunch.com/gmod/DMenu:Hide), [DMenu:OpenSubMenu](https://wiki.facepunch.com/gmod/DMenu:OpenSubMenu), [DMenu:CloseSubMenu](https://wiki.facepunch.com/gmod/DMenu:CloseSubMenu)
+---Used internally to store the open submenu by [DMenu:Hide](https://wiki.facepunch.com/gmod/DMenu:Hide), [DMenu:OpenSubMenu](https://wiki.facepunch.com/gmod/DMenu:OpenSubMenu), [DMenu:CloseSubMenu](https://wiki.facepunch.com/gmod/DMenu:CloseSubMenu)
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DMenu:SetOpenSubMenu
----@param item Panel The menu to store
+---@param item? Panel The menu to store.
 function DMenu:SetOpenSubMenu(item) end

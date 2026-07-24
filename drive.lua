@@ -1,14 +1,14 @@
 ---@meta
 
---- The drive library is for adding custom control modes to the new "remote control" entity piloting system in Garry's Mod 13. See [Entity Driving](https://wiki.facepunch.com/gmod/Entity_Driving).
-drive = {}
-
 --- Represents a drive mode or "method" to be registered with [drive.Register](https://wiki.facepunch.com/gmod/drive.Register).
 ---
 --- This page lists all possible fields and hooks a drive mode can have.
 ---@source https://wiki.facepunch.com/gmod/DRIVE_Hooks
 ---@class (partial) DRIVE
 DRIVE = {}
+
+--- The drive library is for adding custom control modes to the new "remote control" entity piloting system in Garry's Mod 13. See [Entity Driving](https://wiki.facepunch.com/gmod/Entity_Driving).
+drive = {}
 
 ---Optionally alter the player's view if they are using this [drive](https://wiki.facepunch.com/gmod/drive) mode.
 ---
@@ -63,13 +63,11 @@ function drive.End(ply, ent) end
 ---@return boolean # True if succeeded.
 function drive.FinishMove(ply, mv) end
 
----**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
----
---- Returns ( or creates if inexistent ) a driving method.
+---Gets the active drive method table for a player, if the player is currently driving.
 ---@realm shared
----@source https://wiki.facepunch.com/gmod/drive.GetMethod
----@param ply Player The player.
----@return table # A method object.
+---@source https://github.com/Facepunch/garrysmod/blob/master/garrysmod/lua/includes/modules/drive.lua
+---@param ply Player
+---@return DriveMethod?
 function drive.GetMethod(ply) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.

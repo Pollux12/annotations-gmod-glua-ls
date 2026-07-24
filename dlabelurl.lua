@@ -3,6 +3,9 @@
 --- Underlined link label without a DoClick function. When a valid URL is set and the label is clicked, it will open a browser window and navigate to the address.
 ---
 --- This panel uses [gui.OpenURL](https://wiki.facepunch.com/gmod/gui.OpenURL) internally and its restrictions apply.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DLabelURL
 ---@class (partial) DLabelURL : URLLabel
 local DLabelURL = {}
 

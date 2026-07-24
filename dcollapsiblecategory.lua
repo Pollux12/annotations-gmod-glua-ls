@@ -3,7 +3,12 @@
 --- The collapsible category allows you to create numerous sections of controls, and have the ability to contract/expand them.
 ---
 --- Consider using [DCategoryList](https://wiki.facepunch.com/gmod/DCategoryList) if you plan on using more than 1 of these.
----@class (partial) DCollapsibleCategory : Panel
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DCollapsibleCategory
+--- The collapsible category creates this header panel during initialization.
+---@class DCollapsibleCategory : Panel
+---@field Header DCategoryHeader The category's clickable header panel.
 local DCollapsibleCategory = {}
 
 ---Adds a new text button to the collapsible category, like the tool menu in Spawnmenu.
@@ -94,6 +99,14 @@ function DCollapsibleCategory:GetPaintBackground() end
 ---@source https://wiki.facepunch.com/gmod/DCollapsibleCategory:GetStartHeight
 ---@return number #
 function DCollapsibleCategory:GetStartHeight() end
+
+---Called by [DCollapsibleCategory:Toggle](https://wiki.facepunch.com/gmod/DCollapsibleCategory:Toggle). This function does nothing by itself, as you're supposed to overwrite it.
+---@hook OnToggle
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DCollapsibleCategory:OnToggle
+---@param expanded boolean If it was expanded or not
+function DCollapsibleCategory:OnToggle(expanded) end
 
 ---Sets the time in seconds it takes to expand the DCollapsibleCategory
 ---@realm client

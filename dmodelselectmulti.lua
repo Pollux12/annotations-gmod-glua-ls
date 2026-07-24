@@ -1,7 +1,10 @@
 ---@meta
 
 --- A combination of [DModelSelect](https://wiki.facepunch.com/gmod/DModelSelect) and [DPropertySheet](https://wiki.facepunch.com/gmod/DPropertySheet).
----@class (partial) DModelSelectMulti : DPropertySheet
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelSelectMulti
+---@class DModelSelectMulti : DPropertySheet
+---@field ModelPanels table<string, DModelSelect>
 local DModelSelectMulti = {}
 
 ---Adds a new tab of models.

@@ -1,12 +1,40 @@
 ---@meta
 
+--- List of all possible functions to manipulate vectors.
+---
+--- Created by [Global.Vector](https://wiki.facepunch.com/gmod/Global.Vector).
+---
+---  Type   | Name           | Description
+---  ------ | -------------- | ------------------------------
+---  [number](https://wiki.facepunch.com/gmod/number) | `x`, `X`, `r` or `1` | The X component of the vector.
+---  [number](https://wiki.facepunch.com/gmod/number) | `y`, `Y`, `g` or `2` | The Y component of the vector.
+---  [number](https://wiki.facepunch.com/gmod/number) | `z`, `Z`, `b` or `3` | The Z component of the vector.
+---
+--- Metamethod | Second Operand | Description
+--- ---------- | -------------- | -----------
+--- `__add` | [Vector](https://wiki.facepunch.com/gmod/Vector) | Returns new [Vector](https://wiki.facepunch.com/gmod/Vector) with the result of addition.
+--- `__div` | [number](https://wiki.facepunch.com/gmod/number) or [Vector](https://wiki.facepunch.com/gmod/Vector) | Returns new [Vector](https://wiki.facepunch.com/gmod/Vector) with the result of division.
+--- `__eq` | [any](https://wiki.facepunch.com/gmod/any) | Compares 2 operands, if they both are [Vector](https://wiki.facepunch.com/gmod/Vector), compares each individual component.
+--- `__index` | [number](https://wiki.facepunch.com/gmod/number) or [string](https://wiki.facepunch.com/gmod/string) | Gets the component of the [Vector](https://wiki.facepunch.com/gmod/Vector). Returns a [number](https://wiki.facepunch.com/gmod/number).
+--- `__mul` | [number](https://wiki.facepunch.com/gmod/number) or [Vector](https://wiki.facepunch.com/gmod/Vector)| Returns new [Vector](https://wiki.facepunch.com/gmod/Vector) with the result of multiplication.
+--- `__newindex` | [number](https://wiki.facepunch.com/gmod/number) or [string](https://wiki.facepunch.com/gmod/string) | Sets the component of the [Vector](https://wiki.facepunch.com/gmod/Vector). Accepts [number](https://wiki.facepunch.com/gmod/number) and [string](https://wiki.facepunch.com/gmod/string).
+--- `__sub` | [Vector](https://wiki.facepunch.com/gmod/Vector) | Returns new [Vector](https://wiki.facepunch.com/gmod/Vector) with the result of subtraction.
+--- `__tostring` | | Returns `x y z`.
+--- `__unm` | | Returns new [Vector](https://wiki.facepunch.com/gmod/Vector) with the result of negation.
+---@source https://wiki.facepunch.com/gmod/Vector
 ---@class Vector
 --- List of all possible functions to manipulate vectors.
 ---
 --- Created by Global.Vector.
 ---@field x number
+---@field X number
+---@field r number
 ---@field y number
+---@field Y number
+---@field g number
 ---@field z number
+---@field Z number
+---@field b number
 ---@field [1] number
 ---@field [2] number
 ---@field [3] number

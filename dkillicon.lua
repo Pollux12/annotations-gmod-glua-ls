@@ -1,6 +1,8 @@
 ---@meta
 
 --- Uses the [killicon](https://wiki.facepunch.com/gmod/killicon) to persistently draw a killicon.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DKillIcon
 ---@class (partial) DKillIcon : Panel
 local DKillIcon = {}
 

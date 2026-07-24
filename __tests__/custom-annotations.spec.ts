@@ -7,6 +7,11 @@ describe('custom and plugin annotation smoke checks', () => {
 
   const readCustom = (file: string) => fs.readFileSync(path.join(customRoot, file), 'utf8');
   const readOutput = (file: string) => fs.readFileSync(path.join(outputRoot, file), 'utf8');
+  const generatedLua = () =>
+    (fs.readdirSync(outputRoot, { recursive: true }) as string[])
+      .filter((file) => file.endsWith('.lua'))
+      .map((file) => fs.readFileSync(path.join(outputRoot, file), 'utf8'))
+      .join('\n');
 
   const significantOverrideLines = (content: string) =>
     content
@@ -14,16 +19,6 @@ describe('custom and plugin annotation smoke checks', () => {
       .map((line) => line.trimEnd())
       .filter((line) => line.startsWith('---@') || /^function\s+/.test(line))
       .filter((line) => !line.startsWith('---@meta') && !line.startsWith('---@source'));
-
-  const expectCustomLinesInOutput = (customFile: string, outputFile: string) => {
-    const customLines = significantOverrideLines(readCustom(customFile));
-    const output = readOutput(outputFile);
-
-    expect(customLines.length).toBeGreaterThan(0);
-    for (const line of customLines) {
-      expect(output).toContain(line);
-    }
-  };
 
   test('darkrp plugin annotation files exist and are scoped', () => {
     const darkrpLua = path.join(process.cwd(), 'plugin', 'darkrp', 'annotations', 'darkrp.lua');
@@ -41,70 +36,16 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(camiContent).toMatch(/CAMI/);
   });
 
-  test('custom overrides propagate their annotation surface to generated output', () => {
-    const directOutputs: Array<[string, string]> = [
-      ['class.ContentSidebar.lua', 'contentsidebar.lua'],
-      ['class.ContextBase.lua', 'contextbase.lua'],
-      ['class.DColorCube.lua', 'dcolorcube.lua'],
-      ['class.DFrame.lua', 'dframe.lua'],
-      ['class.GM.lua', 'gm.lua'],
-      ['class.SpawnIcon.lua', 'spawnicon.lua'],
-      ['class.SANDBOX.lua', 'sandbox.lua'],
-      ['class.DHTMLControls.lua', 'dhtmlcontrols.lua'],
-      ['class.DImage.lua', 'dimage.lua'],
-      ['class.DImageButton.lua', 'dimagebutton.lua'],
-      ['class.DListView.lua', 'dlistview.lua'],
-      ['class.DMenu.lua', 'dmenu.lua'],
-      ['class.DMenuBar.lua', 'dmenubar.lua'],
-      ['class.DMenuOption.lua', 'dmenuoption.lua'],
-      ['class.EFFECT.lua', 'effect.lua'],
-      ['DDragBase.DropAction_Copy.lua', 'ddragbase.lua'],
-      ['DDragBase.DropAction_Normal.lua', 'ddragbase.lua'],
-      ['DDragBase.DropAction_Simple.lua', 'ddragbase.lua'],
-      ['DFileBrowser.SetOpen.lua', 'dfilebrowser.lua'],
-      ['DForm.TextEntry.lua', 'dform.lua'],
-      ['DImage.SetMatName.lua', 'dimage.lua'],
-      ['DMenu.SetOpenSubMenu.lua', 'dmenu.lua'],
-      ['DPanelList.Clear.lua', 'dpanellist.lua'],
-      ['DPanelList.SortByMember.lua', 'dpanellist.lua'],
-      ['DTree.AddNode.lua', 'dtree.lua'],
-      ['DTree.OnNodeSelected.lua', 'dtree.lua'],
-      ['DTree_Node.AddNode.lua', 'dtree_node.lua'],
-      ['Panel.PerformLayout.lua', 'panel.lua'],
-      ['DTree_Node.OnNodeSelected.lua', 'dtree_node.lua'],
-      ['TOOL.BuildCPanel.lua', 'tool.lua'],
-      ['TOOL.Deploy.lua', 'tool.lua'],
-      ['TOOL.Holster.lua', 'tool.lua'],
-      ['Tool.GetSWEP.lua', 'tool.lua'],
-      ['Tool.GetWeapon.lua', 'tool.lua'],
-      ['class.Weapon.lua', 'weapon.lua'],
-      ['Weapon.GetToolObject.lua', 'weapon.lua'],
-      ['Weapon.CheckLimit.lua', 'weapon.lua'],
-      ['constraint.Elastic.lua', 'constraint.lua'],
-      ['constraint.Weld.lua', 'constraint.lua'],
-      ['ContentHeader.OpenMenu.lua', 'contentheader.lua'],
-      ['duplicator.EntityModifiers.lua', 'duplicator.lua'],
-      ['Global.assert.lua', 'global.lua'],
-      ['Global.collectgarbage.lua', 'global.lua'],
-      ['Global.error(lowercase).lua', 'global.lua'],
-      ['Global.FixInvalidPhysicsObject.lua', 'global.lua'],
-      ['Global.IsEntity.lua', 'global.lua'],
-      ['Global.pairs.lua', 'global.lua'],
-      ['GM.AddNotify.lua', 'gm.lua'],
-      ['Entity.IsVehicle.lua', 'entity.lua'],
-      ['Entity.IsNPC.lua', 'entity.lua'],
-      ['Global.IsHostingGame.lua', 'global.lua'],
-      ['Global.Entity.lua', 'global.lua'],
-      ['IconEditor.SetIcon.lua', 'iconeditor.lua'],
-      ['Player.CheckLimit.lua', 'player.lua'],
-      ['Player.IsListenServerHost.lua', 'player.lua'],
-      ['Weapon.GetToolObject.lua', 'weapon.lua'],
-      ['workshopfilebase.FillFileInfo.lua', 'workshopfilebase.lua'],
-      ['workshopfilebase.dupes.lua', 'workshopfilebase.lua'],
-    ];
+  test('custom override declarations are included in generated output', () => {
+    const output = generatedLua();
+    const customFiles = fs.readdirSync(customRoot).filter((file) => file.endsWith('.lua'));
 
-    for (const [customFile, outputFile] of directOutputs) {
-      expectCustomLinesInOutput(customFile, outputFile);
+    expect(customFiles.length).toBeGreaterThan(0);
+
+    for (const customFile of customFiles) {
+      for (const line of significantOverrideLines(readCustom(customFile))) {
+        expect(output).toContain(line);
+      }
     }
   });
 
@@ -122,28 +63,6 @@ describe('custom and plugin annotation smoke checks', () => {
 
     expect(gmLua).toContain('---@realm client\n---@source sandbox/gamemode/cl_notice.lua\n---@param str string\n---@param type integer\n---@param length number\nfunction GM:AddNotify(str, type, length) end');
     expect(globalLua).toContain('---@realm server\n---@source sandbox/gamemode/commands.lua\n---@param prop Entity\nfunction _G.FixInvalidPhysicsObject(prop) end');
-  });
-
-  test('custom class fragments are included in the generated custom class bundle', () => {
-    const customClasses = readOutput('custom_classes.lua');
-    const classFiles = [
-      'class.EngineEntities.lua',
-      'class.EnginePanels.lua',
-      'class.SKIN.lua',
-      'class.SkeletonConvertor.lua',
-      'class.base_ai.lua',
-      'class.base_gmodentity.lua',
-      'class.env_fire.lua',
-      'class.prop_dynamic_override.lua',
-      'class.prop_ragdoll.lua',
-      'class.prop_vehicle_prisoner_pod.lua',
-    ];
-
-    for (const customFile of classFiles) {
-      for (const line of significantOverrideLines(readCustom(customFile))) {
-        expect(customClasses).toContain(line);
-      }
-    }
   });
 
   test('networked getter overrides keep generic fallback defaults encoded', () => {

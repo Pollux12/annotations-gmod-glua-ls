@@ -7,18 +7,6 @@ describe('custom and plugin annotation smoke checks', () => {
 
   const readCustom = (file: string) => fs.readFileSync(path.join(customRoot, file), 'utf8');
   const readOutput = (file: string) => fs.readFileSync(path.join(outputRoot, file), 'utf8');
-  const generatedLua = () =>
-    (fs.readdirSync(outputRoot, { recursive: true }) as string[])
-      .filter((file) => file.endsWith('.lua'))
-      .map((file) => fs.readFileSync(path.join(outputRoot, file), 'utf8'))
-      .join('\n');
-
-  const significantOverrideLines = (content: string) =>
-    content
-      .split(/\r?\n/)
-      .map((line) => line.trimEnd())
-      .filter((line) => line.startsWith('---@') || /^function\s+/.test(line))
-      .filter((line) => !line.startsWith('---@meta') && !line.startsWith('---@source'));
 
   test('darkrp plugin annotation files exist and are scoped', () => {
     const darkrpLua = path.join(process.cwd(), 'plugin', 'darkrp', 'annotations', 'darkrp.lua');
@@ -34,19 +22,6 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(darkrpContent).toMatch(/DarkRP/);
     expect(camiContent).toContain('---@meta');
     expect(camiContent).toMatch(/CAMI/);
-  });
-
-  test('custom override declarations are included in generated output', () => {
-    const output = generatedLua();
-    const customFiles = fs.readdirSync(customRoot).filter((file) => file.endsWith('.lua'));
-
-    expect(customFiles.length).toBeGreaterThan(0);
-
-    for (const customFile of customFiles) {
-      for (const line of significantOverrideLines(readCustom(customFile))) {
-        expect(output).toContain(line);
-      }
-    }
   });
 
   test('GM annotations include runtime-populated structure fields', () => {

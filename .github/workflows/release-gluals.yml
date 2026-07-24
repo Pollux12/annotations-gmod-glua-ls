@@ -185,7 +185,7 @@ jobs:
         run: |
           npm run generate-lua -- \
             --output ./output \
-            --custom-overrides ./custom
+            -c ./custom
           npm run generate-plugin-index
           npm run generate-plugin-artifacts -- \
             --pluginRoot ./plugin \

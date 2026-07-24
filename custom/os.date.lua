@@ -27,5 +27,5 @@
 ---@overload fun(fmt:"!*t", time?: number):DateData
 ---@param format? string # The format string. If `*t` or `!*t`, returns a [Structures/DateData](https://wiki.facepunch.com/gmod/Structures/DateData) table instead.
 ---@param time? number # Time to use for the format.
----@return string # Formatted date string, or a [Structures/DateData](https://wiki.facepunch.com/gmod/Structures/DateData) table if format is `*t` or `!*t`.
+---@return string|DateData # Formatted date string, or a [Structures/DateData](https://wiki.facepunch.com/gmod/Structures/DateData) table if format is `*t` or `!*t`.
 function os.date(format, time) end

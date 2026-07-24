@@ -5,8 +5,8 @@
 ---@generic T: table
 ---@[call_arg("gmod.vgui_panel", "register_table")]
 ---@[call_arg_field("gmod.vgui_panel", "base", "Base")]
----@param metatable T Your PANEL table.
+---@param metatable T? Your PANEL table.
 ---@param parent? Panel Which panel to parent the newly created panel to.
 ---@param name? string Custom name of the created panel for scripting/debugging purposes. Can be retrieved with Panel:GetName.
----@return (instance) Panel # The created panel, or `nil` if creation failed for whatever reason.
+---@return (instance) T? # The created panel, or `nil` if creation failed for whatever reason.
 function vgui.CreateFromTable(metatable, parent, name) end

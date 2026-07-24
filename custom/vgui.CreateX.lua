@@ -6,6 +6,7 @@
 ---@generic T : Panel
 ---@[call_arg("gmod.vgui_panel", "reference")]
 ---@param class `T` Class of the panel to create
+---@[call_arg("gmod.vgui_panel", "parent")]
 ---@param parent? Panel If specified, parents created panel to given one
 ---@param name? string Name of the created panel
 ---@return (instance) T # Created panel

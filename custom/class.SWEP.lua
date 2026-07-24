@@ -1,2 +1,13 @@
 ---@class SWEP : WEAPON
+---@field Tool? table<string, Tool> Map of tool mode name → instantiated tool object. Set by gmod_tool SWEP.
+---@field Mode? string Currently active tool mode name (e.g. "weld"). Set in SWEP:Think by gmod_tool.
+---@field current_mode? string The tool mode active this frame.
+---@field last_mode? string The tool mode active the previous frame.
+---@field m_uHolsterFrame? number Frame number on which the weapon was holstered (used to skip the extra Think call).
+---@field Icons? table<string, IMaterial> Cache of loaded icon materials keyed by path. Set by gmod_tool SWEP DrawHUD.
+---@field ToolNameHeight? number Height of the tool name HUD element. Used by gmod_tool SWEP.
+---@field InfoBoxHeight? number Height of the tool info box HUD element. Used by gmod_tool SWEP.
+---@field Gradient? number Texture ID of the gradient texture used for the HUD background.
+---@field InfoIcon? number Texture ID of the info icon used for the HUD.
+---@field WepSelectIcon? number Texture ID of the weapon select icon.
 SWEP = {}

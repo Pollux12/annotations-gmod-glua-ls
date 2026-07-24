@@ -35,7 +35,7 @@ TOOL.ServerConVars = nil
 ---The function that is called to build the context menu for your tool. It has one argument, namely the context menu's base panel to which all of your custom panels are going to be parented to.
 ---
 --- While it might sound like a hook, it isn't - you won't receive a `self` argument inside the function. See TOOL.BuildCPanel.
----@type fun(panel: ControlPanel)
+---@type fun(panel: ControlPanel, ...any)
 TOOL.BuildCPanel = nil
 
 ---Allows you to override the tool usage information shown when the tool is equipped.

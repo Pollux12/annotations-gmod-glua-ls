@@ -1,0 +1,21 @@
+--- Used for [serverlist.Query](https://wiki.facepunch.com/gmod/serverlist.Query).
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/Structures/ServerQueryData
+---@class (partial) ServerQueryData
+---The game directory to get the servers for.
+---
+--- Default: `garrysmod`
+---@field GameDir string
+---Type of servers to retrieve. Valid values are `internet`, `favorite`, `history` and `lan`.
+---@field Type string
+---Steam application ID to get the servers for.
+---
+--- Default: `4000`
+---@field AppID number
+---Called when a new server is found and queried.
+---@field Callback fun(ping: number, name: string, desc: string, map: string, players: number, maxplayers: number, botplayers: number, pass: boolean, lastplayed: number, address: string, gamemode: string, workshopid: number, isanon: boolean, netversion: string, luaversion: string, localization: string, gmcategory: string):(stop: boolean)
+---Called if the query has failed, called with the server IP address.
+---@field CallbackFailed function
+---Called when the query is finished. No arguments.
+---@field Finished function
+local ServerQueryData = {}

@@ -7,4 +7,5 @@
 ---@param expression T # The expression to assert.
 ---@param ... T1... # Error Message and any arguments to return on success.
 ---@return std.NotNull<T>, T1... # If successful, returns the first argument. On error, returns error message.
+---@[return_alias(0)]
 function _G.assert(expression, ...) end

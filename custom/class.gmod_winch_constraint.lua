@@ -1,0 +1,14 @@
+---@source garrysmod/lua/includes/modules/constraint.lua
+---@class gmod_winch_constraint : Entity
+---@field Ent1 Entity First constrained entity.
+---@field Ent2 Entity Second constrained entity.
+---@field Phys1 PhysObj First constrained physics object.
+---@field Phys2 PhysObj Second constrained physics object.
+---@field LPos1 Vector First local constraint position.
+---@field LPos2 Vector Second local constraint position.
+---@field fwd_speed number Forward winch/hydraulic speed.
+---@field bwd_speed number Backward winch/hydraulic speed.
+---@field period number Muscle period.
+---@field amplitude number Muscle amplitude.
+---@field toggle boolean Toggle behavior flag.
+local gmod_winch_constraint = {}

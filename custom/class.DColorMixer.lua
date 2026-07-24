@@ -1,0 +1,21 @@
+---@class DColorMixer : DPanel
+---@field Palette DColorPalette
+---@field label DLabel
+---@field WangsPanel Panel
+---@field txtR DNumberWang
+---@field txtG DNumberWang
+---@field txtB DNumberWang
+---@field txtA DNumberWang
+---@field HSV DColorCube
+---@field RGB DRGBPicker
+---@field Alpha DAlphaBar
+---@field NextConVarCheck number
+---@field m_bPalette? boolean
+---@field m_bAlpha boolean
+---@field m_bWangsPanel boolean
+---@field m_ConVarR? string
+---@field m_ConVarG? string
+---@field m_ConVarB? string
+---@field m_ConVarA? string
+---@field m_Color Color
+local DColorMixer = {}

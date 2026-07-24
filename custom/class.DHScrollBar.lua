@@ -1,0 +1,14 @@
+---@class DHScrollBar : Panel
+---@field Offset number
+---@field Scroll number
+---@field CanvasSize number
+---@field BarSize number
+---@field btnLeft DButton
+---@field btnRight DButton
+---@field btnGrip DScrollBarGrip
+---@field HasChanged? boolean
+---@field Enabled? boolean
+---@field Dragging? boolean
+---@field DraggingCanvas? any
+---@field HoldPos? number
+local DHScrollBar = {}

@@ -29,6 +29,30 @@ describe('GLua API Writer', () => {
     expect(api).toContain('function GM:PlayerInitialSpawn(player, transition) end');
   });
 
+  it('emits panel hooks as panel-owned callback contracts', () => {
+    const markup = `
+<function name="OnNodeSelected" parent="DTree" type="panelhook">
+  <description>This function is called when a node within a tree is selected.</description>
+  <realm>Client and Menu</realm>
+  <args>
+    <arg name="node" type="Panel">The node that was selected.</arg>
+  </args>
+</function>`;
+    const response = <Response>{
+      url: 'https://wiki.facepunch.com/gmod/DTree:OnNodeSelected?format=text',
+    };
+    const [page] = new WikiPageMarkupScraper(response.url).getScrapeCallback()(response, markup) as WikiPage[];
+    const writer = new GluaApiWriter();
+    writer.writePages([page], mockFilePath);
+    const api = writer.makeApiFromPages(writer.getPages(mockFilePath));
+
+    expect(api).toContain('---@hook OnNodeSelected');
+    expect(api).toContain('---@realm client');
+    expect(api).toContain('---@realm menu');
+    expect(api).toContain('---@param node Panel The node that was selected.');
+    expect(api).toContain('function DTree:OnNodeSelected(node) end');
+  });
+
   it('should emit source and realm annotations when present', () => {
     const writer = new GluaApiWriter();
     const api = writer.writePage(<LibraryFunction>{

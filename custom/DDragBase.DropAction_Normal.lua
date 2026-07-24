@@ -1,0 +1,12 @@
+---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
+---
+--- Internal function used in DDragBase:MakeDroppable. Handles the normal drop action with positional drop targeting.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DDragBase:DropAction_Normal
+---@param drops Panel[] The list of panels being dropped.
+---@param bDoDrop boolean Whether this is an actual drop or just a hover preview.
+---@param command string The drop command string ("copy", "move", etc.)
+---@param x number Cursor X position relative to the panel.
+---@param y number Cursor Y position relative to the panel.
+function DDragBase:DropAction_Normal(drops, bDoDrop, command, x, y) end

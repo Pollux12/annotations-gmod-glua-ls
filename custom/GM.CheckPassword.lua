@@ -1,0 +1,11 @@
+---@hook CheckPassword
+---@realm server
+---@source https://wiki.facepunch.com/gmod/GM:CheckPassword
+---@param steamID64 string
+---@param ipAddress string
+---@param svPassword string
+---@param clPassword string
+---@param name string
+---@return boolean allow
+---@return string? reason
+function GM:CheckPassword(steamID64, ipAddress, svPassword, clPassword, name) end

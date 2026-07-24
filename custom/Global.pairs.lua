@@ -8,4 +8,5 @@
 ---@generic K, V, I
 ---@param t table<K, V> | V[] | {[K]: V} # The table being iterated over.
 ---@return (fun(tbl: table<I, V>, index: I?):K, V), table<I, V>, I? # The iterator function
+---@[builtin_alias("pairs")]
 function _G.pairs(t) end

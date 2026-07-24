@@ -1,0 +1,32 @@
+---@class DTextEntry : Panel
+--- Text entry input history table, used for up/down arrow navigation.
+---@field History table
+--- Current position in the history table (0 = none selected).
+---@field HistoryPos number
+--- Whether pressing enter is allowed.
+---@field m_bAllowEnter boolean
+--- Whether to update the convar as the user types.
+---@field m_bUpdateOnType boolean
+--- Whether only numeric characters are allowed.
+---@field m_bNumeric boolean
+--- Whether input history is enabled.
+---@field m_bHistory boolean
+--- Whether tab key navigation is disabled.
+---@field m_bDisableTabbing boolean
+--- The font name used for rendering text.
+---@field m_FontName string
+--- Whether to draw a border around the text entry.
+---@field m_bBorder boolean
+--- Whether to paint the background.
+---@field m_bBackground boolean
+--- The color of the text.
+---@field m_colText Color
+--- The color of the highlight/selection.
+---@field m_colHighlight Color
+--- The color of the text cursor.
+---@field m_colCursor Color
+--- The color of the placeholder text.
+---@field m_colPlaceholder Color
+--- The placeholder text shown when the entry is empty.
+---@field m_txtPlaceholder string
+local DTextEntry = {}

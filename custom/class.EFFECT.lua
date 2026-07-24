@@ -1,0 +1,14 @@
+---Hooks used inside a Lua effect.
+---
+---Lua effects are stored in either the `/lua/effects` directory or in a gamemode
+---under `/gamemodes/*/entities/effects`. Effects are entities with the classname
+---`class CLuaEffect`, so Entity functions are usable on them through `self`.
+---
+---Garry's Mod also provides the backing clientside effect entity on `self.Entity`
+---for legacy scripted effects that render or move an entity model.
+---@source https://wiki.facepunch.com/gmod/EFFECT_Hooks
+---@source garrysmod/gamemodes/base/entities/effects/base.lua
+---@source garrysmod/gamemodes/sandbox/entities/effects/balloon_pop.lua
+---@class EFFECT : Entity
+---@field Entity Entity The backing effect entity.
+EFFECT = {}

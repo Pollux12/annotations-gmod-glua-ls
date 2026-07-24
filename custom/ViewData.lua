@@ -1,0 +1,33 @@
+---Table structure used for [render.RenderView](https://wiki.facepunch.com/gmod/render.RenderView).
+---
+---Missing values are inherited from the current engine view setup.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/Structures/ViewData
+---@class (partial) ViewData
+---@field origin? Vector The view's original position.
+---@field angles? Angle The view's angles.
+---@field aspect? number Default width divided by height. Has a deprecated alias `aspectratio`.
+---@field x? number The x position of the viewport to render in.
+---@field y? number The y position of the viewport to render in.
+---@field w? number The width of the viewport to render in.
+---@field h? number The height of the viewport to render in.
+---@field drawhud? boolean Draw the HUD and call the hud painting related hooks.
+---@field drawmonitors? boolean Draw monitors.
+---@field drawviewmodel? boolean The weapon's viewmodel.
+---@field drawviewer? boolean Whether to force draw the local player or not.
+---@field viewmodelfov? number The viewmodel's FOV.
+---@field fov? number The main view's FOV.
+---@field ortho? table If set, renders the view orthogonally.
+---@field ortholeft? number Deprecated left clipping plane coordinate.
+---@field orthoright? number Deprecated right clipping plane coordinate.
+---@field orthotop? number Deprecated top clipping plane coordinate.
+---@field orthobottom? number Deprecated bottom clipping plane coordinate.
+---@field znear? number The distance of the view's origin to the near clipping plane.
+---@field zfar? number The distance of the view's origin to the far clipping plane.
+---@field znearviewmodel? number The distance to the near clipping plane for the viewmodel.
+---@field zfarviewmodel? number The distance to the far clipping plane for the viewmodel.
+---@field dopostprocess? boolean Disables post processing.
+---@field bloomtone? boolean Disables default engine bloom and pauses HDR brightness changes.
+---@field viewid? VIEW Which logical part of the scene an entity is rendered in.
+---@field offcenter? table Portion of the screen to draw for off-center rendering.
+local ViewData = {}

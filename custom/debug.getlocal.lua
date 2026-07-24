@@ -1,0 +1,14 @@
+---Returns the name and value of a local variable at a stack level or in a function.
+---
+---The thread argument is optional. An out-of-range stack level or local index returns nil.
+---@realm shared
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/debug.getlocal
+---@overload fun(level: integer|function, index: integer): string?, any
+---@param thread thread
+---@param level integer|function
+---@param index integer
+---@return string?
+---@return any
+---@nodiscard
+function debug.getlocal(thread, level, index) end

@@ -5,5 +5,5 @@
 ---@source https://wiki.facepunch.com/gmod/scripted_ents.Get
 ---@generic T : table
 ---@param classname `T` The classname of the ENT table to return, can be an alias
----@return (definition) `T` # entTable
+---@return (definition) `T`? # entTable, or nil if no scripted entity is registered with that class name.
 function scripted_ents.Get(classname) end

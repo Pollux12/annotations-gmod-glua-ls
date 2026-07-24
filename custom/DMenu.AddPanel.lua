@@ -5,5 +5,5 @@
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DMenu:AddPanel
 ---@generic T : Panel
----@param pnl `T` The panel that you want to add.
+---@param pnl T The panel that you want to add.
 function DMenu:AddPanel(pnl) end

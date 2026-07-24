@@ -1,0 +1,13 @@
+---Formats the supplied number of seconds to the specified format.
+---
+---When no format is supplied, this returns a FormattedTime table instead.
+---@realm client
+---@realm menu
+---@realm server
+---@source https://wiki.facepunch.com/gmod/string.FormattedTime
+---@overload fun(seconds: number): FormattedTime
+---@overload fun(seconds: number, format: nil): FormattedTime
+---@param seconds? number Number of seconds to format.
+---@param format? string The format string. If this is omitted, a FormattedTime table is returned instead.
+---@return string|FormattedTime # The formatted time string, or a FormattedTime table when no format is supplied.
+function string.FormattedTime(seconds, format) end

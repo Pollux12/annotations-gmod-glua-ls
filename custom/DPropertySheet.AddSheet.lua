@@ -13,5 +13,5 @@
 ---@param noStretchX? boolean Should DPropertySheet try to fill itself with given panel horizontally.
 ---@param noStretchY? boolean Should DPropertySheet try to fill itself with given panel vertically.
 ---@param tooltip? string Tooltip for the tab when user hovers over it with his cursor
----@return DPropertySheetSheet sheet The created sheet record.
+---@return DPropertySheetSheet? sheet The created sheet record, or nil if the panel is invalid.
 function DPropertySheet:AddSheet(name, pnl, icon, noStretchX, noStretchY, tooltip) end

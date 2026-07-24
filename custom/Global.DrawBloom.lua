@@ -1,0 +1,13 @@
+---Draws the bloom post-processing effect.
+---@realm client
+---@source https://github.com/Facepunch/garrysmod/blob/master/garrysmod/lua/postprocess/bloom.lua
+---@param darken number
+---@param multiply number
+---@param sizex number
+---@param sizey number
+---@param passes number
+---@param color number
+---@param colr number
+---@param colg number
+---@param colb number
+function _G.DrawBloom(darken, multiply, sizex, sizey, passes, color, colr, colg, colb) end

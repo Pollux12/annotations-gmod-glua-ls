@@ -4,6 +4,6 @@
 ---@generic T
 ---@overload fun(self: Entity, key: string): Vector # The value associated with the key
 ---@param key string The key that is associated with the value
----@param fallback T The value to return if we failed to retrieve the value.
+---@param fallback? T=Vector( 0, 0, 0 ) The value to return if we failed to retrieve the value.
 ---@return Vector|T # The value associated with the key
 function Entity:GetNW2Vector(key, fallback) end

@@ -1,6 +1,6 @@
 import { markup as classFunctionMarkup, json as classFunctionJson } from '../test-data/offline-sites/gmod-wiki/class-function-weapon-allowsautoswitchto';
 import { markup as libraryFunctionMarkup, json as libraryFunctionJson } from '../test-data/offline-sites/gmod-wiki/library-function-ai-getscheduleid';
-import { ClassFunction, Enum, HookFunction, LibraryFunction, Struct, WikiPageMarkupScraper } from '../../src/scrapers/wiki-page-markup-scraper';
+import { ClassFunction, Enum, HookFunction, LibraryFunction, Struct, WikiPage, WikiPageMarkupScraper } from '../../src/scrapers/wiki-page-markup-scraper';
 import { markup as hookMarkup, json as hookJson } from '../test-data/offline-sites/gmod-wiki/hook-player-initial-spawn';
 import { markup as structMarkup, json as structJson } from '../test-data/offline-sites/gmod-wiki/struct-ang-pos';
 import { markup as enumMarkup, json as enumJson } from '../test-data/offline-sites/gmod-wiki/enums-use';
@@ -87,6 +87,37 @@ describe('GMod Wiki Page Markup Parse', () => {
     const scrapeCallback = new WikiPageMarkupScraper(responseMock.url).getScrapeCallback();
 
     expect(scrapeCallback(responseMock, hookMarkup)).toEqual([<HookFunction>hookJson]);
+  });
+
+  it('parses panel hooks with their panel owner and callback signature', () => {
+    const markup = `
+<function name="OnNodeSelected" parent="DTree" type="panelhook">
+  <description>This function is called when a node within a tree is selected.</description>
+  <realm>Client and Menu</realm>
+  <args>
+    <arg name="node" type="Panel">The node that was selected.</arg>
+  </args>
+</function>`;
+    const responseMock = <Response>{
+      url: 'https://wiki.facepunch.com/gmod/DTree:OnNodeSelected?format=text',
+    };
+    const [page] = new WikiPageMarkupScraper(responseMock.url).getScrapeCallback()(responseMock, markup) as WikiPage[];
+
+    expect(page).toMatchObject({
+      type: 'panelhook',
+      parent: 'DTree',
+      name: 'OnNodeSelected',
+      address: 'DTree:OnNodeSelected',
+      realm: 'client and menu',
+      isPanelHook: 'yes',
+      arguments: [{
+        args: [{
+          name: 'node',
+          type: 'Panel',
+          description: 'The node that was selected.',
+        }],
+      }],
+    });
   });
 
   it('should be able to parse a enum markup', async () => {

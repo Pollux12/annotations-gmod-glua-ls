@@ -17,6 +17,8 @@ jobs:
           node-version: "22"
       - name: Install dependencies
         run: npm ci
+      - name: Generate output fixtures
+        run: npm run scrape-wiki
       - name: Run tests
         run: npm run ci:test
       - uses: coverallsapp/github-action@v2

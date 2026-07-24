@@ -1,0 +1,19 @@
+---Returns a list of addons the player have subscribed to on the workshop.
+---
+--- This list will also include "Floating" .gma addons that are mounted by the game, but not the folder addons.
+---@realm shared
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/engine.GetAddons
+---@class (partial) EngineAddon
+---@field downloaded number The amount of bytes downloaded.
+---@field models table List of models included in the addon.
+---@field title string The addon title.
+---@field file string The path to the mounted .gma file.
+---@field mounted boolean Whether the addon is currently mounted.
+---@field wsid string The workshop ID for non-local addons.
+---@field size number The addon size in bytes.
+---@field updated number Unix timestamp of the last update.
+---@field tags string Comma-separated tag list.
+---@field timeadded number Unix timestamp when the addon was added.
+---@return EngineAddon[] # A table of addon entries.
+function engine.GetAddons() end

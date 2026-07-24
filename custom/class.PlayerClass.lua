@@ -1,0 +1,34 @@
+---
+--- The **PLAYER** table is the structure used to define a custom player class
+--- via [player_manager.RegisterClass](https://wiki.facepunch.com/gmod/player_manager.RegisterClass).
+--- Player class methods receive the authoring table as `self`, with the driven
+--- [Player](https://wiki.facepunch.com/gmod/Player) entity available as `self.Player`.
+---
+--- The fields below mirror the shipped `player_default` class
+--- (`garrysmod/gamemodes/base/gamemode/player_class/player_default.lua`); the
+--- `Player`, `ClassID` and `Func` fields are injected at runtime by
+--- `player_manager.lua`'s `LookupPlayerClass`. All fields are optional because a
+--- player class only authors the subset it wants to override.
+---
+---@class PlayerClass
+---@field Player Player The Player entity this class instance is driving. Injected at runtime by player_manager. Always present inside class methods.
+---@field ClassID? number Network string ID of the active player class. Injected at runtime by player_manager.
+---@field Func? fun() Internal no-op placeholder. Injected at runtime by player_manager.
+---@field DisplayName? string Human-readable display name for this player class.
+---@field SlowWalkSpeed? number Movement speed when slow-walking (+WALK). Default: 200.
+---@field WalkSpeed? number Movement speed when walking (not running). Default: 400.
+---@field RunSpeed? number Movement speed when running. Default: 600.
+---@field CrouchedWalkSpeed? number Multiplier applied to move speed while crouching. Default: 0.3.
+---@field DuckSpeed? number Speed of transition from standing to crouching. Default: 0.3.
+---@field UnDuckSpeed? number Speed of transition from crouching to standing. Default: 0.3.
+---@field JumpPower? number Vertical impulse strength on jump. Default: 200.
+---@field CanUseFlashlight? boolean Whether the player can use the flashlight. Default: true.
+---@field MaxHealth? number Maximum health the player can have. Default: 100.
+---@field MaxArmor? number Maximum armor the player can have. Default: 100.
+---@field StartHealth? number Health given to the player on spawn. Default: 100.
+---@field StartArmor? number Armor given to the player on spawn. Default: 0.
+---@field DropWeaponOnDie? boolean Whether to drop the active weapon on death. Default: false.
+---@field TeammateNoCollide? boolean Whether teammates pass through each other. Default: true.
+---@field AvoidPlayers? boolean Whether the player auto-swerves around others. Default: true.
+---@field UseVMHands? boolean Whether to use viewmodel hands. Default: true.
+PlayerClass = {}

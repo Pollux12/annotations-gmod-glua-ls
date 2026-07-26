@@ -106,12 +106,13 @@ function spawnmenu.AddToolCategory(tabName, className, printName) end
 ---@param name string The nice name of item to show to the player. See Addon Localization.
 ---@param cmd? string Console command to execute when the item is selected.
 ---@param config? string Config name, used in older versions to load tool settings UI from a file.
+---
+--- Legacy argument, no longer works.
 ---@param cpanel fun(pnl: ControlPanel) A function to build the context panel.
 ---
 --- Function argument(s):
 --- * ControlPanel `pnl` - A ControlPanel that will be shown in the context menu
 ---@param table? table Allows to override the table that will be added to the tool list. Some of the fields will be overwritten by this function.
----@deprecated Legacy argument, no longer works.
 function spawnmenu.AddToolMenuOption(tab, category, class, name, cmd, config, cpanel, table) end
 
 ---Adds a new tool tab to the right side of the spawnmenu. (usually via the [SANDBOX:AddToolMenuTabs](https://wiki.facepunch.com/gmod/SANDBOX:AddToolMenuTabs) hook)

@@ -186,6 +186,7 @@ function render.CopyTexture(texture_from, texture_to) end
 function render.CullMode(cullMode) end
 
 ---Set's the depth range of the upcoming render.
+--- **NOTE**: Viewmodels get drawn with a depth range of `0` to `0.1` instead of the normal `0` to `1`. Incorrectly resetting the value can cause rendering issues.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/render.DepthRange
 ---@param depthmin number The minimum depth of the upcoming render. `0.0` = render normally; `1.0` = render nothing.
@@ -1022,7 +1023,7 @@ function render.SetLightmapTexture(tex) end
 --- Disables all local lights if called with no arguments.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/render.SetLocalModelLights
----@param lights? LocalLight[] A table containing up to 4 tables for each light source that should be set up. Each of these tables should contain the properties of its associated light source, see Structures/LocalLight.
+---@param lights? Structures/LocalLight[] A table containing up to 4 tables for each light source that should be set up. Each of these tables should contain the properties of its associated light source, see Structures/LocalLight.
 function render.SetLocalModelLights(lights) end
 
 ---Sets the material to be used in any upcoming render operation using the [render](https://wiki.facepunch.com/gmod/render).

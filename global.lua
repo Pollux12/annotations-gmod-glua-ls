@@ -2437,9 +2437,10 @@ function _G.ProtectedCall(func, ...) end
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Global.RandomPairs
----@param table table Table to create iterator for
----@param descending? boolean Whether the iterator should iterate descending or not
----@return function # Iterator function
+---@generic K, V
+---@param table table<K, V> | V[] | {[K]: V} # Table to create iterator for
+---@param descending? boolean # Whether the iterator should iterate descending or not
+---@return fun(state: table): K, V # Iterator function
 ---@return table # Internal iterator state, not the source table. It must be passed straight through to the generic for loop; capturing only the first return value and iterating over that will error.
 function _G.RandomPairs(table, descending) end
 
@@ -3038,9 +3039,10 @@ function _G.SetPhysConstraintSystem(constraintSystem) end
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Global.SortedPairs
----@param table table The table to sort
----@param desc? boolean Reverse the sorting order
----@return function # Iterator function
+---@generic K, V
+---@param table table<K, V> | V[] | {[K]: V} # The table to sort
+---@param desc? boolean # Reverse the sorting order
+---@return fun(tbl: any, key: K?): K, V # Iterator function
 function _G.SortedPairs(table, desc) end
 
 ---Returns an iterator function that can be used to loop through a table in order of member values, when the values of the table are also tables and contain that member.
@@ -3051,10 +3053,11 @@ function _G.SortedPairs(table, desc) end
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Global.SortedPairsByMemberValue
----@param table table Table to create iterator for.
----@param memberKey any Key of the value member to sort by.
----@param descending? boolean Whether the iterator should iterate in descending order or not.
----@return function # Iterator function
+---@generic K, V
+---@param table table<K, V> | V[] | {[K]: V} # Table to create iterator for.
+---@param memberKey any # Key of the value member to sort by.
+---@param descending? boolean # Whether the iterator should iterate in descending order or not.
+---@return fun(state: table): K, V # Iterator function
 ---@return table # Internal iterator state, not the source table. It must be passed straight through to the generic for loop; capturing only the first return value and iterating over that will error.
 function _G.SortedPairsByMemberValue(table, memberKey, descending) end
 
@@ -3066,9 +3069,10 @@ function _G.SortedPairsByMemberValue(table, memberKey, descending) end
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Global.SortedPairsByValue
----@param table table Table to create iterator for
----@param descending? boolean Whether the iterator should iterate in descending order or not
----@return function # Iterator function
+---@generic K, V
+---@param table table<K, V> | V[] | {[K]: V} # Table to create iterator for
+---@param descending? boolean # Whether the iterator should iterate in descending order or not
+---@return fun(state: table): K, V # Iterator function
 ---@return table # Internal iterator state, not the source table. It must be passed straight through to the generic for loop; capturing only the first return value and iterating over that will error.
 function _G.SortedPairsByValue(table, descending) end
 

@@ -291,17 +291,19 @@ export class WikiPageMarkupScraper extends Scraper<WikiPage> {
         const isTypePage = $('type').length > 0;
         const isPanel = $('panel').length > 0;
         const mainElement = $(isEnum ? 'enum' : isStruct ? 'struct' : isPanel ? 'panel' : 'function');
-        const isDeprecated = $('deprecated').length > 0;
+        const pageDeprecations = $('deprecated').filter(function () {
+          return $(this).parents('args, callback, rets').length === 0;
+        });
         const address = response.url.split('/').pop()!.split('?')[0];
 
         let deprecated: string | undefined = undefined;
-        if (isDeprecated && !isEnum && !isStruct) {
-          deprecated = $('deprecated').map(function () {
+        if (pageDeprecations.length > 0 && !isEnum && !isStruct) {
+          deprecated = pageDeprecations.map(function () {
             const $el = $(this);
             return $el.text().trim();
           }).get().join(' - ');
 
-          $('deprecated').remove();
+          pageDeprecations.remove();
         }
 
         if (isEnum) {

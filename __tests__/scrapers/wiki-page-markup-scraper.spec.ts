@@ -194,4 +194,43 @@ describe('GMod Wiki Page Markup Parse', () => {
     expect(page.arguments?.[0].args?.[0].type).toBe('table');
     expect(page.arguments?.[0].args?.[1].type).toBe('table');
   });
+
+  it('keeps argument deprecation notes on the argument', () => {
+    const markup = `
+<function name="AddToolMenuOption" parent="spawnmenu" type="libraryfunc">
+  <description>Adds an option to the spawnmenu.</description>
+  <realm>Client and Menu</realm>
+  <args>
+    <arg name="config" type="string" default="nil">
+      Config name used by older versions.
+      <deprecated notag="true">Legacy argument, no longer works.</deprecated>
+    </arg>
+  </args>
+</function>`;
+    const responseMock = <Response>{
+      url: 'https://wiki.facepunch.com/gmod/spawnmenu.AddToolMenuOption?format=text',
+    };
+    const [page] = new WikiPageMarkupScraper(responseMock.url).getScrapeCallback()(responseMock, markup) as LibraryFunction[];
+
+    expect(page.deprecated).toBeUndefined();
+    expect(page.arguments?.[0].args?.[0].description).toContain('Legacy argument, no longer works.');
+  });
+
+  it('keeps function deprecations nested in the description', () => {
+    const markup = `
+<function name="OldFunction" parent="test" type="libraryfunc">
+  <description>
+    Old function.
+    <deprecated>Use test.NewFunction instead.</deprecated>
+  </description>
+  <realm>Shared</realm>
+</function>`;
+    const responseMock = <Response>{
+      url: 'https://wiki.facepunch.com/gmod/test.OldFunction?format=text',
+    };
+    const [page] = new WikiPageMarkupScraper(responseMock.url).getScrapeCallback()(responseMock, markup) as LibraryFunction[];
+
+    expect(page.deprecated).toBe('Use test.NewFunction instead.');
+    expect(page.description).not.toContain('Use test.NewFunction instead.');
+  });
 });

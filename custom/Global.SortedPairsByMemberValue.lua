@@ -1,0 +1,15 @@
+---Returns an iterator function that can be used to loop through a table in order of member values, when the values of the table are also tables and contain that member.
+---
+--- To sort by **value**, use [Global.SortedPairsByValue](https://wiki.facepunch.com/gmod/Global.SortedPairsByValue).
+---
+--- To sort by **keys**, use [Global.SortedPairs](https://wiki.facepunch.com/gmod/Global.SortedPairs).
+---@realm shared
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/Global.SortedPairsByMemberValue
+---@generic K, V
+---@param table table<K, V> | V[] | {[K]: V} # Table to create iterator for.
+---@param memberKey any # Key of the value member to sort by.
+---@param descending? boolean # Whether the iterator should iterate in descending order or not.
+---@return fun(state: table): K, V # Iterator function
+---@return table # Internal iterator state, not the source table. It must be passed straight through to the generic for loop; capturing only the first return value and iterating over that will error.
+function _G.SortedPairsByMemberValue(table, memberKey, descending) end

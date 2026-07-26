@@ -9,4 +9,5 @@
 ---@source https://wiki.facepunch.com/gmod/net.ReadTable
 ---@param sequential? boolean Set to `true` if the input table is sequential. This saves on bandwidth.
 ---@return table<any, any> # Table received via the net message, or a blank table if no table could be read.
+---@[net_payload("read", "table")]
 function net.ReadTable(sequential) end

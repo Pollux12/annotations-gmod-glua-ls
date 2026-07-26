@@ -1,0 +1,12 @@
+---Reads an integer from the received net message.
+---
+--- **WARNING**: You **must** read information in same order as you write it.
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/net.ReadInt
+---@[call_arg("gmod.net_payload", "bits")]
+---@param bitCount number The amount of bits to be read.
+---
+--- This must be set to what you set to net.WriteInt. Read more information at net.WriteInt.
+---@return number # The read integer number, or `0` if no integer could be read.
+---@[net_payload("read", "int")]
+function net.ReadInt(bitCount) end

@@ -141,6 +141,13 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(tableCopyBlock).toContain('function table.Copy(originalTable, lookupTable) end');
   });
 
+  test('derma.DefineSkin accepts partial skin tables', () => {
+    const defineSkin = readCustom('derma.DefineSkin.lua');
+
+    expect(defineSkin).toContain('---@param skin table Table containing skin data. Missing values inherit from the Default skin.');
+    expect(defineSkin).not.toContain('---@param skin SKIN');
+  });
+
   test('source-backed VGUI lookup and creation overrides expose nil failure paths', () => {
     const vguiLua = readOutput('vgui.lua');
     const createBlock = vguiLua.match(

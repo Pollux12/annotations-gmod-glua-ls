@@ -1,0 +1,12 @@
+---Reads an unsigned integer with the specified number of bits from the received net message.
+---
+--- **WARNING**: You **must** read information in same order as you write it.
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/net.ReadUInt
+---@[call_arg("gmod.net_payload", "bits")]
+---@param bitCount number The size of the integer to be read, in bits.
+---
+--- This must be set to what you set to net.WriteUInt. Read more information at net.WriteUInt.
+---@return number # The unsigned integer read, or `0` if the integer could not be read.
+---@[net_payload("read", "uint")]
+function net.ReadUInt(bitCount) end

@@ -1,0 +1,18 @@
+---Appends an unsigned integer with 64 bits to the current net message.
+---
+--- The limit for an uint64 is 18'446'744'073'709'551'615.
+--- Everything above the limit will be set to the limit.
+---
+--- Unsigned numbers **do not** support negative numbers.
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/net.WriteUInt64
+---@param uint64 string The 64 bit value to be sent. Can be a number.
+---
+--- 				Since Lua cannot store full 64-bit integers, this function takes a string. It is mainly aimed at usage with [Player:SteamID64](https://wiki.facepunch.com/gmod/Player:SteamID64).
+---
+--- 				If your input is a number and not a string, it won't be networked correctly as soon as it has more than 13 digits.
+--- 				This is because Lua represents numbers over 13 digits as `1e+14`(`100 000 000 000 000`)
+--- 				You can do something like this to convert it to a string: `string.format("%.0f", number)`.
+--- 				If you try to use [Global.tostring](https://wiki.facepunch.com/gmod/Global.tostring) it will fail because it will create a result something like `1e+14` which doesn't work.
+---@[net_payload("write", "uint64")]
+function net.WriteUInt64(uint64) end

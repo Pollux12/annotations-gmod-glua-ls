@@ -1,0 +1,17 @@
+---Appends a table to the current net message. Adds **16 extra bits** per key/value pair, so you're better off writing each individual key/value as the exact type if possible.
+---
+--- **WARNING**: All net messages have a **64kb** buffer. This function will not check or error when that buffer is overflown. You might want to consider using [util.TableToJSON](https://wiki.facepunch.com/gmod/util.TableToJSON) and [util.Compress](https://wiki.facepunch.com/gmod/util.Compress) and send the resulting string in **60kb** chunks, doing the opposite on the receiving end.
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/net.WriteTable
+---@param table table The table to be sent.
+---
+--- If the table contains a `nil` key the table may not be read correctly.
+---
+--- Not all objects can be sent over the network. Things like functions, [IMaterial](https://wiki.facepunch.com/gmod/IMaterial)s, etc will cause errors when reading the table from a net message.
+---
+--- Each element is also limited by the constraint of the `net.Write` function for the element type.
+---@param sequential? boolean Set to `true` if the input table is sequential. This saves on bandwidth, adding **8 extra bits** per key/value pair instead of 16 bits.
+---
+--- To read the table you need to give [net.ReadTable](https://wiki.facepunch.com/gmod/net.ReadTable) the same value!
+---@[net_payload("write", "table")]
+function net.WriteTable(table, sequential) end

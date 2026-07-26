@@ -1,0 +1,11 @@
+---**INTERNAL**: Used internally by [net.ReadTable](https://wiki.facepunch.com/gmod/net.ReadTable).
+---
+--- Reads a value from the net message with the specified type, written by [net.WriteType](https://wiki.facepunch.com/gmod/net.WriteType).
+---
+--- **WARNING**: You **must** read information in same order as you write it.
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/net.ReadType
+---@param typeID? number The type of value to be read, using Enums/TYPE.
+---@return any # The value, or the respective blank value based on the type you're reading if the value could not be read.
+---@[net_payload("read", "type")]
+function net.ReadType(typeID) end

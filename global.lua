@@ -2440,6 +2440,7 @@ function _G.ProtectedCall(func, ...) end
 ---@param table table Table to create iterator for
 ---@param descending? boolean Whether the iterator should iterate descending or not
 ---@return function # Iterator function
+---@return table # Internal iterator state, not the source table. It must be passed straight through to the generic for loop; capturing only the first return value and iterating over that will error.
 function _G.RandomPairs(table, descending) end
 
 ---Compares the two values without calling their __eq operator.
@@ -3040,7 +3041,6 @@ function _G.SetPhysConstraintSystem(constraintSystem) end
 ---@param table table The table to sort
 ---@param desc? boolean Reverse the sorting order
 ---@return function # Iterator function
----@return table # The table being iterated over
 function _G.SortedPairs(table, desc) end
 
 ---Returns an iterator function that can be used to loop through a table in order of member values, when the values of the table are also tables and contain that member.
@@ -3055,7 +3055,7 @@ function _G.SortedPairs(table, desc) end
 ---@param memberKey any Key of the value member to sort by.
 ---@param descending? boolean Whether the iterator should iterate in descending order or not.
 ---@return function # Iterator function
----@return table # The table the iterator was created for.
+---@return table # Internal iterator state, not the source table. It must be passed straight through to the generic for loop; capturing only the first return value and iterating over that will error.
 function _G.SortedPairsByMemberValue(table, memberKey, descending) end
 
 ---Returns an iterator function that can be used to loop through a table in order of its **values**.
@@ -3069,7 +3069,7 @@ function _G.SortedPairsByMemberValue(table, memberKey, descending) end
 ---@param table table Table to create iterator for
 ---@param descending? boolean Whether the iterator should iterate in descending order or not
 ---@return function # Iterator function
----@return table # The table which will be iterated over
+---@return table # Internal iterator state, not the source table. It must be passed straight through to the generic for loop; capturing only the first return value and iterating over that will error.
 function _G.SortedPairsByValue(table, descending) end
 
 ---Runs [util.PrecacheSound](https://wiki.facepunch.com/gmod/util.PrecacheSound) and returns the string.

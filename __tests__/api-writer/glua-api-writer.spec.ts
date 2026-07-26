@@ -10,6 +10,9 @@ import { markup as varargsFuncMarkup } from '../test-data/offline-sites/gmod-wik
 import { Enum, LibraryFunction, PanelFunction, WikiPage, WikiPageMarkupScraper } from '../../src/scrapers/wiki-page-markup-scraper';
 import { GluaApiWriter } from '../../src/api-writer/glua-api-writer';
 import fetchMock from "jest-fetch-mock";
+import fs from 'fs';
+import os from 'os';
+import path from 'path';
 
 const mockFilePath = '<irrelevant for this test>';
 
@@ -392,6 +395,30 @@ describe('GLua API Writer', () => {
     const api = writer.makeApiFromPages(writer.getPages(mockFilePath));
 
     expect(api).toEqual(`${override}\n\n`);
+  });
+
+  it('should replace planned structs with direct page overrides', () => {
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'gluals-struct-override-'));
+    const outputPath = path.join(tmpDir, 'structures.lua');
+    const override = [
+      '---@class (partial) Custom_Entity_Fields',
+      '---@field custom string',
+      'local Custom_Entity_Fields = {}',
+    ].join('\n');
+    const writer = new GluaApiWriter(tmpDir);
+
+    try {
+      writer.addOverride(structJson.address, override);
+      writer.writePages([<WikiPage>structJson], outputPath);
+      writer.writeToDisk();
+
+      const api = fs.readFileSync(outputPath, 'utf8');
+      expect(api.match(/---@class \(partial\) Custom_Entity_Fields/g)).toHaveLength(1);
+      expect(api).toContain('---@field custom string');
+      expect(api).not.toContain('---@field GetEntityDriveMode function');
+    } finally {
+      fs.rmSync(tmpDir, { recursive: true, force: true });
+    }
   });
 
   it('should allow overriding specific class declarations', () => {

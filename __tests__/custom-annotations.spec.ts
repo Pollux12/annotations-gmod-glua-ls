@@ -141,6 +141,25 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(tableCopyBlock).toContain('function table.Copy(originalTable, lookupTable) end');
   });
 
+  test('custom structure overrides replace their scraped definitions', () => {
+    const structures = readOutput('structures.lua');
+    const overriddenStructures = [
+      'EntityCopyData',
+      'HTTPRequest',
+      'MatProxyData',
+      'PropertyAdd',
+      'ServerQueryData',
+      'TextData',
+      'TextureData',
+      'VideoData',
+      'ViewData',
+    ];
+
+    for (const name of overriddenStructures) {
+      expect(structures.match(new RegExp(`^---@class \\(partial\\) ${name}$`, 'gm'))).toHaveLength(1);
+    }
+  });
+
   test('derma.DefineSkin accepts partial skin tables', () => {
     const defineSkin = readCustom('derma.DefineSkin.lua');
 

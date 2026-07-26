@@ -141,6 +141,25 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(tableCopyBlock).toContain('function table.Copy(originalTable, lookupTable) end');
   });
 
+  test('custom structure overrides replace their scraped definitions', () => {
+    const structures = readOutput('structures.lua');
+    const overriddenStructures = [
+      'EntityCopyData',
+      'HTTPRequest',
+      'MatProxyData',
+      'PropertyAdd',
+      'ServerQueryData',
+      'TextData',
+      'TextureData',
+      'VideoData',
+      'ViewData',
+    ];
+
+    for (const name of overriddenStructures) {
+      expect(structures.match(new RegExp(`^---@class \\(partial\\) ${name}$`, 'gm'))).toHaveLength(1);
+    }
+  });
+
   test('source-backed VGUI lookup and creation overrides expose nil failure paths', () => {
     const vguiLua = readOutput('vgui.lua');
     const createBlock = vguiLua.match(

@@ -63,6 +63,7 @@ type PlannedClass = ClassMetadata & {
   name: string;
   outputFilePath: string;
   fields: StructField[];
+  directOverride?: string;
 };
 
 export class GluaApiWriter {
@@ -194,6 +195,10 @@ export class GluaApiWriter {
   public writePage(page: WikiPage) {
     const fileSafeAddress = safeFileName(page.address, '.');
     if (this.pageOverrides.has(fileSafeAddress)) {
+      if ((isClass(page) || isStruct(page) || isPanel(page))
+        && this.writtenClasses.has(this.resolveToCanonicalClassName(page.name)))
+        return '';
+
       let api = '';
 
       if (isClassFunction(page))
@@ -590,6 +595,9 @@ export class GluaApiWriter {
             || a.index - b.index;
         });
       const metadataPages = metadataEntries.map(({ page }) => page);
+      const directOverride = metadataEntries
+        .map(({ page }) => this.pageOverrides.get(safeFileName(page.address, '.')))
+        .find(override => override !== undefined);
       const firstMetadataValue = <T>(select: (page: WikiPage) => T | undefined) => {
         for (const page of metadataPages) {
           const value = select(page);
@@ -609,7 +617,7 @@ export class GluaApiWriter {
       const writtenFieldNames = new Set(customFieldNames);
       const fields: StructField[] = [];
 
-      for (const { page } of relevantEntries) {
+      for (const { page } of directOverride ? [] : relevantEntries) {
         if (!isStruct(page)) continue;
 
         for (const field of page.fields) {
@@ -625,6 +633,7 @@ export class GluaApiWriter {
         name: canonicalClassName,
         outputFilePath,
         fields,
+        directOverride,
         description: firstMetadataValue(page => page.description),
         realm: firstMetadataValue(page => page.realm),
         url: firstMetadataValue(page => page.url),
@@ -646,6 +655,12 @@ export class GluaApiWriter {
       .sort((a, b) => a.name.localeCompare(b.name));
 
     for (const plan of plans) {
+      if (plan.directOverride !== undefined) {
+        this.writtenClasses.add(plan.name);
+        api += `${plan.directOverride.replace(/\n+$/g, '')}\n\n`;
+        continue;
+      }
+
       const classFields = plan.fields.map(field => this.writeStructField(field)).join('');
       api += this.writeClassStart(
         plan.name,

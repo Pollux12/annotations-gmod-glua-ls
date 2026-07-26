@@ -34,7 +34,7 @@ function derma.DefineControl(name, description, tab, base) end
 ---@[call_arg("gmod.derma_skin", "define")]
 ---@param name string Name of the skin.
 ---@param description string Description of the skin.
----@param skin SKIN Table containing skin data.
+---@param skin Partial<SKIN> Table containing skin overrides. Missing values inherit from the Default skin.
 function derma.DefineSkin(name, description, skin) end
 
 ---Returns the [derma.Controls](https://wiki.facepunch.com/gmod/derma.Controls) table, a list of all derma controls registered with [derma.DefineControl](https://wiki.facepunch.com/gmod/derma.DefineControl).

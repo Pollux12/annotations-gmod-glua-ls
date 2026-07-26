@@ -1,0 +1,13 @@
+---This function can be used in a for loop instead of [Global.pairs](https://wiki.facepunch.com/gmod/Global.pairs). It sorts all **keys** alphabetically.
+---
+--- For sorting by specific **value member**, use [Global.SortedPairsByMemberValue](https://wiki.facepunch.com/gmod/Global.SortedPairsByMemberValue).
+---
+--- For sorting by **value**, use [Global.SortedPairsByValue](https://wiki.facepunch.com/gmod/Global.SortedPairsByValue).
+---@realm shared
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/Global.SortedPairs
+---@generic K, V
+---@param table table<K, V> | V[] | {[K]: V} # The table to sort
+---@param desc? boolean # Reverse the sorting order
+---@return fun(tbl: any, key: K?): K, V # Iterator function
+function _G.SortedPairs(table, desc) end

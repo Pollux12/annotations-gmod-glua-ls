@@ -324,4 +324,28 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(legacyIsEntityOverride).toContain('function _G.IsEntity(var) end');
     expect(legacyIsEntityOverride).not.toContain('function _G.isentity');
   });
+
+  test('sorted-pairs overrides expose typed generic-for values', () => {
+    const sortedPairs = readCustom('Global.SortedPairs.lua');
+    const sortedPairsByValue = readCustom('Global.SortedPairsByValue.lua');
+    const sortedPairsByMemberValue = readCustom('Global.SortedPairsByMemberValue.lua');
+    const randomPairs = readCustom('Global.RandomPairs.lua');
+
+    expect(sortedPairs).toContain('---@generic K, V');
+    expect(sortedPairs).toContain('---@return fun(tbl: any, key: K?): K, V # Iterator function');
+    expect(sortedPairs).not.toContain('---@return table #');
+
+    expect(sortedPairsByValue).toContain('---@generic K, V');
+    expect(sortedPairsByValue).toContain('---@return fun(state: table): K, V # Iterator function');
+    expect(sortedPairsByValue).toContain('---@return table # Internal iterator state, not the source table.');
+
+    expect(sortedPairsByMemberValue).toContain('---@generic K, V');
+    expect(sortedPairsByMemberValue).toContain('---@return fun(state: table): K, V # Iterator function');
+    expect(sortedPairsByMemberValue).toContain('---@return table # Internal iterator state, not the source table.');
+
+    expect(randomPairs).toContain('---@generic K, V');
+    expect(randomPairs).toContain('---@return fun(state: table): K, V # Iterator function');
+    expect(randomPairs).toContain('---@return table # Internal iterator state, not the source table.');
+  });
+
 });

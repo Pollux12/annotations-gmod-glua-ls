@@ -413,7 +413,9 @@ function _G.CreateNewAddonPreset(data) end
 ---@return CNewParticleEffect # The created particle system.
 function _G.CreateParticleSystem(ent, effect, partAtt, entAtt, offset) end
 
----Creates a new particle system, and sets control points 0 and 1 to given position, as well as optionally orientation of CP0 to the given angles. See also [Global.CreateParticleSystem](https://wiki.facepunch.com/gmod/Global.CreateParticleSystem)
+---Creates a new particle system, and sets control points 0 and 1 to given position, as well as optionally orientation of CP0 to the given angles.
+---
+--- See also [Global.CreateParticleSystem](https://wiki.facepunch.com/gmod/Global.CreateParticleSystem)
 ---
 --- **NOTE**: The particle effect must be precached with [Global.PrecacheParticleSystem](https://wiki.facepunch.com/gmod/Global.PrecacheParticleSystem) and the file its from must be added via [game.AddParticles](https://wiki.facepunch.com/gmod/game.AddParticles) before it can be used!
 ---@realm client
@@ -2271,7 +2273,9 @@ function _G.Particle(file) end
 
 ---Creates a particle effect. See also [Global.CreateParticleSystem](https://wiki.facepunch.com/gmod/Global.CreateParticleSystem).
 ---
---- **NOTE**: The particle effect must be precached **serverside** with [Global.PrecacheParticleSystem](https://wiki.facepunch.com/gmod/Global.PrecacheParticleSystem) and the file its from must be added via [game.AddParticles](https://wiki.facepunch.com/gmod/game.AddParticles) before it can be used!
+--- **NOTE**: The particle effect must be precached **serverside** with [Global.PrecacheParticleSystem](https://wiki.facepunch.com/gmod/Global.PrecacheParticleSystem) and the file its from must be added via [game.AddParticles](https://wiki.facepunch.com/gmod/game.AddParticles) before it can be used! This is due to the function using networked IDs for particle names, not directly networking particle system name.
+---
+--- Clientside, you can use [Global.CreateParticleSystemNoEntity](https://wiki.facepunch.com/gmod/Global.CreateParticleSystemNoEntity) (and similar) instead.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Global.ParticleEffect
 ---@param particleName string The name of the particle effect.
@@ -2284,7 +2288,9 @@ function _G.ParticleEffect(particleName, position, angles, parent) end
 
 ---Creates a particle effect with specialized parameters. See also [Entity:CreateParticleEffect](https://wiki.facepunch.com/gmod/Entity:CreateParticleEffect) and [Global.CreateParticleSystem](https://wiki.facepunch.com/gmod/Global.CreateParticleSystem).
 ---
---- **NOTE**: The particle effect must be precached **serverside** with [Global.PrecacheParticleSystem](https://wiki.facepunch.com/gmod/Global.PrecacheParticleSystem) and the file its from must be added via [game.AddParticles](https://wiki.facepunch.com/gmod/game.AddParticles) before it can be used!
+--- **NOTE**: The particle effect must be precached **serverside** with [Global.PrecacheParticleSystem](https://wiki.facepunch.com/gmod/Global.PrecacheParticleSystem) and the file its from must be added via [game.AddParticles](https://wiki.facepunch.com/gmod/game.AddParticles) before it can be used! This is due to the function using networked IDs for particle names, not directly networking particle system name.
+---
+--- Clientside, you can use [Global.CreateParticleSystemNoEntity](https://wiki.facepunch.com/gmod/Global.CreateParticleSystemNoEntity) (and similar) instead.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Global.ParticleEffectAttach
 ---@param particleName string The name of the particle effect.
@@ -2358,6 +2364,8 @@ function _G.PositionSpawnIcon(model, position, noAngles) end
 --- When used on the server, it automatically precaches the particle on client.
 ---
 --- **WARNING**: There is a limit of 4096 precached particles on the server. So only precache particles that are actually going to be used.
+---
+--- There is no limit clientside.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Global.PrecacheParticleSystem
 ---@param particleSystemName string The name of the particle system.

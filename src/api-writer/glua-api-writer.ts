@@ -63,11 +63,15 @@ type PlannedClass = ClassMetadata & {
   name: string;
   outputFilePath: string;
   fields: StructField[];
-  directOverride?: string;
+  directOverride?: {
+    pageAddress: string;
+    content: string;
+  };
 };
 
 export class GluaApiWriter {
   private readonly writtenClasses: Set<string> = new Set();
+  private readonly plannedPageOverrides: Set<string> = new Set();
   private readonly writtenLibraryGlobals: Set<string> = new Set();
   private readonly pageOverrides: Map<string, string> = new Map();
   private readonly plannedClasses: Map<string, PlannedClass> = new Map();
@@ -196,7 +200,7 @@ export class GluaApiWriter {
     const fileSafeAddress = safeFileName(page.address, '.');
     if (this.pageOverrides.has(fileSafeAddress)) {
       if ((isClass(page) || isStruct(page) || isPanel(page))
-        && this.writtenClasses.has(this.resolveToCanonicalClassName(page.name)))
+        && this.plannedPageOverrides.has(fileSafeAddress))
         return '';
 
       let api = '';
@@ -550,6 +554,7 @@ export class GluaApiWriter {
 
   private collectClassPlans() {
     this.plannedClasses.clear();
+    this.plannedPageOverrides.clear();
 
     const entries = [...this.files.entries()]
       .flatMap(([filePath, pages]) => pages.map(page => ({ ...page, filePath })))
@@ -596,8 +601,15 @@ export class GluaApiWriter {
         });
       const metadataPages = metadataEntries.map(({ page }) => page);
       const directOverride = metadataEntries
-        .map(({ page }) => this.pageOverrides.get(safeFileName(page.address, '.')))
+        .map(({ page }) => {
+          const pageAddress = safeFileName(page.address, '.');
+          const content = this.pageOverrides.get(pageAddress);
+          return content === undefined ? undefined : { pageAddress, content };
+        })
         .find(override => override !== undefined);
+      if (directOverride)
+        this.plannedPageOverrides.add(directOverride.pageAddress);
+
       const firstMetadataValue = <T>(select: (page: WikiPage) => T | undefined) => {
         for (const page of metadataPages) {
           const value = select(page);
@@ -656,8 +668,26 @@ export class GluaApiWriter {
 
     for (const plan of plans) {
       if (plan.directOverride !== undefined) {
-        this.writtenClasses.add(plan.name);
-        api += `${plan.directOverride.replace(/\n+$/g, '')}\n\n`;
+        const classOverrideAddress = `class.${plan.name}`;
+        // A direct page override replaces scraped fields, not a separate
+        // canonical class override (for example, TOOL and class.Tool).
+        if (plan.directOverride.pageAddress !== classOverrideAddress
+          && this.pageOverrides.has(classOverrideAddress)) {
+          api += this.writeClassStart(
+            plan.name,
+            plan.realm,
+            plan.url,
+            plan.parent,
+            plan.deprecated,
+            plan.description,
+            '',
+            true,
+          );
+        } else {
+          this.writtenClasses.add(plan.name);
+        }
+
+        api += `${plan.directOverride.content.replace(/\n+$/g, '')}\n\n`;
         continue;
       }
 

@@ -421,6 +421,64 @@ describe('GLua API Writer', () => {
     }
   });
 
+  it('should emit distinct direct and class overrides once across output files', () => {
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'gluals-aliased-overrides-'));
+    const structuresOutputPath = path.join(tmpDir, 'structures.lua');
+    const toolOutputPath = path.join(tmpDir, 'tool.lua');
+    const classOverride = [
+      '---@class ToolObjectSlot',
+      '---@field Ent Entity',
+      '---@class Tool',
+      'Tool = Tool or {}',
+    ].join('\n');
+    const directOverride = [
+      '---@type boolean?',
+      'TOOL.AddToMenu = true',
+    ].join('\n');
+    const toolClass = <WikiPage>{
+      type: 'class',
+      address: 'Tool',
+      name: 'Tool',
+      description: 'Sandbox tool methods.',
+      realm: 'shared',
+      url: 'https://wiki.facepunch.com/gmod/Tool',
+      parent: '',
+    };
+    const toolStruct = <WikiPage>{
+      type: 'struct',
+      address: 'TOOL',
+      name: 'TOOL',
+      description: 'Sandbox tool definition.',
+      realm: 'shared',
+      url: 'https://wiki.facepunch.com/gmod/Structures/TOOL',
+      fields: [{
+        name: 'ScrapedOnly',
+        type: 'string',
+        description: 'A scraped field that the direct override replaces.',
+      }],
+    };
+    const writer = new GluaApiWriter(tmpDir);
+
+    try {
+      writer.addOverride('class.Tool', classOverride);
+      writer.addOverride('TOOL', directOverride);
+      writer.writePages([toolClass], toolOutputPath);
+      writer.writePages([toolStruct], structuresOutputPath);
+      writer.writeToDisk();
+
+      const api = [structuresOutputPath, toolOutputPath]
+        .filter(filePath => fs.existsSync(filePath))
+        .map(filePath => fs.readFileSync(filePath, 'utf8'))
+        .join('\n');
+      expect(api.match(/---@class ToolObjectSlot/g)).toHaveLength(1);
+      expect(api.match(/---@class Tool\n/g)).toHaveLength(1);
+      expect(api.match(/TOOL\.AddToMenu = true/g)).toHaveLength(1);
+      expect(api).not.toContain('ScrapedOnly');
+    } finally {
+      fs.rmSync(tmpDir, { recursive: true, force: true });
+    }
+  });
+
   it('should allow overriding specific class declarations', () => {
     const writer = new GluaApiWriter();
     const overrideStart = `---@class Custom_Entity_Fields : Parent`;

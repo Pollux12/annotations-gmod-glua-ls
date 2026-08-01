@@ -241,7 +241,7 @@ function Vector:LengthSqr() end
 ---@param multiplier number The value to multiply the vector with.
 function Vector:Mul(multiplier) end
 
----Negates this vector, i.e. sets every component to the negative value of itself. Same as `Vector( -vec.x, -vec.y, -vec.z )`
+---Negates this vector, i.e. sets every component to the negative value of itself. Same as `Vector( -vec.x, -vec.y, -vec.z )` but without creating new vector object
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Vector:Negate

@@ -37,7 +37,7 @@ function DHorizontalScroller:AddPanel(pnl) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DHorizontalScroller:GetCanvas
----@return Panel # The DDragBase panel.
+---@return DDragBase # The DDragBase panel.
 function DHorizontalScroller:GetCanvas() end
 
 ---Returns the overlap set by [DHorizontalScroller:SetOverlap](https://wiki.facepunch.com/gmod/DHorizontalScroller:SetOverlap).

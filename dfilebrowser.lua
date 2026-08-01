@@ -60,7 +60,7 @@ function DFileBrowser:GetFileTypes() end
 --- This is a child of the root node of the [DTree](https://wiki.facepunch.com/gmod/DTree).
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DFileBrowser:GetFolderNode
----@return Panel # The DTree_Node used for the tree.
+---@return DTree_Node # The DTree_Node used for the tree.
 function DFileBrowser:GetFolderNode() end
 
 ---An [Global.AccessorFunc](https://wiki.facepunch.com/gmod/Global.AccessorFunc) that returns whether or not the model viewer mode is enabled. In this mode, files are displayed as [SpawnIcon](https://wiki.facepunch.com/gmod/SpawnIcon)s instead of a list.

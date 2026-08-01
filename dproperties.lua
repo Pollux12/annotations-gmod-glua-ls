@@ -31,7 +31,7 @@ function DProperties:CreateRow(category, name) end
 ---Returns the [DScrollPanel](https://wiki.facepunch.com/gmod/DScrollPanel) all the properties panels are attached to.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DProperties:GetCanvas
----@return Panel # A DScrollPanel canvas
+---@return DScrollPanel # A DScrollPanel canvas
 function DProperties:GetCanvas() end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.

@@ -16,7 +16,7 @@ local DCollapsibleCategory = {}
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DCollapsibleCategory:Add
 ---@param name string The name of the button
----@return Panel # The DButton
+---@return DButton # The DButton
 function DCollapsibleCategory:Add(name) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -74,7 +74,7 @@ function DCollapsibleCategory:GetHeaderHeight() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DCollapsibleCategory:GetList
----@return Panel # The DCategoryList that created us.
+---@return DCategoryList # The DCategoryList that created us.
 function DCollapsibleCategory:GetList() end
 
 ---Doesn't actually do anything.

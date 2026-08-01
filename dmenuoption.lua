@@ -20,7 +20,7 @@ local DMenuOption = {}
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DMenuOption:AddSubMenu
----@return Panel # The created DMenu to add options to.
+---@return DMenu # The created DMenu to add options to.
 function DMenuOption:AddSubMenu() end
 
 ---Returns the checked state of [DMenuOption](https://wiki.facepunch.com/gmod/DMenuOption).
@@ -41,7 +41,7 @@ function DMenuOption:GetIsCheckable() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DMenuOption:GetMenu
----@return Panel # A DMenu to which this panel belongs.
+---@return DMenu # A DMenu to which this panel belongs.
 function DMenuOption:GetMenu() end
 
 ---Returns whether this [DMenuOption](https://wiki.facepunch.com/gmod/DMenuOption) should act like a radio button, set by [DMenuOption:SetRadio](https://wiki.facepunch.com/gmod/DMenuOption:SetRadio).

@@ -155,7 +155,7 @@ function spawnmenu.ClearToolMenus() end
 --- * postprocess
 ---@param parent? Panel The parent to add the ContentIcon to.
 ---@param data table The data to send to the content icon in spawnmenu.AddContentType. Data required will depend on the content type.
----@return Panel # The created ContentIcon, if it was returned by spawnmenu.AddContentType.
+---@return ContentIcon # The created ContentIcon, if it was returned by spawnmenu.AddContentType.
 function spawnmenu.CreateContentIcon(type, parent, data) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.

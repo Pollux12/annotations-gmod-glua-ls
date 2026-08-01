@@ -467,7 +467,7 @@ function _G.CreateSound(targetEnt, soundName, filter) end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/Global.CreateSprite
 ---@param material IMaterial Material the sprite should draw.
----@return Panel # The new DSprite element.
+---@return DSprite # The new DSprite element.
 function _G.CreateSprite(material) end
 
 ---Returns the uptime of the server in seconds (to at least 4 decimal places)
@@ -605,7 +605,7 @@ function _G.Derma_Install_Convar_Functions(target) end
 ---@param Text string The text within the created panel.
 ---@param Title string The title of the created panel.
 ---@param Button string The text of the button to close the panel.
----@return Panel # The created DFrame
+---@return DFrame # The created DFrame
 function _G.Derma_Message(Text, Title, Button) end
 
 ---Shows a message box in the middle of the screen, with up to 4 buttons they can press.
@@ -642,7 +642,7 @@ function _G.Derma_Query(text, title, btn1text, btn1func, btn2text, btn2func, btn
 --- * string `text` - The text the player entered.
 ---@param confirmText? string Allows you to override text of the "OK" button
 ---@param cancelText? string Allows you to override text of the "Cancel" button
----@return Panel # The created DFrame
+---@return DFrame # The created DFrame
 function _G.Derma_StringRequest(title, subtitle, default, confirm, cancel, confirmText, cancelText) end
 
 ---Creates a DMenu and closes any current menus.
@@ -1923,7 +1923,7 @@ function _G.JS_Workshop(htmlPanel) end
 ---@source https://wiki.facepunch.com/gmod/Global.Label
 ---@param text string The string to set the label's text to
 ---@param parent? Panel Optional. The panel to parent the DLabel to
----@return Panel # The created DLabel
+---@return DLabel # The created DLabel
 function _G.Label(text, parent) end
 
 ---Callback function for when the client's language changes. Called by the engine.
@@ -2240,14 +2240,14 @@ function _G.OpenFolder(folder) end
 ---@source https://wiki.facepunch.com/gmod/Global.OpenProblemsPanel
 function _G.OpenProblemsPanel() end
 
----Modifies the given vectors so that all of vector2's axis are larger than vector1's by switching them around. Also known as ordering vectors.
+---Modifies the given vectors so that values of `vector2` on each axis (X Y Z) are larger than those of `vector1` by switching them around. Also known as ordering vectors.
 ---
---- **NOTE**: This function will irreversibly modify the given vectors
+--- This is useful to convert (or guarantee) 2 position vectors to a bounding box "mins" and "maxs" vectors.
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Global.OrderVectors
----@param vector1 Vector Bounding box min resultant
----@param vector2 Vector Bounding box max resultant
+---@param vector1 Vector Vector 1. This will become a "mins" vector of the resulting bounding box.
+---@param vector2 Vector Vector 2. This will become a "maxs" vector of the resulting bounding box.
 function _G.OrderVectors(vector1, vector2) end
 
 ---Returns an iterator function([Global.next](https://wiki.facepunch.com/gmod/Global.next)) for a for loop that will return the values of the specified table in an arbitrary order.
@@ -3398,7 +3398,7 @@ function _G.VGUIFrameTime() end
 ---@param y number Y position of the created element
 ---@param w number Width of the created element
 ---@param h number Height of the created element
----@return Panel # DShape element
+---@return DShape # DShape element
 function _G.VGUIRect(x, y, w, h) end
 
 ---**INTERNAL**: Used by the **vgui_visualizelayout** convar

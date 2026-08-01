@@ -654,8 +654,10 @@ function math.modf(base) end
 ---@return number # The normalized angle, in the range of -180 to 180 degrees.
 function math.NormalizeAngle(angle) end
 
----Returns x raised to the power y.
---- In particular, math.pow(1.0, x) and math.pow(x, 0.0) always return 1.0, even when x is a zero or a [nan](https://wiki.facepunch.com/gmod/nan). If both x and y are finite, x is negative, and y is not an integer then math.pow(x, y) is undefined.
+---Returns `x` raised to the power `y`.
+--- In particular, `math.pow(1.0, x)` and `math.pow(x, 0.0)` always return `1`, even when `x` is a zero or a [nan](https://wiki.facepunch.com/gmod/nan). If both `x` and `y` are finite, `x` is negative, and `y` is not an integer then `math.pow(x, y)` is undefined.
+---
+--- Alias of `x ^ y`
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/math.pow

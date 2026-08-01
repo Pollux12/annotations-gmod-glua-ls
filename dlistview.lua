@@ -26,7 +26,7 @@ local DListView = {}
 ---@param position? number At which position to insert the new column compared to the other columns. Set to 1 to add the new column before all other columns.
 ---
 --- By default the column will be placed after all columns.
----@return Panel # The newly created DListView_Column.
+---@return DListView_Column # The newly created DListView_Column.
 function DListView:AddColumn(column, position) end
 
 ---Adds a line to the list view.
@@ -34,7 +34,7 @@ function DListView:AddColumn(column, position) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DListView:AddLine
 ---@param ... any Values for a new row in the DListView, If several arguments are supplied, each argument will correspond to a respective column in the DListView.
----@return Panel # The newly created DListView_Line.
+---@return DListView_Line # The newly created DListView_Line.
 function DListView:AddLine(...) end
 
 ---Clears the current selection in the DListView.

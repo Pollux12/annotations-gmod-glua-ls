@@ -46,7 +46,7 @@ function DNumSlider:GetRange() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DNumSlider:GetTextArea
----@return Panel # The DTextEntry.
+---@return DTextEntry # The DTextEntry.
 function DNumSlider:GetTextArea() end
 
 ---Returns the value of the [DNumSlider](https://wiki.facepunch.com/gmod/DNumSlider)

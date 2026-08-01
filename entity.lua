@@ -3844,9 +3844,11 @@ function Entity:PlayScene(scene, delay) end
 ---@param target Entity The entity to face.
 function Entity:PointAtEntity(target) end
 
----Called after the duplicator finished copying the entity.
+---Called after the duplicator finished copying the entity, after [ENTITY:PreEntityCopy](https://wiki.facepunch.com/gmod/ENTITY:PreEntityCopy).
 ---
---- See also [ENTITY:PreEntityCopy](https://wiki.facepunch.com/gmod/ENTITY:PreEntityCopy), [ENTITY:PostEntityPaste](https://wiki.facepunch.com/gmod/ENTITY:PostEntityPaste) and [ENTITY:OnEntityCopyTableFinish](https://wiki.facepunch.com/gmod/ENTITY:OnEntityCopyTableFinish).
+--- Use [ENTITY:OnEntityCopyTableFinish](https://wiki.facepunch.com/gmod/ENTITY:OnEntityCopyTableFinish) to modify the dupe table for this entity.
+---
+--- See also [ENTITY:PostEntityPaste](https://wiki.facepunch.com/gmod/ENTITY:PostEntityPaste) for the restore hook.
 ---@hook PostEntityCopy
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/ENTITY:PostEntityCopy

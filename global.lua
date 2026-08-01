@@ -439,7 +439,9 @@ function _G.CreateNewAddonPreset(data) end
 ---@return CNewParticleEffect # The created particle system.
 function _G.CreateParticleSystem(ent, effect, partAtt, entAtt, offset) end
 
----Creates a new particle system, and sets control points 0 and 1 to given position, as well as optionally orientation of CP0 to the given angles. See also [Global.CreateParticleSystem](https://wiki.facepunch.com/gmod/Global.CreateParticleSystem)
+---Creates a new particle system, and sets control points 0 and 1 to given position, as well as optionally orientation of CP0 to the given angles.
+---
+--- See also [Global.CreateParticleSystem](https://wiki.facepunch.com/gmod/Global.CreateParticleSystem)
 ---
 --- **NOTE**: The particle effect must be precached with [Global.PrecacheParticleSystem](https://wiki.facepunch.com/gmod/Global.PrecacheParticleSystem) and the file its from must be added via [game.AddParticles](https://wiki.facepunch.com/gmod/game.AddParticles) before it can be used!
 ---@realm client
@@ -491,7 +493,7 @@ function _G.CreateSound(targetEnt, soundName, filter) end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/Global.CreateSprite
 ---@param material IMaterial Material the sprite should draw.
----@return Panel # The new DSprite element.
+---@return DSprite # The new DSprite element.
 function _G.CreateSprite(material) end
 
 ---Returns the uptime of the server in seconds (to at least 4 decimal places)
@@ -620,7 +622,7 @@ function _G.Derma_Install_Convar_Functions(target) end
 ---@param Text string The text within the created panel.
 ---@param Title string The title of the created panel.
 ---@param Button string The text of the button to close the panel.
----@return Panel # The created DFrame
+---@return DFrame # The created DFrame
 function _G.Derma_Message(Text, Title, Button) end
 
 ---Shows a message box in the middle of the screen, with up to 4 buttons they can press.
@@ -657,7 +659,7 @@ function _G.Derma_Query(text, title, btn1text, btn1func, btn2text, btn2func, btn
 --- * string `text` - The text the player entered.
 ---@param confirmText? string Allows you to override text of the "OK" button
 ---@param cancelText? string Allows you to override text of the "Cancel" button
----@return Panel # The created DFrame
+---@return DFrame # The created DFrame
 function _G.Derma_StringRequest(title, subtitle, default, confirm, cancel, confirmText, cancelText) end
 
 ---Creates a DMenu and closes any current menus.
@@ -1960,7 +1962,7 @@ function _G.JS_Workshop(htmlPanel) end
 ---@source https://wiki.facepunch.com/gmod/Global.Label
 ---@param text string The string to set the label's text to
 ---@param parent? Panel Optional. The panel to parent the DLabel to
----@return Panel # The created DLabel
+---@return DLabel # The created DLabel
 function _G.Label(text, parent) end
 
 ---Callback function for when the client's language changes. Called by the engine.
@@ -2275,14 +2277,14 @@ function _G.OpenFolder(folder) end
 ---@source https://wiki.facepunch.com/gmod/Global.OpenProblemsPanel
 function _G.OpenProblemsPanel() end
 
----Modifies the given vectors so that all of vector2's axis are larger than vector1's by switching them around. Also known as ordering vectors.
+---Modifies the given vectors so that values of `vector2` on each axis (X Y Z) are larger than those of `vector1` by switching them around. Also known as ordering vectors.
 ---
---- **NOTE**: This function will irreversibly modify the given vectors
+--- This is useful to convert (or guarantee) 2 position vectors to a bounding box "mins" and "maxs" vectors.
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Global.OrderVectors
----@param vector1 Vector Bounding box min resultant
----@param vector2 Vector Bounding box max resultant
+---@param vector1 Vector Vector 1. This will become a "mins" vector of the resulting bounding box.
+---@param vector2 Vector Vector 2. This will become a "maxs" vector of the resulting bounding box.
 function _G.OrderVectors(vector1, vector2) end
 
 ---Returns an iterator function([Global.next](https://wiki.facepunch.com/gmod/Global.next)) for a for loop that will return the values of the specified table in an arbitrary order.
@@ -2307,7 +2309,9 @@ function _G.Particle(file) end
 
 ---Creates a particle effect. See also [Global.CreateParticleSystem](https://wiki.facepunch.com/gmod/Global.CreateParticleSystem).
 ---
---- **NOTE**: The particle effect must be precached **serverside** with [Global.PrecacheParticleSystem](https://wiki.facepunch.com/gmod/Global.PrecacheParticleSystem) and the file its from must be added via [game.AddParticles](https://wiki.facepunch.com/gmod/game.AddParticles) before it can be used!
+--- **NOTE**: The particle effect must be precached **serverside** with [Global.PrecacheParticleSystem](https://wiki.facepunch.com/gmod/Global.PrecacheParticleSystem) and the file its from must be added via [game.AddParticles](https://wiki.facepunch.com/gmod/game.AddParticles) before it can be used! This is due to the function using networked IDs for particle names, not directly networking particle system name.
+---
+--- Clientside, you can use [Global.CreateParticleSystemNoEntity](https://wiki.facepunch.com/gmod/Global.CreateParticleSystemNoEntity) (and similar) instead.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Global.ParticleEffect
 ---@param particleName string The name of the particle effect.
@@ -2320,7 +2324,9 @@ function _G.ParticleEffect(particleName, position, angles, parent) end
 
 ---Creates a particle effect with specialized parameters. See also [Entity:CreateParticleEffect](https://wiki.facepunch.com/gmod/Entity:CreateParticleEffect) and [Global.CreateParticleSystem](https://wiki.facepunch.com/gmod/Global.CreateParticleSystem).
 ---
---- **NOTE**: The particle effect must be precached **serverside** with [Global.PrecacheParticleSystem](https://wiki.facepunch.com/gmod/Global.PrecacheParticleSystem) and the file its from must be added via [game.AddParticles](https://wiki.facepunch.com/gmod/game.AddParticles) before it can be used!
+--- **NOTE**: The particle effect must be precached **serverside** with [Global.PrecacheParticleSystem](https://wiki.facepunch.com/gmod/Global.PrecacheParticleSystem) and the file its from must be added via [game.AddParticles](https://wiki.facepunch.com/gmod/game.AddParticles) before it can be used! This is due to the function using networked IDs for particle names, not directly networking particle system name.
+---
+--- Clientside, you can use [Global.CreateParticleSystemNoEntity](https://wiki.facepunch.com/gmod/Global.CreateParticleSystemNoEntity) (and similar) instead.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Global.ParticleEffectAttach
 ---@param particleName string The name of the particle effect.
@@ -2394,6 +2400,8 @@ function _G.PositionSpawnIcon(model, position, noAngles) end
 --- When used on the server, it automatically precaches the particle on client.
 ---
 --- **WARNING**: There is a limit of 4096 precached particles on the server. So only precache particles that are actually going to be used.
+---
+--- There is no limit clientside.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Global.PrecacheParticleSystem
 ---@param particleSystemName string The name of the particle system.
@@ -2476,6 +2484,7 @@ function _G.ProtectedCall(func, ...) end
 ---@param table table Table to create iterator for
 ---@param descending? boolean Whether the iterator should iterate descending or not
 ---@return function # Iterator function
+---@return table # Internal iterator state, not the source table. It must be passed straight through to the generic for loop; capturing only the first return value and iterating over that will error.
 function _G.RandomPairs(table, descending) end
 
 ---Compares the two values without calling their __eq operator.
@@ -3079,7 +3088,6 @@ function _G.SetPhysConstraintSystem(constraintSystem) end
 ---@param table table The table to sort
 ---@param desc? boolean Reverse the sorting order
 ---@return function # Iterator function
----@return table # The table being iterated over
 function _G.SortedPairs(table, desc) end
 
 ---Returns an iterator function that can be used to loop through a table in order of member values, when the values of the table are also tables and contain that member.
@@ -3094,7 +3102,7 @@ function _G.SortedPairs(table, desc) end
 ---@param memberKey any Key of the value member to sort by.
 ---@param descending? boolean Whether the iterator should iterate in descending order or not.
 ---@return function # Iterator function
----@return table # The table the iterator was created for.
+---@return table # Internal iterator state, not the source table. It must be passed straight through to the generic for loop; capturing only the first return value and iterating over that will error.
 function _G.SortedPairsByMemberValue(table, memberKey, descending) end
 
 ---Returns an iterator function that can be used to loop through a table in order of its **values**.
@@ -3108,7 +3116,7 @@ function _G.SortedPairsByMemberValue(table, memberKey, descending) end
 ---@param table table Table to create iterator for
 ---@param descending? boolean Whether the iterator should iterate in descending order or not
 ---@return function # Iterator function
----@return table # The table which will be iterated over
+---@return table # Internal iterator state, not the source table. It must be passed straight through to the generic for loop; capturing only the first return value and iterating over that will error.
 function _G.SortedPairsByValue(table, descending) end
 
 ---Runs [util.PrecacheSound](https://wiki.facepunch.com/gmod/util.PrecacheSound) and returns the string.
@@ -3425,7 +3433,7 @@ function _G.VGUIFrameTime() end
 ---@param y number Y position of the created element
 ---@param w number Width of the created element
 ---@param h number Height of the created element
----@return Panel # DShape element
+---@return DShape # DShape element
 function _G.VGUIRect(x, y, w, h) end
 
 ---**INTERNAL**: Used by the **vgui_visualizelayout** convar

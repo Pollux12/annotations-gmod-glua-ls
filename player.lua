@@ -1014,9 +1014,7 @@ function Player:GetVehicle() end
 
 ---Returns the entity the player is using to see from (such as the player itself, the camera, or another entity).
 ---
---- 	**NOTE**: This function will return a [NULL Entity] until [Player:SetViewEntity](https://wiki.facepunch.com/gmod/Player:SetViewEntity) has been used.
----
---- It will also not return the currently spectated entity. See [Player:GetObserverTarget](https://wiki.facepunch.com/gmod/Player:GetObserverTarget).
+--- 	**NOTE**: This function will not return the currently spectated entity. See [Player:GetObserverTarget](https://wiki.facepunch.com/gmod/Player:GetObserverTarget).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Player:GetViewEntity
 ---@return Entity # The entity the player is using to see from

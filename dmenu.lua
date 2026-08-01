@@ -16,7 +16,7 @@ local DMenu = {}
 ---
 --- Function argument(s):
 --- * Panel `pnl` - The DMenuOptionCVar that was clicked.
----@return Panel # The created DMenuOptionCVar
+---@return DMenuOptionCVar # The created DMenuOptionCVar
 function DMenu:AddCVar(strText, convar, on, off, funcFunction) end
 
 ---Add an option to the DMenu

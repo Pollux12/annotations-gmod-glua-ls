@@ -1573,7 +1573,7 @@ function GM:PlayerDeathSound(ply) end
 --- Return a non-nil value to prevent the current gamemode from handling this event. In the `base` gamemode, the gamemode handles player respawning in this hook. So blocking the gamemode hook will prevent player from respawning, in this specific case.
 function GM:PlayerDeathThink(ply) end
 
----Called when a player leaves the server. See the [player_disconnect gameevent](https://wiki.facepunch.com/gmod/gameevent/player_disconnect) for a shared version of this hook.
+---Called when a player leaves the server. See the [player_disconnect gameevent](https://wiki.facepunch.com/gmod/gameevent/player_disconnect) for a shared version of this hook that includes the disconnect reason too.
 ---
 --- This is not called in single-player or listen servers for the host.
 ---@hook PlayerDisconnected

@@ -466,13 +466,18 @@ export class GluaApiWriter {
         const enumAliasValue = literalUnion.length > 0 ? `${literalUnion} | number` : 'number';
         api += `--- @alias ${_enum.name} ${enumAliasValue}\n`;
       } else {
-        // Advanced annotation: emit numeric literals to help literal-type inference for enum-backed numbers.
-        api += `\n---@alias ${_enum.name}\n`;
-        api += '---| number # Raw numeric enum value\n';
+        // Garry's Mod enums are flat globals, so the field list names each constant.
+        // Completion then offers `EF_BONEMERGE` rather than the raw value it holds.
+        // The `: number` base keeps bitwise combinations such as `bit.bor(EF_A, EF_B)`
+        // assignable, which the previous `---| number` alias member allowed.
+        api += `\n---@enum ${_enum.name} : number\n`;
 
         for (const item of _enum.items) {
           if (item.key !== '' && !isNaN(Number(item.value.trim()))) {
-            api += `---| ${item.value} # ${item.key}\n`;
+            const description = item.description?.trim()
+              ? ` # ${removeNewlines(item.description)}`
+              : '';
+            api += `---| ${item.key}${description}\n`;
           }
         }
       }

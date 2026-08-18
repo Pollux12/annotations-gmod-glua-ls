@@ -492,7 +492,7 @@ describe('GLua API Writer', () => {
     expect(api).toContain('---@field GetEntityDriveMode function');
   });
 
-  it('should create aliasses for global enumerations', () => {
+  it('should create flat enums for global enumerations', () => {
     const writer = new GluaApiWriter();
     const api = writer.writePage(<Enum>{
       type: 'enum',
@@ -527,9 +527,14 @@ describe('GLua API Writer', () => {
     expect(api).toContain('---@readonly\nMATERIAL_FOG_NONE = 0');
     expect(api).toContain('---@readonly\nMATERIAL_FOG_LINEAR = 1');
     expect(api).toContain('---@readonly\nMATERIAL_FOG_LINEAR_BELOW_FOG_Z = -2147483648');
-    expect(api).toContain('---@alias MATERIAL_FOG');
-    expect(api).toContain('---| number # Raw numeric enum value');
-    expect(api).toContain('---| 0 # MATERIAL_FOG_NONE');
+    expect(api).toContain('---@enum MATERIAL_FOG : number');
+    expect(api).toContain('---| MATERIAL_FOG_NONE # No fog');
+    expect(api).toContain('---| MATERIAL_FOG_LINEAR # Linear fog');
+    // A member without a wiki description carries no detail.
+    expect(api).toContain('---| MATERIAL_FOG_LINEAR_BELOW_FOG_Z\n');
+    // TODO values are skipped, and the enum no longer widens to bare `number`.
+    expect(api).not.toContain('MATERIAL_FOG_NEW_FAKE');
+    expect(api).not.toContain('---@alias MATERIAL_FOG');
   });
 
   it('should create enums for table enumerations', () => {

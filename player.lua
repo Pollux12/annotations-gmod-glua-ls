@@ -1140,7 +1140,7 @@ function Player:GetWeaponColor() end
 --- **NOTE**: This function returns a sequential table. Prefer to loop it with [Global.ipairs](https://wiki.facepunch.com/gmod/Global.ipairs) instead of the [Global.pairs](https://wiki.facepunch.com/gmod/Global.pairs) function.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Player:GetWeapons
----@return table # All the weapons the player currently has.
+---@return Weapon[] # All the weapons the player currently has.
 function Player:GetWeapons() end
 
 ---Gives the player a weapon.

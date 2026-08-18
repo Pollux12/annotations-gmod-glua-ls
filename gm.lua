@@ -563,7 +563,7 @@ function GM:GetDeathNoticeEntityName(name) end
 ---@return number # New fall damage
 function GM:GetFallDamage(ply, speed) end
 
----Called when the game(server) needs to update the text shown in the server browser as the gamemode. Runs at a ~2s interval, runs even when the server is hibernating.
+---Called when the game(server) needs to update the text shown in the server browser as the gamemode. Runs at a ~2s interval, runs even when the server is hibernating. This hook doesn't run when `hide_server 1` is set.
 ---
 --- **NOTE**: This hook (and the `sv_gamename_override` command) may not work on some popular gamemodes like DarkRP or Trouble Terrorist Town. This is not a bug, it's just how it works. See [here](https://github.com/Facepunch/garrysmod-issues/issues/4637#issuecomment-677884989) for more information.
 ---
@@ -2565,28 +2565,28 @@ function GM:ShouldDrawLocalPlayer(ply) end
 
 ---Called when a player executes `gm_showhelp` console command. (Default bind is F1)
 ---@hook ShowHelp
----@realm shared
+---@realm server
 ---@source https://wiki.facepunch.com/gmod/GM:ShowHelp
 ---@param ply Player Player who executed the command
 function GM:ShowHelp(ply) end
 
 ---Called when a player executes `gm_showspare1` console command ( Default bind is F3 ).
 ---@hook ShowSpare1
----@realm shared
+---@realm server
 ---@source https://wiki.facepunch.com/gmod/GM:ShowSpare1
 ---@param ply Player Player who executed the command.
 function GM:ShowSpare1(ply) end
 
 ---Called when a player executes `gm_showspare2` console command ( Default bind is F4 ).
 ---@hook ShowSpare2
----@realm shared
+---@realm server
 ---@source https://wiki.facepunch.com/gmod/GM:ShowSpare2
 ---@param ply Player Player who executed the command.
 function GM:ShowSpare2(ply) end
 
 ---Called when a player executes `gm_showteam` console command. ( Default bind is F2 )
 ---@hook ShowTeam
----@realm shared
+---@realm server
 ---@source https://wiki.facepunch.com/gmod/GM:ShowTeam
 ---@param ply Player Player who executed the command
 function GM:ShowTeam(ply) end

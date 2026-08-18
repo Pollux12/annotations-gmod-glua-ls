@@ -344,15 +344,14 @@ function Entity:CanProperty(ply, property) end
 ---@source https://wiki.facepunch.com/gmod/ENTITY:CanTool
 ---@param ply Player Player, that tried to use the tool
 ---@param tr TraceResult The trace of the tool.
---- Returns only [Entity](https://wiki.facepunch.com/gmod/Structures/TraceResult#Entity) when the 5th argument returns `4`
+--- Returns only the [world](https://wiki.facepunch.com/gmod/game.GetWorld) in the [Entity](https://wiki.facepunch.com/gmod/Structures/TraceResult#Entity) key and returns false in the [Hit](https://wiki.facepunch.com/gmod/Structures/TraceResult#Hit) key when the 5th argument returns `4`.
 ---@param toolname string Class of the tool that is tried to use, for example - `weld`
 ---@param tool table The tool mode table the player currently has selected.
 ---@param button number The tool button pressed.
---- * 1 - left click
---- * 2 - right click
---- * 3 - reload
---- * 4 - Menu (No interaction with the toolgun)
---- The number `4` is a test that Rubat is conducting to implement the CanTool in the SpawnMenu. It may disappear.
+--- * `1` - left click
+--- * `2` - right click
+--- * `3` - reload
+--- * `4` - spawn menu (No interaction with the toolgun). **Client-side only**
 ---@return boolean # Return `false` to disallow using that tool on this entity, return `true` to allow.
 function Entity:CanTool(ply, tr, toolname, tool, button) end
 

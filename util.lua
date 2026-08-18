@@ -1,8 +1,5 @@
 ---@meta
 
---- This is the list of utility functions.
-util = {}
-
 --- `util.worldpicker` is for picking an entity in the world while [GUI](https://wiki.facepunch.com/gmod/gui) is open.
 util.worldpicker = {}
 
@@ -48,7 +45,7 @@ function util.Base64Decode(str) end
 ---@return string # Base 64 encoded string.
 function util.Base64Encode(str, inline) end
 
----Applies explosion damage to all entities in the specified radius. Performs block checking.
+---Applies explosion damage to all entities in the specified radius. Performs line-of-sight checking.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/util.BlastDamage
 ---@param inflictor Entity The entity that caused the damage.

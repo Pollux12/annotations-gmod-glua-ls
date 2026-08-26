@@ -68,10 +68,9 @@ function debug.gethook(thread) end
 ---For out-of-range stack levels, this can return nil.
 ---@overload fun(f: function, what?: debuglib.InfoWhat): debuglib.DebugInfo
 ---@overload fun(f: 0, what?: debuglib.InfoWhat): debuglib.DebugInfo
----@overload fun(f: integer, what?: debuglib.InfoWhat): debuglib.DebugInfo?
 ---@overload fun(thread: thread, f: function, what?: debuglib.InfoWhat): debuglib.DebugInfo
 ---@overload fun(thread: thread, f: 0, what?: debuglib.InfoWhat): debuglib.DebugInfo
----@param thread thread
+---@overload fun(thread: thread, f: integer, what?: debuglib.InfoWhat): debuglib.DebugInfo?
 ---
 ---Takes either a function or a number representing the stack level as an argument. Stack level 0 always corresponds to the debug.getinfo call, 1 would be the function calling debug.getinfo in most cases, and so on.
 --- Returns useful information about that function in a table.
@@ -91,7 +90,7 @@ function debug.gethook(thread) end
 ---
 --- A table as a Structures/DebugInfo containing information about the function you passed. Can return nil if the stack level didn't point to a valid stack frame.
 ---@nodiscard
-function debug.getinfo(thread, f, what) end
+function debug.getinfo(f, what) end
 
 ---Returns the name and value of a local variable at a stack level or in a function.
 ---

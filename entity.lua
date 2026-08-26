@@ -3491,7 +3491,7 @@ function Entity:OnTaskFailed(failCode, failReason) end
 ---Called when a trace attack is done against the entity, allowing override of the damage being dealt by altering the [CTakeDamageInfo](https://wiki.facepunch.com/gmod/CTakeDamageInfo).
 ---
 --- This is called before [ENTITY:OnTakeDamage](https://wiki.facepunch.com/gmod/ENTITY:OnTakeDamage).
---- **NOTE**: This hook is only called for `ai`, `nextbot` and `anim` type entities.
+--- **NOTE**: This hook is only called for `ai`, `anim` (as of version `2026.07.03`) and `nextbot` type entities.
 ---@hook OnTraceAttack
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/ENTITY:OnTraceAttack

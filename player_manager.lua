@@ -21,7 +21,14 @@ function player_manager.AddValidHands(name, model, skin, bodygroups, matchBodySk
 ---@source https://wiki.facepunch.com/gmod/player_manager.AddValidModel
 ---@param name string Short, simplified, unique player model name. (something like `"combine"` for the Combine Soldier player model)
 ---@param model string The model path for this player model entry.
-function player_manager.AddValidModel(name, model) end
+---@param niceName? string A user-friendly name of this model, such as `"Combine Soldier"`.
+---
+--- Can be a localization string starting with `"#"`.
+---@param category? string A user-friendly category name for this model, such as `"Half-Life 2"`.
+---
+--- If not set, the model will appear in the "Other" category (localized to the player's language).
+--- Can be a localization string starting with `"#"`.
+function player_manager.AddValidModel(name, model, niceName, category) end
 
 ---Returns the entire list of valid player models.
 ---@realm shared

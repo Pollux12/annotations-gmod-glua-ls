@@ -149,7 +149,7 @@ function render.ComputeDynamicLighting(position, normal) end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/render.ComputeLighting
 ---@param position Vector The position to get the light at.
----@param normal Vector The direction of an imaginary surface to get the light at.
+---@param normal? Vector The direction of an imaginary surface to get the light at.
 ---
 --- Pointing away from walls will get the lighting the wall receives. Pointing towards walls will not.
 ---@return Vector # A vector representing the light at that point.

@@ -380,7 +380,8 @@ function util.IntersectRayWithOBB(rayStart, rayDelta, boxOrigin, boxAngles, boxM
 ---@param rayDirection Vector The direction of the ray.
 ---@param planePosition Vector Any position of the plane.
 ---@param planeNormal Vector The normal vector of the plane.
----@return Vector # The position of intersection, nil if not hit.
+---@return Vector # The position of intersection, `nil` if not hit.
+---@return number # The distance from start position to the hit point, if there was a hit.
 function util.IntersectRayWithPlane(rayOrigin, rayDirection, planePosition, planeNormal) end
 
 ---Performs a ray-sphere intersection and returns the intersection positions or nil.

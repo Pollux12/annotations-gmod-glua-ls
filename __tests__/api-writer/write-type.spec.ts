@@ -32,4 +32,18 @@ describe('writeType', () => {
       expect(result).toEqual('fun(count: number, arg1: string):(ret0: number, ret1: string)');
     });
   });
+
+  describe('sequential tables', () => {
+    it('should convert table<X> to X[]', async () => {
+      expect(GluaApiWriter.transformType('table<Player>')).toEqual('Player[]');
+    });
+
+    it('should strip the Structures page path from the element type', async () => {
+      expect(GluaApiWriter.transformType('table<Structures/LocalLight>')).toEqual('LocalLight[]');
+    });
+
+    it('should leave table<x, y> untouched', async () => {
+      expect(GluaApiWriter.transformType('table<string, number>')).toEqual('table<string, number>');
+    });
+  });
 });

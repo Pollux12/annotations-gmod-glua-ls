@@ -1,6 +1,6 @@
 ---@meta
 
---- Source: https://github.com/Facepunch/garrysmod/blob/b2bff902adf7f5b87ec543f873e74e3267e93f26/garrysmod/lua/skins/default.lua
+---@source https://github.com/Facepunch/garrysmod/blob/b2bff902adf7f5b87ec543f873e74e3267e93f26/garrysmod/lua/skins/default.lua
 
 ---@class SKINColoursState
 ---@field Normal Color

@@ -1,6 +1,6 @@
 --- A taunt camera object returned by [TauntCamera](https://wiki.facepunch.com/gmod/Global.TauntCamera).
 --- Used by player classes to drive a third-person taunt view.
---- Source: garrysmod/gamemodes/base/gamemode/player_class/taunt_camera.lua
+---@source garrysmod/gamemodes/base/gamemode/player_class/taunt_camera.lua
 ---@class TauntCamera
 local TauntCamera = {}
 

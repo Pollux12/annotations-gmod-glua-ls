@@ -3,15 +3,11 @@
 ---@source https://wiki.facepunch.com/gmod/Structures/ServerQueryData
 ---@class (partial) ServerQueryData
 ---The game directory to get the servers for.
----
---- Default: `garrysmod`
----@field GameDir string
+---@field GameDir string="garrysmod"
 ---Type of servers to retrieve. Valid values are `internet`, `favorite`, `history` and `lan`.
 ---@field Type string
 ---Steam application ID to get the servers for.
----
---- Default: `4000`
----@field AppID number
+---@field AppID number=4000
 ---Called when a new server is found and queried.
 ---@field Callback fun(ping: number, name: string, desc: string, map: string, players: number, maxplayers: number, botplayers: number, pass: boolean, lastplayed: number, address: string, gamemode: string, workshopid: number, isanon: boolean, netversion: string, luaversion: string, localization: string, gmcategory: string):(stop: boolean)
 ---Called if the query has failed, called with the server IP address.

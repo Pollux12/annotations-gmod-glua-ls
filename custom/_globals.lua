@@ -1,6 +1,6 @@
 ---@meta
 
---- Source: https://wiki.facepunch.com/gmod/Global_Variables
+---@source https://wiki.facepunch.com/gmod/Global_Variables
 
 --[[
   Global Tables

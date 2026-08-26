@@ -2,7 +2,7 @@
 
 ---Runtime drive mode table returned by drive.GetMethod.
 ---
---- Source: https://github.com/Facepunch/garrysmod/blob/master/garrysmod/lua/drive/drive_base.lua
+---@source https://github.com/Facepunch/garrysmod/blob/master/garrysmod/lua/drive/drive_base.lua
 ---@class DriveMethod
 ---@field Entity Entity Driven entity.
 ---@field Player Player Driving player.

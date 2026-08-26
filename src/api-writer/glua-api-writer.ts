@@ -464,7 +464,7 @@ export class GluaApiWriter {
 
         const literalUnion = enumValues.join(' | ');
         const enumAliasValue = literalUnion.length > 0 ? `${literalUnion} | number` : 'number';
-        api += `--- @alias ${_enum.name} ${enumAliasValue}\n`;
+        api += `---@alias ${_enum.name} ${enumAliasValue}\n`;
       } else {
         // Garry's Mod enums are flat globals, so the field list names each constant.
         // Completion then offers `EF_BONEMERGE` rather than the raw value it holds.
@@ -502,13 +502,14 @@ export class GluaApiWriter {
       api += `---${wrapInComment(comment)}\n`;
 
     const type = GluaApiWriter.transformType(field.type, field.callback);
-    const { optional, inlineDefault } = this.getStructFieldDefaultAnnotation(field.default);
+    const { optional, inlineDefault } = this.getStructFieldDefaultAnnotation(field);
     api += `---@field ${GluaApiWriter.safeName(field.name)}${optional} ${type}${inlineDefault}\n`;
 
     return api;
   }
 
-  private getStructFieldDefaultAnnotation(defaultValue: string | undefined): { optional: string; inlineDefault: string } {
+  private getStructFieldDefaultAnnotation(field: Struct['fields'][number]): { optional: string; inlineDefault: string } {
+    const defaultValue = field.default;
     if (defaultValue === undefined)
       return { optional: '', inlineDefault: '' };
 
@@ -516,12 +517,12 @@ export class GluaApiWriter {
     if (trimmedDefault.toLowerCase() === 'nil')
       return { optional: '?', inlineDefault: '' };
 
-    const normalizedDefault = this.normalizeInlineDefaultValue(trimmedDefault);
+    const normalizedDefault = this.normalizeInlineDefaultValue(trimmedDefault, field.type);
     return { optional: '', inlineDefault: `=${normalizedDefault}` };
   }
 
-  private normalizeInlineDefaultValue(defaultValue: string): string {
-    if (/^[+-]?(?:\d+\.?\d*|\.\d+)$/.test(defaultValue))
+  private normalizeInlineDefaultValue(defaultValue: string, fieldType?: string): string {
+    if (/^[+-]?(?:0[xX][0-9a-fA-F]+|\d+\.?\d*|\.\d+)(?:[eE][+-]?\d+)?$/.test(defaultValue))
       return defaultValue;
 
     if (/^(true|false)$/i.test(defaultValue))
@@ -531,13 +532,18 @@ export class GluaApiWriter {
     const boldMatch = unwrappedCode.match(/^\*\*(.*)\*\*$/);
     const normalizedText = (boldMatch ? boldMatch[1] : unwrappedCode).trim();
 
-    if (normalizedText.toLowerCase() === 'empty')
+    if (normalizedText.toLowerCase() === 'empty' || normalizedText.toLowerCase() === '<empty string>')
       return '""';
 
     if (/^"(?:[^"\\]|\\.)*"$/.test(normalizedText) || /^'(?:[^'\\]|\\.)*'$/.test(normalizedText))
       return normalizedText;
 
-    return JSON.stringify(normalizedText);
+    const isStringType = fieldType !== undefined && fieldType.trim().toLowerCase() === 'string';
+    if (isStringType) {
+      return JSON.stringify(normalizedText);
+    }
+
+    return normalizedText;
   }
 
   private writeStruct(struct: Struct) {
@@ -830,9 +836,13 @@ export class GluaApiWriter {
     }
   }
 
-  public static transformType(type: string, callback?: FunctionCallback) {
+  public static transformType(type: string, callback?: FunctionCallback): string {
     if (type === 'vararg')
       return 'any';
+
+    // Transform each member of a union separately, so `table<X>|nil` keeps its `nil`
+    if (type.includes('|'))
+      return type.split('|').map(member => GluaApiWriter.transformType(member, callback)).join('|');
 
     // Convert `function` type to `fun(cmd: string, args: string):(returnValueName: string[]?)`
     if (type === 'function' && callback) {
@@ -893,7 +903,9 @@ export class GluaApiWriter {
 
       if (!innerType) throw new Error(`Invalid table type: ${type}`);
 
-      return `${innerType}[]`;
+      // The wiki writes struct element types as page paths (`table<Structures/LocalLight>`)
+      // and can nest its own syntax inside (`table<table{Undo}>`)
+      return `${GluaApiWriter.transformType(innerType.replace(/^Structures\//, ''))}[]`;
     } else if (type.startsWith('table{') || type.startsWith('Panel{')) {
       // Convert `table{ToScreenData}` structures to `ToScreenData` class for LuaLS
       // Also converts `Panel{DVScrollBar}` to `DVScrollBar` class for LuaLS

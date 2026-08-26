@@ -217,7 +217,7 @@ describe('GLua API Writer', () => {
       url: 'https://wiki.facepunch.com/gmod/Structures/EntityStruct',
     });
 
-    expect(api).toContain('---@field entity Entity="NULL"');
+    expect(api).toContain('---@field entity Entity=NULL');
   });
 
   it('should be able to write Lua API definitions directly from wiki json data for a fake enum', async () => {
@@ -236,7 +236,7 @@ describe('GLua API Writer', () => {
     const api = writer.makeApiFromPages(writer.getPages(mockFilePath));
     expect(api).toContain('---@realm server');
     expect(api).toContain('---@source https://wiki.facepunch.com/gmod/Enums/NavCorner');
-    expect(api).toContain('--- @alias NavCorner 0 | 1 | 2 | 3 | 4 | number');
+    expect(api).toContain('---@alias NavCorner 0 | 1 | 2 | 3 | 4 | number');
   });
 
   it('should handle deprecated in description', async () => {

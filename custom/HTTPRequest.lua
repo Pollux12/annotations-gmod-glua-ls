@@ -56,9 +56,7 @@
 --- * DELETE
 --- * PATCH
 --- * OPTIONS
----
----Default: `GET`
----@field method? string
+---@field method string="GET"
 ---The target url.
 ---@field url string
 ---KeyValue table for [URL parameters](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams).
@@ -72,22 +70,16 @@
 --- Supported by methods such as `POST`, `PUT`, `PATCH`, and `DELETE`.
 ---@field body? string
 ---Content type for body.
----
----Default: `text/plain; charset=utf-8`
----@field type? string
+---@field type string="text/plain; charset=utf-8"
 ---The timeout for the connection.
----
----Default: `60`
----@field timeout? number
+---@field timeout number=60
 local HTTPRequest = {}
 
 ---`GET`, `POST`, and `HEAD` requests may include URL parameters.
 --- Omitting `method` is treated as `GET`.
 ---@class (exact) HTTPRequestWithParameters : HTTPRequest
 ---Request method, case insensitive.
----
----Default: `GET`
----@field method? HTTPRequestMethodWithParameters
+---@field method HTTPRequestMethodWithParameters="GET"
 ---KeyValue table for [URL parameters](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams).
 ---
 --- Valid only for `GET`, `POST`, and `HEAD`.

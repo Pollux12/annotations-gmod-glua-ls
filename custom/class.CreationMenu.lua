@@ -1,6 +1,6 @@
 --- The content half of the spawn menu, holding every tab registered with
 --- [spawnmenu.AddCreationTab](https://wiki.facepunch.com/gmod/spawnmenu.AddCreationTab).
---- Source: garrysmod/gamemodes/sandbox/gamemode/spawnmenu/creationmenu.lua
+---@source garrysmod/gamemodes/sandbox/gamemode/spawnmenu/creationmenu.lua
 ---@class CreationMenu : DPropertySheet
 ---@field CreationTabs table<string, CreationMenuTab> The created tabs, keyed by tab name.
 local CreationMenu = {}

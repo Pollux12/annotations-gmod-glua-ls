@@ -15,20 +15,20 @@
 ---@field ClassID? number Network string ID of the active player class. Injected at runtime by player_manager.
 ---@field Func? fun() Internal no-op placeholder. Injected at runtime by player_manager.
 ---@field DisplayName? string Human-readable display name for this player class.
----@field SlowWalkSpeed? number Movement speed when slow-walking (+WALK). Default: 200.
----@field WalkSpeed? number Movement speed when walking (not running). Default: 400.
----@field RunSpeed? number Movement speed when running. Default: 600.
----@field CrouchedWalkSpeed? number Multiplier applied to move speed while crouching. Default: 0.3.
----@field DuckSpeed? number Speed of transition from standing to crouching. Default: 0.3.
----@field UnDuckSpeed? number Speed of transition from crouching to standing. Default: 0.3.
----@field JumpPower? number Vertical impulse strength on jump. Default: 200.
----@field CanUseFlashlight? boolean Whether the player can use the flashlight. Default: true.
----@field MaxHealth? number Maximum health the player can have. Default: 100.
----@field MaxArmor? number Maximum armor the player can have. Default: 100.
----@field StartHealth? number Health given to the player on spawn. Default: 100.
----@field StartArmor? number Armor given to the player on spawn. Default: 0.
----@field DropWeaponOnDie? boolean Whether to drop the active weapon on death. Default: false.
----@field TeammateNoCollide? boolean Whether teammates pass through each other. Default: true.
----@field AvoidPlayers? boolean Whether the player auto-swerves around others. Default: true.
----@field UseVMHands? boolean Whether to use viewmodel hands. Default: true.
+---@field SlowWalkSpeed number=200 Movement speed when slow-walking (+WALK).
+---@field WalkSpeed number=400 Movement speed when walking (not running).
+---@field RunSpeed number=600 Movement speed when running.
+---@field CrouchedWalkSpeed number=0.3 Multiplier applied to move speed while crouching.
+---@field DuckSpeed number=0.3 Speed of transition from standing to crouching.
+---@field UnDuckSpeed number=0.3 Speed of transition from crouching to standing.
+---@field JumpPower number=200 Vertical impulse strength on jump.
+---@field CanUseFlashlight boolean=true Whether the player can use the flashlight.
+---@field MaxHealth number=100 Maximum health the player can have.
+---@field MaxArmor number=100 Maximum armor the player can have.
+---@field StartHealth number=100 Health given to the player on spawn.
+---@field StartArmor number=0 Armor given to the player on spawn.
+---@field DropWeaponOnDie boolean=false Whether to drop the active weapon on death.
+---@field TeammateNoCollide boolean=true Whether teammates pass through each other.
+---@field AvoidPlayers boolean=true Whether the player auto-swerves around others.
+---@field UseVMHands boolean=true Whether to use viewmodel hands.
 PlayerClass = {}

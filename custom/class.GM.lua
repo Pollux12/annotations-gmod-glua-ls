@@ -1,6 +1,5 @@
---- Source:
---- - garrysmod/gamemodes/base/gamemode/shared.lua
---- - garrysmod/gamemodes/sandbox/gamemode/shared.lua
+---@source garrysmod/gamemodes/base/gamemode/shared.lua
+---@source garrysmod/gamemodes/sandbox/gamemode/shared.lua
 ---@class GM
 ---@field Name string Gamemode display name.
 ---@field Author string Gamemode author.

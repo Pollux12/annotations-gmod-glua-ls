@@ -898,7 +898,8 @@ export class GluaApiWriter {
       if (!innerType) throw new Error(`Invalid table type: ${type}`);
 
       // The wiki writes struct element types as page paths (`table<Structures/LocalLight>`)
-      return `${innerType.replace(/^Structures\//, '')}[]`;
+      // and can nest its own syntax inside (`table<table{Undo}>`)
+      return `${GluaApiWriter.transformType(innerType.replace(/^Structures\//, ''))}[]`;
     } else if (type.startsWith('table{') || type.startsWith('Panel{')) {
       // Convert `table{ToScreenData}` structures to `ToScreenData` class for LuaLS
       // Also converts `Panel{DVScrollBar}` to `DVScrollBar` class for LuaLS

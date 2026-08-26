@@ -42,6 +42,10 @@ describe('writeType', () => {
       expect(GluaApiWriter.transformType('table<Structures/LocalLight>')).toEqual('LocalLight[]');
     });
 
+    it('should convert a nested element type', async () => {
+      expect(GluaApiWriter.transformType('table<table{Undo}>')).toEqual('Undo[]');
+    });
+
     it('should leave table<x, y> untouched', async () => {
       expect(GluaApiWriter.transformType('table<string, number>')).toEqual('table<string, number>');
     });

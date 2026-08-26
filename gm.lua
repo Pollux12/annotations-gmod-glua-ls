@@ -5,9 +5,8 @@
 --- 	See also: [Structures/GM](https://wiki.facepunch.com/gmod/Structures/GM).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/GM_Hooks
---- Source:
---- - garrysmod/gamemodes/base/gamemode/shared.lua
---- - garrysmod/gamemodes/sandbox/gamemode/shared.lua
+---@source garrysmod/gamemodes/base/gamemode/shared.lua
+---@source garrysmod/gamemodes/sandbox/gamemode/shared.lua
 ---@class GM
 ---@field Name string Gamemode display name.
 ---@field Author string Gamemode author.
@@ -125,6 +124,7 @@ function GM:CalcMainActivity(ply, vel) end
 function GM:CalcVehicleView(veh, ply, view) end
 
 ---Allows override of the default view.
+--- 		**NOTE**: To avoid breaking compatibility with other addons, it is recommended to add onto the origin and angle values using [Vector:Add](https://wiki.facepunch.com/gmod/Vector:Add) or [Angle:Add](https://wiki.facepunch.com/gmod/Angle:Add) instead of overriding them completely.
 ---@hook CalcView
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/GM:CalcView
@@ -134,7 +134,7 @@ function GM:CalcVehicleView(veh, ply, view) end
 ---@param fov number Field of view.
 ---@param znear number Distance to near clipping plane.
 ---@param zfar number Distance to far clipping plane.
----@return CamData # View data table. See Structures/CamData
+---@return CamData # View data table. See Structures/CamData.
 function GM:CalcView(ply, origin, angles, fov, znear, zfar) end
 
 ---Allows overriding the position and angle of the viewmodel.
@@ -495,6 +495,7 @@ function GM:EntityRemoved(ent, fullUpdate) end
 ---@source https://wiki.facepunch.com/gmod/GM:EntityTakeDamage
 ---@param target Entity The entity taking damage
 ---@param dmg CTakeDamageInfo Detailed information about the damage event.
+--- 		When you retrieve "the attacker" the player's angle and position will be incorrect.
 ---@return boolean # Return true to completely block the damage event
 function GM:EntityTakeDamage(target, dmg) end
 
@@ -1224,12 +1225,14 @@ function GM:OnPhysgunFreeze(weapon, physobj, ent, ply) end
 function GM:OnPhysgunPickup(ply, ent) end
 
 ---Called when a player reloads with the physgun. Override this to disable default unfreezing behavior.
+---
+--- 	Regardless of whether or not you return true or false, it will disable reloading. Only returning nil/nothing will allow reloading. The intended behavior should be that returning false disables reloading.
 ---@hook OnPhysgunReload
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/GM:OnPhysgunReload
----@param physgun Weapon The physgun in question
----@param ply Player The player wielding the physgun
----@return boolean # Whether the player can reload with the physgun or not
+---@param physgun Weapon The physgun in question.
+---@param ply Player The player wielding the physgun.
+---@return boolean # Whether the player can reload with the physgun or not/
 function GM:OnPhysgunReload(physgun, ply) end
 
 ---Called when a player has changed team using [GM:PlayerJoinTeam](https://wiki.facepunch.com/gmod/GM:PlayerJoinTeam).
@@ -2168,6 +2171,7 @@ function GM:PostEntityFireBullets(entity, data) end
 ---@source https://wiki.facepunch.com/gmod/GM:PostEntityTakeDamage
 ---@param ent Entity The entity that took the damage.
 ---@param dmginfo CTakeDamageInfo Detailed information about the damage event.
+--- 		When you retrieve "the attacker" the player's angle and position will be incorrect.
 ---@param wasDamageTaken boolean Whether the entity actually took the damage. (For example, shooting a Strider will generate this event, but it won't take bullet damage).
 function GM:PostEntityTakeDamage(ent, dmginfo, wasDamageTaken) end
 
@@ -2206,7 +2210,7 @@ function GM:PostPlayerDraw(ply, flags) end
 ---@return boolean # Return true/false depending on whether this post process should be allowed
 function GM:PostProcessPermitted(effect_name) end
 
----Called after the frame has been rendered.
+---Called after the frame has been rendered. Will not be called if [GM:PreRender](https://wiki.facepunch.com/gmod/GM:PreRender) returned `true`, disabling all further rendering operations for the current frame.
 ---@hook PostRender
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/GM:PostRender

@@ -50,7 +50,7 @@ function PropSelect:OnRightClick(pnl) end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/PropSelect:OnSelect
 ---@param pnl Panel The Spawnicon that was clicked.
----@param model String Path of the selected model, or its "value".
+---@param model string Path of the selected model, or its "value".
 function PropSelect:OnSelect(pnl, model) end
 
 ---**INTERNAL**: Use [PropSelect:FindAndSelectButton](https://wiki.facepunch.com/gmod/PropSelect:FindAndSelectButton) instead.

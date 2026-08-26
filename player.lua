@@ -432,7 +432,8 @@ function Player:EnterVehicle(vehicle) end
 --- The player is automatically equipped with the suit on spawn, if you wish to stop that, use [Player:RemoveSuit](https://wiki.facepunch.com/gmod/Player:RemoveSuit).
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/Player:EquipSuit
-function Player:EquipSuit() end
+---@param playEffects? boolean If set to `true`, play the suit glove admire animation if player is holding no weapons.
+function Player:EquipSuit(playEffects) end
 
 ---Forces the player off the current ladder if they are on one.
 ---@realm server

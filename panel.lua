@@ -683,7 +683,7 @@ function Panel:GetClosestChild(x, y) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:GetContentAlignment
----@return number # The direction of the content, based on the number pad.
+---@return ContentAlignment # The direction of the content, based on the number pad. See Enums/ContentAlignment.
 ---
 --- 1: **bottom-left**
 --- 2: **bottom-center**
@@ -2221,7 +2221,7 @@ function Panel:SetCaretPos(offset) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:SetContentAlignment
----@param alignment number The direction of the content, based on the number pad.
+---@param alignment ContentAlignment The direction of the content, based on the number pad. See Enums/ContentAlignment.
 ---
 --- 1: **bottom-left**
 --- 2: **bottom-center**
@@ -2455,8 +2455,8 @@ function Panel:SetKeyboardInputEnabled(enable) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:SetLineHeight
----@return number # The new line height. Values below zero mean no override.
-function Panel:SetLineHeight() end
+---@param height number The new line height. Values below zero mean no override.
+function Panel:SetLineHeight(height) end
 
 ---Sets the maximum character count this panel should have.
 ---

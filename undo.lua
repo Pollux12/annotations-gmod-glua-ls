@@ -67,7 +67,7 @@ function undo.Finish(NiceText) end
 --- 	**NOTE**: Serverside, this table's keys use [Player:UniqueID](https://wiki.facepunch.com/gmod/Player:UniqueID) to store a player's undo blocks.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/undo.GetTable
----@return table{Undo}[] # The undo table.
+---@return Undo[] # The undo table.
 function undo.GetTable() end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.

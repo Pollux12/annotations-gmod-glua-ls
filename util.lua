@@ -274,10 +274,10 @@ function util.GetModelInfo(mdl) end
 ---@param skin? number Skin index. Affects the `.material` of Structures/ModelMeshData.
 ---
 --- For more information, see Entity:GetSkin.
----@return Structures/ModelMeshData[] # Each index in this table corresponds to a mesh within the model passed as an argument to this function.
+---@return ModelMeshData[] # Each index in this table corresponds to a mesh within the model passed as an argument to this function.
 ---
 --- The mesh data is raw, and is not transformed via bone transformations. That's what the second return value is for.
----@return Structures/BoneBindPose[] # This tables indices are bone IDs for the Structures/BoneBindPose stored at each index.
+---@return BoneBindPose[] # This tables indices are bone IDs for the Structures/BoneBindPose stored at each index.
 function util.GetModelMeshes(model, lod, bodygroupMask, skin) end
 
 ---Gets persistent data of an offline player using their SteamID.

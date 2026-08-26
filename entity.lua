@@ -547,11 +547,7 @@ function Entity:Draw(flags) end
 ---
 --- When drawing an entity more than once per frame in different positions, you should call [Entity:SetupBones](https://wiki.facepunch.com/gmod/Entity:SetupBones) before each draw; Otherwise, the entity will retain its first drawn position.
 ---
---- Calling this on entities with [EF_BONEMERGE](https://wiki.facepunch.com/gmod/Enums/EF) and [EF_NODRAW](https://wiki.facepunch.com/gmod/Enums/EF) applied causes a crash.
----
 --- Using this with a map model ([game.GetWorld](https://wiki.facepunch.com/gmod/game.GetWorld)():[GetModel](https://wiki.facepunch.com/gmod/Entity:GetModel)()) crashes the game.
----
---- Calling this on a player during that player's [GM:PrePlayerDraw](https://wiki.facepunch.com/gmod/GM:PrePlayerDraw) hook call will cause infinite recursion and crash the game.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/Entity:DrawModel
 ---@param flags? number The optional Enums/STUDIO flags, usually taken from ENTITY:Draw and similar hooks.
@@ -885,7 +881,7 @@ function Entity:GetAnimTimeInterval() end
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Entity:GetAttachment
 ---@param attachmentId number The internal ID of the attachment.
----@return AngPos # The table with angle and position of the attachment or `nil` if does not exist. See the Structures/AngPos. Most notably, the table contains the keys `Ang` and `Pos` as well as `Bone`.
+---@return AngPos|nil # The table with angle and position of the attachment or `nil` if does not exist. See the Structures/AngPos. Most notably, the table contains the keys `Ang` and `Pos` as well as `Bone`.
 function Entity:GetAttachment(attachmentId) end
 
 ---Returns a table containing all attachments of the given entity's model.
@@ -4017,7 +4013,7 @@ function Entity:ResetSequenceInfo() end
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/ENTITY:ResolveCustomFlyCollision
 ---@param traceResult TraceResult The Structures/TraceResult where the collision occured.
----@param vel vector The calculated velocity after calculations such as bounciness, elasticity, ground sliding etc...
+---@param vel Vector The calculated velocity after calculations such as bounciness, elasticity, ground sliding etc...
 ---@return boolean # Return `true` to prevent default action.
 function Entity:ResolveCustomFlyCollision(traceResult, vel) end
 

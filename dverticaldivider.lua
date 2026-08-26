@@ -3,7 +3,8 @@
 --- Vertical version of [DHorizontalDivider](https://wiki.facepunch.com/gmod/DHorizontalDivider).
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DVerticalDivider
----@class (partial) DVerticalDivider : DPanel
+---@class DVerticalDivider : DPanel
+---@field m_DragBar DVerticalDividerBar The drag handle between the top and bottom panels.
 local DVerticalDivider = {}
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.

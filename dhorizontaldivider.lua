@@ -3,7 +3,9 @@
 --- Creates an invisible vertical divider between two GUI elements.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DHorizontalDivider
----@class (partial) DHorizontalDivider : DPanel
+---@class DHorizontalDivider : DPanel
+---@field m_DragBar DHorizontalDividerBar The drag handle between the left and right panels.
+---@field _OldCookieW number The last left width restored from cookies.
 local DHorizontalDivider = {}
 
 ---Returns the width of the horizontal divider bar, set by [DHorizontalDivider:SetDividerWidth](https://wiki.facepunch.com/gmod/DHorizontalDivider:SetDividerWidth).

@@ -66,7 +66,7 @@ function DListView_Column:GetMinWidth() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DListView_Column:GetTextAlign
----@return number # The direction of the content, based on the number pad. See DListView_Column:SetTextAlign.
+---@return ContentAlignment # The direction of the content, based on the number pad. See Enums/ContentAlignment.
 function DListView_Column:GetTextAlign() end
 
 ---Resizes the column, additionally adjusting the size of the column to the right, if any.
@@ -126,7 +126,7 @@ function DListView_Column:SetName(name) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DListView_Column:SetTextAlign
----@param alignment number The direction of the content, based on the number pad.
+---@param alignment ContentAlignment The direction of the content, based on the number pad. See Enums/ContentAlignment.
 --[[
 
 |   |   |   |

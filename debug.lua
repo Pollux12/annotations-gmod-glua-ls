@@ -132,7 +132,6 @@ function debug.getregistry() end
 
 ---Used for getting variable values in an index from the passed function. This does nothing for C functions.
 ---@realm shared
----@realm menu
 ---@source https://wiki.facepunch.com/gmod/debug.getupvalue
 ---@param func function Function to get the upvalue indexed from.
 ---@param index number The index in the upvalue array. The max number of entries can be found in debug.getinfo's "Structures/DebugInfo" key.

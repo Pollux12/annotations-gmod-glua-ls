@@ -4867,7 +4867,7 @@ AIMR_CHANGE_TYPE = 1
 ---@source https://wiki.facepunch.com/gmod/Enums/AMMO
 --- * `AMMO_FORCE_DROP_IF_CARRIED` = `1`
 --- * `AMMO_INTERPRET_PLRDAMAGE_AS_DAMAGE_TO_PLAYER` = `2`
---- @alias AMMO 1 | 2 | number
+---@alias AMMO 1 | 2 | number
 
 --- The analog axis to get the value of via [input.GetAnalogValue](https://wiki.facepunch.com/gmod/input.GetAnalogValue).
 ---@realm client
@@ -5828,6 +5828,24 @@ COND = {
 	WEAPON_PLAYER_NEAR_TARGET = 44,
 	WEAPON_SIGHT_OCCLUDED = 45,
 }
+
+--- Alignment of a panel's contents, laid out like the keys of a number pad.
+--- Used by [Panel:SetContentAlignment](https://wiki.facepunch.com/gmod/Panel:SetContentAlignment), [DListView_Column:SetTextAlign](https://wiki.facepunch.com/gmod/DListView_Column:SetTextAlign) and [DNotify:SetAlignment](https://wiki.facepunch.com/gmod/DNotify:SetAlignment).
+---
+--- **WARNING**: These enumerations do not exist in game and are listed here only for reference
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/Enums/ContentAlignment
+--- * `BOTTOM_LEFT` = `1`
+--- * `BOTTOM_CENTER` = `2`
+--- * `BOTTOM_RIGHT` = `3`
+--- * `MIDDLE_LEFT` = `4`
+--- * `CENTER` = `5`
+--- * `MIDDLE_RIGHT` = `6`
+--- * `TOP_LEFT` = `7`
+--- * `TOP_CENTER` = `8`
+--- * `TOP_RIGHT` = `9`
+---@alias ContentAlignment 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | number
 
 --- Enumerations used by [util.PointContents](https://wiki.facepunch.com/gmod/util.PointContents) and [PhysObj:SetContents](https://wiki.facepunch.com/gmod/PhysObj:SetContents) as tracer masks, and by [ENT.PhysicsSolidMask](https://wiki.facepunch.com/gmod/Structures/ENT#PhysicsSolidMask) for collision masking.
 ---@realm shared
@@ -7016,7 +7034,7 @@ GMOD_CHANNEL_STALLED = 3
 --- * `GOALTYPE_FLANK` = `6`
 --- * `GOALTYPE_COVER` = `7`
 --- * `GOALTYPE_INVALID` = `8`
---- @alias GOALTYPE 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | number
+---@alias GOALTYPE 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | number
 
 --- Enumerations used by [GM:ScalePlayerDamage](https://wiki.facepunch.com/gmod/GM:ScalePlayerDamage) and [GM:ScaleNPCDamage](https://wiki.facepunch.com/gmod/GM:ScaleNPCDamage) and returned by [Player:LastHitGroup](https://wiki.facepunch.com/gmod/Player:LastHitGroup).
 ---@realm shared
@@ -8539,7 +8557,7 @@ NAV_MESH_NAV_BLOCKER = -2147483648
 --- * `SOUTH_EAST` = `2`
 --- * `SOUTH_WEST` = `3`
 --- * `NUM_CORNERS` = `4`
---- @alias NavCorner 0 | 1 | 2 | 3 | 4 | number
+---@alias NavCorner 0 | 1 | 2 | 3 | 4 | number
 
 --- Enumerations used by [CNavArea](https://wiki.facepunch.com/gmod/CNavArea) methods.
 --- These Enums correspond to each side of a [CNavArea](https://wiki.facepunch.com/gmod/CNavArea)
@@ -8551,7 +8569,7 @@ NAV_MESH_NAV_BLOCKER = -2147483648
 --- * `EAST` = `1`
 --- * `SOUTH` = `2`
 --- * `WEST` = `3`
---- @alias NavDir 0 | 1 | 2 | 3 | number
+---@alias NavDir 0 | 1 | 2 | 3 | number
 
 --- Enumerations used by [CNavArea:GetParentHow](https://wiki.facepunch.com/gmod/CNavArea:GetParentHow).
 ---
@@ -8567,7 +8585,7 @@ NAV_MESH_NAV_BLOCKER = -2147483648
 --- * `GO_JUMP` = `6`
 --- * `GO_ELEVATOR_UP` = `7`
 --- * `GO_ELEVATOR_DOWN` = `8`
---- @alias NavTraverseType 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | number
+---@alias NavTraverseType 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | number
 
 --- Enumerations used by [notification.AddLegacy](https://wiki.facepunch.com/gmod/notification.AddLegacy). Clientside only.
 ---@realm client
@@ -10386,7 +10404,7 @@ TEXT_FILTER_NAME = 3
 --- * `TEXTUREFLAGS_BORDER` = `536870912`
 --- * `TEXTUREFLAGS_STREAMABLE_COARSE` = `1073741824`
 --- * `TEXTUREFLAGS_STREAMABLE_FINE` = `2147483648`
---- @alias TEXTUREFLAGS 1 | 2 | 4 | 8 | 16 | 32 | 64 | 128 | 256 | 512 | 1024 | 2048 | 4096 | 8192 | 16384 | 32768 | 65536 | 131072 | 262144 | 524288 | 1048576 | 2097152 | 4194304 | 8388608 | 16777216 | 33554432 | 67108864 | 134217728 | 268435456 | 536870912 | 1073741824 | 2147483648 | number
+---@alias TEXTUREFLAGS 1 | 2 | 4 | 8 | 16 | 32 | 64 | 128 | 256 | 512 | 1024 | 2048 | 4096 | 8192 | 16384 | 32768 | 65536 | 131072 | 262144 | 524288 | 1048576 | 2097152 | 4194304 | 8388608 | 16777216 | 33554432 | 67108864 | 134217728 | 268435456 | 536870912 | 1073741824 | 2147483648 | number
 
 --- Enumerations used by [Structures/AmmoData](https://wiki.facepunch.com/gmod/Structures/AmmoData).
 ---@realm shared

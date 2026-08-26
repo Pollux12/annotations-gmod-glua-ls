@@ -1023,7 +1023,7 @@ function render.SetLightmapTexture(tex) end
 --- Disables all local lights if called with no arguments.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/render.SetLocalModelLights
----@param lights? Structures/LocalLight[] A table containing up to 4 tables for each light source that should be set up. Each of these tables should contain the properties of its associated light source, see Structures/LocalLight.
+---@param lights? LocalLight[] A table containing up to 4 tables for each light source that should be set up. Each of these tables should contain the properties of its associated light source, see Structures/LocalLight.
 function render.SetLocalModelLights(lights) end
 
 ---Sets the material to be used in any upcoming render operation using the [render](https://wiki.facepunch.com/gmod/render).

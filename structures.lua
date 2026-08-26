@@ -11,7 +11,7 @@
 --- Related function is game.GetAmmoDamageType.
 ---
 --- Default: `DMG_BULLET`
----@field dmgtype DMG="DMG_BULLET"
+---@field dmgtype DMG=DMG_BULLET
 ---The force of the ammo.
 ---
 --- Related function is game.GetAmmoForce.
@@ -49,7 +49,7 @@
 ---Tracer type using Enums/TRACER.
 ---
 --- Default: `TRACER_NONE`
----@field tracer TRACER="TRACER_NONE"
+---@field tracer TRACER=TRACER_NONE
 ---Maximum amount of ammo of this type the player should be able to carry in reserve. `-2` makes this ammo type infinite.
 ---
 --- Related function is game.GetAmmoMax.
@@ -116,7 +116,7 @@ local AngPos = {}
 ---The target size of the panel object. Only used by Panel:SizeTo.
 ---
 --- Default: `(0, 0, 0)`
----@field Size Vector="(0, 0, 0)"
+---@field Size Vector=(0, 0, 0)
 ---The size of the panel object when the animation started. Only used by Panel:SizeTo.
 ---@field StartSize Vector
 ---The target colour of the panel object. Only used by Panel:ColorTo.
@@ -154,7 +154,7 @@ local AttachmentData = {}
 ---Where the balloon will spawn.
 ---
 --- Default: `Vector(0, 0, 0)`
----@field Pos Vector="Vector(0, 0, 0)"
+---@field Pos Vector=Vector(0, 0, 0)
 ---The balloon’s model.
 ---
 --- Default: `models/error.mdl`
@@ -248,13 +248,13 @@ local BoneWeight = {}
 --- By default this would be set to the entity Entity:FireBullets is called on.
 ---
 --- Default: `self`
----@field Attacker Entity="self"
+---@field Attacker Entity=self
 ---The entity that should be reported as inflictor eg. a weapon or something similar.
 ---
 --- Also defines CTakeDamageInfo:GetWeapon for Weapon.
 ---
 --- Default: `NULL`
----@field Inflictor Entity="NULL"
+---@field Inflictor Entity=NULL
 ---Function to be called **after** the bullet was fired but **before** the damage is applied (the callback is called even if no damage is applied).
 ---
 --- Function argument(s):
@@ -300,7 +300,7 @@ local BoneWeight = {}
 ---The ammunition name.
 ---
 --- Default: `<empty string>`
----@field AmmoType string="<empty string>"
+---@field AmmoType string=""
 ---The tracer name. You can find a list of default effects Default_Effects.
 ---
 --- Default: `nil`
@@ -308,19 +308,19 @@ local BoneWeight = {}
 ---The fire direction.
 ---
 --- Default: `Vector( 0, 0, 0 )`
----@field Dir Vector="Vector( 0, 0, 0 )"
+---@field Dir Vector=Vector( 0, 0, 0 )
 ---The spread, only x and y are needed.
 ---
 --- Default: `Vector( 0, 0, 0 )`
----@field Spread Vector="Vector( 0, 0, 0 )"
+---@field Spread Vector=Vector( 0, 0, 0 )
 ---The position to fire the bullets from.
 ---
 --- Default: `Vector( 0, 0, 0 )`
----@field Src Vector="Vector( 0, 0, 0 )"
+---@field Src Vector=Vector( 0, 0, 0 )
 ---The entity that the bullet will ignore when it will be shot.
 ---
 --- Default: `NULL`
----@field IgnoreEntity Entity="NULL"
+---@field IgnoreEntity Entity=NULL
 
 local Bullet = {}
 
@@ -548,7 +548,7 @@ local DebugInfo = {}
 ---The light direction. Used with **InnerAngle** and **OuterAngle**.
 ---
 --- Default: `Vector( 0, 0, 0 )`
----@field dir Vector="Vector( 0, 0, 0 )"
+---@field dir Vector=Vector( 0, 0, 0 )
 ---The closer this is to zero, the smoother the light will be. Requires **Dir** and **OuterAngle** to be set.
 ---
 --- Default: `0`
@@ -791,7 +791,7 @@ local EntityCopyData = {}
 ---
 ---
 --- Default: `<Empty String>`
----@field AmmoType string="<Empty String>"
+---@field AmmoType string=""
 ---The Entity that fired the bullet.
 ---
 --- This is usually the Player that is holding the Weapon.
@@ -969,9 +969,7 @@ local FormattedTime = {}
 --- * DELETE
 --- * PATCH
 --- * OPTIONS
----
----Default: `GET`
----@field method? string
+---@field method string="GET"
 ---The target url.
 ---@field url string
 ---KeyValue table for [URL parameters](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams).
@@ -985,22 +983,16 @@ local FormattedTime = {}
 --- Supported by methods such as `POST`, `PUT`, `PATCH`, and `DELETE`.
 ---@field body? string
 ---Content type for body.
----
----Default: `text/plain; charset=utf-8`
----@field type? string
+---@field type string="text/plain; charset=utf-8"
 ---The timeout for the connection.
----
----Default: `60`
----@field timeout? number
+---@field timeout number=60
 local HTTPRequest = {}
 
 ---`GET`, `POST`, and `HEAD` requests may include URL parameters.
 --- Omitting `method` is treated as `GET`.
 ---@class (exact) HTTPRequestWithParameters : HTTPRequest
 ---Request method, case insensitive.
----
----Default: `GET`
----@field method? HTTPRequestMethodWithParameters
+---@field method HTTPRequestMethodWithParameters="GET"
 ---KeyValue table for [URL parameters](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams).
 ---
 --- Valid only for `GET`, `POST`, and `HEAD`.
@@ -1072,19 +1064,19 @@ HullTrace.hitclientonly = false
 ---The type of the light source, see Enums/MATERIAL_LIGHT.
 ---
 --- Default: `MATERIAL_LIGHT_POINT`
----@field type MATERIAL_LIGHT="MATERIAL_LIGHT_POINT"
+---@field type MATERIAL_LIGHT=MATERIAL_LIGHT_POINT
 ---The color of the light source (x is red, y is green, z is blue). Values are not restricted to a specific range, higher values will result in a brighter light.
 ---
 --- Default: `vector_origin`
----@field color Vector="vector_origin"
+---@field color Vector=vector_origin
 ---The origin of the light in world coordinates.
 ---
 --- Default: `vector_origin`
----@field pos Vector="vector_origin"
+---@field pos Vector=vector_origin
 ---The direction of the light. Only required for directional and spot lights.
 ---
 --- Default: `vector_origin`
----@field dir Vector="vector_origin"
+---@field dir Vector=vector_origin
 ---The maximum range of the light source. Does not actually control light attenuation. Usually left at 0 for infinite range.
 ---
 --- Default: `0`
@@ -1354,11 +1346,11 @@ local ModelMeshData = {}
 ---A list of weapons this NPC is typically meant to use. One will be picked on spawn at random, unless overwritten by the player.
 ---
 --- Default: `{}`
----@field Weapons table="{}"
+---@field Weapons table={}
 ---Key-value pairs to apply to the NPC on spawn. See Entity:SetKeyValue.
 ---
 --- Default: `{}`
----@field KeyValues table="{}"
+---@field KeyValues table={}
 ---Model override for this NPC.
 ---
 --- Default: `nil`
@@ -1400,7 +1392,7 @@ local ModelMeshData = {}
 ---Used to add additional rotation the NPC post spawn. Usually all NPCs would be facing the player on spawn. Value of `Angle( 0, 180, 0 )` would make the NPC face away from the player.
 ---
 --- Default: `Angle( 0, 0, 0 )`
----@field Rotate Angle="Angle( 0, 0, 0 )"
+---@field Rotate Angle=Angle( 0, 0, 0 )
 ---Health override for this NPC. Also sets Entity:SetMaxHealth.
 ---
 --- Default: `nil`
@@ -1794,9 +1786,9 @@ local RenderCaptureData = {}
 ---@field numevents number
 ---@field numblends number
 ---Mins part of the bounding box for this sequence
----@field bbmin vector
+---@field bbmin Vector
 ---Maxs part of the bounding box for this sequence
----@field bbmax vector
+---@field bbmax Vector
 ---ideal cross fade in time (0.2 default)
 ---@field fadeintime number
 ---ideal cross fade out time (0.2 default)
@@ -1824,15 +1816,11 @@ local SequenceInfo = {}
 ---@source https://wiki.facepunch.com/gmod/Structures/ServerQueryData
 ---@class (partial) ServerQueryData
 ---The game directory to get the servers for.
----
---- Default: `garrysmod`
----@field GameDir string
+---@field GameDir string="garrysmod"
 ---Type of servers to retrieve. Valid values are `internet`, `favorite`, `history` and `lan`.
 ---@field Type string
 ---Steam application ID to get the servers for.
----
---- Default: `4000`
----@field AppID number
+---@field AppID number=4000
 ---Called when a new server is found and queried.
 ---@field Callback fun(ping: number, name: string, desc: string, map: string, players: number, maxplayers: number, botplayers: number, pass: boolean, lastplayed: number, address: string, gamemode: string, workshopid: number, isanon: boolean, netversion: string, luaversion: string, localization: string, gmcategory: string):(stop: boolean)
 ---Called if the query has failed, called with the server IP address.
@@ -1849,7 +1837,7 @@ local ServerQueryData = {}
 --- Cannot be 0! Will give errors if you do.
 ---
 --- Default: `TICK_INTERVAL * 2`
----@field secondstoarrive number="TICK_INTERVAL * 2"
+---@field secondstoarrive number=TICK_INTERVAL * 2
 ---The time it should use - just use the one from ENTITY:PhysicsSimulate.
 ---
 --- Default: `0.1`
@@ -1857,11 +1845,11 @@ local ServerQueryData = {}
 ---Where you want to move to.
 ---
 --- Default: `vector_origin`
----@field pos Vector="vector_origin"
+---@field pos Vector=vector_origin
 ---Angle you want to move to.
 ---
 --- Default: `angle_zero`
----@field angle Angle="angle_zero"
+---@field angle Angle=angle_zero
 ---What should be the maximal angular force applied.
 ---
 --- Default: `1`
@@ -2110,7 +2098,7 @@ local SurfacePropertyData = {}
 ---             internal deployment speed.
 ---
 --- Default: `GetConVar('sv_defaultdeployspeed'):GetFloat()`
----@field m_WeaponDeploySpeed number="GetConVar('sv_defaultdeployspeed'):GetFloat()"
+---@field m_WeaponDeploySpeed number=GetConVar('sv_defaultdeployspeed'):GetFloat()
 ---@deprecated Use Entity:GetOwner() instead.
 ---Use [Entity:GetOwner](https://wiki.facepunch.com/gmod/Entity:GetOwner)() instead.
 ---@field Owner Entity
@@ -2216,7 +2204,7 @@ local SurfacePropertyData = {}
 ---Internal variable for drawing the info box in weapon selection
 ---
 --- Default: `surface.GetTextureID( 'gui/speech_lid' )`
----@field SpeechBubbleLid number="surface.GetTextureID( 'gui/speech_lid' )"
+---@field SpeechBubbleLid number=surface.GetTextureID( 'gui/speech_lid' )
 ---Should we use Counter-Strike muzzle
 ---             flashes upon firing? This is required for DoD:S or CS:S view models to fix their muzzle flashes.
 ---
@@ -2391,7 +2379,7 @@ Trace.hitclientonly = false
 ---The entity hit by the trace.
 ---
 --- Default: `NULL`
----@field Entity Entity="NULL"
+---@field Entity Entity=NULL
 ---This indicates the how much of your trace length was used from 0-1 (resultLength/originalLength).
 ---
 --- Default: `1`
@@ -2423,7 +2411,7 @@ Trace.hitclientonly = false
 ---The direction of the surface that was hit as a normal vector (vector with Vector:Length of 1).
 ---
 --- Default: `Global.Vector(0, 0, 0)`
----@field HitNormal Vector="Global.Vector(0, 0, 0)"
+---@field HitNormal Vector=Global.Vector(0, 0, 0)
 ---The position the trace stopped. This will be the provided endpos if the trace hit nothing.
 ---@field HitPos Vector
 ---Indicates whenever the trace hit the sky.

@@ -76,7 +76,7 @@ function game.ConsoleCommand(stringCommand) end
 ---Returns information about the currently active 3D skybox.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/game.Get3DSkyboxInfo
----@return Structures/Sky3DParams[] # The 3D skybox info, or `nil` if the map has no 3d skybox or the function is called too soon during server start up.
+---@return Sky3DParams[]|nil # The 3D skybox info, or `nil` if the map has no 3d skybox or the function is called too soon during server start up.
 function game.Get3DSkyboxInfo() end
 
 ---Returns the damage type of given ammo type.

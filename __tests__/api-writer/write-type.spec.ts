@@ -46,4 +46,22 @@ describe('writeType', () => {
       expect(GluaApiWriter.transformType('table<string, number>')).toEqual('table<string, number>');
     });
   });
+
+  describe('unions', () => {
+    it('should keep nil alongside a converted sequential table', async () => {
+      expect(GluaApiWriter.transformType('table<Structures/Sky3DParams>|nil')).toEqual('Sky3DParams[]|nil');
+    });
+
+    it('should keep nil alongside a converted struct table', async () => {
+      expect(GluaApiWriter.transformType('table{AngPos}|nil')).toEqual('AngPos|nil');
+    });
+
+    it('should convert members that are not first', async () => {
+      expect(GluaApiWriter.transformType('string|table{FormattedTime}')).toEqual('string|FormattedTime');
+    });
+
+    it('should leave plain unions untouched', async () => {
+      expect(GluaApiWriter.transformType('table|boolean|nil')).toEqual('table|boolean|nil');
+    });
+  });
 });

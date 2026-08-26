@@ -830,9 +830,13 @@ export class GluaApiWriter {
     }
   }
 
-  public static transformType(type: string, callback?: FunctionCallback) {
+  public static transformType(type: string, callback?: FunctionCallback): string {
     if (type === 'vararg')
       return 'any';
+
+    // Transform each member of a union separately, so `table<X>|nil` keeps its `nil`
+    if (type.includes('|'))
+      return type.split('|').map(member => GluaApiWriter.transformType(member, callback)).join('|');
 
     // Convert `function` type to `fun(cmd: string, args: string):(returnValueName: string[]?)`
     if (type === 'function' && callback) {

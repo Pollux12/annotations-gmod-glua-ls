@@ -464,7 +464,7 @@ export class GluaApiWriter {
 
         const literalUnion = enumValues.join(' | ');
         const enumAliasValue = literalUnion.length > 0 ? `${literalUnion} | number` : 'number';
-        api += `--- @alias ${_enum.name} ${enumAliasValue}\n`;
+        api += `---@alias ${_enum.name} ${enumAliasValue}\n`;
       } else {
         // Garry's Mod enums are flat globals, so the field list names each constant.
         // Completion then offers `EF_BONEMERGE` rather than the raw value it holds.

@@ -5844,6 +5844,24 @@ COND = {
 	WEAPON_SIGHT_OCCLUDED = 45,
 }
 
+--- Alignment of a panel's contents, laid out like the keys of a number pad.
+--- Used by [Panel:SetContentAlignment](https://wiki.facepunch.com/gmod/Panel:SetContentAlignment), [DListView_Column:SetTextAlign](https://wiki.facepunch.com/gmod/DListView_Column:SetTextAlign) and [DNotify:SetAlignment](https://wiki.facepunch.com/gmod/DNotify:SetAlignment).
+---
+--- **WARNING**: These enumerations do not exist in game and are listed here only for reference
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/Enums/ContentAlignment
+--- * `BOTTOM_LEFT` = `1`
+--- * `BOTTOM_CENTER` = `2`
+--- * `BOTTOM_RIGHT` = `3`
+--- * `MIDDLE_LEFT` = `4`
+--- * `CENTER` = `5`
+--- * `MIDDLE_RIGHT` = `6`
+--- * `TOP_LEFT` = `7`
+--- * `TOP_CENTER` = `8`
+--- * `TOP_RIGHT` = `9`
+--- @alias ContentAlignment 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | number
+
 --- Enumerations used by [util.PointContents](https://wiki.facepunch.com/gmod/util.PointContents) and [PhysObj:SetContents](https://wiki.facepunch.com/gmod/PhysObj:SetContents) as tracer masks, and by [ENT.PhysicsSolidMask](https://wiki.facepunch.com/gmod/Structures/ENT#PhysicsSolidMask) for collision masking.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Enums/CONTENTS

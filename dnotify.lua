@@ -14,7 +14,7 @@ function DNotify:AddItem(pnl, lifeLength) end
 ---Returns the current alignment of this notification panel. Set by [DNotify:SetAlignment](https://wiki.facepunch.com/gmod/DNotify:SetAlignment).
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DNotify:GetAlignment
----@return number # The numpad alignment
+---@return ContentAlignment # The direction of the content, based on the number pad. See Enums/ContentAlignment.
 function DNotify:GetAlignment() end
 
 ---Returns all the items added with [DNotify:AddItem](https://wiki.facepunch.com/gmod/DNotify:AddItem).
@@ -39,7 +39,7 @@ function DNotify:GetSpacing() end
 ---Sets the alignment of the child panels in the notification
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DNotify:SetAlignment
----@param alignment number It's the Numpad alignment, 6 is right, 9 is top left, etc.
+---@param alignment ContentAlignment The direction of the content, based on the number pad. See Enums/ContentAlignment.
 function DNotify:SetAlignment(alignment) end
 
 ---Sets the display time in seconds for the DNotify.

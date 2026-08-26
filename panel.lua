@@ -518,9 +518,10 @@ function Panel:FocusNext() end
 ---@source https://wiki.facepunch.com/gmod/Panel:FocusPrevious
 function Panel:FocusPrevious() end
 
----Called when the panel should generate example use case / example code to use for this panel. Used in the panel opened by **derma_controls** console command.
+---Called when the panel should generate example use case / example code to use for this panel. Used in the panel opened by ``derma_controls`` or ``derma_controls_menu``(To go directly to the main menu) console command.
 ---@hook GenerateExample
 ---@realm client
+---@realm menu
 ---@source https://wiki.facepunch.com/gmod/PANEL:GenerateExample
 ---@param class string The classname of the panel to generate example for. This will be the class name of your panel.
 ---@param dpropertysheet Panel A DPropertySheet to add your example to. See examples below.
@@ -622,7 +623,7 @@ function Panel:GetClosestChild(x, y) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:GetContentAlignment
----@return number # The direction of the content, based on the number pad.
+---@return ContentAlignment # The direction of the content, based on the number pad. See Enums/ContentAlignment.
 ---
 --- 1: **bottom-left**
 --- 2: **bottom-center**
@@ -2172,7 +2173,7 @@ function Panel:SetCaretPos(offset) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:SetContentAlignment
----@param alignment number The direction of the content, based on the number pad.
+---@param alignment ContentAlignment The direction of the content, based on the number pad. See Enums/ContentAlignment.
 ---
 --- 1: **bottom-left**
 --- 2: **bottom-center**
@@ -2414,8 +2415,8 @@ function Panel:SetKeyboardInputEnabled(enable) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:SetLineHeight
----@return number # The new line height. Values below zero mean no override.
-function Panel:SetLineHeight() end
+---@param height number The new line height. Values below zero mean no override.
+function Panel:SetLineHeight(height) end
 
 ---Sets the maximum character count this panel should have.
 ---

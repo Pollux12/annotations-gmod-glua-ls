@@ -319,15 +319,14 @@ function Entity:CanProperty(ply, property) end
 ---@source https://wiki.facepunch.com/gmod/ENTITY:CanTool
 ---@param ply Player Player, that tried to use the tool
 ---@param tr TraceResult The trace of the tool.
---- Returns only [Entity](https://wiki.facepunch.com/gmod/Structures/TraceResult#Entity) when the 5th argument returns `4`
+--- Returns only the [world](https://wiki.facepunch.com/gmod/game.GetWorld) in the [Entity](https://wiki.facepunch.com/gmod/Structures/TraceResult#Entity) key and returns false in the [Hit](https://wiki.facepunch.com/gmod/Structures/TraceResult#Hit) key when the 5th argument returns `4`.
 ---@param toolname string Class of the tool that is tried to use, for example - `weld`
 ---@param tool table The tool mode table the player currently has selected.
 ---@param button number The tool button pressed.
---- * 1 - left click
---- * 2 - right click
---- * 3 - reload
---- * 4 - Menu (No interaction with the toolgun)
---- The number `4` is a test that Rubat is conducting to implement the CanTool in the SpawnMenu. It may disappear.
+--- * `1` - left click
+--- * `2` - right click
+--- * `3` - reload
+--- * `4` - spawn menu (No interaction with the toolgun). **Client-side only**
 ---@return boolean # Return `false` to disallow using that tool on this entity, return `true` to allow.
 function Entity:CanTool(ply, tr, toolname, tool, button) end
 
@@ -523,11 +522,7 @@ function Entity:Draw(flags) end
 ---
 --- When drawing an entity more than once per frame in different positions, you should call [Entity:SetupBones](https://wiki.facepunch.com/gmod/Entity:SetupBones) before each draw; Otherwise, the entity will retain its first drawn position.
 ---
---- Calling this on entities with [EF_BONEMERGE](https://wiki.facepunch.com/gmod/Enums/EF) and [EF_NODRAW](https://wiki.facepunch.com/gmod/Enums/EF) applied causes a crash.
----
 --- Using this with a map model ([game.GetWorld](https://wiki.facepunch.com/gmod/game.GetWorld)():[GetModel](https://wiki.facepunch.com/gmod/Entity:GetModel)()) crashes the game.
----
---- Calling this on a player during that player's [GM:PrePlayerDraw](https://wiki.facepunch.com/gmod/GM:PrePlayerDraw) hook call will cause infinite recursion and crash the game.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/Entity:DrawModel
 ---@param flags? number The optional Enums/STUDIO flags, usually taken from ENTITY:Draw and similar hooks.
@@ -3533,7 +3528,7 @@ function Entity:OnTaskFailed(failCode, failReason) end
 ---Called when a trace attack is done against the entity, allowing override of the damage being dealt by altering the [CTakeDamageInfo](https://wiki.facepunch.com/gmod/CTakeDamageInfo).
 ---
 --- This is called before [ENTITY:OnTakeDamage](https://wiki.facepunch.com/gmod/ENTITY:OnTakeDamage).
---- **NOTE**: This hook is only called for `ai`, `nextbot` and `anim` type entities.
+--- **NOTE**: This hook is only called for `ai`, `anim` (as of version `2026.07.03`) and `nextbot` type entities.
 ---@hook OnTraceAttack
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/ENTITY:OnTraceAttack
@@ -4055,7 +4050,7 @@ function Entity:ResetSequenceInfo() end
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/ENTITY:ResolveCustomFlyCollision
 ---@param traceResult TraceResult The Structures/TraceResult where the collision occured.
----@param vel vector The calculated velocity after calculations such as bounciness, elasticity, ground sliding etc...
+---@param vel Vector The calculated velocity after calculations such as bounciness, elasticity, ground sliding etc...
 ---@return boolean # Return `true` to prevent default action.
 function Entity:ResolveCustomFlyCollision(traceResult, vel) end
 

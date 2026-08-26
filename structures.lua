@@ -1853,9 +1853,9 @@ local RenderCaptureData = {}
 ---@field numevents number
 ---@field numblends number
 ---Mins part of the bounding box for this sequence
----@field bbmin vector
+---@field bbmin Vector
 ---Maxs part of the bounding box for this sequence
----@field bbmax vector
+---@field bbmax Vector
 ---ideal cross fade in time (0.2 default)
 ---@field fadeintime number
 ---ideal cross fade out time (0.2 default)
@@ -3013,24 +3013,16 @@ local VideoData = {}
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/Structures/ViewData
 ---@class (partial) ViewData
----The view's original position
----
---- Default: `The current view's origin`
----@field origin Vector="The current view's origin"
----The view's angles
----
---- Default: `The current view's angles`
----@field angles Angle="The current view's angles"
----Default width divided by height. Has a deprecated alias `aspectratio`.
----
---- Default: `w / h`
----@field aspect number="w / h"
----The deprecated alias of `aspect`.
+---The view's original position. Defaults to the current view's origin
+---@field origin Vector
+---The view's angles. Defaults to the current view's angles
+---@field angles Angle
+---Defaults to width divided by height. Has a deprecated alias `aspectratio`.
+---@field aspect number
+---The deprecated alias of `aspect`. Defaults to width divided by height.
 ---
 --- **Deprecated**: Use `aspect` instead!
----
---- Default: `w / h`
----@field aspectratio number="w / h"
+---@field aspectratio number
 ---The x position of the viewport to render in
 ---
 --- Default: `0`
@@ -3039,14 +3031,10 @@ local VideoData = {}
 ---
 --- Default: `0`
 ---@field y number=0
----The width of the viewport to render in
----
---- Default: `The current viewport's width`
----@field w number="The current viewport's width"
----The height of the viewport to render in
----
---- Default: `The current viewport's height`
----@field h number="The current viewport's height"
+---The width of the viewport to render in. Defaults to the current viewport's width
+---@field w number
+---The height of the viewport to render in. Defaults to the current viewport's height
+---@field h number
 ---Draw the HUD and call the hud painting related hooks
 ---
 --- Default: `false`
@@ -3063,14 +3051,10 @@ local VideoData = {}
 ---
 --- Default: `false`
 ---@field drawviewer boolean=false
----The viewmodel's FOV
----
---- Default: `The current viewmodel FOV`
----@field viewmodelfov number="The current viewmodel FOV"
----The main view's FOV
----
---- Default: `The current view's FOV`
----@field fov number="The current view's FOV"
+---The viewmodel's FOV. Defaults to the current viewmodel FOV
+---@field viewmodelfov number
+---The main view's FOV. Defaults to the current view's FOV
+---@field fov number
 ---If set, renders the view orthogonally. A table with these keys:
 --- * left
 --- * right
@@ -3103,22 +3087,14 @@ local VideoData = {}
 ---
 --- Default: `nil`
 ---@field orthobottom? number
----The distance of the view's origin to the near clipping plane
----
---- Default: `The current view's near clipping distance`
----@field znear number="The current view's near clipping distance"
----The distance of the view's origin to the far clipping plane
----
---- Default: `The current view's far clipping distance`
----@field zfar number="The current view's far clipping distance"
----The distance of the view's origin to the near clipping plane for the viewmodel
----
---- Default: `The viewmodel's current near clipping distance`
----@field znearviewmodel number="The viewmodel's current near clipping distance"
----The distance of the view's origin to the far clipping plane for the viewmodel
----
---- Default: `The viewmodel's current far clipping distance`
----@field zfarviewmodel number="The viewmodel's current far clipping distance"
+---The distance of the view's origin to the near clipping plane. Defaults to the current view's near clipping distance
+---@field znear number
+---The distance of the view's origin to the far clipping plane. Defaults to the current view's far clipping distance
+---@field zfar number
+---The distance of the view's origin to the near clipping plane for the viewmodel. Defaults to the viewmodel's current near clipping distance
+---@field znearviewmodel number
+---The distance of the view's origin to the far clipping plane for the viewmodel. Defaults to the viewmodel's current far clipping distance
+---@field zfarviewmodel number
 ---Currently works identically to the "bloomtone" option (it also overrides it if you set this to false).
 ---
 --- Default: `false`

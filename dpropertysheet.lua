@@ -24,6 +24,7 @@ local DPropertySheet = {}
 function DPropertySheet:AddSheet(name, pnl, icon, noStretchX, noStretchY, tooltip) end
 
 ---Removes tab and/or panel from the parent DPropertySheet.
+--- **NOTE**: In case you close the active tab, it will be reset to the last item available in the list.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DPropertySheet:CloseTab

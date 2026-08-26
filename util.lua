@@ -1,8 +1,5 @@
 ---@meta
 
---- This is the list of utility functions.
-util = {}
-
 --- `util.worldpicker` is for picking an entity in the world while [GUI](https://wiki.facepunch.com/gmod/gui) is open.
 util.worldpicker = {}
 
@@ -60,7 +57,7 @@ function util.Base64Decode(str) end
 ---@return string # Base 64 encoded string.
 function util.Base64Encode(str, inline) end
 
----Applies explosion damage to all entities in the specified radius. Performs block checking.
+---Applies explosion damage to all entities in the specified radius. Performs line-of-sight checking.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/util.BlastDamage
 ---@param inflictor Entity The entity that caused the damage.
@@ -395,7 +392,8 @@ function util.IntersectRayWithOBB(rayStart, rayDelta, boxOrigin, boxAngles, boxM
 ---@param rayDirection Vector The direction of the ray.
 ---@param planePosition Vector Any position of the plane.
 ---@param planeNormal Vector The normal vector of the plane.
----@return Vector # The position of intersection, nil if not hit.
+---@return Vector # The position of intersection, `nil` if not hit.
+---@return number # The distance from start position to the hit point, if there was a hit.
 function util.IntersectRayWithPlane(rayOrigin, rayDirection, planePosition, planeNormal) end
 
 ---Performs a ray-sphere intersection and returns the intersection positions or nil.

@@ -3,10 +3,10 @@
 --- The player_manager library lets you manage players, such as setting their models or creating player classes.
 player_manager = {}
 
----Assigns view model hands to player model.
+---Assigns view model hands model to a specific player model.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/player_manager.AddValidHands
----@param name string Player model name.
+---@param name string The internal player model name, as set in the first argument of player_manager.AddValidModel.
 ---@param model string Hands model.
 ---@param skin? number Skin to apply to the hands.
 ---@param bodygroups? string Bodygroups to apply to the hands. See Entity:SetBodyGroups for help with the format.
@@ -16,17 +16,24 @@ function player_manager.AddValidHands(name, model, skin, bodygroups, matchBodySk
 
 ---Associates a simplified name with a path to a valid player model.
 ---
---- Only used internally.
+--- This is used to list all available player model in the Player Model Selector (via [player_manager.AllValidModels](https://wiki.facepunch.com/gmod/player_manager.AllValidModels)), and to prevent players from being able to set any model as the player model.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/player_manager.AddValidModel
----@param name string Simplified name.
----@param model string Valid PlayerModel path.
-function player_manager.AddValidModel(name, model) end
+---@param name string Short, simplified, unique player model name. (something like `"combine"` for the Combine Soldier player model)
+---@param model string The model path for this player model entry.
+---@param niceName? string A user-friendly name of this model, such as `"Combine Soldier"`.
+---
+--- Can be a localization string starting with `"#"`.
+---@param category? string A user-friendly category name for this model, such as `"Half-Life 2"`.
+---
+--- If not set, the model will appear in the "Other" category (localized to the player's language).
+--- Can be a localization string starting with `"#"`.
+function player_manager.AddValidModel(name, model, niceName, category) end
 
 ---Returns the entire list of valid player models.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/player_manager.AllValidModels
----@return table # List of all valid player models.
+---@return table<string,string> # List of all valid player models.
 function player_manager.AllValidModels() end
 
 ---Clears a player's class association by setting their ClassID to 0.
@@ -102,6 +109,8 @@ function player_manager.SetPlayerClass(ply, className) end
 function player_manager.TranslatePlayerHands(name) end
 
 ---Returns the valid model path for a simplified name.
+---
+--- Will default to `"models/player/kleiner.mdl"` if given player model does not exist.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/player_manager.TranslatePlayerModel
 ---@param shortName string The short name of the model.
@@ -111,6 +120,8 @@ function player_manager.TranslatePlayerModel(shortName) end
 ---Returns the simplified name for a valid model path of a player model.
 ---
 --- Opposite of [player_manager.TranslatePlayerModel](https://wiki.facepunch.com/gmod/player_manager.TranslatePlayerModel).
+---
+--- Will default to `"kleiner"` if there is no registered player model with given model path.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/player_manager.TranslateToPlayerModelName
 ---@param model string The model path to a player model.

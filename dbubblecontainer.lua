@@ -7,6 +7,7 @@ local DBubbleContainer = {}
 ---Returns Background Color, See [DBubbleContainer:SetBackgroundColor](https://wiki.facepunch.com/gmod/DBubbleContainer:SetBackgroundColor)
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DBubbleContainer:GetBackgroundColor
+---@return Color # Color of the background.
 function DBubbleContainer:GetBackgroundColor() end
 
 ---Sets the speech bubble position and size along with the dialog point position.

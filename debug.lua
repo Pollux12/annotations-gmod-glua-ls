@@ -68,10 +68,9 @@ function debug.gethook(thread) end
 ---For out-of-range stack levels, this can return nil.
 ---@overload fun(f: function, what?: debuglib.InfoWhat): debuglib.DebugInfo
 ---@overload fun(f: 0, what?: debuglib.InfoWhat): debuglib.DebugInfo
----@overload fun(f: integer, what?: debuglib.InfoWhat): debuglib.DebugInfo?
 ---@overload fun(thread: thread, f: function, what?: debuglib.InfoWhat): debuglib.DebugInfo
 ---@overload fun(thread: thread, f: 0, what?: debuglib.InfoWhat): debuglib.DebugInfo
----@param thread thread
+---@overload fun(thread: thread, f: integer, what?: debuglib.InfoWhat): debuglib.DebugInfo?
 ---
 ---Takes either a function or a number representing the stack level as an argument. Stack level 0 always corresponds to the debug.getinfo call, 1 would be the function calling debug.getinfo in most cases, and so on.
 --- Returns useful information about that function in a table.
@@ -91,7 +90,7 @@ function debug.gethook(thread) end
 ---
 --- A table as a Structures/DebugInfo containing information about the function you passed. Can return nil if the stack level didn't point to a valid stack frame.
 ---@nodiscard
-function debug.getinfo(thread, f, what) end
+function debug.getinfo(f, what) end
 
 ---Gets the name and value of a local variable indexed from the level.
 --- 	**WARNING**: When a function has a tailcall return, you cannot access the locals of this function.
@@ -140,7 +139,6 @@ function debug.getregistry() end
 
 ---Used for getting variable values in an index from the passed function. This does nothing for C functions.
 ---@realm shared
----@realm menu
 ---@source https://wiki.facepunch.com/gmod/debug.getupvalue
 ---@param func function Function to get the upvalue indexed from.
 ---@param index number The index in the upvalue array. The max number of entries can be found in debug.getinfo's "Structures/DebugInfo" key.

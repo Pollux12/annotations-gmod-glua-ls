@@ -87,6 +87,7 @@ function GM:CalcMainActivity(ply, vel) end
 function GM:CalcVehicleView(veh, ply, view) end
 
 ---Allows override of the default view.
+--- 		**NOTE**: To avoid breaking compatibility with other addons, it is recommended to add onto the origin and angle values using [Vector:Add](https://wiki.facepunch.com/gmod/Vector:Add) or [Angle:Add](https://wiki.facepunch.com/gmod/Angle:Add) instead of overriding them completely.
 ---@hook CalcView
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/GM:CalcView
@@ -96,7 +97,7 @@ function GM:CalcVehicleView(veh, ply, view) end
 ---@param fov number Field of view.
 ---@param znear number Distance to near clipping plane.
 ---@param zfar number Distance to far clipping plane.
----@return CamData # View data table. See Structures/CamData
+---@return CamData # View data table. See Structures/CamData.
 function GM:CalcView(ply, origin, angles, fov, znear, zfar) end
 
 ---Allows overriding the position and angle of the viewmodel.
@@ -460,6 +461,7 @@ function GM:EntityRemoved(ent, fullUpdate) end
 ---@source https://wiki.facepunch.com/gmod/GM:EntityTakeDamage
 ---@param target Entity The entity taking damage
 ---@param dmg CTakeDamageInfo Detailed information about the damage event.
+--- 		When you retrieve "the attacker" the player's angle and position will be incorrect.
 ---@return boolean # Return true to completely block the damage event
 function GM:EntityTakeDamage(target, dmg) end
 
@@ -528,7 +530,7 @@ function GM:GetDeathNoticeEntityName(name) end
 ---@return number # New fall damage
 function GM:GetFallDamage(ply, speed) end
 
----Called when the game(server) needs to update the text shown in the server browser as the gamemode. Runs at a ~2s interval, runs even when the server is hibernating.
+---Called when the game(server) needs to update the text shown in the server browser as the gamemode. Runs at a ~2s interval, runs even when the server is hibernating. This hook doesn't run when `hide_server 1` is set.
 ---
 --- **NOTE**: This hook (and the `sv_gamename_override` command) may not work on some popular gamemodes like DarkRP or Trouble Terrorist Town. This is not a bug, it's just how it works. See [here](https://github.com/Facepunch/garrysmod-issues/issues/4637#issuecomment-677884989) for more information.
 ---
@@ -1189,12 +1191,14 @@ function GM:OnPhysgunFreeze(weapon, physobj, ent, ply) end
 function GM:OnPhysgunPickup(ply, ent) end
 
 ---Called when a player reloads with the physgun. Override this to disable default unfreezing behavior.
+---
+--- 	Regardless of whether or not you return true or false, it will disable reloading. Only returning nil/nothing will allow reloading. The intended behavior should be that returning false disables reloading.
 ---@hook OnPhysgunReload
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/GM:OnPhysgunReload
----@param physgun Weapon The physgun in question
----@param ply Player The player wielding the physgun
----@return boolean # Whether the player can reload with the physgun or not
+---@param physgun Weapon The physgun in question.
+---@param ply Player The player wielding the physgun.
+---@return boolean # Whether the player can reload with the physgun or not/
 function GM:OnPhysgunReload(physgun, ply) end
 
 ---Called when a player has changed team using [GM:PlayerJoinTeam](https://wiki.facepunch.com/gmod/GM:PlayerJoinTeam).
@@ -2133,6 +2137,7 @@ function GM:PostEntityFireBullets(entity, data) end
 ---@source https://wiki.facepunch.com/gmod/GM:PostEntityTakeDamage
 ---@param ent Entity The entity that took the damage.
 ---@param dmginfo CTakeDamageInfo Detailed information about the damage event.
+--- 		When you retrieve "the attacker" the player's angle and position will be incorrect.
 ---@param wasDamageTaken boolean Whether the entity actually took the damage. (For example, shooting a Strider will generate this event, but it won't take bullet damage).
 function GM:PostEntityTakeDamage(ent, dmginfo, wasDamageTaken) end
 
@@ -2171,7 +2176,7 @@ function GM:PostPlayerDraw(ply, flags) end
 ---@return boolean # Return true/false depending on whether this post process should be allowed
 function GM:PostProcessPermitted(effect_name) end
 
----Called after the frame has been rendered.
+---Called after the frame has been rendered. Will not be called if [GM:PreRender](https://wiki.facepunch.com/gmod/GM:PreRender) returned `true`, disabling all further rendering operations for the current frame.
 ---@hook PostRender
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/GM:PostRender
@@ -2530,28 +2535,28 @@ function GM:ShouldDrawLocalPlayer(ply) end
 
 ---Called when a player executes `gm_showhelp` console command. (Default bind is F1)
 ---@hook ShowHelp
----@realm shared
+---@realm server
 ---@source https://wiki.facepunch.com/gmod/GM:ShowHelp
 ---@param ply Player Player who executed the command
 function GM:ShowHelp(ply) end
 
 ---Called when a player executes `gm_showspare1` console command ( Default bind is F3 ).
 ---@hook ShowSpare1
----@realm shared
+---@realm server
 ---@source https://wiki.facepunch.com/gmod/GM:ShowSpare1
 ---@param ply Player Player who executed the command.
 function GM:ShowSpare1(ply) end
 
 ---Called when a player executes `gm_showspare2` console command ( Default bind is F4 ).
 ---@hook ShowSpare2
----@realm shared
+---@realm server
 ---@source https://wiki.facepunch.com/gmod/GM:ShowSpare2
 ---@param ply Player Player who executed the command.
 function GM:ShowSpare2(ply) end
 
 ---Called when a player executes `gm_showteam` console command. ( Default bind is F2 )
 ---@hook ShowTeam
----@realm shared
+---@realm server
 ---@source https://wiki.facepunch.com/gmod/GM:ShowTeam
 ---@param ply Player Player who executed the command
 function GM:ShowTeam(ply) end

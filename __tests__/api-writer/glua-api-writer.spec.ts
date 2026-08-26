@@ -217,7 +217,7 @@ describe('GLua API Writer', () => {
       url: 'https://wiki.facepunch.com/gmod/Structures/EntityStruct',
     });
 
-    expect(api).toContain('---@field entity Entity="NULL"');
+    expect(api).toContain('---@field entity Entity=NULL');
   });
 
   it('should be able to write Lua API definitions directly from wiki json data for a fake enum', async () => {

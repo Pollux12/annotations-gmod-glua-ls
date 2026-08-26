@@ -502,13 +502,14 @@ export class GluaApiWriter {
       api += `---${wrapInComment(comment)}\n`;
 
     const type = GluaApiWriter.transformType(field.type, field.callback);
-    const { optional, inlineDefault } = this.getStructFieldDefaultAnnotation(field.default);
+    const { optional, inlineDefault } = this.getStructFieldDefaultAnnotation(field);
     api += `---@field ${GluaApiWriter.safeName(field.name)}${optional} ${type}${inlineDefault}\n`;
 
     return api;
   }
 
-  private getStructFieldDefaultAnnotation(defaultValue: string | undefined): { optional: string; inlineDefault: string } {
+  private getStructFieldDefaultAnnotation(field: Struct['fields'][number]): { optional: string; inlineDefault: string } {
+    const defaultValue = field.default;
     if (defaultValue === undefined)
       return { optional: '', inlineDefault: '' };
 
@@ -516,12 +517,12 @@ export class GluaApiWriter {
     if (trimmedDefault.toLowerCase() === 'nil')
       return { optional: '?', inlineDefault: '' };
 
-    const normalizedDefault = this.normalizeInlineDefaultValue(trimmedDefault);
+    const normalizedDefault = this.normalizeInlineDefaultValue(trimmedDefault, field.type);
     return { optional: '', inlineDefault: `=${normalizedDefault}` };
   }
 
-  private normalizeInlineDefaultValue(defaultValue: string): string {
-    if (/^[+-]?(?:\d+\.?\d*|\.\d+)$/.test(defaultValue))
+  private normalizeInlineDefaultValue(defaultValue: string, fieldType?: string): string {
+    if (/^[+-]?(?:0[xX][0-9a-fA-F]+|\d+\.?\d*|\.\d+)(?:[eE][+-]?\d+)?$/.test(defaultValue))
       return defaultValue;
 
     if (/^(true|false)$/i.test(defaultValue))
@@ -531,13 +532,18 @@ export class GluaApiWriter {
     const boldMatch = unwrappedCode.match(/^\*\*(.*)\*\*$/);
     const normalizedText = (boldMatch ? boldMatch[1] : unwrappedCode).trim();
 
-    if (normalizedText.toLowerCase() === 'empty')
+    if (normalizedText.toLowerCase() === 'empty' || normalizedText.toLowerCase() === '<empty string>')
       return '""';
 
     if (/^"(?:[^"\\]|\\.)*"$/.test(normalizedText) || /^'(?:[^'\\]|\\.)*'$/.test(normalizedText))
       return normalizedText;
 
-    return JSON.stringify(normalizedText);
+    const isStringType = fieldType !== undefined && fieldType.trim().toLowerCase() === 'string';
+    if (isStringType) {
+      return JSON.stringify(normalizedText);
+    }
+
+    return normalizedText;
   }
 
   private writeStruct(struct: Struct) {

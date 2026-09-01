@@ -603,6 +603,17 @@ function Entity:DTVar(type, slot, name) end
 ---@param filter? CRecipientFilter If set serverside, the sound will only be networked to the clients in the filter.
 function Entity:EmitSound(soundName, soundLevel, pitchPercent, volume, channel, soundFlags, dsp, filter) end
 
+---Plays a sound of a step depending on the surface below the entity's foot.
+---
+--- It will use attachments `"RightFoot"` or `"LeftFoot"` to decide where to check the surface at. If the attachments do not exist, it will use regular Valve Biped skeleton bones. If they don't exist, it will fallback to the entity's origin.
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/Entity:EmitStepSound
+---@param isLeftFoot boolean Determines whether the step is a right foot or a left foot.
+---
+--- This is used for certain NPCs such as Eli to determine what sound should be played. This also determines the position of the sound.
+---@param volume? number The volume, from 0 to 1.
+function Entity:EmitStepSound(isLeftFoot, volume) end
+
 ---Toggles the constraints of this ragdoll entity on and off.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/Entity:EnableConstraints
@@ -3813,17 +3824,6 @@ function Entity:PhysicsUpdate(phys) end
 ---@source https://wiki.facepunch.com/gmod/Entity:PhysWake
 function Entity:PhysWake() end
 
----Plays a sound of a step depending on the surface below the entity's foot.
----
---- It will use attachments `"RightFoot"` or `"LeftFoot"` to decide where to check the surface at. If the attachments do not exist, it will use regular Valve Biped skeleton bones. If they don't exist, it will fallback to the entity's origin.
----@realm shared
----@source https://wiki.facepunch.com/gmod/Entity:PlayFootstepSound
----@param isLeftFoot boolean Determines whether the step is a right foot or a left foot.
----
---- This is used for certain NPCs such as Eli to determine what sound should be played. This also determines the position of the sound.
----@param volume? number The volume, from 0 to 1.
-function Entity:EmitStepSound(isLeftFoot, volume) end
-
 ---Makes the entity play a .vcd scene. [All scenes from Half-Life 2](https://developer.valvesoftware.com/wiki/Half-Life_2_Scenes_List).
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/Entity:PlayScene
@@ -4011,6 +4011,8 @@ function Entity:RemoveSpawnFlags(flag) end
 ---Called instead of the engine drawing function of the entity. This hook works on any entity (scripted or not) it is applied on.
 ---
 --- This does not work on "physgun_beam", use [GM:DrawPhysgunBeam](https://wiki.facepunch.com/gmod/GM:DrawPhysgunBeam) instead.
+---
+--- **WARNING**: Defining or clearing this function in the entity table will not do anything, you must define this method in the entity itself
 ---
 --- Drawing a viewmodel in this function will cause [GM:PreDrawViewModel](https://wiki.facepunch.com/gmod/GM:PreDrawViewModel), [WEAPON:PreDrawViewModel](https://wiki.facepunch.com/gmod/WEAPON:PreDrawViewModel), [WEAPON:ViewModelDrawn](https://wiki.facepunch.com/gmod/WEAPON:ViewModelDrawn), [GM:PostDrawViewModel](https://wiki.facepunch.com/gmod/GM:PostDrawViewModel), and [WEAPON:PostDrawViewModel](https://wiki.facepunch.com/gmod/WEAPON:PostDrawViewModel) to be called twice.
 ---
@@ -5888,8 +5890,9 @@ function Entity:Spawn() end
 ---@source https://wiki.facepunch.com/gmod/ENTITY:SpawnFunction
 ---@param ply Player The player that is spawning this SENT
 ---@param tr TraceResult A Structures/TraceResult from player eyes to their aim position
----@param ClassName string The classname of your entity
-function Entity:SpawnFunction(ply, tr, ClassName) end
+---@param className string The classname of your entity
+---@return Entity # The created scripted entity.
+function Entity:SpawnFunction(ply, tr, className) end
 
 ---Called by the engine only whenever [NPC:SetSchedule](https://wiki.facepunch.com/gmod/NPC:SetSchedule) is called.
 --- **NOTE**: This hook only exists for `ai` type [SENTs](https://wiki.facepunch.com/gmod/Scripted_Entities).

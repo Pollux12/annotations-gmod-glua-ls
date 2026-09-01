@@ -2727,11 +2727,11 @@ function _G.RunString(code, identifier, handleError) end
 ---@deprecated Use Global.RunString instead.
 function _G.RunStringEx(code, identifier, handleError) end
 
----Removes the given entity unless it is a player or the world entity.
+---Removes the given entity unless it is a player or the world entity. It will check if the input is a valid entity before removal.
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Global.SafeRemoveEntity
----@param ent Entity Entity to safely remove.
+---@param ent Entity Entity to remove.
 function _G.SafeRemoveEntity(ent) end
 
 ---Removes entity after delay using [Global.SafeRemoveEntity](https://wiki.facepunch.com/gmod/Global.SafeRemoveEntity).

@@ -1610,11 +1610,14 @@ function GM:PlayerDriveAnimate(ply) end
 function GM:PlayerDroppedWeapon(owner, wep) end
 
 ---Called when player stops using voice chat.
+---
+--- See [GM:PlayerStartVoice](https://wiki.facepunch.com/gmod/GM:PlayerStartVoice) for the opposite hook.
 ---@hook PlayerEndVoice
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/GM:PlayerEndVoice
----@param ply Player Player who stopped talking
-function GM:PlayerEndVoice(ply) end
+---@param ply Player Player who stopped talking. Can be NULL when player entity is outside of the PVS. Use the player index.
+---@param plyIndex number The Entity:EntIndex of the talking player.
+function GM:PlayerEndVoice(ply, plyIndex) end
 
 ---Called when a player enters a vehicle.
 ---
@@ -1921,13 +1924,17 @@ function GM:PlayerSpray(sprayer) end
 function GM:PlayerStartTaunt(ply, act, length) end
 
 ---Called when a player starts using voice chat.
---- **NOTE**: Set mp_show_voice_icons to 0, if you want disable icons above player.
+---
+--- See [GM:PlayerEndVoice](https://wiki.facepunch.com/gmod/GM:PlayerEndVoice) for the hook when the player stops talking.
+---
+--- **NOTE**: Set `mp_show_voice_icons` to 0, if you want disable voice chat icons above player heads.
 ---@hook PlayerStartVoice
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/GM:PlayerStartVoice
----@param ply Player Player who started using voice chat.
----@param plyIndex? number The player index. Only appears when non-local player speaks for the first time.
----@return boolean # Set true to hide player's `CHudVoiceStatus`.
+---@param ply Player Player who started using voice chat. Can be NULL when player entity is outside of the PVS. Use the player index.
+---@param plyIndex? number The Entity:EntIndex. Only appears when non-local player speaks for the first time.
+---
+--- After August 2026 - always provided.
 function GM:PlayerStartVoice(ply, plyIndex) end
 
 ---Allows you to override the time between footsteps.

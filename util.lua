@@ -1,5 +1,8 @@
 ---@meta
 
+--- This is the list of utility functions.
+util = {}
+
 --- `util.worldpicker` is for picking an entity in the world while [GUI](https://wiki.facepunch.com/gmod/gui) is open.
 util.worldpicker = {}
 
@@ -407,6 +410,20 @@ function util.IntersectRayWithPlane(rayOrigin, rayDirection, planePosition, plan
 ---@return number # The second intersection position along the ray, or `nil` if there is no intersection.
 function util.IntersectRayWithSphere(rayOrigin, rayDelta, spherePosition, sphereRadius) end
 
+---Performs a ray-triangle intersection and returns the hit position or nil.
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/util.IntersectRayWithTriangle
+---@param rayOrigin Vector Origin/start position of the ray.
+---@param rayEnd Vector The end position of the ray.
+---@param triA Vector The first vertex of the triangle.
+---@param triB Vector The second vertex of the triangle.
+---@param triC Vector The third vertex of the triangle.
+---@param oneSided? boolean Whether the triangle can be hit from only one side (`true`) or from both sides (`false`).
+--- This assumes clockwise vertex arrangement to determine the "hittable" side.
+---@return Vector # The position of intersection, `nil` if not hit.
+---@return number # The fraction of start position to end position in range of [0,1] to the hit point, if there was a hit. i.e. 0.5 would be a hit in the exact middle of start and end positions.
+function util.IntersectRayWithTriangle(rayOrigin, rayEnd, triA, triB, triC, oneSided) end
+
 ---Returns whether a binary module is installed and is resolvable by [Global.require](https://wiki.facepunch.com/gmod/Global.require).
 ---@realm shared
 ---@realm menu
@@ -474,6 +491,18 @@ function util.IsOBBIntersectingOBB(
 	tolerance
 )
 end
+
+---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
+---
+--- Returns whether the player at given index is speaking or not.
+---
+--- This is used internally by the voice chat HUD for players outside of the PVS.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/util.IsPlayerSpeaking
+---@param entIndex number The Entity:EntIndex of the player to check.
+---@return boolean # Whether the player at given index is currently speaking.
+---@return number # The current voice volume (Player:VoiceVolume) of the player if they are speaking.
+function util.IsPlayerSpeaking(entIndex) end
 
 ---Returns whether a point is within a cone or not.
 ---@realm shared

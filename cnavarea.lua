@@ -296,6 +296,17 @@ function CNavArea:GetLadders() end
 ---@return table # The CNavLadders that have a ( one or two way ) connection **from** this CNavArea in given direction.
 function CNavArea:GetLaddersAtSide(navDir) end
 
+---Returns the stored light intensity of this nav area.
+---@realm server
+---@source https://wiki.facepunch.com/gmod/CNavArea:GetLightIntensity
+---@param position? Vector If given, a world position to calculate light intensity at. (elevation ignored)
+---
+--- Internally light intensity is stored for each corner, so the final value would be interpolated from these 4 values based on which one is closest.
+---
+--- If omitted, the return value will be simply an average of the 4 values.
+---@return number # The light intensity in range of [0,1].
+function CNavArea:GetLightIntensity(position) end
+
 ---Returns the parent [CNavArea](https://wiki.facepunch.com/gmod/CNavArea)
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/CNavArea:GetParent

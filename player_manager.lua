@@ -30,7 +30,9 @@ function player_manager.AddValidHands(name, model, skin, bodygroups, matchBodySk
 --- Can be a localization string starting with `"#"`.
 function player_manager.AddValidModel(name, model, niceName, category) end
 
----Returns the entire list of valid player models.
+---Returns a copy of the entire list of valid player models.
+---
+--- You will likely want to use [player_manager.GetAllPlayerModels](https://wiki.facepunch.com/gmod/player_manager.GetAllPlayerModels) to also get categories and nice names of each of the player models.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/player_manager.AllValidModels
 ---@return table<string,string> # List of all valid player models.
@@ -41,6 +43,14 @@ function player_manager.AllValidModels() end
 ---@source https://wiki.facepunch.com/gmod/player_manager.ClearPlayerClass
 ---@param ply Player Player to clear class from.
 function player_manager.ClearPlayerClass(ply) end
+
+---Returns a copy of the entire list of valid player models, including their categories and player-friendly names.
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/player_manager.GetAllPlayerModels
+---@return table<string,table> # List of all valid player models.
+---
+--- Sub keys include `model`, `title` and `category`, last one is optional and may not be defined.
+function player_manager.GetAllPlayerModels() end
 
 ---Gets a players class.
 ---@realm shared
@@ -78,6 +88,12 @@ function player_manager.OnPlayerSpawn(ply, transition) end
 ---@param table PlayerClass Class metatable. See the [PlayerClass](https://wiki.facepunch.com/gmod/Player_Classes) structure.
 ---@param base? string Base class name.
 function player_manager.RegisterClass(name, table, base) end
+
+---Removes a valid player model from the list, including associated hands model.
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/player_manager.RemoveValidModel
+---@param name string The internal name of the player model to remove from the list. (The first argument from player_manager.AddValidModel or the key from the player model list.)
+function player_manager.RemoveValidModel(name) end
 
 ---Execute a named function within the player's set class.
 ---@realm shared

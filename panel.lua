@@ -856,7 +856,7 @@ function Panel:GetScrollStartIndexes() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:GetSelectedChildren
----@return table # A table of any child objects that are selected, including tables for children of the child objects (These tables may also contain table members, as the method is recursive).
+---@return Panel[] # A table of any child objects that are selected, including tables for children of the child objects (These tables may also contain table members, as the method is recursive).
 function Panel:GetSelectedChildren() end
 
 ---Returns the currently selected range of text.

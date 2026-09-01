@@ -2193,6 +2193,12 @@ local SurfacePropertyData = {}
 ---@field DrawCrosshair boolean=true
 ---The SWEP render group, see Enums/RENDERGROUP. If unset, the engine will decide the render group based on the SWEPs world model.
 ---@field RenderGroup RENDERGROUP
+---If set and `RenderGroup` is not, will switch the render group to Enums/RENDERGROUP#RENDERGROUP_BOTH when appropriate.
+---
+--- See Structures/ENT for details.
+---
+--- Default: `false`
+---@field WantsTranslucency boolean=false
 ---Slot in the weapon selection menu, starts with `0`
 ---
 --- Default: `0`

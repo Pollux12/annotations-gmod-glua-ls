@@ -194,7 +194,7 @@ function Entity:BecomeRagdollOnClient() end
 
 ---Returns true if the entity is being looked at by the local player and is within 256 units of distance.
 ---
---- **NOTE**: This function is only available in entities that are based off of sandbox's base_gmodentity.
+--- **NOTE**: This function is only available in entities that are based off of sandbox's `base_gmodentity` as well as `prop_effect`.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/Entity:BeingLookedAtByLocalPlayer
 ---@return boolean # Is the entity being looked at by the local player and within 256 units.
@@ -241,6 +241,8 @@ function Entity:BoundingRadius() end
 ---Called whenever the entity's position changes. A callback for when an entity's angle changes is available via [Entity:AddCallback](https://wiki.facepunch.com/gmod/Entity:AddCallback).
 ---
 --- Like [ENTITY:RenderOverride](https://wiki.facepunch.com/gmod/ENTITY:RenderOverride), this hook works on any entity (scripted or not) it is applied on.
+---
+--- **WARNING**: Defining or clearing this function in the entity table will not do anything, you must define this method in the entity itself
 ---
 --- **NOTE**: If EFL_DIRTY_ABSTRANSFORM is set on the entity, this will be called serverside only; otherwise, this will be called clientside only. This means serverside calls of [Entity:SetPos](https://wiki.facepunch.com/gmod/Entity:SetPos) without the EFL_DIRTY_ABSTRANSFORM flag enabled (most cases) will be called clientside only.
 ---
@@ -2311,13 +2313,14 @@ function Entity:GetPreferredCarryAngles(ply) end
 ---@return Entity # The entity who owns the ragdoll.
 function Entity:GetRagdollOwner() end
 
----Called when scripted NPC needs to check how he "feels" against another entity, such as when [NPC:Disposition](https://wiki.facepunch.com/gmod/NPC:Disposition) is called.
+---Called when scripted NPC needs to check how it "feels" against another entity, such as when [NPC:Disposition](https://wiki.facepunch.com/gmod/NPC:Disposition) is called.
+---
 --- **NOTE**: Scripted NPCs will not select other entities using same [Entity:GetModel](https://wiki.facepunch.com/gmod/Entity:GetModel) as this Scripted NPC's [Entity:GetModel](https://wiki.facepunch.com/gmod/Entity:GetModel) as enemy, unless [NPC:AddEntityRelationship](https://wiki.facepunch.com/gmod/NPC:AddEntityRelationship) is cast.
 ---@hook GetRelationship
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/ENTITY:GetRelationship
 ---@param ent Entity The entity in question
----@return D # How our scripter NPC "feels" towards the entity in question. See Enums/D. Not returning any value will make NPC:Disposition return the default disposition for this SNPC's given `m_iClass` by the engine.
+---@return D # How our scripted NPC "feels" towards the entity in question. See Enums/D. Not returning any value will make NPC:Disposition return the default disposition for this SNPC's given `m_iClass` by the engine.
 function Entity:GetRelationship(ent) end
 
 ---Returns the entity's render angles, set by [Entity:SetRenderAngles](https://wiki.facepunch.com/gmod/Entity:SetRenderAngles) in a drawing hook.
@@ -3427,7 +3430,7 @@ function Entity:OnCondition(conditionID) end
 ---@hook OnDuplicated
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/ENTITY:OnDuplicated
----@param entTable EntityCopyData The stored data about the original entity that was duplicated. This would typically contain the Entity:GetTable fields that are serializalble. See Structures/EntityCopyData.
+---@param entTable EntityCopyData The stored data about the original entity that was duplicated. This would typically contain the Entity:GetTable fields that are serializable. See Structures/EntityCopyData.
 function Entity:OnDuplicated(entTable) end
 
 ---Called after duplicator finishes saving the entity, allowing you to modify the save data.
@@ -5687,8 +5690,8 @@ function Entity:SetSkin(skinIndex) end
 ---Sets the solidity of an entity.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Entity:SetSolid
----@param solid_type number The solid type. See the Enums/SOLID.
-function Entity:SetSolid(solid_type) end
+---@param solidType number The solid type. See the Enums/SOLID.
+function Entity:SetSolid(solidType) end
 
 --- Custom override: SetSolidFlags accepts FSOLID enum or number since
 --- bit.bor() with flag values returns a plain number.

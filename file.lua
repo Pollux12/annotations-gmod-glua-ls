@@ -292,6 +292,7 @@ function File:Tell() end
 ---@param path string The **file** or **folder** path.
 ---@param gamePath string The path to look for the files and directories in. See File_Search_Paths for a list of valid paths.
 ---@return number # Seconds passed since Unix epoch, or `0` if the file is not found.
+--- For workshop content `1` is returned.
 function file.Time(path, gamePath) end
 
 ---Writes the given string into the file.

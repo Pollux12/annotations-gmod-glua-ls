@@ -671,6 +671,10 @@ local EmitSoundInfo = {}
 ---
 --- Default: `Other`
 ---@field Category string="Other"
+---Optional spawnmenu sub-category to put the entity into.
+---
+--- Default: `nil`
+---@field SubCategory? string
 ---Whether this entity should be displayed and is spawnable in the spawn menu
 ---
 --- Default: `false`
@@ -1341,6 +1345,10 @@ local ModelMeshData = {}
 ---
 --- Default: `Other`
 ---@field Category string="Other"
+---Optional spawnmenu sub-category to put this NPC into.
+---
+--- Default: `nil`
+---@field SubCategory? string
 ---A list of weapons this NPC is typically meant to use. One will be picked on spawn at random, unless overwritten by the player.
 ---
 --- Default: `{}`
@@ -2148,6 +2156,10 @@ local SurfacePropertyData = {}
 ---
 --- Default: `#spawnmenu.category.other`
 ---@field Category string="#spawnmenu.category.other"
+---Optional spawnmenu sub-category to put this weapon into.
+---
+--- Default: `nil`
+---@field SubCategory? string
 ---Whether or not this weapon can be obtained through the
 ---             spawn menu.
 ---

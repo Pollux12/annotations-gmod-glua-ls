@@ -14,6 +14,7 @@ function net.Abort() end
 
 ---Sends the currently built net message (see [net.Start](https://wiki.facepunch.com/gmod/net.Start)) to all connected players.
 --- More information can be found in [Net Library Usage](https://wiki.facepunch.com/gmod/Net_Library_Usage).
+--- **NOTE**: This is equivalent to: net.Send(player.GetAll())
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/net.Broadcast
 function net.Broadcast() end
@@ -239,7 +240,7 @@ function net.ReadVector() end
 --- * Player `ply` - The player that sent the message, works **only** server-side.
 function net.Receive(messageName, callback) end
 
----Sends the current net message to the specified player(s)
+---Sends the current net message to the specified player(s). It is then received via [net.Receive](https://wiki.facepunch.com/gmod/net.Receive) on the client realm of each of those players.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/net.Send
 ---@overload fun(plys: Player[])

@@ -820,11 +820,11 @@ function player.GetHumans() end
 --- See [Player:GetInfoNum](https://wiki.facepunch.com/gmod/Player:GetInfoNum) for the same function that automatically converts the string to a number.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Player:GetInfo
----@param cVarName string The name of the client-side ConVar.
----@return string # The value of the ConVar. Or an empty string if the convar doesn't exist.
+---@param convarName string The name of the client-side ConVar.
+---@return string # The value of the ConVar. Will return empty string if the convar doesn't exist (when called on the server), or `nil` when called on client, or the convar is blacklisted, such as password convars (both realms).
 ---
 --- The returned value is truncated to 259 bytes.
-function Player:GetInfo(cVarName) end
+function Player:GetInfo(convarName) end
 
 ---Retrieves the numeric value of a client-side convar, returns nil if value is not convertible to a number. The [ConVar](https://wiki.facepunch.com/gmod/ConVar) must have a [FCVAR_USERINFO](https://wiki.facepunch.com/gmod/Enums/FCVAR) flag for this to work.
 ---@realm shared

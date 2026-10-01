@@ -4878,14 +4878,26 @@ ANALOG_MOUSE_X = 0
 ANALOG_MOUSE_Y = 1
 ---@readonly
 ANALOG_MOUSE_WHEEL = 3
+--- Joystick X axis, usually bound to movement strafing.
+---
+--- Left thumbstick sideways movement, negative values is left, positive right.
 ---@readonly
 ANALOG_JOY_X = 4
+--- Joystick Y axis, usually bound to movement forward/backward.
+---
+--- Left thumbstick up/down movement, negative values is forwards, positive backwards.
 ---@readonly
 ANALOG_JOY_Y = 5
 ---@readonly
 ANALOG_JOY_Z = 6
+--- Joystick R axis, usually bound to looking up and down.
+---
+--- Right thumbstick up/down movement, negative values is upwards, positive downwards.
 ---@readonly
 ANALOG_JOY_R = 7
+--- Joystick U axis, usually bound to looking left and right.
+---
+--- Right thumbstick sideways  movement, negative values is left, positive right.
 ---@readonly
 ANALOG_JOY_U = 8
 ---@readonly
@@ -4895,11 +4907,11 @@ ANALOG_JOY_V = 9
 ---| ANALOG_MOUSE_X
 ---| ANALOG_MOUSE_Y
 ---| ANALOG_MOUSE_WHEEL
----| ANALOG_JOY_X
----| ANALOG_JOY_Y
+---| ANALOG_JOY_X # Joystick X axis, usually bound to movement strafing.  Left thumbstick sideways movement, negative values is left, positive right.
+---| ANALOG_JOY_Y # Joystick Y axis, usually bound to movement forward/backward.  Left thumbstick up/down movement, negative values is forwards, positive backwards.
 ---| ANALOG_JOY_Z
----| ANALOG_JOY_R
----| ANALOG_JOY_U
+---| ANALOG_JOY_R #  Joystick R axis, usually bound to looking up and down.  Right thumbstick up/down movement, negative values is upwards, positive downwards.
+---| ANALOG_JOY_U #  Joystick U axis, usually bound to looking left and right.  Right thumbstick sideways  movement, negative values is left, positive right.
 ---| ANALOG_JOY_V
 
 --- These enums are used by [render.OverrideBlend](https://wiki.facepunch.com/gmod/render.OverrideBlend) to determine what the Source and Destination color and alpha channel values for a given pixel will be multiplied by before they are sent to the [Blend Function](https://wiki.facepunch.com/gmod/Enums/BLENDFUNC) to calculate the pixel's final color during draw operations.
@@ -5093,10 +5105,16 @@ BLOOD_COLOR_ANTLION_WORKER = 6
 --- Used by [Entity:BoneHasFlag](https://wiki.facepunch.com/gmod/Entity:BoneHasFlag).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Enums/BONE
+--- Does nothing/not implemented.
+---
 --- Bone is physically simulated when physics are active
+---@deprecated Does nothing/not implemented.
 ---@readonly
 BONE_PHYSICALLY_SIMULATED = 1
+--- Does nothing/not implemented.
+---
 --- Procedural when physics is active
+---@deprecated Does nothing/not implemented.
 ---@readonly
 BONE_PHYSICS_PROCEDURAL = 2
 --- Bone is always procedurally animated
@@ -5108,6 +5126,8 @@ BONE_SCREEN_ALIGN_SPHERE = 8
 --- Bone aligns to the screen, constrained by it's own axis.
 ---@readonly
 BONE_SCREEN_ALIGN_CYLINDER = 16
+--- Does nothing/not implemented.
+---@deprecated Does nothing/not implemented.
 ---@readonly
 BONE_CALCULATE_MASK = 31
 --- A hitbox is attached to this bone
@@ -5146,12 +5166,12 @@ BONE_USED_BY_ANYTHING = 524032
 BONE_USED_MASK = 524032
 
 ---@enum BONE : number
----| BONE_PHYSICALLY_SIMULATED # Bone is physically simulated when physics are active
----| BONE_PHYSICS_PROCEDURAL # Procedural when physics is active
+---| BONE_PHYSICALLY_SIMULATED #  Does nothing/not implemented.  Bone is physically simulated when physics are active
+---| BONE_PHYSICS_PROCEDURAL #  Does nothing/not implemented.  Procedural when physics is active
 ---| BONE_ALWAYS_PROCEDURAL # Bone is always procedurally animated
 ---| BONE_SCREEN_ALIGN_SPHERE # Bone aligns to the screen, not constrained in motion.
 ---| BONE_SCREEN_ALIGN_CYLINDER # Bone aligns to the screen, constrained by it's own axis.
----| BONE_CALCULATE_MASK
+---| BONE_CALCULATE_MASK # Does nothing/not implemented.
 ---| BONE_USED_BY_HITBOX # A hitbox is attached to this bone
 ---| BONE_USED_BY_ATTACHMENT # An attachment is attached to this bone
 ---| BONE_USED_BY_VERTEX_LOD0
@@ -6013,7 +6033,7 @@ CT_UNIQUE = 4
 ---| CT_REBEL # Rebel
 ---| CT_UNIQUE # Odessa?
 
---- Enumerations used by [NPC:Disposition](https://wiki.facepunch.com/gmod/NPC:Disposition) and [ENTITY:GetRelationship](https://wiki.facepunch.com/gmod/ENTITY:GetRelationship).
+--- Enumerations used by [NPC:Disposition](https://wiki.facepunch.com/gmod/NPC:Disposition), [NPC:AddEntityRelationship](https://wiki.facepunch.com/gmod/NPC:AddEntityRelationship) and [ENTITY:GetRelationship](https://wiki.facepunch.com/gmod/ENTITY:GetRelationship).
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/Enums/D
 --- Error
@@ -6275,8 +6295,9 @@ EF_BRIGHTLIGHT = 2
 --- Player flashlight.
 ---@readonly
 EF_DIMLIGHT = 4
---- Seems to have no effect. Has been replaced with [C_BaseEntity::IsNoInterpolationFrame()](https://github.com/ValveSoftware/source-sdk-2013/blob/master/src/game/client/c_baseentity.h#L1331-L1332).Don't interpolate the next frame.
----@deprecated Seems to have no effect. Has been replaced with [C_BaseEntity::IsNoInterpolationFrame()](https://github.com/ValveSoftware/source-sdk-2013/blob/master/src/game/client/c_baseentity.h#L1331-L1332).
+--- Seems to have no effect. Has been replaced with [C_BaseEntity::IsNoInterpolationFrame()](https://github.com/ValveSoftware/source-sdk-2013/blob/master/src/game/client/c_baseentity.h#L1331-L1332).
+---
+--- Don't interpolate the next frame.
 ---@readonly
 EF_NOINTERP = 8
 --- Disables shadow.
@@ -6306,7 +6327,7 @@ EF_NOFLASHLIGHT = 8192
 ---| EF_BONEMERGE_FASTCULL # For use with EF_BONEMERGE. If this is set, then it places this ents origin at its parent and uses the parent's bbox + the max extents of the aiment. Otherwise, it sets up the parent's bones every frame to figure out where to place the aiment, which is inefficient because it'll setup the parent's bones even if the parent is not in the PVS.
 ---| EF_BRIGHTLIGHT # DLIGHT centered at entity origin.
 ---| EF_DIMLIGHT # Player flashlight.
----| EF_NOINTERP # Seems to have no effect. Has been replaced with [C_BaseEntity::IsNoInterpolationFrame()](https://github.com/ValveSoftware/source-sdk-2013/blob/master/src/game/client/c_baseentity.h#L1331-L1332).Don't interpolate the next frame.
+---| EF_NOINTERP # Seems to have no effect. Has been replaced with [C_BaseEntity::IsNoInterpolationFrame()](https://github.com/ValveSoftware/source-sdk-2013/blob/master/src/game/client/c_baseentity.h#L1331-L1332).  Don't interpolate the next frame.
 ---| EF_NOSHADOW # Disables shadow.
 ---| EF_NODRAW # Prevents the entity from drawing and networking.
 ---| EF_NORECEIVESHADOW # Don't receive shadows.
@@ -6946,7 +6967,7 @@ FVPHYSICS_WAS_THROWN = 256
 ---| FVPHYSICS_PLAYER_HELD # Set when the player is holding this [PhysObj](https://wiki.facepunch.com/gmod/PhysObj) with the Physics Gun, Gravity Gun or +use pickup.
 ---| FVPHYSICS_WAS_THROWN # This object was thrown by the Gravity Gun , stuns Antlion guards, Hunters, and squashes Antlion grubs.
 
---- Enumerations used by [Player:AddVCDSequenceToGestureSlot](https://wiki.facepunch.com/gmod/Player:AddVCDSequenceToGestureSlot), [Player:AnimResetGestureSlot](https://wiki.facepunch.com/gmod/Player:AnimResetGestureSlot) and [Player:AnimRestartGesture](https://wiki.facepunch.com/gmod/Player:AnimRestartGesture).
+--- Enumerations used by [Player:AddVCDSequenceToGestureSlot](https://wiki.facepunch.com/gmod/Player:AddVCDSequenceToGestureSlot), [Player:AnimResetGestureSlot](https://wiki.facepunch.com/gmod/Player:AnimResetGestureSlot) and [Player:AnimRestartGesture](https://wiki.facepunch.com/gmod/Player:AnimRestartGesture). Gesture slots reserve the layer IDs corresponding to these enumerations, and the gesture validity can be checked with [Entity:IsValidLayer](https://wiki.facepunch.com/gmod/Entity:IsValidLayer).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Enums/GESTURE_SLOT
 --- Slot for weapon gestures
@@ -7234,44 +7255,46 @@ IN_BACK = 16
 --- +use bound key ( Default: E )
 ---@readonly
 IN_USE = 32
+--- Unused by default.
 ---@readonly
 IN_CANCEL = 64
---- +left bound key ( Look left )
+--- `+left` bound key ( Look left )
 ---@readonly
 IN_LEFT = 128
---- +right bound key ( Look right )
+--- `+right` bound key ( Look right )
 ---@readonly
 IN_RIGHT = 256
---- +moveleft bound key ( Default: A )
+--- `+moveleft` bound key ( Default: A )
 ---@readonly
 IN_MOVELEFT = 512
---- +moveright bound key ( Default: D )
+--- `+moveright` bound key ( Default: D )
 ---@readonly
 IN_MOVERIGHT = 1024
---- +attack2 bound key ( Default: Right Mouse Button )
+--- `+attack2` bound key ( Default: Right Mouse Button )
 ---@readonly
 IN_ATTACK2 = 2048
+--- Unused by default.
 ---@readonly
 IN_RUN = 4096
---- +reload bound key ( Default: R )
+--- `+reload` bound key ( Default: R )
 ---@readonly
 IN_RELOAD = 8192
---- +alt1 bound key
+--- `+alt1` bound key, effectively unused by default.
 ---@readonly
 IN_ALT1 = 16384
---- +alt2 bound key
+--- `+alt2` bound key, effectively unused by default.
 ---@readonly
 IN_ALT2 = 32768
---- +showscores bound key ( Default: Tab )
+--- `+showscores` bound key ( Default: Tab )
 ---@readonly
 IN_SCORE = 65536
---- +speed bound key ( Default: Shift )
+--- `+speed` bound key ( Default: Shift )
 ---@readonly
 IN_SPEED = 131072
---- +walk bound key ( Slow walk )
+--- `+walk` bound key ( Slow walk )
 ---@readonly
 IN_WALK = 262144
---- +zoom bound key ( Suit Zoom )
+--- `+zoom` bound key ( Suit Zoom )
 ---@readonly
 IN_ZOOM = 524288
 --- For use in weapons. Set in the physgun when scrolling an object away from you.
@@ -7280,12 +7303,13 @@ IN_WEAPON1 = 1048576
 --- For use in weapons. Set in the physgun when scrolling an object towards you.
 ---@readonly
 IN_WEAPON2 = 2097152
+--- Unused by default.
 ---@readonly
 IN_BULLRUSH = 4194304
---- +grenade1 bound key
+--- `+grenade1` bound key, effectively unused by default.
 ---@readonly
 IN_GRENADE1 = 8388608
---- +grenade2 bound key
+--- `+grenade2` bound key, effectively unused by default.
 ---@readonly
 IN_GRENADE2 = 16777216
 
@@ -7296,25 +7320,25 @@ IN_GRENADE2 = 16777216
 ---| IN_FORWARD # +forward bound key ( Default: W )
 ---| IN_BACK # +back bound key ( Default: S )
 ---| IN_USE # +use bound key ( Default: E )
----| IN_CANCEL
----| IN_LEFT # +left bound key ( Look left )
----| IN_RIGHT # +right bound key ( Look right )
----| IN_MOVELEFT # +moveleft bound key ( Default: A )
----| IN_MOVERIGHT # +moveright bound key ( Default: D )
----| IN_ATTACK2 # +attack2 bound key ( Default: Right Mouse Button )
----| IN_RUN
----| IN_RELOAD # +reload bound key ( Default: R )
----| IN_ALT1 # +alt1 bound key
----| IN_ALT2 # +alt2 bound key
----| IN_SCORE # +showscores bound key ( Default: Tab )
----| IN_SPEED # +speed bound key ( Default: Shift )
----| IN_WALK # +walk bound key ( Slow walk )
----| IN_ZOOM # +zoom bound key ( Suit Zoom )
+---| IN_CANCEL # Unused by default.
+---| IN_LEFT # `+left` bound key ( Look left )
+---| IN_RIGHT # `+right` bound key ( Look right )
+---| IN_MOVELEFT # `+moveleft` bound key ( Default: A )
+---| IN_MOVERIGHT # `+moveright` bound key ( Default: D )
+---| IN_ATTACK2 # `+attack2` bound key ( Default: Right Mouse Button )
+---| IN_RUN # Unused by default.
+---| IN_RELOAD # `+reload` bound key ( Default: R )
+---| IN_ALT1 # `+alt1` bound key, effectively unused by default.
+---| IN_ALT2 # `+alt2` bound key, effectively unused by default.
+---| IN_SCORE # `+showscores` bound key ( Default: Tab )
+---| IN_SPEED # `+speed` bound key ( Default: Shift )
+---| IN_WALK # `+walk` bound key ( Slow walk )
+---| IN_ZOOM # `+zoom` bound key ( Suit Zoom )
 ---| IN_WEAPON1 # For use in weapons. Set in the physgun when scrolling an object away from you.
 ---| IN_WEAPON2 # For use in weapons. Set in the physgun when scrolling an object towards you.
----| IN_BULLRUSH
----| IN_GRENADE1 # +grenade1 bound key
----| IN_GRENADE2 # +grenade2 bound key
+---| IN_BULLRUSH # Unused by default.
+---| IN_GRENADE1 # `+grenade1` bound key, effectively unused by default.
+---| IN_GRENADE2 # `+grenade2` bound key, effectively unused by default.
 
 --- Enumerations used by [input.IsButtonDown](https://wiki.facepunch.com/gmod/input.IsButtonDown).
 ---

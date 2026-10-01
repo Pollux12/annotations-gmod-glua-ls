@@ -27,6 +27,9 @@
 ---
 --- [Global.DeriveGamemode](https://wiki.facepunch.com/gmod/Global.DeriveGamemode) modifies the main gamemode's BaseClass, which is shared with parent gamemodes. Because of this, in parent gamemodes the BaseClass can be incorrect, so for instance you need to use `self.BaseClass.BaseClass` in the 1st parent instead
 ---@field BaseClass table
+---Set by GMod - The folder name of the derived gamemode (always `GM.BaseClass.FolderName` unless the `BaseClass` is the `base` gamemode)
+--- Will be `nil` if it's not derived from any gamemode / uses the `base` gamemode
+---@field DerivedFrom string
 
 GM = {}
 

@@ -31,7 +31,7 @@
 ---| "widget_axis_disc"
 ---| "widget_bone"
 ---| "widget_bones"
----@overload fun(class: KnownEngineEntityClass): Entity
+---@overload fun(class: KnownEngineEntityClass): Entity|NULL
 ---@generic T : Entity
 ---@param class `T` The classname of the entity to create.
 ---@return (instance) T|NULL # The created entity, or `NULL` if failed.

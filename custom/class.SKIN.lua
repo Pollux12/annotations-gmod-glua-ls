@@ -68,6 +68,7 @@
 ---@field Properties SKINColoursProperties
 ---@field Category SKINColoursCategory
 ---@field TooltipText Color
+---@field [string] Color Colours a skin adds by name, read with derma.GetColor or SKIN.Colours.
 
 ---@class SKINTexScroller
 ---@field TrackV fun(x: number, y: number, w: number, h: number, col?: Color) Vertical scrollbar track texture.

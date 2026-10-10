@@ -1,4 +1,4 @@
----@class DNumPad : Panel
+---@class DNumPad : DPanel
 --- Table of DButton panels for each keypad button (0-15).
 ---@field Buttons table<integer, DButton>
 --- The currently selected button panel.

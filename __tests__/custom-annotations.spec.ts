@@ -40,6 +40,15 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(textData).toContain('---@field text? any');
   });
 
+  test('cvars.Bool preserves the fallback type and permits an omitted fallback', () => {
+    const cvars = readOutput('cvars.lua');
+    const bool = cvars.split('---@source https://wiki.facepunch.com/gmod/cvars.Bool')[1]?.split('function cvars.Bool')[0];
+    expect(bool).toContain('---@generic T');
+    expect(bool).toContain('---@overload fun(cvar: string): boolean?');
+    expect(bool).toContain('---@param default T');
+    expect(bool).toContain('---@return boolean|T');
+  });
+
   test('darkrp plugin annotation files exist and are scoped', () => {
     const darkrpLua = path.join(process.cwd(), 'plugin', 'darkrp', 'annotations', 'darkrp.lua');
     const camiLua = path.join(process.cwd(), 'plugin', 'cami', 'annotations', 'cami.lua');
@@ -614,6 +623,24 @@ describe('custom and plugin annotation smoke checks', () => {
       "---This holds the X and Y coordinates. Key value 1 is x, key value 2 is y.",
       "---@field text? any",
       "---@field pos? table"
+]) {
+      expect(block).toContain(line);
+    }
+  });
+
+  test("cvars.Bool.lua preserves its baseline documentation", () => {
+    const output = readOutput("cvars.lua").replace(/\r\n/g, '\n');
+    const anchor = output.indexOf("function cvars.Bool(cvar, default) end");
+    expect(anchor).toBeGreaterThanOrEqual(0);
+    const block = output.slice(output.lastIndexOf('\n\n', anchor), anchor);
+    for (const line of [
+      "---Retrieves console variable as a boolean.",
+      "---@realm shared",
+      "---@realm menu",
+      "---@source https://wiki.facepunch.com/gmod/cvars.Bool",
+      "---@param cvar string Name of console variable.",
+      "---@param default T The value to return if the console variable does not exist.",
+      "---@return boolean|T # Retrieved value."
 ]) {
       expect(block).toContain(line);
     }

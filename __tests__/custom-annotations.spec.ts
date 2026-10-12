@@ -49,6 +49,12 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(bool).toContain('---@return boolean|T');
   });
 
+  test('math.Max compatibility alias preserves the lowercase math.max override', () => {
+    const math = readOutput('math.lua');
+    expect(math.match(/^function math\.max\(\.\.\.\) end$/gm)).toHaveLength(1);
+    expect(math.match(/^function math\.Max\(x, \.\.\.\) end$/gm)).toHaveLength(1);
+  });
+
   test('darkrp plugin annotation files exist and are scoped', () => {
     const darkrpLua = path.join(process.cwd(), 'plugin', 'darkrp', 'annotations', 'darkrp.lua');
     const camiLua = path.join(process.cwd(), 'plugin', 'cami', 'annotations', 'cami.lua');
@@ -641,6 +647,23 @@ describe('custom and plugin annotation smoke checks', () => {
       "---@param cvar string Name of console variable.",
       "---@param default T The value to return if the console variable does not exist.",
       "---@return boolean|T # Retrieved value."
+]) {
+      expect(block).toContain(line);
+    }
+  });
+
+  test("math.max.lua preserves its baseline documentation", () => {
+    const output = readOutput("math.lua").replace(/\r\n/g, '\n');
+    const anchor = output.indexOf("function math.max(...) end");
+    expect(anchor).toBeGreaterThanOrEqual(0);
+    const block = output.slice(output.lastIndexOf('\n\n', anchor), anchor);
+    for (const line of [
+      "---Returns the largest value of all arguments.",
+      "---@realm shared",
+      "---@realm menu",
+      "---@source https://wiki.facepunch.com/gmod/math.max",
+      "---@param ... number Numbers to get the largest from.",
+      "---@return number # The largest number."
 ]) {
       expect(block).toContain(line);
     }

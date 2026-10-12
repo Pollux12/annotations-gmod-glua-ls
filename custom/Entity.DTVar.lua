@@ -1,9 +1,15 @@
----Adds a datatable variable accessor on an entity.
+---Registers a named data table variable on an entity.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Entity:DTVar
+---@[overload_call_arg(0, "gmod.network_var", "type")]
+---@[overload_call_arg(1, "gmod.network_var", "define_slot")]
 ---@overload fun(type: string, name: string)
+---@[overload_call_arg(0, "gmod.network_var", "type")]
+---@[overload_call_arg(2, "gmod.network_var", "define_slot")]
 ---@overload fun(type: string, slot: nil, name: string)
+---@[call_arg("gmod.network_var", "type")]
 ---@param type string The type of the DTVar being set up.
 ---@param slot number The DTVar slot. Can be omitted to use the next available slot.
+---@[call_arg("gmod.network_var", "define_slot")]
 ---@param name string Name by which you will refer to the DTVar.
 function Entity:DTVar(type, slot, name) end

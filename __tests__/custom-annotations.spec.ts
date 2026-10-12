@@ -212,6 +212,9 @@ describe('custom and plugin annotation smoke checks', () => {
 
     expect(tableCopyBlock).toBeDefined();
     expect(tableCopyBlock).toContain('---@param lookupTable? table<any, any> Table used internally to preserve cyclic references.');
+    expect(tableCopyBlock).toContain('---@overload fun(originalTable: nil, lookupTable?: table<any, any>): nil');
+    expect(tableCopyBlock).toContain('---@param originalTable T The table to be copied.');
+    expect(tableCopyBlock).toContain('---@return T # A deep copy of the original table');
     expect(tableCopyBlock).toContain('function table.Copy(originalTable, lookupTable) end');
   });
 

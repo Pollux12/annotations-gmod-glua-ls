@@ -34,6 +34,12 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(readOutput('dpropertysheet.lua')).toContain('---@field m_pActiveTab? DTab');
   });
 
+  test('draw text accepts values converted by tostring', () => {
+    const structures = readOutput('structures.lua');
+    const textData = structures.split('---@class (partial) TextData')[1]?.split('---@class')[0];
+    expect(textData).toContain('---@field text? any');
+  });
+
   test('darkrp plugin annotation files exist and are scoped', () => {
     const darkrpLua = path.join(process.cwd(), 'plugin', 'darkrp', 'annotations', 'darkrp.lua');
     const camiLua = path.join(process.cwd(), 'plugin', 'cami', 'annotations', 'cami.lua');
@@ -587,6 +593,27 @@ describe('custom and plugin annotation smoke checks', () => {
       "---@field tabScroller DHorizontalScroller The internal horizontal scroller that manages tab positioning.",
       "---@field animFade DermaAnimation The fade animation used when switching tabs, created in Init via Derma_Anim.",
       "---@field Items DPropertySheetSheet[] The list of tabs added to this sheet."
+]) {
+      expect(block).toContain(line);
+    }
+  });
+
+  test("TextData.lua preserves its baseline documentation", () => {
+    const output = readOutput("structures.lua").replace(/\r\n/g, '\n');
+    const anchor = output.indexOf("---@class (partial) TextData");
+    expect(anchor).toBeGreaterThanOrEqual(0);
+    const block = output.slice(output.lastIndexOf('\n\n', anchor), output.indexOf('\n\n', anchor));
+    for (const line of [
+      "--- Override: make `text` and `pos` optional so that incrementally-built",
+      "--- TextData tables (e.g. in gmod_tool SWEP DrawHUD) do not produce",
+      "--- missing-fields / param-type-mismatch diagnostics.",
+      "--- The real draw.Text / draw.TextShadow functions do require these values",
+      "--- to be set before calling, but they are set on the same local table",
+      "--- before each call, not at construction time.",
+      "---Text to be drawn.",
+      "---This holds the X and Y coordinates. Key value 1 is x, key value 2 is y.",
+      "---@field text? any",
+      "---@field pos? table"
 ]) {
       expect(block).toContain(line);
     }

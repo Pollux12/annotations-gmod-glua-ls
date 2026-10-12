@@ -6,6 +6,6 @@
 --- before each call, not at construction time.
 ---@class (partial) TextData
 ---Text to be drawn.
----@field text? string
+---@field text? any
 ---This holds the X and Y coordinates. Key value 1 is x, key value 2 is y.
 ---@field pos? table

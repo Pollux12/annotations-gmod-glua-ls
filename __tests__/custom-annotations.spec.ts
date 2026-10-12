@@ -76,6 +76,12 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(setNWEntity).toContain('---@param value Entity?');
   });
 
+  test('list view lines expose their column cells and keep the wiki description', () => {
+    const line = readOutput('dlistview_line.lua');
+    expect(line).toContain('---@field Columns (DListViewLabel|Panel)[]');
+    expect(line).toContain('A panel used by [DListView](https://wiki.facepunch.com/gmod/DListView)');
+  });
+
   test('darkrp plugin annotation files exist and are scoped', () => {
     const darkrpLua = path.join(process.cwd(), 'plugin', 'darkrp', 'annotations', 'darkrp.lua');
     const camiLua = path.join(process.cwd(), 'plugin', 'cami', 'annotations', 'cami.lua');

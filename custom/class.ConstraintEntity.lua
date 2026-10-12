@@ -1,0 +1,69 @@
+---Constraint metadata copied onto the entity by constraint library creators with Entity:SetTable.
+--- Fields that differ between constraint kinds or accept omitted arguments are optional. Hydraulic and Muscle clear the internal slider's Type.
+---@class ConstraintEntity : Entity
+---@realm server
+---@source garrysmod/lua/includes/modules/constraint.lua
+---@field Type? string
+---@field Ent1 Entity
+---@field Ent2? Entity
+---@field Ent4? Entity
+---@field Bone1? number
+---@field Bone2? number
+---@field Bone4? number
+---@field Bone? number
+---@field Ang? Angle
+---@field angularlimit? number
+---@field LPos? Vector
+---@field LPos1? Vector
+---@field LPos2? Vector
+---@field LPos4? Vector
+---@field WPos2? Vector
+---@field WPos3? Vector
+---@field LocalAxis? Vector
+---@field forcelimit? number
+---@field torquelimit? number
+---@field nocollide? boolean|number
+---@field deleteonbreak? boolean|number
+---@field disableOnRemove? boolean
+---@field length? number
+---@field addlength? number
+---@field width? number
+---@field material? string
+---@field rigid? boolean
+---@field color? Color
+---@field constant? number
+---@field damping? number
+---@field rdamping? number
+---@field stretchonly? boolean|number
+---@field friction? number
+---@field xmin? number
+---@field ymin? number
+---@field zmin? number
+---@field xmax? number
+---@field ymax? number
+---@field zmax? number
+---@field xfric? number
+---@field yfric? number
+---@field zfric? number
+---@field onlyrotation? number
+---@field torque? number
+---@field forcetime? number
+---@field toggle? boolean|number
+---@field pl? Player
+---@field forcescale? number
+---@field direction? number
+---@field is_on? boolean
+---@field numpadkey_fwd? number
+---@field numpadkey_bwd? number
+---@field fwd_bind? number
+---@field bwd_bind? number
+---@field fwd_speed? number
+---@field bwd_speed? number
+---@field Length1? number
+---@field Length2? number
+---@field key? number
+---@field fixed? number
+---@field period? number
+---@field amplitude? number
+---@field starton? boolean
+local ConstraintEntity = {}

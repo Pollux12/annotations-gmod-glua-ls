@@ -1,0 +1,19 @@
+---Creates a slider constraint. A slider is like a rope, but allows the constrained object to move only in 1 direction.
+---@realm server
+---@source https://wiki.facepunch.com/gmod/constraint.Slider
+---@param ent1 Entity First entity.
+---@param ent2 Entity Second entity.
+---@param bone1 number PhysObj number of first entity to constrain to. (0 for non-ragdolls).
+---
+--- See Entity:TranslateBoneToPhysBone.
+---@param bone2 number PhysObj number of second entity to constrain to. (0 for non-ragdolls).
+---
+--- See Entity:TranslateBoneToPhysBone.
+---@param localPos1 Vector Position relative to the the first physics object to constrain to.
+---@param localPos2 Vector Position relative to the the second physics object to constrain to.
+---@param width number The width of the rope.
+---@param material? string The material of the rope. If unset, will be solid black.
+---@param color? Color The color of the rope. See Color.
+---@return ConstraintEntity|false|nil # The created constraint entity. ([phys_slideconstraint](https://developer.valvesoftware.com/wiki/Phys_slideconstraint)) Will return `false` if the constraint could not be created.
+---@return Entity? # The created rope. ([keyframe_rope](https://developer.valvesoftware.com/wiki/Keyframe_rope)) Will return `nil` if the constraint or the rope could not be created.
+function constraint.Slider(ent1, ent2, bone1, bone2, localPos1, localPos2, width, material, color) end

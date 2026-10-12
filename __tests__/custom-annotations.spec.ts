@@ -8,6 +8,56 @@ describe('custom and plugin annotation smoke checks', () => {
   const readCustom = (file: string) => fs.readFileSync(path.join(customRoot, file), 'utf8');
   const readOutput = (file: string) => fs.readFileSync(path.join(outputRoot, file), 'utf8');
 
+  test('constraint entities expose copied metadata with source-backed types', () => {
+    const classes = readOutput('custom_classes.lua');
+    const entity = classes.split('---@class ConstraintEntity : Entity')[1]?.split('local ConstraintEntity')[0];
+    expect(entity).toBeDefined();
+    for (const field of [
+      'Type? string', 'Ent1 Entity', 'Ent2? Entity', 'Ent4? Entity',
+      'Bone1? number', 'Bone2? number', 'Bone4? number', 'Bone? number',
+      'Ang? Angle', 'LPos1? Vector', 'LocalAxis? Vector', 'WPos3? Vector',
+      'forcelimit? number', 'nocollide? boolean|number', 'length? number',
+      'stretchonly? boolean|number', 'pl? Player', 'color? Color',
+      'toggle? boolean|number', 'is_on? boolean', 'Length2? number',
+    ]) {
+      expect(entity).toContain(`---@field ${field}`);
+    }
+    expect(entity).toContain('---@source garrysmod/lua/includes/modules/constraint.lua');
+  });
+
+  test.each([
+    ['Weld', ['ConstraintEntity|false']],
+    ['Elastic', ['ConstraintEntity|false|nil', 'Entity?']],
+    ['Keepupright', ['ConstraintEntity|false|nil']],
+    ['Motor', ['ConstraintEntity|false', 'ConstraintEntity?']],
+    ['Pulley', ['ConstraintEntity|false', 'Entity?', 'Entity?', 'Entity?']],
+    ['Muscle', ['ConstraintEntity|false', 'Entity?', 'gmod_winch_controller?', 'ConstraintEntity?']],
+  ])('constraint.%s retains all return positions and failure types', (name, types) => {
+    const output = readOutput('constraint.lua').replace(/\r\n/g, '\n');
+    const block = output.split(/\n\n+/).find((part) => part.includes(`function constraint.${name}(`));
+    expect(block).toBeDefined();
+    expect(Array.from(block?.matchAll(/^---@return (\S+)/gm) ?? [], (match) => match[1])).toEqual(types);
+  });
+
+  test('constraint overrides retain descriptions, parameters and wiki metadata', () => {
+    const output = readOutput('constraint.lua').replace(/\r\n/g, '\n');
+    for (const file of fs.readdirSync(customRoot).filter((name) => name.startsWith('constraint.'))) {
+      expect(output).toContain(readCustom(file).replace(/\r\n/g, '\n').trim());
+    }
+    for (const line of [
+      '---Creates a weld constraint.',
+      '---@realm server',
+      '---@source https://wiki.facepunch.com/gmod/constraint.Weld',
+      '---@param deleteEnt1OnBreak? boolean|number If true, when `ent2` is removed, `ent1` will also be removed.',
+      '---@return ConstraintEntity|false # The created constraint entity, or false if the constraint failed. ([phys_constraint](https://developer.valvesoftware.com/wiki/Phys_constraint))',
+      '--- It consists of 3 rope segments, 2 of which have variable length, visually connected by a 3rd. Reducing length of one end will increase the length of the other end.',
+      '--- Will be a `keyframe_rope` if you are roping to the same bone on the same entity. Will return `false` if the constraint could not be created.',
+      '---@return Entity? # The third rope segment. ([keyframe_rope](https://developer.valvesoftware.com/wiki/Keyframe_rope)) Will return `nil` if the constraint or this rope segment could not be created.',
+    ]) {
+      expect(output).toContain(line);
+    }
+  });
+
   test('entity target setters accept nil to clear their targets', () => {
     expect(readOutput('entity.lua')).toContain('---@param ground Entity?');
     expect(readOutput('player.lua')).toContain('---@param entity Entity? Entity to spectate, or nil to clear the target.');

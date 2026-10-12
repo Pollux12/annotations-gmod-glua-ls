@@ -16,7 +16,7 @@
 ---@param material string The material of the rope.
 ---@param toggle boolean Toggle behavior flag.
 ---@param color Color The color of the rope. See Color.
----@return Entity|false|nil # The created spring constraint. Returns `false` for invalid inputs.
+---@return ConstraintEntity|false|nil # The created spring constraint. Returns `false` for invalid inputs.
 ---@return Entity? # The created rope entity (`keyframe_rope`). Returns `nil` if no rope was created.
 ---@return gmod_winch_controller? # The created winch controller.
 function constraint.Winch(pl, ent1, ent2, bone1, bone2, localPos1, localPos2, width, fwd_bind, bwd_bind, fwd_speed, bwd_speed, material, toggle, color) end

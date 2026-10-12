@@ -1,0 +1,21 @@
+---Creates an axis constraint.
+---@realm server
+---@source https://wiki.facepunch.com/gmod/constraint.Axis
+---@param ent1 Entity First entity.
+---@param ent2 Entity Second entity.
+---@param bone1 number PhysObj number of first entity to constrain to. (0 for non-ragdolls).
+---
+--- See Entity:TranslateBoneToPhysBone.
+---@param bone2 number PhysObj number of second entity to constrain to. (0 for non-ragdolls).
+---
+--- See Entity:TranslateBoneToPhysBone.
+---@param localPos1 Vector Position relative to the the first physics object to constrain to.
+---@param localPos2 Vector Position relative to the the second physics object to constrain to.
+---@param forceLimit? number Amount of force until it breaks (0 = unbreakable).
+---@param torqueLimit? number Amount of torque (rotational force) until it breaks (0 = unbreakable).
+---@param friction? number Constraint friction.
+---@param noCollide? number Whether the entities should be no-collided.
+---@param localAxis? Vector If you include the LocalAxis then LPos2 will not be used in the final constraint. However, LPos2 is still a required argument.
+---@param dontAddTable? boolean Whether or not to add the constraint info on the entity table. See constraint.AddConstraintTable.
+---@return ConstraintEntity|false # The created constraint. ([phys_hinge](https://developer.valvesoftware.com/wiki/Phys_hinge)) Will return `false` if the constraint could not be created.
+function constraint.Axis(ent1, ent2, bone1, bone2, localPos1, localPos2, forceLimit, torqueLimit, friction, noCollide, localAxis, dontAddTable) end

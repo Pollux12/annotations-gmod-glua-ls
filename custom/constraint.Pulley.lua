@@ -1,0 +1,35 @@
+---Creates a pulley constraint.
+---
+--- It consists of 3 rope segments, 2 of which have variable length, visually connected by a 3rd. Reducing length of one end will increase the length of the other end.
+---
+--- You can visualize the pulley like so:
+--- ```
+--- WPos2 --- WPos3
+---   |			|
+---   |			|
+---  Ent1	   Ent4
+--- ```
+---@realm server
+---@source https://wiki.facepunch.com/gmod/constraint.Pulley
+---@param ent1 Entity First entity to constrain.
+---@param ent4 Entity The other entity to attach to.
+---@param bone1 number PhysObj number of first entity to constrain to. (0 for non-ragdolls).
+---
+--- See Entity:TranslateBoneToPhysBone.
+---@param bone4 number PhysObj number of second entity to constrain to. (0 for non-ragdolls).
+---
+--- See Entity:TranslateBoneToPhysBone.
+---@param localPos1 Vector Position relative to the the first physics object to constrain to.
+---@param localPos4 Vector Position relative to the the second physics object to constrain to.
+---@param worldPos2 Vector World position constrain the first entity to. This point will be static.
+---@param worldPos3 Vector World position constrain the second entity to. This point will be static.
+---@param forceLimit number Amount of force until it breaks (0 = unbreakable).
+---@param rigid? boolean Whether the constraint is rigid, i.e. cannot bend.
+---@param width number Width of the rope. If below or at `0`, visual rope segments will not be created.
+---@param material? string Material of the rope. If unset, will be solid black.
+---@param color? Color The color of the rope.
+---@return ConstraintEntity|false # The created constraint. ([phys_pulleyconstraint](https://developer.valvesoftware.com/wiki/Phys_pulleyconstraint)) Will return `false` if the constraint could not be created.
+---@return Entity? # The first rope segment. ([keyframe_rope](https://developer.valvesoftware.com/wiki/Keyframe_rope)) Will return `nil` if the constraint or this rope segment could not be created.
+---@return Entity? # The second rope segment. ([keyframe_rope](https://developer.valvesoftware.com/wiki/Keyframe_rope)) Will return `nil` if the constraint or this rope segment could not be created.
+---@return Entity? # The third rope segment. ([keyframe_rope](https://developer.valvesoftware.com/wiki/Keyframe_rope)) Will return `nil` if the constraint or this rope segment could not be created.
+function constraint.Pulley(ent1, ent4, bone1, bone4, localPos1, localPos4, worldPos2, worldPos3, forceLimit, rigid, width, material, color) end

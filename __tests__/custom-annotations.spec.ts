@@ -28,6 +28,12 @@ describe('custom and plugin annotation smoke checks', () => {
     }
   });
 
+  test('Derma classes expose their source-backed header, columns and active tab', () => {
+    expect(readOutput('dlistview_column.lua')).toContain('---@field Header DButton');
+    expect(readOutput('dlistview.lua')).toContain('---@field Columns DListView_Column[]');
+    expect(readOutput('dpropertysheet.lua')).toContain('---@field m_pActiveTab? DTab');
+  });
+
   test('darkrp plugin annotation files exist and are scoped', () => {
     const darkrpLua = path.join(process.cwd(), 'plugin', 'darkrp', 'annotations', 'darkrp.lua');
     const camiLua = path.join(process.cwd(), 'plugin', 'cami', 'annotations', 'cami.lua');
@@ -545,6 +551,42 @@ describe('custom and plugin annotation smoke checks', () => {
       "---@field Spread Vector=Vector( 0, 0, 0 )",
       "---@field Src Vector=Vector( 0, 0, 0 )",
       "---@field IgnoreEntity Entity=NULL"
+]) {
+      expect(block).toContain(line);
+    }
+  });
+
+  test("class.DListView_Column.lua preserves its baseline documentation", () => {
+    const output = readOutput("dlistview_column.lua").replace(/\r\n/g, '\n');
+    const anchor = output.indexOf("---@class DListView_Column : Panel");
+    expect(anchor).toBeGreaterThanOrEqual(0);
+    const block = output.slice(output.lastIndexOf('\n\n', anchor), output.indexOf('\n\n', anchor));
+    for (const line of [
+      "--- **INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.",
+      "---",
+      "--- A single column, used by [DListView](https://wiki.facepunch.com/gmod/DListView).",
+      "---@realm client",
+      "---@realm menu",
+      "---@source https://wiki.facepunch.com/gmod/DListView_Column"
+]) {
+      expect(block).toContain(line);
+    }
+  });
+
+  test("class.DPropertySheet.lua preserves its baseline documentation", () => {
+    const output = readOutput("dpropertysheet.lua").replace(/\r\n/g, '\n');
+    const anchor = output.indexOf("---@class DPropertySheet : Panel");
+    expect(anchor).toBeGreaterThanOrEqual(0);
+    const block = output.slice(output.lastIndexOf('\n\n', anchor), output.indexOf('\n\n', anchor));
+    for (const line of [
+      "--- A tab oriented control where you can create multiple tabs with items within. Used mainly for organization.",
+      "---@realm client",
+      "---@realm menu",
+      "---@source https://wiki.facepunch.com/gmod/DPropertySheet",
+      "--- A tab oriented control where you can create multiple tabs with items within. Used mainly for organization.",
+      "---@field tabScroller DHorizontalScroller The internal horizontal scroller that manages tab positioning.",
+      "---@field animFade DermaAnimation The fade animation used when switching tabs, created in Init via Derma_Anim.",
+      "---@field Items DPropertySheetSheet[] The list of tabs added to this sheet."
 ]) {
       expect(block).toContain(line);
     }

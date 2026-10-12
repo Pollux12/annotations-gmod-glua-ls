@@ -13,6 +13,12 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(readOutput('player.lua')).toContain('---@param entity Entity? Entity to spectate, or nil to clear the target.');
   });
 
+  test('sound scripts can omit the default channel and sound level', () => {
+    const structures = readOutput('structures.lua').replace(/\r\n/g, '\n');
+    expect(structures).toContain('---@type CHAN?\nSoundData.channel = CHAN_AUTO');
+    expect(structures).toContain('---@type SNDLVL?\nSoundData.level = SNDLVL_NORM');
+  });
+
   test('darkrp plugin annotation files exist and are scoped', () => {
     const darkrpLua = path.join(process.cwd(), 'plugin', 'darkrp', 'annotations', 'darkrp.lua');
     const camiLua = path.join(process.cwd(), 'plugin', 'cami', 'annotations', 'cami.lua');
@@ -407,6 +413,37 @@ describe('custom and plugin annotation smoke checks', () => {
       "---@realm server",
       "---@source https://wiki.facepunch.com/gmod/Player:SpectateEntity",
       "---@param entity Entity? Entity to spectate, or nil to clear the target."
+]) {
+      expect(block).toContain(line);
+    }
+  });
+
+  test("SoundData.lua preserves its baseline documentation", () => {
+    const output = readOutput("structures.lua").replace(/\r\n/g, '\n');
+    const anchor = output.indexOf("---@class SoundData");
+    expect(anchor).toBeGreaterThanOrEqual(0);
+    const block = output.slice(output.lastIndexOf('\n\n', anchor), output.indexOf('SoundData.pitchend = 100', anchor));
+    for (const line of [
+      "---@realm shared",
+      "---@source https://wiki.facepunch.com/gmod/Structures/SoundData",
+      "---Path to the sound file to be used in this sound effect, relative to `sound/` directory (so exclude the `sound/` part).",
+      "---",
+      "--- Can be a table of sound files, in which case the sound will be chosen randomly every time from the provided list.",
+      "---",
+      "--- Each sound path can be prepended with a special character for special effects. You can learn more about this [here](https://developer.valvesoftware.com/wiki/Soundscripts#Sound_Characters).",
+      "---The name of the soundscript, to be referenced by in functions such as Entity:EmitSound.",
+      "---The sound channel to play in. See Enums/CHAN",
+      "---The soundlevel of the sound in dB. See Enums/SNDLVL. This will affect how far the sound can be heard.",
+      "---The volume of the sound as a decimal between `0` and `1`. Can be a table of two numbers, a minimum and a maximum value.",
+      "---",
+      "--- **Warning:** Volume of `0` will act as volume of `1`",
+      "---The pitch of the sound. Can be a table of two numbers, a minimum and a maximum value.",
+      "---@deprecated Use pitch instead.",
+      "---The initial pitch.",
+      "--- Use pitch instead.",
+      "---@deprecated Use pitch instead.",
+      "---The pitch end.",
+      "--- Use pitch instead."
 ]) {
       expect(block).toContain(line);
     }

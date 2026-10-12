@@ -8,6 +8,11 @@ describe('custom and plugin annotation smoke checks', () => {
   const readCustom = (file: string) => fs.readFileSync(path.join(customRoot, file), 'utf8');
   const readOutput = (file: string) => fs.readFileSync(path.join(outputRoot, file), 'utf8');
 
+  test('entity target setters accept nil to clear their targets', () => {
+    expect(readOutput('entity.lua')).toContain('---@param ground Entity?');
+    expect(readOutput('player.lua')).toContain('---@param entity Entity? Entity to spectate, or nil to clear the target.');
+  });
+
   test('darkrp plugin annotation files exist and are scoped', () => {
     const darkrpLua = path.join(process.cwd(), 'plugin', 'darkrp', 'annotations', 'darkrp.lua');
     const camiLua = path.join(process.cwd(), 'plugin', 'cami', 'annotations', 'cami.lua');
@@ -373,6 +378,38 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(randomPairs).toContain('---@generic K, V');
     expect(randomPairs).toContain('---@return fun(state: table): K, V # Iterator function');
     expect(randomPairs).toContain('---@return table # Internal iterator state, not the source table.');
+  });
+
+  test("Entity.SetGroundEntity.lua preserves its baseline documentation", () => {
+    const output = readOutput("entity.lua").replace(/\r\n/g, '\n');
+    const anchor = output.indexOf("function Entity:SetGroundEntity(ground) end");
+    expect(anchor).toBeGreaterThanOrEqual(0);
+    const block = output.slice(output.lastIndexOf('\n\n', anchor), anchor);
+    for (const line of [
+      "---Sets the ground the entity is standing on.",
+      "---@realm shared",
+      "---@source https://wiki.facepunch.com/gmod/Entity:SetGroundEntity",
+      "---@param ground Entity? The ground entity, or nil to clear it."
+]) {
+      expect(block).toContain(line);
+    }
+  });
+
+  test("Player.SpectateEntity.lua preserves its baseline documentation", () => {
+    const output = readOutput("player.lua").replace(/\r\n/g, '\n');
+    const anchor = output.indexOf("function Player:SpectateEntity(entity) end");
+    expect(anchor).toBeGreaterThanOrEqual(0);
+    const block = output.slice(output.lastIndexOf('\n\n', anchor), anchor);
+    for (const line of [
+      "---Makes the player spectate the entity.",
+      "---",
+      "--- To get the applied spectated entity, use [Player:GetObserverTarget](https://wiki.facepunch.com/gmod/Player:GetObserverTarget).",
+      "---@realm server",
+      "---@source https://wiki.facepunch.com/gmod/Player:SpectateEntity",
+      "---@param entity Entity? Entity to spectate, or nil to clear the target."
+]) {
+      expect(block).toContain(line);
+    }
   });
 
 });

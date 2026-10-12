@@ -63,6 +63,12 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(paintOver).toContain('---@param height number');
   });
 
+  test('base weapons expose player and NPC activity translation tables', () => {
+    const weaponBase = readOutput('custom_classes.lua').split('---@class weapon_base : Weapon')[1]?.split('local weapon_base')[0];
+    expect(weaponBase).toContain('---@field ActivityTranslate table<integer, integer>');
+    expect(weaponBase).toContain('---@field ActivityTranslateAI table<integer, integer>');
+  });
+
   test('darkrp plugin annotation files exist and are scoped', () => {
     const darkrpLua = path.join(process.cwd(), 'plugin', 'darkrp', 'annotations', 'darkrp.lua');
     const camiLua = path.join(process.cwd(), 'plugin', 'cami', 'annotations', 'cami.lua');

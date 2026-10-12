@@ -1,0 +1,84 @@
+--- Tables used for bullets see [Entity:FireBullets](https://wiki.facepunch.com/gmod/Entity:FireBullets) and [GM:EntityFireBullets](https://wiki.facepunch.com/gmod/GM:EntityFireBullets).
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/Structures/Bullet
+---@class (partial) Bullet
+---The entity that should be reported as attacker. (eg. a player)
+---
+--- By default this would be set to the entity Entity:FireBullets is called on.
+---
+--- Default: `self`
+---@field Attacker Entity=self
+---The entity that should be reported as inflictor eg. a weapon or something similar.
+---
+--- Also defines CTakeDamageInfo:GetWeapon for Weapon.
+---
+--- Default: `NULL`
+---@field Inflictor Entity=NULL
+---Function to be called **after** the bullet was fired but **before** the damage is applied (the callback is called even if no damage is applied).
+---
+--- Function argument(s):
+--- * Entity `attacker` -
+--- * table `tr` - See Structures/TraceResult
+--- * CTakeDamageInfo `dmgInfo` -
+---
+--- Function return value(s):
+--- * table `undefined` -
+--- The return value can be a table with following keys:
+--- * boolean effects - `false` to not do any of the effects.
+--- * boolean damage - `false` to not do any damage.
+---
+--- Default: `nil`
+---@field Callback? fun(attacker: Entity, tr: table, dmgInfo: CTakeDamageInfo):(ret0: table?)
+---The damage dealt by the bullet.
+---
+--- If set to `0`, it means the damage should be calculated from the ammo type's ConVars if  the ammo type has `AMMO_INTERPRET_PLRDAMAGE_AS_DAMAGE_TO_PLAYER` flag set.
+--- See Structures/AmmoData.
+---
+--- Default: `1`
+---@field Damage number=1
+---The force of the bullets.
+---
+--- Default: `1`
+---@field Force number=1
+---Maximum distance the bullet can travel.
+---
+--- Default: `56756`
+---@field Distance number=56756
+---The hull size of the bullet
+---
+--- Default: `0`
+---@field HullSize number=0
+---The amount of bullets to fire.
+---
+--- Default: `1`
+---@field Num number=1
+---Show tracer for every x bullets.
+---
+--- Default: `1`
+---@field Tracer number=1
+---The ammunition name.
+---
+--- Default: `<empty string>`
+---@field AmmoType string=""
+---The tracer name. You can find a list of default effects Default_Effects.
+---
+--- Default: `nil`
+---@field TracerName? string
+---The fire direction.
+---
+--- Default: `Vector( 0, 0, 0 )`
+---@field Dir Vector=Vector( 0, 0, 0 )
+---The spread, only x and y are needed.
+---
+--- Default: `Vector( 0, 0, 0 )`
+---@field Spread Vector=Vector( 0, 0, 0 )
+---The position to fire the bullets from.
+---
+--- Default: `Vector( 0, 0, 0 )`
+---@field Src Vector=Vector( 0, 0, 0 )
+---The entity that the bullet will ignore when it will be shot.
+---
+--- Default: `NULL`
+---@field IgnoreEntity Entity=NULL
+
+local Bullet = {}

@@ -55,6 +55,14 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(math.match(/^function math\.Max\(x, \.\.\.\) end$/gm)).toHaveLength(1);
   });
 
+  test('PaintOver hooks can return nothing and retain hook metadata', () => {
+    const panel = readOutput('panel.lua');
+    const paintOver = panel.split('---@hook PaintOver')[1]?.split('function Panel:PaintOver')[0];
+    expect(paintOver).toContain('---@return boolean?');
+    expect(paintOver).toContain('---@param width number');
+    expect(paintOver).toContain('---@param height number');
+  });
+
   test('darkrp plugin annotation files exist and are scoped', () => {
     const darkrpLua = path.join(process.cwd(), 'plugin', 'darkrp', 'annotations', 'darkrp.lua');
     const camiLua = path.join(process.cwd(), 'plugin', 'cami', 'annotations', 'cami.lua');
@@ -664,6 +672,27 @@ describe('custom and plugin annotation smoke checks', () => {
       "---@source https://wiki.facepunch.com/gmod/math.max",
       "---@param ... number Numbers to get the largest from.",
       "---@return number # The largest number."
+]) {
+      expect(block).toContain(line);
+    }
+  });
+
+  test("PANEL.PaintOver.lua preserves its baseline documentation", () => {
+    const output = readOutput("panel.lua").replace(/\r\n/g, '\n');
+    const anchor = output.indexOf("function Panel:PaintOver(width, height) end");
+    expect(anchor).toBeGreaterThanOrEqual(0);
+    const block = output.slice(output.lastIndexOf('\n\n', anchor), anchor);
+    for (const line of [
+      "---Called whenever the panel and all its children were drawn, return true to override the default drawing.",
+      "---",
+      "--- This is useful to draw content over the panel without having to overwrite it's [PANEL:Paint](https://wiki.facepunch.com/gmod/PANEL:Paint) hook, for example as an indicator that a panel is selected in [PropSelect](https://wiki.facepunch.com/gmod/PropSelect)",
+      "---@hook PaintOver",
+      "---@realm client",
+      "---@realm menu",
+      "---@source https://wiki.facepunch.com/gmod/PANEL:PaintOver",
+      "---@param width number The panels current width.",
+      "---@param height number The panels current height.",
+      "---@return boolean? # Should we disable default PaintOver rendering? This is useful in case with Derma panels that use Derma hooks."
 ]) {
       expect(block).toContain(line);
     }

@@ -1822,4 +1822,40 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output.match(new RegExp("^function widget_base:PressedShouldDraw\\(", 'gm'))).toHaveLength(1);
   });
 
+  test("math.tau.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("math.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---@source garrysmod/lua/includes/extensions/math.lua");
+    expect(output).toContain("---@type number");
+    expect(output).toContain("math.tau = 2 * math.pi");
+  });
+
+  test("motionsensor.DebugBones.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("motionsensor.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---@source garrysmod/lua/includes/extensions/motionsensor.lua");
+    expect(output).toContain("---@type number[][]");
+    expect(output).toContain("motionsensor.DebugBones = {}");
+  });
+
+  test("Global.DOF_Ents.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("global.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@source garrysmod/lua/postprocess/dof.lua");
+    expect(output).toContain("---@type Entity[]");
+    expect(output).toContain("DOF_Ents = {}");
+  });
+
+  test("class.NPC.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("npc.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---@class (partial) NPC : Entity");
+    expect(output).toContain("---@field NPCName? string");
+    expect(output).toContain("local NPC = {}");
+  });
+
+  test("class.Vehicle.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("vehicle.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---@class (partial) Vehicle : Entity");
+    expect(output).toContain("---@field VehicleName? string");
+    expect(output).toContain("local Vehicle = {}");
+  });
+
 });

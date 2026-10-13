@@ -1948,7 +1948,7 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output.match(new RegExp("^function DTree_Node:InstallDraggable\\(", 'gm'))).toHaveLength(1);
   });
 
-  test("Global.WorkshopFileBase.lua preserves its documentation and corrected contract", () => {
+  test("WorkshopFileBase retains namespace extension tables and wiki documentation", () => {
     const output = readOutput("global.lua").replace(/\r\n/g, '\n');
     expect(output).toContain("---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.");
     expect(output).toContain("--- Returns a new WorkshopFileBase element");
@@ -1957,7 +1957,7 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output).toContain("---@source https://wiki.facepunch.com/gmod/Global.WorkshopFileBase");
     expect(output).toContain("---@param namespace string Namespace for the file base");
     expect(output).toContain("---@param requiredTags table Tags required for a Workshop submission to be interacted with by the filebase");
-    expect(output).toContain("---@return WorkshopFileBase # WorkshopFileBase element");
+    expect(output).toContain("---@return table # WorkshopFileBase element");
     expect(output).toContain("function _G.WorkshopFileBase(namespace, requiredTags) end");
     expect(output.match(new RegExp("^function _G\\.WorkshopFileBase\\(", 'gm'))).toHaveLength(1);
   });

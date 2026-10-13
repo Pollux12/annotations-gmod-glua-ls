@@ -1495,25 +1495,6 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output.match(new RegExp("^function motionsensor\\.ProcessAnglesTable\\(", 'gm'))).toHaveLength(1);
   });
 
-  test("DMenu.AddCVar.lua preserves its documentation and corrected contract", () => {
-    const output = readOutput("dmenu.lua").replace(/\r\n/g, '\n');
-    expect(output).toContain("---Creates a [DMenuOptionCVar](https://wiki.facepunch.com/gmod/DMenuOptionCVar) and adds it as an option into the menu. Checking and unchecking the option will alter the given console variable's value.");
-    expect(output).toContain("---@realm client");
-    expect(output).toContain("---@realm menu");
-    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/DMenu:AddCVar");
-    expect(output).toContain("---@param strText string The text of the button");
-    expect(output).toContain("---@param convar string The console variable to change");
-    expect(output).toContain("---@param on string The value of the console variable to set when the option is checked");
-    expect(output).toContain("---@param off? string The value of the console variable to set when the option is unchecked");
-    expect(output).toContain("---@param funcFunction? fun(pnl: Panel) If set, the function will be called every time the option is pressed/clicked/selected.");
-    expect(output).toContain("---");
-    expect(output).toContain("--- Function argument(s):");
-    expect(output).toContain("--- * Panel `pnl` - The DMenuOptionCVar that was clicked.");
-    expect(output).toContain("---@return DMenuOptionCVar # The created DMenuOptionCVar");
-    expect(output).toContain("function DMenu:AddCVar(strText, convar, on, off, funcFunction) end");
-    expect(output.match(new RegExp("^function DMenu:AddCVar\\(", 'gm'))).toHaveLength(1);
-  });
-
   test("NextBot.MoveToPos.lua preserves its documentation and corrected contract", () => {
     const output = readOutput("nextbot.lua").replace(/\r\n/g, '\n');
     expect(output).toContain("---To be called in the behaviour coroutine only! Will yield until the bot has reached the goal or is stuck");

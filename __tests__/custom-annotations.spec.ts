@@ -1871,4 +1871,53 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output).toContain("dragndrop.m_ReceiverSlot = nil");
   });
 
+  test("WorkshopFileBase.FetchLocal.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("workshopfilebase.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Fetches local files for the workshop helper's namespace.");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@source garrysmod/lua/includes/util/workshop_files.lua");
+    expect(output).toContain("---@param offset number");
+    expect(output).toContain("---@param perpage number");
+    expect(output).toContain("function WorkshopFileBase:FetchLocal(offset, perpage) end");
+    expect(output.match(new RegExp("^function WorkshopFileBase:FetchLocal\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("WorkshopFileBase.FinishPublish.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("workshopfilebase.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Publishes a file through the namespace's workshop handler.");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@source garrysmod/lua/menu/menu_save.lua");
+    expect(output).toContain("---@param filename string");
+    expect(output).toContain("---@param imagename string");
+    expect(output).toContain("---@param name string");
+    expect(output).toContain("---@param description string");
+    expect(output).toContain("---@param chosenTag string");
+    expect(output).toContain("---@param other table");
+    expect(output).toContain("---@return string? error");
+    expect(output).toContain("function WorkshopFileBase:FinishPublish(filename, imagename, name, description, chosenTag, other) end");
+    expect(output.match(new RegExp("^function WorkshopFileBase:FinishPublish\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("workshopfilebase.dupes.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("workshopfilebase.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---@class ws_dupe : WorkshopFileBase");
+    expect(output).toContain("---Sandbox dupes workshop helper used by the menu HTML bridge.");
+    expect(output).toContain("ws_dupe = {}");
+    expect(output).toContain("---Downloads and arms a subscribed dupe from the workshop.");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@source https://github.com/Facepunch/garrysmod/blob/master/garrysmod/gamemodes/sandbox/gamemode/spawnmenu/creationmenu/content/contenttypes/dupes.lua#L52");
+    expect(output).toContain("---@param wsid string|number The workshop item ID.");
+    expect(output).toContain("function ws_dupe:DownloadAndArm(wsid) end");
+    expect(output).toContain("---Arms a local dupe file for placement.");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@source https://github.com/Facepunch/garrysmod/blob/master/garrysmod/gamemodes/sandbox/gamemode/spawnmenu/creationmenu/content/contenttypes/dupes.lua#L46");
+    expect(output).toContain("---@param filename string The dupe file path.");
+    expect(output).toContain("function ws_dupe:Arm(filename) end");
+    expect(output.match(new RegExp("^function ws_dupe:DownloadAndArm\\(", 'gm'))).toHaveLength(1);
+    expect(output.match(new RegExp("^function ws_dupe:Arm\\(", 'gm'))).toHaveLength(1);
+  });
+
 });

@@ -2002,4 +2002,15 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output).toContain("--- **NOTE**: This function or feature is only available in the Sandbox gamemode and its [derivatives](https://wiki.facepunch.com/gmod/Global.DeriveGamemode).");
   });
 
+  test("DNumSlider.GetDefaultValue.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("dnumslider.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Returns the default value of the slider, if one was set by [DNumSlider:SetDefaultValue](https://wiki.facepunch.com/gmod/DNumSlider:SetDefaultValue)");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/DNumSlider:GetDefaultValue");
+    expect(output).toContain("---@return number|string|nil # The default value of the slider");
+    expect(output).toContain("function DNumSlider:GetDefaultValue() end");
+    expect(output.match(new RegExp("^function DNumSlider:GetDefaultValue\\(", 'gm'))).toHaveLength(1);
+  });
+
 });

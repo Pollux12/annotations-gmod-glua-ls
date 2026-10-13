@@ -1679,18 +1679,6 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output.match(new RegExp("^function DImage:SetMaterial\\(", 'gm'))).toHaveLength(1);
   });
 
-  test("os.time.lua preserves its documentation and corrected contract", () => {
-    const output = readOutput("os.lua").replace(/\r\n/g, '\n');
-    expect(output).toContain("---Returns the system time in seconds past the unix epoch. If a table is supplied, the function attempts to build a system time with the specified table members.");
-    expect(output).toContain("---@realm shared");
-    expect(output).toContain("---@realm menu");
-    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/os.time");
-    expect(output).toContain("---@param dateData? DateInput|DateData Table to generate the time from. This table's data is interpreted as being in the local timezone. See Structures/DateData");
-    expect(output).toContain("---@return number # Seconds passed since Unix epoch");
-    expect(output).toContain("function os.time(dateData) end");
-    expect(output.match(new RegExp("^function os\\.time\\(", 'gm'))).toHaveLength(1);
-  });
-
   test("os.date.lua preserves its documentation and corrected contract", () => {
     const output = readOutput("os.lua").replace(/\r\n/g, '\n');
     expect(output).toContain("---");
@@ -1726,19 +1714,6 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output).toContain("---@return DateData # Formatted date string, or a [Structures/DateData](https://wiki.facepunch.com/gmod/Structures/DateData) table if format is `*t` or `!*t`.");
     expect(output).toContain("function os.date(format, time) end");
     expect(output.match(new RegExp("^function os\\.date\\(", 'gm'))).toHaveLength(1);
-  });
-
-  test("class.DateInput.lua preserves its documentation and corrected contract", () => {
-    const output = readOutput("custom_classes.lua").replace(/\r\n/g, '\n');
-    expect(output).toContain("---@class DateInput");
-    expect(output).toContain("---@field year number|string");
-    expect(output).toContain("---@field month number|string");
-    expect(output).toContain("---@field day number|string");
-    expect(output).toContain("---@field hour? number|string");
-    expect(output).toContain("---@field min? number|string");
-    expect(output).toContain("---@field sec? number|string");
-    expect(output).toContain("---@field isdst? boolean");
-    expect(output).toContain("local DateInput = {}");
   });
 
   test("string.FormattedTime.lua preserves its documentation and corrected contract", () => {

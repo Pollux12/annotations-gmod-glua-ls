@@ -1047,6 +1047,15 @@ describe('custom and plugin annotation smoke checks', () => {
     );
   });
 
+  test('IsWeapon narrows the entity to a weapon and keeps its documentation', () => {
+    const entityLua = readOutput('entity.lua').replace(/\r\n/g, '\n');
+
+    expect(entityLua).toContain(
+      '---Checks if the entity is a weapon or not.\n---@realm shared\n---@source https://wiki.facepunch.com/gmod/Entity:IsWeapon\n---@return boolean # Whether the entity is a weapon\n---@return_cast self Weapon\nfunction Entity:IsWeapon() end',
+    );
+    expect(entityLua.match(/^function Entity:IsWeapon\(/gm)).toHaveLength(1);
+  });
+
   test('weapons are owned by the player or NPC that equips them', () => {
     const weaponLua = readOutput('weapon.lua').replace(/\r\n/g, '\n');
 

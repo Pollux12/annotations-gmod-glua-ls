@@ -1,0 +1,13 @@
+---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
+---  Used internally by [motionsensor.ProcessAnglesTable](https://wiki.facepunch.com/gmod/motionsensor.ProcessAnglesTable). See [Using The Kinect](https://wiki.facepunch.com/gmod/Using_The_Kinect) and [Kinect developing](https://wiki.facepunch.com/gmod/Kinect_developing).
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/motionsensor.ProcessAngle
+---@param translator table 
+---@param sensor table<number, Vector> 
+---@param pos table<number, Vector> 
+---@param ang table<number, Angle> 
+---@param special_vectors table 
+---@param boneid number 
+---@param v table 
+---@return true? # Return nil on failure
+function motionsensor.ProcessAngle(translator, sensor, pos, ang, special_vectors, boneid, v) end

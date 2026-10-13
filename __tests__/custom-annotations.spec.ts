@@ -1330,4 +1330,37 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output.match(new RegExp("^function PropSelect:AddModelEx\\(", 'gm'))).toHaveLength(1);
   });
 
+  test("motionsensor.ProcessAngle.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("motionsensor.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.");
+    expect(output).toContain("---  Used internally by [motionsensor.ProcessAnglesTable](https://wiki.facepunch.com/gmod/motionsensor.ProcessAnglesTable). See [Using The Kinect](https://wiki.facepunch.com/gmod/Using_The_Kinect) and [Kinect developing](https://wiki.facepunch.com/gmod/Kinect_developing).");
+    expect(output).toContain("---@realm shared");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/motionsensor.ProcessAngle");
+    expect(output).toContain("---@param translator table ");
+    expect(output).toContain("---@param sensor table<number, Vector> ");
+    expect(output).toContain("---@param pos table<number, Vector> ");
+    expect(output).toContain("---@param ang table<number, Angle> ");
+    expect(output).toContain("---@param special_vectors table ");
+    expect(output).toContain("---@param boneid number ");
+    expect(output).toContain("---@param v table ");
+    expect(output).toContain("---@return true? # Return nil on failure");
+    expect(output).toContain("function motionsensor.ProcessAngle(translator, sensor, pos, ang, special_vectors, boneid, v) end");
+    expect(output.match(new RegExp("^function motionsensor\\.ProcessAngle\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("motionsensor.ProcessAnglesTable.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("motionsensor.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.");
+    expect(output).toContain("---  Used internally by [motionsensor.BuildSkeleton](https://wiki.facepunch.com/gmod/motionsensor.BuildSkeleton). See [Using The Kinect](https://wiki.facepunch.com/gmod/Using_The_Kinect) and [Kinect developing](https://wiki.facepunch.com/gmod/Kinect_developing).");
+    expect(output).toContain("---@realm shared");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/motionsensor.ProcessAnglesTable");
+    expect(output).toContain("---@param translator table ");
+    expect(output).toContain("---@param sensor table<number, Vector> ");
+    expect(output).toContain("---@param pos table<number, Vector> ");
+    expect(output).toContain("---@param rotation Angle ");
+    expect(output).toContain("---@return table<number, Angle> # Ang. If `!translator.AnglesTable` then `return {}`");
+    expect(output).toContain("function motionsensor.ProcessAnglesTable(translator, sensor, pos, rotation) end");
+    expect(output.match(new RegExp("^function motionsensor\\.ProcessAnglesTable\\(", 'gm'))).toHaveLength(1);
+  });
+
 });

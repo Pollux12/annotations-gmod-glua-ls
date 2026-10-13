@@ -1035,6 +1035,15 @@ describe('custom and plugin annotation smoke checks', () => {
     }
   });
 
+  test('math.Min is declared as the shipped alias of math.min', () => {
+    const mathLua = readOutput('math.lua').replace(/\r\n/g, '\n');
+
+    expect(mathLua).toContain(
+      '---@source garrysmod/lua/includes/extensions/math.lua\n---@param x number\n---@param ... number\n---@return number\nfunction math.Min(x, ...) end',
+    );
+    expect(mathLua.match(/^function math\.Min\(/gm)).toHaveLength(1);
+  });
+
   test('scripted entities and weapons keep their deprecated self aliases', () => {
     const entityLua = readOutput('entity.lua').replace(/\r\n/g, '\n');
     const weaponLua = readOutput('weapon.lua').replace(/\r\n/g, '\n');

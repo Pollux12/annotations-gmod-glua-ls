@@ -19,7 +19,7 @@ function CtrlColor:SetConVarG(convar) end
 function CtrlColor:SetConVarB(convar) end
 
 ---Sets the ConVar the alpha channel of the embedded color mixer sets.
----@param convar string The ConVar name for the alpha channel of the color.
+---@param convar string? The ConVar name for the alpha channel of the color.
 function CtrlColor:SetConVarA(convar) end
 
 ---The ConVar the red channel of the embedded color mixer sets.

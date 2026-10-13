@@ -1,0 +1,14 @@
+---Creates a [DMenuOptionCVar](https://wiki.facepunch.com/gmod/DMenuOptionCVar) and adds it as an option into the menu. Checking and unchecking the option will alter the given console variable's value.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DMenu:AddCVar
+---@param strText string The text of the button
+---@param convar string The console variable to change
+---@param on string The value of the console variable to set when the option is checked
+---@param off? string The value of the console variable to set when the option is unchecked
+---@param funcFunction? fun(pnl: Panel) If set, the function will be called every time the option is pressed/clicked/selected.
+---
+--- Function argument(s):
+--- * Panel `pnl` - The DMenuOptionCVar that was clicked.
+---@return DMenuOptionCVar # The created DMenuOptionCVar
+function DMenu:AddCVar(strText, convar, on, off, funcFunction) end

@@ -234,7 +234,6 @@ describe('custom and plugin annotation smoke checks', () => {
 
   test('unsupported menu-only custom overrides stay absent', () => {
     const removedFiles = [
-      'UGCPublishWindow.DoPublish.lua',
       'steamworks.SetFavorite.lua',
     ];
 
@@ -1361,6 +1360,163 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output).toContain("---@return table<number, Angle> # Ang. If `!translator.AnglesTable` then `return {}`");
     expect(output).toContain("function motionsensor.ProcessAnglesTable(translator, sensor, pos, rotation) end");
     expect(output.match(new RegExp("^function motionsensor\\.ProcessAnglesTable\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("DMenu.AddCVar.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("dmenu.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Creates a [DMenuOptionCVar](https://wiki.facepunch.com/gmod/DMenuOptionCVar) and adds it as an option into the menu. Checking and unchecking the option will alter the given console variable's value.");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/DMenu:AddCVar");
+    expect(output).toContain("---@param strText string The text of the button");
+    expect(output).toContain("---@param convar string The console variable to change");
+    expect(output).toContain("---@param on string The value of the console variable to set when the option is checked");
+    expect(output).toContain("---@param off? string The value of the console variable to set when the option is unchecked");
+    expect(output).toContain("---@param funcFunction? fun(pnl: Panel) If set, the function will be called every time the option is pressed/clicked/selected.");
+    expect(output).toContain("---");
+    expect(output).toContain("--- Function argument(s):");
+    expect(output).toContain("--- * Panel `pnl` - The DMenuOptionCVar that was clicked.");
+    expect(output).toContain("---@return DMenuOptionCVar # The created DMenuOptionCVar");
+    expect(output).toContain("function DMenu:AddCVar(strText, convar, on, off, funcFunction) end");
+    expect(output.match(new RegExp("^function DMenu:AddCVar\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("NextBot.MoveToPos.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("nextbot.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---To be called in the behaviour coroutine only! Will yield until the bot has reached the goal or is stuck");
+    expect(output).toContain("---@realm server");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/NextBot:MoveToPos");
+    expect(output).toContain("---@param pos Vector The position we want to get to");
+    expect(output).toContain("---@param options? table A table containing a bunch of tweakable options.");
+    expect(output).toContain("--- * number lookahead - Minimum look ahead distance.");
+    expect(output).toContain("--- * number tolerance - How close we must be to the goal before it can be considered complete.");
+    expect(output).toContain("--- * boolean draw - Draw the path. Only visible on listen servers and single player.");
+    expect(output).toContain("--- * number maxage - Maximum age of the path before it times out.");
+    expect(output).toContain("--- * number repath - Rebuilds the path after this number of seconds.");
+    expect(output).toContain("---@return string # Either `\"failed\"`, `\"stuck\"`, `\"timeout\"` or `\"ok\"` - depending on how the NPC got on");
+    expect(output).toContain("function NextBot:MoveToPos(pos, options) end");
+    expect(output.match(new RegExp("^function NextBot:MoveToPos\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("HTML.ConsoleMessage.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("html.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Called when the page inside the [HTML](https://wiki.facepunch.com/gmod/HTML) window runs the `console.log` javascript function.");
+    expect(output).toContain("---");
+    expect(output).toContain("--- On the x86-64 beta, it's called for all built-in `console.*` javascript functions.");
+    expect(output).toContain("---");
+    expect(output).toContain("--- Overwriting this function in any way will disable default behavior of printing the message to the in-game console.");
+    expect(output).toContain("---@hook ConsoleMessage");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/HTML:ConsoleMessage");
+    expect(output).toContain("---@param msg string The message to be logged (or Lua code to be executed; see above).");
+    expect(output).toContain("---@param file? string The message source file, if any.");
+    expect(output).toContain("---@param lineNr? number The line number in the file the message was output from.");
+    expect(output).toContain("---@param severity? string The severity of the message. Possible values are:");
+    expect(output).toContain("--- * \"log\"");
+    expect(output).toContain("--- * \"warn\"");
+    expect(output).toContain("--- * \"error\"");
+    expect(output).toContain("--- * \"debug\"");
+    expect(output).toContain("function HTML:ConsoleMessage(msg, file, lineNr, severity) end");
+    expect(output.match(new RegExp("^function HTML:ConsoleMessage\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("DPropertySheet.OnActiveTabChanged.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("dpropertysheet.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Called when a player switches the tabs.");
+    expect(output).toContain("---");
+    expect(output).toContain("--- Source code states that this is meant to be overridden.");
+    expect(output).toContain("---@hook OnActiveTabChanged");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/DPropertySheet:OnActiveTabChanged");
+    expect(output).toContain("---@param old DTab? The previously active DTab");
+    expect(output).toContain("---@param new DTab? The newly active DTab");
+    expect(output).toContain("function DPropertySheet:OnActiveTabChanged(old, new) end");
+    expect(output.match(new RegExp("^function DPropertySheet:OnActiveTabChanged\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("Global.PositionSpawnIcon.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("global.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Moves the given model to the given position and calculates appropriate camera parameters for rendering the model to an icon.");
+    expect(output).toContain("---");
+    expect(output).toContain("--- The output table interacts nicely with [Panel:RebuildSpawnIconEx](https://wiki.facepunch.com/gmod/Panel:RebuildSpawnIconEx) with a few key renames.");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/Global.PositionSpawnIcon");
+    expect(output).toContain("---@param model Entity Model that is being rendered to the spawn icon");
+    expect(output).toContain("---@param position Vector Position that the model is being rendered at");
+    expect(output).toContain("---@param noAngles? boolean If true the function won't reset the angles to 0 for the model.");
+    expect(output).toContain("---@return table # Table of information of the view which can be used for rendering");
+    expect(output).toContain("function _G.PositionSpawnIcon(model, position, noAngles) end");
+    expect(output.match(new RegExp("^function _G\\.PositionSpawnIcon\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("DForm.NumSlider.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("dform.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Adds a [DNumSlider](https://wiki.facepunch.com/gmod/DNumSlider) onto the [DForm](https://wiki.facepunch.com/gmod/DForm)");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/DForm:NumSlider");
+    expect(output).toContain("---@param label string A short label for the slider.");
+    expect(output).toContain("---@param convar string? The [console variable](https://wiki.facepunch.com/gmod/ConVars) to change when the slider is changed");
+    expect(output).toContain("---@param min number The minimum value of the slider");
+    expect(output).toContain("---@param max number The maximum value of the slider");
+    expect(output).toContain("---@param decimals? number The number of decimals to allow for the slider value.");
+    expect(output).toContain("---@return DNumSlider # The created DNumSlider.");
+    expect(output).toContain("function DForm:NumSlider(label, convar, min, max, decimals) end");
+    expect(output.match(new RegExp("^function DForm:NumSlider\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("UGCPublishWindow.DoPublish.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("ugcpublishwindow.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Publishes the Item or throws an error if the Title or Tags are invalid");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/UGCPublishWindow:DoPublish");
+    expect(output).toContain("function UGCPublishWindow:DoPublish() end");
+    expect(output.match(new RegExp("^function UGCPublishWindow:DoPublish\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("class.CtrlColor.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("custom_classes.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---@class CtrlColor : DPanel");
+    expect(output).toContain("---@field Mixer DColorMixer The embedded color mixer panel.");
+    expect(output).toContain("local CtrlColor = {}");
+    expect(output).toContain("---Sets the label of the embedded color mixer.");
+    expect(output).toContain("---@param text? string Set to non empty string to show the label and its text.");
+    expect(output).toContain("function CtrlColor:SetLabel(text) end");
+    expect(output).toContain("---Sets the ConVar the red channel of the embedded color mixer sets.");
+    expect(output).toContain("---@param convar string The ConVar name for the red channel of the color.");
+    expect(output).toContain("function CtrlColor:SetConVarR(convar) end");
+    expect(output).toContain("---Sets the ConVar the green channel of the embedded color mixer sets.");
+    expect(output).toContain("---@param convar string The ConVar name for the green channel of the color.");
+    expect(output).toContain("function CtrlColor:SetConVarG(convar) end");
+    expect(output).toContain("---Sets the ConVar the blue channel of the embedded color mixer sets.");
+    expect(output).toContain("---@param convar string The ConVar name for the blue channel of the color.");
+    expect(output).toContain("function CtrlColor:SetConVarB(convar) end");
+    expect(output).toContain("---Sets the ConVar the alpha channel of the embedded color mixer sets.");
+    expect(output).toContain("---@param convar string? The ConVar name for the alpha channel of the color.");
+    expect(output).toContain("function CtrlColor:SetConVarA(convar) end");
+    expect(output).toContain("---The ConVar the red channel of the embedded color mixer sets.");
+    expect(output).toContain("---@return string # The ConVar name for the red channel of the color.");
+    expect(output).toContain("function CtrlColor:GetConVarR() end");
+    expect(output).toContain("---The ConVar the green channel of the embedded color mixer sets.");
+    expect(output).toContain("---@return string # The ConVar name for the green channel of the color.");
+    expect(output).toContain("function CtrlColor:GetConVarG() end");
+    expect(output).toContain("---The ConVar the blue channel of the embedded color mixer sets.");
+    expect(output).toContain("---@return string # The ConVar name for the blue channel of the color.");
+    expect(output).toContain("function CtrlColor:GetConVarB() end");
+    expect(output).toContain("---The ConVar the alpha channel of the embedded color mixer sets.");
+    expect(output).toContain("---@return string # The ConVar name for the alpha channel of the color.");
+    expect(output).toContain("function CtrlColor:GetConVarA() end");
+    expect(output.match(new RegExp("^function CtrlColor:SetLabel\\(", 'gm'))).toHaveLength(1);
+    expect(output.match(new RegExp("^function CtrlColor:SetConVarR\\(", 'gm'))).toHaveLength(1);
+    expect(output.match(new RegExp("^function CtrlColor:SetConVarG\\(", 'gm'))).toHaveLength(1);
+    expect(output.match(new RegExp("^function CtrlColor:SetConVarB\\(", 'gm'))).toHaveLength(1);
+    expect(output.match(new RegExp("^function CtrlColor:SetConVarA\\(", 'gm'))).toHaveLength(1);
+    expect(output.match(new RegExp("^function CtrlColor:GetConVarR\\(", 'gm'))).toHaveLength(1);
+    expect(output.match(new RegExp("^function CtrlColor:GetConVarG\\(", 'gm'))).toHaveLength(1);
+    expect(output.match(new RegExp("^function CtrlColor:GetConVarB\\(", 'gm'))).toHaveLength(1);
+    expect(output.match(new RegExp("^function CtrlColor:GetConVarA\\(", 'gm'))).toHaveLength(1);
   });
 
 });

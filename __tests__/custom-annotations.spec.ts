@@ -981,4 +981,42 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output.match(new RegExp("^function SANDBOX:SpawnlistOpenGenericMenu\\(", 'gm'))).toHaveLength(1);
   });
 
+  test("DFileBrowser.OnSelect.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("dfilebrowser.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Called when a file is selected.");
+    expect(output).toContain("---@hook OnSelect");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/DFileBrowser:OnSelect");
+    expect(output).toContain("---@param filePath string The path to the file that was selected.");
+    expect(output).toContain("---@param selectedPanel DListView_Line|SpawnIcon The panel that was clicked to select this file.This will either be a DListView_Line or SpawnIcon depending on whether the model viewer mode is enabled. See DFileBrowser:SetModels.");
+    expect(output).toContain("function DFileBrowser:OnSelect(filePath, selectedPanel) end");
+    expect(output.match(new RegExp("^function DFileBrowser:OnSelect\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("DFileBrowser.OnDoubleClick.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("dfilebrowser.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Called when a file is double-clicked.");
+    expect(output).toContain("---");
+    expect(output).toContain("--- **NOTE**: Double-clicking a file or icon will trigger **both** this and [DFileBrowser:OnSelect](https://wiki.facepunch.com/gmod/DFileBrowser:OnSelect).");
+    expect(output).toContain("---@hook OnDoubleClick");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/DFileBrowser:OnDoubleClick");
+    expect(output).toContain("---@param filePath string The path to the file that was double-clicked.");
+    expect(output).toContain("---@param selectedPanel DListView_Line|SpawnIcon The panel that was double-clicked to select this file.This will either be a DListView_Line or SpawnIcon depending on whether the model viewer mode is enabled. See DFileBrowser:SetModels.");
+    expect(output).toContain("function DFileBrowser:OnDoubleClick(filePath, selectedPanel) end");
+    expect(output.match(new RegExp("^function DFileBrowser:OnDoubleClick\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("PropSelect.OnSelect.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("propselect.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Called when the player selects a model.");
+    expect(output).toContain("---@hook OnSelect");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/PropSelect:OnSelect");
+    expect(output).toContain("---@param model string Path of the selected model, or its \"value\".");
+    expect(output).toContain("---@param pnl SpawnIcon The Spawnicon that was clicked.");
+    expect(output).toContain("function PropSelect:OnSelect(model, pnl) end");
+    expect(output.match(new RegExp("^function PropSelect:OnSelect\\(", 'gm'))).toHaveLength(1);
+  });
+
 });

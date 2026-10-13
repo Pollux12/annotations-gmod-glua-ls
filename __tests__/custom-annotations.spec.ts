@@ -1306,4 +1306,15 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output.match(new RegExp("^function DListBox:OnSelect\\(", 'gm'))).toHaveLength(1);
   });
 
+  test("DProperty_Float.GetDecimals.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("dproperty_float.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Called to poll the amount of digits after the decimal point. This is used internally for [DProperty_Int](https://wiki.facepunch.com/gmod/DProperty_Int).");
+    expect(output).toContain("---@hook GetDecimals");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/DProperty_Float:GetDecimals");
+    expect(output).toContain("---@return number # The amount of digits after the decimal point.");
+    expect(output).toContain("function DProperty_Float:GetDecimals() end");
+    expect(output.match(new RegExp("^function DProperty_Float:GetDecimals\\(", 'gm'))).toHaveLength(1);
+  });
+
 });

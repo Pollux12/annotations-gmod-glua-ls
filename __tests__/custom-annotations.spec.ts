@@ -290,11 +290,11 @@ describe('custom and plugin annotation smoke checks', () => {
     )?.[0];
 
     expect(formattedTimeBlock).toBeDefined();
-    expect(formattedTimeBlock).toContain('---@overload fun(seconds: number): FormattedTime');
-    expect(formattedTimeBlock).toContain('---@overload fun(seconds: number, format: nil): FormattedTime');
+    expect(formattedTimeBlock).toContain('---@overload fun(seconds?: number): FormattedTime');
+    expect(formattedTimeBlock).toContain('---@overload fun(seconds: number?, format: nil): FormattedTime');
     expect(formattedTimeBlock).toContain('---@param seconds? number Number of seconds to format.');
-    expect(formattedTimeBlock).toContain('---@param format? string The format string.');
-    expect(formattedTimeBlock).toContain('---@return string|FormattedTime');
+    expect(formattedTimeBlock).toContain('---@param format string The format string.');
+    expect(formattedTimeBlock).toContain('---@return string #');
     expect(formattedTimeBlock).not.toContain('---@param float');
     expect(formattedTimeBlock).not.toContain('function string.FormattedTime(float, format)');
 
@@ -1651,6 +1651,24 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output).toContain("---@field sec? number|string");
     expect(output).toContain("---@field isdst? boolean");
     expect(output).toContain("local DateInput = {}");
+  });
+
+  test("string.FormattedTime.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("string.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Formats the supplied number of seconds to the specified format.");
+    expect(output).toContain("---");
+    expect(output).toContain("---When no format is supplied, this returns a FormattedTime table instead.");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@realm server");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/string.FormattedTime");
+    expect(output).toContain("---@overload fun(seconds?: number): FormattedTime");
+    expect(output).toContain("---@overload fun(seconds: number?, format: nil): FormattedTime");
+    expect(output).toContain("---@param seconds? number Number of seconds to format.");
+    expect(output).toContain("---@param format string The format string. If this is omitted, a FormattedTime table is returned instead.");
+    expect(output).toContain("---@return string # The formatted time string, or a FormattedTime table when no format is supplied.");
+    expect(output).toContain("function string.FormattedTime(seconds, format) end");
+    expect(output.match(new RegExp("^function string\\.FormattedTime\\(", 'gm'))).toHaveLength(1);
   });
 
 });

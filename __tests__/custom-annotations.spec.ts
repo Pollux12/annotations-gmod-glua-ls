@@ -1317,4 +1317,17 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output.match(new RegExp("^function DProperty_Float:GetDecimals\\(", 'gm'))).toHaveLength(1);
   });
 
+  test("PropSelect.AddModelEx.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("propselect.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Adds a new model to the selection list.");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/PropSelect:AddModelEx");
+    expect(output).toContain("---@param value string The \"value\" for this model, which is used to set the ContextBase:SetConVar.");
+    expect(output).toContain("---@param model string Model path, **including** `models/` and `.mdl`.");
+    expect(output).toContain("---@param skin number The skin number for this model. It will **not** be set to the convar, use the value argument to track skin-model combos.");
+    expect(output).toContain("---@return SpawnIcon # The created model icon.");
+    expect(output).toContain("function PropSelect:AddModelEx(value, model, skin) end");
+    expect(output.match(new RegExp("^function PropSelect:AddModelEx\\(", 'gm'))).toHaveLength(1);
+  });
+
 });

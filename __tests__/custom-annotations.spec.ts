@@ -1788,4 +1788,38 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output.match(new RegExp("^function DPropertiesCategory:GetRow\\(", 'gm'))).toHaveLength(1);
   });
 
+  test("Player.GetPressedWidget.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("player.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Returns the widget entity the player is using.");
+    expect(output).toContain("---");
+    expect(output).toContain("--- Having a pressed widget stops the player from firing their weapon to allow input to be passed onto the widget.");
+    expect(output).toContain("---@realm shared");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/Player:GetPressedWidget");
+    expect(output).toContain("---@return widget_base|NULL # The pressed widget.");
+    expect(output).toContain("function Player:GetPressedWidget() end");
+    expect(output.match(new RegExp("^function Player:GetPressedWidget\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("class.widget_base.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("custom_classes.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---@class widget_base : Entity");
+    expect(output).toContain("local widget_base = {}");
+    expect(output).toContain("---@source garrysmod/lua/entities/widget_base.lua");
+    expect(output).toContain("---@param player Player");
+    expect(output).toContain("---@param button number");
+    expect(output).toContain("---@param movement CMoveData");
+    expect(output).toContain("function widget_base:OnRelease(player, button, movement) end");
+    expect(output).toContain("---@source garrysmod/lua/entities/widget_base.lua");
+    expect(output).toContain("---@param player Player");
+    expect(output).toContain("---@param movement CMoveData");
+    expect(output).toContain("function widget_base:PressedThinkInternal(player, movement) end");
+    expect(output).toContain("---@source garrysmod/lua/entities/widget_base.lua");
+    expect(output).toContain("---@param entity Entity");
+    expect(output).toContain("---@return boolean");
+    expect(output).toContain("function widget_base:PressedShouldDraw(entity) end");
+    expect(output.match(new RegExp("^function widget_base:OnRelease\\(", 'gm'))).toHaveLength(1);
+    expect(output.match(new RegExp("^function widget_base:PressedThinkInternal\\(", 'gm'))).toHaveLength(1);
+    expect(output.match(new RegExp("^function widget_base:PressedShouldDraw\\(", 'gm'))).toHaveLength(1);
+  });
+
 });

@@ -881,4 +881,104 @@ describe('custom and plugin annotation smoke checks', () => {
     }
   });
 
+  test("GM.PopulateMenuBar.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("gm.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Called when it's time to populate the context menu menu bar at the top.");
+    expect(output).toContain("---@hook PopulateMenuBar");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/GM:PopulateMenuBar");
+    expect(output).toContain("---@param menubar DMenuBar The DMenuBar itself.");
+    expect(output).toContain("function GM:PopulateMenuBar(menubar) end");
+    expect(output.match(new RegExp("^function GM:PopulateMenuBar\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("SANDBOX.PopulateContent.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("sandbox.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Called by the spawnmenu when the content tab is generated");
+    expect(output).toContain("--- \t**WARNING**: Creating an error in this Hook will result in a completely broken Content Tab");
+    expect(output).toContain("---@hook PopulateContent");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/SANDBOX:PopulateContent");
+    expect(output).toContain("---@param pnlContent SpawnmenuContentPanel The SpawnmenuContentPanel");
+    expect(output).toContain("---@param tree DTree The ContentNavBar tree from the SpawnmenuContentPanel");
+    expect(output).toContain("---@param node DTree_Node The old Spawnlists");
+    expect(output).toContain("function SANDBOX:PopulateContent(pnlContent, tree, node) end");
+    expect(output.match(new RegExp("^function SANDBOX:PopulateContent\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("class.SANDBOX.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("sandbox.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---@class (partial) SANDBOX : GM");
+    expect(output).toContain("local SANDBOX = {}");
+  });
+
+  test("SANDBOX.PopulateEntities.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("sandbox.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Called by the spawnmenu when the Entities tab is generated");
+    expect(output).toContain("--- \t**WARNING**: Creating an error in this Hook will result in a completely broken Entites Tab");
+    expect(output).toContain("---@hook PopulateEntities");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/SANDBOX:PopulateEntities");
+    expect(output).toContain("---@param pnlContent SpawnmenuContentPanel The SpawnmenuContentPanel");
+    expect(output).toContain("---@param tree DTree The ContentNavBar tree from the SpawnmenuContentPanel");
+    expect(output).toContain("---@param node DTree_Node The old Spawnlists");
+    expect(output).toContain("function SANDBOX:PopulateEntities(pnlContent, tree, node) end");
+    expect(output.match(new RegExp("^function SANDBOX:PopulateEntities\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("SANDBOX.PopulateNPCs.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("sandbox.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Called by the spawnmenu when the NPCs tab is generated");
+    expect(output).toContain("--- \t**WARNING**: Creating an error in this Hook will result in a completely broken NPCs Tab");
+    expect(output).toContain("---@hook PopulateNPCs");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/SANDBOX:PopulateNPCs");
+    expect(output).toContain("---@param pnlContent SpawnmenuContentPanel The SpawnmenuContentPanel");
+    expect(output).toContain("---@param tree DTree The ContentNavBar tree from the SpawnmenuContentPanel");
+    expect(output).toContain("---@param node DTree_Node The old Spawnlists");
+    expect(output).toContain("function SANDBOX:PopulateNPCs(pnlContent, tree, node) end");
+    expect(output.match(new RegExp("^function SANDBOX:PopulateNPCs\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("SANDBOX.PopulateVehicles.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("sandbox.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Called by the spawnmenu when the Vehicles tab is generated");
+    expect(output).toContain("--- \t**WARNING**: Creating an error in this Hook will result in a completely broken vehicles Tab");
+    expect(output).toContain("---@hook PopulateVehicles");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/SANDBOX:PopulateVehicles");
+    expect(output).toContain("---@param pnlContent SpawnmenuContentPanel The SpawnmenuContentPanel");
+    expect(output).toContain("---@param tree DTree The ContentNavBar tree from the SpawnmenuContentPanel");
+    expect(output).toContain("---@param node DTree_Node The old Spawnlists");
+    expect(output).toContain("function SANDBOX:PopulateVehicles(pnlContent, tree, node) end");
+    expect(output.match(new RegExp("^function SANDBOX:PopulateVehicles\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("SANDBOX.PopulateWeapons.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("sandbox.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Called by the spawnmenu when the Weapons tab is generated");
+    expect(output).toContain("--- \t**WARNING**: Creating an error in this Hook will result in a completely broken Weapons Tab");
+    expect(output).toContain("---@hook PopulateWeapons");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/SANDBOX:PopulateWeapons");
+    expect(output).toContain("---@param pnlContent SpawnmenuContentPanel The SpawnmenuContentPanel");
+    expect(output).toContain("---@param tree DTree The ContentNavBar tree from the SpawnmenuContentPanel");
+    expect(output).toContain("---@param node DTree_Node The old Spawnlists");
+    expect(output).toContain("function SANDBOX:PopulateWeapons(pnlContent, tree, node) end");
+    expect(output.match(new RegExp("^function SANDBOX:PopulateWeapons\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("SANDBOX.SpawnlistOpenGenericMenu.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("sandbox.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---**INTERNAL**: Use [SANDBOX:SpawnmenuIconMenuOpen](https://wiki.facepunch.com/gmod/SANDBOX:SpawnmenuIconMenuOpen) if you wish to add new options to spawnmenu icon right click menus.");
+    expect(output).toContain("---");
+    expect(output).toContain("--- Called when there's one or more items selected in the spawnmenu by the player, to open the multi selection right click menu ([DMenu](https://wiki.facepunch.com/gmod/DMenu))");
+    expect(output).toContain("---@hook SpawnlistOpenGenericMenu");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/SANDBOX:SpawnlistOpenGenericMenu");
+    expect(output).toContain("---@param canvas DDragBase The canvas that has the selection. (Panel:GetSelectionCanvas)");
+    expect(output).toContain("function SANDBOX:SpawnlistOpenGenericMenu(canvas) end");
+    expect(output.match(new RegExp("^function SANDBOX:SpawnlistOpenGenericMenu\\(", 'gm'))).toHaveLength(1);
+  });
+
 });

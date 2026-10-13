@@ -1044,6 +1044,14 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(mathLua.match(/^function math\.Min\(/gm)).toHaveLength(1);
   });
 
+  test('EntityCopyData carries the entity table fields the duplicator merges in', () => {
+    const structuresLua = readOutput('structures.lua').replace(/\r\n/g, '\n');
+
+    expect(structuresLua).toContain(
+      "---@field WorkshopID? number Deprecated, always 0. See Entity:GetWorkshopID.\n---@field [string] any Fields from the entity's own table, which duplicator.CopyEntTable merges into the copy.",
+    );
+  });
+
   test('scripted entities and weapons keep their deprecated self aliases', () => {
     const entityLua = readOutput('entity.lua').replace(/\r\n/g, '\n');
     const weaponLua = readOutput('weapon.lua').replace(/\r\n/g, '\n');

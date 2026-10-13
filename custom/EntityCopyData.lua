@@ -23,4 +23,5 @@
 ---@field BoneManip? table Bone manipulation data.
 ---@field MapCreationID? number The entity's MapCreationID, only exists for entities that were created by the map.
 ---@field WorkshopID? number Deprecated, always 0. See Entity:GetWorkshopID.
+---@field [string] any Fields from the entity's own table, which duplicator.CopyEntTable merges into the copy.
 local EntityCopyData = {}

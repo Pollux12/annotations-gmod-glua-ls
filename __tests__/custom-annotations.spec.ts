@@ -1920,4 +1920,32 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output.match(new RegExp("^function ws_dupe:Arm\\(", 'gm'))).toHaveLength(1);
   });
 
+  test("DTree_Node.Insert.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("dtree_node.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Inserts a sub-node into this node before or after the given node.");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/DTree_Node:Insert");
+    expect(output).toContain("---@param node DTree_Node The DTree_Node to insert.");
+    expect(output).toContain("---@param nodeNextTo DTree_Node The node to insert the node above before or after.");
+    expect(output).toContain("---@param before boolean true to insert before, false to insert after.");
+    expect(output).toContain("function DTree_Node:Insert(node, nodeNextTo, before) end");
+    expect(output.match(new RegExp("^function DTree_Node:Insert\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("DTree_Node.InstallDraggable.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("dtree_node.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.");
+    expect(output).toContain("---");
+    expect(output).toContain("--- Called automatically internally.");
+    expect(output).toContain("---");
+    expect(output).toContain("--- Makes the target node compatible with this node's drag'n'drop.");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/DTree_Node:InstallDraggable");
+    expect(output).toContain("---@param node DTree_Node The DTree_Node.");
+    expect(output).toContain("function DTree_Node:InstallDraggable(node) end");
+    expect(output.match(new RegExp("^function DTree_Node:InstallDraggable\\(", 'gm'))).toHaveLength(1);
+  });
+
 });

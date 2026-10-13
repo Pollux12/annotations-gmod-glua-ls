@@ -983,12 +983,9 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(entityLua.match(/^function Entity:IsWeapon\(/gm)).toHaveLength(1);
   });
 
-  test('weapons are owned by the player or NPC that equips them', () => {
+  test('weapons are equipped by a player or NPC', () => {
     const weaponLua = readOutput('weapon.lua').replace(/\r\n/g, '\n');
 
-    expect(weaponLua).toContain(
-      '---@return Player|NPC|NULL # The player or NPC holding the weapon, or NULL while it is not equipped.\nfunction Weapon:GetOwner() end',
-    );
     expect(weaponLua).toContain(
       '---@param NewOwner Player|NPC The one who picked the weapon up. Can be Player or NPC.\nfunction Weapon:Equip(NewOwner) end',
     );

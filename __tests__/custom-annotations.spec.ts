@@ -1962,4 +1962,15 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output.match(new RegExp("^function _G\\.WorkshopFileBase\\(", 'gm'))).toHaveLength(1);
   });
 
+  test("DImageButton.SetMaterial.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("dimagebutton.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Sets a [Global.Material](https://wiki.facepunch.com/gmod/Global.Material) directly as an image. Equivalent of [DImage:SetMaterial](https://wiki.facepunch.com/gmod/DImage:SetMaterial).");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/DImageButton:SetMaterial");
+    expect(output).toContain("---@param mat IMaterial|string|nil The material to set");
+    expect(output).toContain("function DImageButton:SetMaterial(mat) end");
+    expect(output.match(new RegExp("^function DImageButton:SetMaterial\\(", 'gm'))).toHaveLength(1);
+  });
+
 });

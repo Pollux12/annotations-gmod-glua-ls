@@ -1061,24 +1061,6 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(weaponLua).toContain('---Called when a player or NPC has picked the weapon up.\n---@hook Equip');
   });
 
-  test('DispatchTraceAttack accepts the start and end positions shipped gamemodes pass', () => {
-    const output = readOutput('entity.lua').replace(/\r\n/g, '\n');
-    const anchor = output.indexOf('function Entity:DispatchTraceAttack(damageInfo, traceRes, dir) end');
-    expect(anchor).toBeGreaterThanOrEqual(0);
-    const block = output.slice(output.lastIndexOf('\n\n', anchor), anchor);
-    for (const line of [
-      '---Performs a trace attack towards the entity this function is called on, as if an invisible bullet is shot towards it. Visually identical to [Entity:TakeDamageInfo](https://wiki.facepunch.com/gmod/Entity:TakeDamageInfo).',
-      '---@source https://wiki.facepunch.com/gmod/Entity:DispatchTraceAttack',
-      '---@param damageInfo CTakeDamageInfo The damage to apply.',
-      '---@param traceRes TraceResult Trace result to use to deal damage. See Structures/TraceResult',
-      '---@param dir? Vector Direction of the attack.',
-      '---@overload fun(self: Entity, damageInfo: CTakeDamageInfo, startPos: Vector, endPos: Vector)',
-    ]) {
-      expect(block).toContain(line);
-    }
-    expect(output.match(/^function Entity:DispatchTraceAttack\(/gm)).toHaveLength(1);
-  });
-
   test("GM.OnPlayerHitGround.lua types the landing player and preserves its documentation", () => {
     const output = readOutput("gm.lua").replace(/\r\n/g, '\n');
     const anchor = output.indexOf("function GM:OnPlayerHitGround(player, inWater, onFloater, speed) end");

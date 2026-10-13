@@ -1858,4 +1858,17 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output).toContain("local Vehicle = {}");
   });
 
+  test("dragndrop.state.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("dragndrop.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Current local mouse X position tracked by dragndrop while dispatching receivers.");
+    expect(output).toContain("---@type number");
+    expect(output).toContain("dragndrop.m_MouseLocalX = nil");
+    expect(output).toContain("---Current local mouse Y position tracked by dragndrop while dispatching receivers.");
+    expect(output).toContain("---@type number");
+    expect(output).toContain("dragndrop.m_MouseLocalY = nil");
+    expect(output).toContain("---@source garrysmod/lua/includes/extensions/client/panel/dragdrop.lua");
+    expect(output).toContain("---@type { Name: string, Func: fun(receiver: Panel, panels: Panel[], drop: boolean, command: number, x: number, y: number) }?");
+    expect(output).toContain("dragndrop.m_ReceiverSlot = nil");
+  });
+
 });

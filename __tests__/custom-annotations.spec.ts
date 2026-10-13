@@ -1742,7 +1742,7 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output).toContain("---@source https://wiki.facepunch.com/gmod/string.gsub");
     expect(output).toContain("---@param string string String which should be modified.");
     expect(output).toContain("---@param pattern string The pattern that defines what should be matched and eventually be replaced.");
-    expect(output).toContain("---@param replacement string|number|table|fun(...: string): string|number|nil|false In case of a string the matched sequence will be replaced with it.");
+    expect(output).toContain("---@param replacement string|table|fun(...: string): string|number|nil|false In case of a string the matched sequence will be replaced with it.");
     expect(output).toContain("---");
     expect(output).toContain("--- In case of a table, the matched sequence will be used as key and the table will tested for the key, if a value exists it will be used as replacement.");
     expect(output).toContain("---");

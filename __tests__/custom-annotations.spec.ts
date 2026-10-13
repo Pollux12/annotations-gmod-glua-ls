@@ -1035,6 +1035,18 @@ describe('custom and plugin annotation smoke checks', () => {
     }
   });
 
+  test('scripted entities and weapons keep their deprecated self aliases', () => {
+    const entityLua = readOutput('entity.lua').replace(/\r\n/g, '\n');
+    const weaponLua = readOutput('weapon.lua').replace(/\r\n/g, '\n');
+
+    expect(entityLua).toContain(
+      '---@class ENTITY : Entity\n---@field Entity self Deprecated alias for the entity itself; use `self` instead.\nENTITY = Entity',
+    );
+    expect(weaponLua).toContain(
+      '---@class WEAPON : Weapon\n---@field Entity self Deprecated alias for the weapon itself; use `self` instead.\n---@field Weapon self Deprecated alias for the weapon itself; use `self` instead.\nWEAPON = Weapon',
+    );
+  });
+
   test('weapons are owned by the player or NPC that equips them', () => {
     const weaponLua = readOutput('weapon.lua').replace(/\r\n/g, '\n');
 

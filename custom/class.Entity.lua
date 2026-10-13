@@ -4,6 +4,7 @@
 ---@field EntityMods table? A table of entity modifications stored by the duplicator system via Entity:SetEntityMods.
 local Entity = {}
 ---@class ENTITY : Entity
+---@field Entity self Deprecated alias for the entity itself; use `self` instead.
 ENTITY = Entity
 
 --- Base class name for inheritance (e.g. "base_entity").

@@ -156,6 +156,37 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(camiContent).toMatch(/CAMI/);
   });
 
+  test('cami plugin declares the library as shipped, with optional callbacks and sources', () => {
+    const camiLua = fs
+      .readFileSync(path.join(process.cwd(), 'plugin', 'cami', 'annotations', 'cami.lua'), 'utf8')
+      .replace(/\r\n/g, '\n');
+
+    for (const fn of [
+      'RegisterUsergroup(usergroup, source)',
+      'UnregisterUsergroup(usergroupName, source)',
+      'GetUsergroups()',
+      'GetUsergroup(usergroupName)',
+      'UsergroupInherits(usergroupName, potentialAncestor)',
+      'InheritanceRoot(usergroupName)',
+      'RegisterPrivilege(privilege)',
+      'UnregisterPrivilege(privilegeName)',
+      'GetPrivileges()',
+      'GetPrivilege(privilegeName)',
+      'PlayerHasAccess(actorPly, privilegeName, callback, targetPly, extraInfoTbl)',
+      'GetPlayersWithAccess(privilegeName, callback, targetPly, extraInfoTbl)',
+      'SteamIDHasAccess(actorSteam, privilegeName, callback, targetSteam, extraInfoTbl)',
+      'SignalUserGroupChanged(ply, old, new, source)',
+      'SignalSteamIDUserGroupChanged(steamId, old, new, source)',
+    ]) {
+      expect(camiLua).toContain(`function CAMI.${fn} end`);
+    }
+    expect(camiLua).toContain(
+      '---@param callback? fun(hasAccess: boolean, reason: string?) Callback to receive the answer, or nil for synchronous.\n',
+    );
+    expect(camiLua).toContain('---@return CAMIPrivilege? # Returns nil when the privilege does not exist.\n');
+    expect(camiLua.match(/^---@param source\? any /gm)).toHaveLength(4);
+  });
+
   test('GM annotations include runtime-populated structure fields', () => {
     const gmLua = readOutput('gm.lua');
 

@@ -1,0 +1,29 @@
+--- Used for [render.Capture](https://wiki.facepunch.com/gmod/render.Capture).
+---@realm client
+---@source https://wiki.facepunch.com/gmod/Structures/RenderCaptureData
+---@class (partial) RenderCaptureData
+---Format of the capture. Valid formats are:
+--- * `jpeg` or `jpg`
+--- * `png`
+---
+--- As of version 2026.06.19:
+--- * `rgba`, `rgb` and `bgra` - Raw image data in given byte order.
+--- Expected data size is `ImgWidth * ImgHeight * 4` (`ImgWidth * ImgHeight * 3` for `rgb`)
+--- Each 4 (or 3 for `rgb`) bytes  is one pixel, top to bottom left to right.
+---@field format string
+---X coordinate of the capture origin
+---@field x number
+---Y coordinate of the capture origin
+---@field y number
+---Width of the capture
+---@field w number
+---Height of the capture
+---@field h number
+---The quality of the capture. Affects jpeg only.
+---@field quality? number
+---Set to false to capture an image with alpha channel set to fully opaque. Affects any format with alpha channel support, so not `jpg`.
+---
+--- Default: `true`
+---@field alpha boolean=true
+
+local RenderCaptureData = {}

@@ -1691,4 +1691,36 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output.match(new RegExp("^function string\\.gsub\\(", 'gm'))).toHaveLength(1);
   });
 
+  test("Structures.RenderCaptureData.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("structures.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("--- Used for [render.Capture](https://wiki.facepunch.com/gmod/render.Capture).");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/Structures/RenderCaptureData");
+    expect(output).toContain("---@class (partial) RenderCaptureData");
+    expect(output).toContain("---Format of the capture. Valid formats are:");
+    expect(output).toContain("--- * `jpeg` or `jpg`");
+    expect(output).toContain("--- * `png`");
+    expect(output).toContain("---");
+    expect(output).toContain("--- As of version 2026.06.19:");
+    expect(output).toContain("--- * `rgba`, `rgb` and `bgra` - Raw image data in given byte order.");
+    expect(output).toContain("--- Expected data size is `ImgWidth * ImgHeight * 4` (`ImgWidth * ImgHeight * 3` for `rgb`)");
+    expect(output).toContain("--- Each 4 (or 3 for `rgb`) bytes  is one pixel, top to bottom left to right.");
+    expect(output).toContain("---@field format string");
+    expect(output).toContain("---X coordinate of the capture origin");
+    expect(output).toContain("---@field x number");
+    expect(output).toContain("---Y coordinate of the capture origin");
+    expect(output).toContain("---@field y number");
+    expect(output).toContain("---Width of the capture");
+    expect(output).toContain("---@field w number");
+    expect(output).toContain("---Height of the capture");
+    expect(output).toContain("---@field h number");
+    expect(output).toContain("---The quality of the capture. Affects jpeg only.");
+    expect(output).toContain("---@field quality? number");
+    expect(output).toContain("---Set to false to capture an image with alpha channel set to fully opaque. Affects any format with alpha channel support, so not `jpg`.");
+    expect(output).toContain("---");
+    expect(output).toContain("--- Default: `true`");
+    expect(output).toContain("---@field alpha boolean=true");
+    expect(output).toContain("local RenderCaptureData = {}");
+  });
+
 });

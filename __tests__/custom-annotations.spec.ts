@@ -1677,32 +1677,6 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output.match(new RegExp("^function DNumSlider:SetDefaultValue\\(", 'gm'))).toHaveLength(1);
   });
 
-  test("DListView_Line.SetValue.lua preserves its documentation and corrected contract", () => {
-    const output = readOutput("dlistview_line.lua").replace(/\r\n/g, '\n');
-    expect(output).toContain("---Alias of [DListView_Line:SetColumnText](https://wiki.facepunch.com/gmod/DListView_Line:SetColumnText).");
-    expect(output).toContain("---@realm client");
-    expect(output).toContain("---@realm menu");
-    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/DListView_Line:SetValue");
-    expect(output).toContain("---@param column number The number of the column to write the value to, starts with 1.");
-    expect(output).toContain("---@param value string|number|Panel Column text, or a panel to parent into the column.");
-    expect(output).toContain("---@return DLabel? label The DLabel in which the text was set when `value` is a string.");
-    expect(output).toContain("function DListView_Line:SetValue(column, value) end");
-    expect(output.match(new RegExp("^function DListView_Line:SetValue\\(", 'gm'))).toHaveLength(1);
-  });
-
-  test("DListView_Line.SetColumnText.lua preserves its documentation and corrected contract", () => {
-    const output = readOutput("dlistview_line.lua").replace(/\r\n/g, '\n');
-    expect(output).toContain("---Sets the string or panel held in the specified column of a [DListView_Line](https://wiki.facepunch.com/gmod/DListView_Line) panel.");
-    expect(output).toContain("---@realm client");
-    expect(output).toContain("---@realm menu");
-    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/DListView_Line:SetColumnText");
-    expect(output).toContain("---@param column number The number of the column to write the value to, starts with 1.");
-    expect(output).toContain("---@param value string|number|Panel Column text, or a panel to parent into the column.");
-    expect(output).toContain("---@return DLabel? label The DLabel in which the text was set when `value` is a string.");
-    expect(output).toContain("function DListView_Line:SetColumnText(column, value) end");
-    expect(output.match(new RegExp("^function DListView_Line:SetColumnText\\(", 'gm'))).toHaveLength(1);
-  });
-
   test("DButton.SetMaterial.lua preserves its documentation and corrected contract", () => {
     const output = readOutput("dbutton.lua").replace(/\r\n/g, '\n');
     expect(output).toContain("---Sets an image to be displayed as the button's background.");

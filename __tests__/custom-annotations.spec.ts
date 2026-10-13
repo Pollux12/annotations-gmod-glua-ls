@@ -830,6 +830,19 @@ describe('custom and plugin annotation smoke checks', () => {
     }
   });
 
+  test('weapons are owned by the player or NPC that equips them', () => {
+    const weaponLua = readOutput('weapon.lua').replace(/\r\n/g, '\n');
+
+    expect(weaponLua).toContain(
+      '---@return Player|NPC|NULL # The player or NPC holding the weapon, or NULL while it is not equipped.\nfunction Weapon:GetOwner() end',
+    );
+    expect(weaponLua).toContain(
+      '---@param NewOwner Player|NPC The one who picked the weapon up. Can be Player or NPC.\nfunction Weapon:Equip(NewOwner) end',
+    );
+    expect(weaponLua.match(/^function Weapon:Equip\(/gm)).toHaveLength(1);
+    expect(weaponLua).toContain('---Called when a player or NPC has picked the weapon up.\n---@hook Equip');
+  });
+
   test("GM.OnPlayerHitGround.lua types the landing player and preserves its documentation", () => {
     const output = readOutput("gm.lua").replace(/\r\n/g, '\n');
     const anchor = output.indexOf("function GM:OnPlayerHitGround(player, inWater, onFloater, speed) end");

@@ -1117,4 +1117,171 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output).toContain("local MatSelectList = {}");
   });
 
+  test("DListView.DoDoubleClick.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("dlistview.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Called when a line in the DListView is double clicked.");
+    expect(output).toContain("---@hook DoDoubleClick");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/DListView:DoDoubleClick");
+    expect(output).toContain("---@param lineID number The line number of the double clicked line.");
+    expect(output).toContain("---@param line DListView_Line The double clicked DListView_Line.");
+    expect(output).toContain("function DListView:DoDoubleClick(lineID, line) end");
+    expect(output.match(new RegExp("^function DListView:DoDoubleClick\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("DListView.OnClickLine.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("dlistview.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Called whenever a line is clicked.");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/DListView:OnClickLine");
+    expect(output).toContain("---@param line DListView_Line The selected line.");
+    expect(output).toContain("---@param isSelected? boolean Boolean indicating whether the line is selected.");
+    expect(output).toContain("function DListView:OnClickLine(line, isSelected) end");
+    expect(output.match(new RegExp("^function DListView:OnClickLine\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("DListView.OnRowRightClick.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("dlistview.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Called when a row is right-clicked");
+    expect(output).toContain("---@hook OnRowRightClick");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/DListView:OnRowRightClick");
+    expect(output).toContain("---@param lineID number The line ID of the right clicked line");
+    expect(output).toContain("---@param line DListView_Line The line panel itself, a DListView_Line.");
+    expect(output).toContain("function DListView:OnRowRightClick(lineID, line) end");
+    expect(output.match(new RegExp("^function DListView:OnRowRightClick\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("DListView.OnRowSelected.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("dlistview.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Called internally by [DListView:OnClickLine](https://wiki.facepunch.com/gmod/DListView:OnClickLine) when a line is selected. This is the function you should override to define the behavior when a line is selected.");
+    expect(output).toContain("---@hook OnRowSelected");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/DListView:OnRowSelected");
+    expect(output).toContain("---@param rowIndex number The index of the row/line that the user clicked on.");
+    expect(output).toContain("---@param row DListView_Line The DListView_Line that the user clicked on.");
+    expect(output).toContain("function DListView:OnRowSelected(rowIndex, row) end");
+    expect(output.match(new RegExp("^function DListView:OnRowSelected\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("DTree_Node.InsertNode.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("dtree_node.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.");
+    expect(output).toContain("---");
+    expect(output).toContain("--- Inserts an existing node as a \"child\" or a sub-node of this node.");
+    expect(output).toContain("--- Used internally by the drag'n'drop functionality.");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/DTree_Node:InsertNode");
+    expect(output).toContain("---@param node DTree_Node Has to be DTree_Node");
+    expect(output).toContain("function DTree_Node:InsertNode(node) end");
+    expect(output.match(new RegExp("^function DTree_Node:InsertNode\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("PropSelect.OnRightClick.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("propselect.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Called when the player right clicks a model.");
+    expect(output).toContain("---");
+    expect(output).toContain("--- By default, this opens a menu that lets the player copy the model path.");
+    expect(output).toContain("---@hook OnRightClick");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/PropSelect:OnRightClick");
+    expect(output).toContain("---@param pnl SpawnIcon The Spawnicon that was clicked.");
+    expect(output).toContain("function PropSelect:OnRightClick(pnl) end");
+    expect(output.match(new RegExp("^function PropSelect:OnRightClick\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("DPropertySheet.CloseTab.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("dpropertysheet.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Removes tab and/or panel from the parent DPropertySheet.");
+    expect(output).toContain("--- **NOTE**: In case you close the active tab, it will be reset to the last item available in the list.");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/DPropertySheet:CloseTab");
+    expect(output).toContain("---@param tab DTab The DTab of the sheet from DPropertySheet.");
+    expect(output).toContain("---");
+    expect(output).toContain("--- See DPropertySheet:GetItems.");
+    expect(output).toContain("---@param removePanel boolean Set to true to remove the associated panel object as well.");
+    expect(output).toContain("---@return Panel # The panel of the tab.");
+    expect(output).toContain("function DPropertySheet:CloseTab(tab, removePanel) end");
+    expect(output.match(new RegExp("^function DPropertySheet:CloseTab\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("DHTMLControls.SetHTML.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("dhtmlcontrols.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Sets the [DHTML](https://wiki.facepunch.com/gmod/DHTML) element to control with these [DHTMLControls](https://wiki.facepunch.com/gmod/DHTMLControls).");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/DHTMLControls:SetHTML");
+    expect(output).toContain("---@param dhtml HTML The HTML panel");
+    expect(output).toContain("function DHTMLControls:SetHTML(dhtml) end");
+    expect(output.match(new RegExp("^function DHTMLControls:SetHTML\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("DColorPalette.OnRightClickButton.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("dcolorpalette.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Called when a palette button has been pressed. For Override");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/DColorPalette:OnRightClickButton");
+    expect(output).toContain("---@param pnl DColorButton The DColorButton that was pressed.");
+    expect(output).toContain("function DColorPalette:OnRightClickButton(pnl) end");
+    expect(output.match(new RegExp("^function DColorPalette:OnRightClickButton\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("DColorPalette.SaveColor.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("dcolorpalette.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Saves the color of given button across sessions.  ");
+    expect(output).toContain("--- The color is saved as a panel cookie, see [Panel:SetCookie](https://wiki.facepunch.com/gmod/Panel:SetCookie) and [Panel:SetCookieName](https://wiki.facepunch.com/gmod/Panel:SetCookieName).");
+    expect(output).toContain("--- It is expected that the amount of colors per palette ([Panel:SetCookieName](https://wiki.facepunch.com/gmod/Panel:SetCookieName)) is the same every time.");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/DColorPalette:SaveColor");
+    expect(output).toContain("---@param btn DColorButton The button to save the color of. Used to get the ID of the button.");
+    expect(output).toContain("---@param clr Color The color to save to this button's index");
+    expect(output).toContain("function DColorPalette:SaveColor(btn, clr) end");
+    expect(output.match(new RegExp("^function DColorPalette:SaveColor\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("DColorPalette.DoClick.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("dcolorpalette.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Basically the same functionality as [DColorPalette:OnValueChanged](https://wiki.facepunch.com/gmod/DColorPalette:OnValueChanged), you should use that instead!");
+    expect(output).toContain("---");
+    expect(output).toContain("--- For Override");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/DColorPalette:DoClick");
+    expect(output).toContain("---@param clr Color The new color via the Color");
+    expect(output).toContain("---@param btn DColorButton The DColorButton that was pressed.");
+    expect(output).toContain("function DColorPalette:DoClick(clr, btn) end");
+    expect(output.match(new RegExp("^function DColorPalette:DoClick\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("DMenu.OpenSubMenu.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("dmenu.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Closes any active sub menus, and opens a new one.");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/DMenu:OpenSubMenu");
+    expect(output).toContain("---@param item DMenuOption The DMenuOption to open the submenu at");
+    expect(output).toContain("---@param menu? DMenu The submenu to open. If set to nil, the function just closes existing submenus.");
+    expect(output).toContain("function DMenu:OpenSubMenu(item, menu) end");
+    expect(output.match(new RegExp("^function DMenu:OpenSubMenu\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("DListView.SelectItem.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("dlistview.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Selects a line in the listview.");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/DListView:SelectItem");
+    expect(output).toContain("---@param Line DListView_Line The line to select.");
+    expect(output).toContain("function DListView:SelectItem(Line) end");
+    expect(output.match(new RegExp("^function DListView:SelectItem\\(", 'gm'))).toHaveLength(1);
+  });
+
 });

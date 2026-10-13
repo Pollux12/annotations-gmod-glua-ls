@@ -1519,4 +1519,26 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output.match(new RegExp("^function CtrlColor:GetConVarA\\(", 'gm'))).toHaveLength(1);
   });
 
+  test("DNumSlider.SetValue.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("dnumslider.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Sets the value of the [DNumSlider](https://wiki.facepunch.com/gmod/DNumSlider).");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/DNumSlider:SetValue");
+    expect(output).toContain("---@param val number|string The value to set.");
+    expect(output).toContain("function DNumSlider:SetValue(val) end");
+    expect(output.match(new RegExp("^function DNumSlider:SetValue\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("DNumSlider.SetDefaultValue.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("dnumslider.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Sets the default value of the slider, to be used by [DNumSlider:ResetToDefaultValue](https://wiki.facepunch.com/gmod/DNumSlider:ResetToDefaultValue) or by middle mouse clicking the draggable knob of the slider.");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/DNumSlider:SetDefaultValue");
+    expect(output).toContain("---@param default number|string The new default value of the slider to set");
+    expect(output).toContain("function DNumSlider:SetDefaultValue(default) end");
+    expect(output.match(new RegExp("^function DNumSlider:SetDefaultValue\\(", 'gm'))).toHaveLength(1);
+  });
+
 });

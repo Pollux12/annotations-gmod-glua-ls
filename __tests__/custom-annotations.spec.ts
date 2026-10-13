@@ -8,6 +8,212 @@ describe('custom and plugin annotation smoke checks', () => {
   const readCustom = (file: string) => fs.readFileSync(path.join(customRoot, file), 'utf8');
   const readOutput = (file: string) => fs.readFileSync(path.join(outputRoot, file), 'utf8');
 
+  test.each([
+  [
+    "bf_read",
+    "bf_read",
+    "ReadAngle",
+    "---Reads and returns an angle object from the bitstream.\n---@realm client\n---@source https://wiki.facepunch.com/gmod/bf_read:ReadAngle\n---@return Angle # The read angle\nfunction bf_read:ReadAngle() end\n"
+  ],
+  [
+    "bf_read",
+    "bf_read",
+    "ReadBool",
+    "---Reads 1 bit and returns a bool representing the bit.\n---@realm client\n---@source https://wiki.facepunch.com/gmod/bf_read:ReadBool\n---@return boolean # bit\nfunction bf_read:ReadBool() end\n"
+  ],
+  [
+    "bf_read",
+    "bf_read",
+    "ReadChar",
+    "---Reads a signed char and returns a number from -127 to 127 representing the ascii value of that char.\n---@realm client\n---@source https://wiki.facepunch.com/gmod/bf_read:ReadChar\n---@return number # asciiVal\nfunction bf_read:ReadChar() end\n"
+  ],
+  [
+    "bf_read",
+    "bf_read",
+    "ReadEntity",
+    "---Reads a short representing an entity index and returns the matching entity handle.\n---@realm client\n---@source https://wiki.facepunch.com/gmod/bf_read:ReadEntity\n---@return Entity # ent\nfunction bf_read:ReadEntity() end\n"
+  ],
+  [
+    "bf_read",
+    "bf_read",
+    "ReadFloat",
+    "---Reads a 4 byte float from the bitstream and returns it.\n---@realm client\n---@source https://wiki.facepunch.com/gmod/bf_read:ReadFloat\n---@return number # float\nfunction bf_read:ReadFloat() end\n"
+  ],
+  [
+    "bf_read",
+    "bf_read",
+    "ReadLong",
+    "---Reads a 4 byte long from the bitstream and returns it.\n---@realm client\n---@source https://wiki.facepunch.com/gmod/bf_read:ReadLong\n---@return number # int\nfunction bf_read:ReadLong() end\n"
+  ],
+  [
+    "bf_read",
+    "bf_read",
+    "ReadShort",
+    "---Reads a 2 byte short from the bitstream and returns it.\n---@realm client\n---@source https://wiki.facepunch.com/gmod/bf_read:ReadShort\n---@return number # short\nfunction bf_read:ReadShort() end\n"
+  ],
+  [
+    "bf_read",
+    "bf_read",
+    "ReadString",
+    "---Reads a null terminated string from the bitstream.\n---@realm client\n---@source https://wiki.facepunch.com/gmod/bf_read:ReadString\n---@return string # str\nfunction bf_read:ReadString() end\n"
+  ],
+  [
+    "bf_read",
+    "bf_read",
+    "ReadVector",
+    "---Reads a special encoded vector from the bitstream and returns it, this function is not suitable to send normals.\n---@realm client\n---@source https://wiki.facepunch.com/gmod/bf_read:ReadVector\n---@return Vector # vec\nfunction bf_read:ReadVector() end\n"
+  ],
+  [
+    "bf_read",
+    "bf_read",
+    "ReadVectorNormal",
+    "---Reads a special encoded vector normal from the bitstream and returns it, this function is not suitable to send vectors that represent a position.\n---@realm client\n---@source https://wiki.facepunch.com/gmod/bf_read:ReadVectorNormal\n---@return Vector # normal\nfunction bf_read:ReadVectorNormal() end\n"
+  ],
+  [
+    "file",
+    "File",
+    "Read",
+    "---Reads the specified amount of chars and returns them as a binary string.\n---@realm shared\n---@realm menu\n---@source https://wiki.facepunch.com/gmod/File:Read\n---@param length? number Reads the specified amount of chars. If not set, will read the entire file.\n---@return string # The read data.\nfunction File:Read(length) end\n"
+  ],
+  [
+    "file",
+    "File",
+    "ReadBool",
+    "---Reads one byte of the file and returns whether that byte was not 0.\n---@realm shared\n---@realm menu\n---@source https://wiki.facepunch.com/gmod/File:ReadBool\n---@return boolean # val\nfunction File:ReadBool() end\n"
+  ],
+  [
+    "file",
+    "File",
+    "ReadByte",
+    "---Reads one unsigned 8-bit integer from the file.\n---@realm shared\n---@realm menu\n---@source https://wiki.facepunch.com/gmod/File:ReadByte\n---@return number # The unsigned 8-bit integer from the file.\nfunction File:ReadByte() end\n"
+  ],
+  [
+    "file",
+    "File",
+    "ReadDouble",
+    "---Reads an 8-byte little-endian IEEE-754 floating point double from the file.\n---@realm shared\n---@realm menu\n---@source https://wiki.facepunch.com/gmod/File:ReadDouble\n---@return number # The double-precision floating point value read from the file.\nfunction File:ReadDouble() end\n"
+  ],
+  [
+    "file",
+    "File",
+    "ReadFloat",
+    "---Reads an IEEE 754 little-endian 4-byte float from the file.\n---@realm shared\n---@realm menu\n---@source https://wiki.facepunch.com/gmod/File:ReadFloat\n---@return number # The read value\nfunction File:ReadFloat() end\n"
+  ],
+  [
+    "file",
+    "File",
+    "ReadLine",
+    "---Returns the contents of the file from the current position up until the end of the current line.\n---\n--- **NOTE**: This function will look specifically for `Line Feed` characters `\\n` and will **completely ignore `Carriage Return` characters** `\\r`.\n---\n--- It will also stop at a `\\0` or `NULL` character, but will add a new line instead.\n---\n--- This function will not return more than 8192 characters. The return value will include the `\\n` character.\n---@realm shared\n---@realm menu\n---@source https://wiki.facepunch.com/gmod/File:ReadLine\n---@return string # The string of data from the read line.\nfunction File:ReadLine() end\n"
+  ],
+  [
+    "file",
+    "File",
+    "ReadLong",
+    "---Reads a signed little-endian 32-bit integer from the file.\n---@realm shared\n---@realm menu\n---@source https://wiki.facepunch.com/gmod/File:ReadLong\n---@return number # A signed 32-bit integer\nfunction File:ReadLong() end\n"
+  ],
+  [
+    "file",
+    "File",
+    "ReadShort",
+    "---Reads a signed little-endian 16-bit integer from the file.\n---@realm shared\n---@realm menu\n---@source https://wiki.facepunch.com/gmod/File:ReadShort\n---@return number # int16\nfunction File:ReadShort() end\n"
+  ],
+  [
+    "file",
+    "File",
+    "ReadUInt64",
+    "---Reads an unsigned 64-bit integer from the file.\n---@realm shared\n---@realm menu\n---@source https://wiki.facepunch.com/gmod/File:ReadUInt64\n---@return string # An unsigned 64-bit integer.\n--- Since Lua cannot store full 64-bit integers, this function returns a string. It is mainly aimed at usage with [Player:SteamID64](https://wiki.facepunch.com/gmod/Player:SteamID64).\nfunction File:ReadUInt64() end\n"
+  ],
+  [
+    "file",
+    "File",
+    "ReadULong",
+    "---Reads an unsigned little-endian 32-bit integer from the file.\n---@realm shared\n---@realm menu\n---@source https://wiki.facepunch.com/gmod/File:ReadULong\n---@return number # An unsigned 32-bit integer\nfunction File:ReadULong() end\n"
+  ],
+  [
+    "file",
+    "File",
+    "ReadUShort",
+    "---Reads an unsigned little-endian 16-bit integer from the file.\n---@realm shared\n---@realm menu\n---@source https://wiki.facepunch.com/gmod/File:ReadUShort\n---@return number # The 16-bit integer\nfunction File:ReadUShort() end\n"
+  ],
+  [
+    "irestore",
+    "IRestore",
+    "ReadAngle",
+    "---Reads next bytes from the restore object as an [Angle](https://wiki.facepunch.com/gmod/Angle).\n---@realm shared\n---@source https://wiki.facepunch.com/gmod/IRestore:ReadAngle\n---@return Angle # The angle that has been read\nfunction IRestore:ReadAngle() end\n"
+  ],
+  [
+    "irestore",
+    "IRestore",
+    "ReadBool",
+    "---Reads next bytes from the restore object as a [boolean](https://wiki.facepunch.com/gmod/boolean).\n---@realm shared\n---@source https://wiki.facepunch.com/gmod/IRestore:ReadBool\n---@return boolean # The boolean that has been read\nfunction IRestore:ReadBool() end\n"
+  ],
+  [
+    "irestore",
+    "IRestore",
+    "ReadEntity",
+    "---Reads next bytes from the restore object as an [Entity](https://wiki.facepunch.com/gmod/Entity).\n---@realm shared\n---@source https://wiki.facepunch.com/gmod/IRestore:ReadEntity\n---@return Entity # The entity that has been read.\nfunction IRestore:ReadEntity() end\n"
+  ],
+  [
+    "irestore",
+    "IRestore",
+    "ReadFloat",
+    "---Reads next bytes from the restore object as a floating point [number](https://wiki.facepunch.com/gmod/number).\n---@realm shared\n---@source https://wiki.facepunch.com/gmod/IRestore:ReadFloat\n---@return number # The read floating point number.\nfunction IRestore:ReadFloat() end\n"
+  ],
+  [
+    "irestore",
+    "IRestore",
+    "ReadInt",
+    "---Reads next bytes from the restore object as an integer [number](https://wiki.facepunch.com/gmod/number).\n---@realm shared\n---@source https://wiki.facepunch.com/gmod/IRestore:ReadInt\n---@return number # The read integer number.\nfunction IRestore:ReadInt() end\n"
+  ],
+  [
+    "irestore",
+    "IRestore",
+    "ReadString",
+    "---Reads next bytes from the restore object as a [string](https://wiki.facepunch.com/gmod/string).\n---@realm shared\n---@source https://wiki.facepunch.com/gmod/IRestore:ReadString\n---@return string # The read string.\nfunction IRestore:ReadString() end\n"
+  ],
+  [
+    "irestore",
+    "IRestore",
+    "ReadVector",
+    "---Reads next bytes from the restore object as a [Vector](https://wiki.facepunch.com/gmod/Vector).\n---@realm shared\n---@source https://wiki.facepunch.com/gmod/IRestore:ReadVector\n---@return Vector # The read vector.\nfunction IRestore:ReadVector() end\n"
+  ],
+  [
+    "irestore",
+    "IRestore",
+    "StartBlock",
+    "---Loads next block of data to be read inside current block. Blocks **must** be ended with [IRestore:EndBlock](https://wiki.facepunch.com/gmod/IRestore:EndBlock).\n---@realm shared\n---@source https://wiki.facepunch.com/gmod/IRestore:StartBlock\n---@return string # The name of the next data block to be read.\nfunction IRestore:StartBlock() end\n"
+  ],
+  [
+    "stack",
+    "Stack",
+    "Pop",
+    "---Pop an item from the stack\n---@realm shared\n---@realm menu\n---@source https://wiki.facepunch.com/gmod/Stack:Pop\n---@param amount? number Amount of items you want to pop.\n---@return any # Latest popped item.\nfunction Stack:Pop(amount) end\n"
+  ],
+  [
+    "stack",
+    "Stack",
+    "PopMulti",
+    "---Pop an item from the stack\n---@realm shared\n---@realm menu\n---@source https://wiki.facepunch.com/gmod/Stack:PopMulti\n---@param amount? number Amount of items you want to pop.\n---@return table # The Popped Items.\nfunction Stack:PopMulti(amount) end\n"
+  ],
+  [
+    "cnavarea",
+    "CNavArea",
+    "PopOpenList",
+    "---Removes a CNavArea from the Open List with the lowest cost to traverse to from the starting node, and returns it.\n---\n--- Used in pathfinding via the [A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm).\n---\n--- More information can be found on the [Simple Pathfinding](https://wiki.facepunch.com/gmod/Simple_Pathfinding) page.\n---@realm server\n---@source https://wiki.facepunch.com/gmod/CNavArea:PopOpenList\n---@return CNavArea # The CNavArea from the Open List with the lowest cost to traverse to from the starting node.\nfunction CNavArea:PopOpenList() end\n"
+  ],
+[
+  "cnavarea",
+  "CNavArea",
+  "GetRandomPoint",
+  "---Returns a random point on the nav area.\n---@realm server\n---@source https://wiki.facepunch.com/gmod/CNavArea:GetRandomPoint\n---@return Vector # The random point on the nav area.\nfunction CNavArea:GetRandomPoint() end\n"
+]
+])('fresh-result %s %s:%s preserves its wiki declaration', (file, cls, name, baseline) => {
+    const custom = readCustom(`${cls}.${name}.lua`).replace(/\r\n/g, '\n');
+    expect(custom).toContain('---@[fresh_result]\n');
+    expect(custom.replace('---@[fresh_result]\n', '')).toBe(baseline);
+    expect(readOutput(`${file}.lua`).replace(/\r\n/g, '\n')).toContain(custom.trim());
+  });
+
   test('constraint entities expose copied metadata with source-backed types', () => {
     const classes = readOutput('custom_classes.lua');
     const entity = classes.split('---@class ConstraintEntity : Entity')[1]?.split('local ConstraintEntity')[0];

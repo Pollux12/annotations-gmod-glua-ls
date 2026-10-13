@@ -1723,4 +1723,69 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output).toContain("local RenderCaptureData = {}");
   });
 
+  test("DProperties.CreateRow.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("dproperties.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Creates a row in the properties panel.");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/DProperties:CreateRow");
+    expect(output).toContain("---@param category string The category to list this row under");
+    expect(output).toContain("---@param name string The label of this row");
+    expect(output).toContain("---@return DPropertiesRow # An internal Row panel. It has 2 methods of interest:");
+    expect(output).toContain("--- * `Setup`( string type, table vars )");
+    expect(output).toContain("---   * Call to set up the panel as one of the `DProperty_` panels. `vars` parameter is directly fed into the created `DProperty_` panels' `Setup` function.");
+    expect(output).toContain("--- * `SetValue`( [any](https://wiki.facepunch.com/gmod/any) value )");
+    expect(output).toContain("---   * Call to set the value on the created `DProperty_` panel.");
+    expect(output).toContain("function DProperties:CreateRow(category, name) end");
+    expect(output.match(new RegExp("^function DProperties:CreateRow\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("DProperties.GetCategory.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("dproperties.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.");
+    expect(output).toContain("---");
+    expect(output).toContain("--- Returns (or creates) a category of properties.");
+    expect(output).toContain("---");
+    expect(output).toContain("--- See [DProperties:CreateRow](https://wiki.facepunch.com/gmod/DProperties:CreateRow) for adding actual properties.");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/DProperties:GetCategory");
+    expect(output).toContain("---@param name string Name of the category");
+    expect(output).toContain("---@param create? boolean Create a new category if it doesn't exist.");
+    expect(output).toContain("---@return DPropertiesCategory? # An internal panel.");
+    expect(output).toContain("---@overload fun(self: DProperties, name: string, create: true): DPropertiesCategory");
+    expect(output).toContain("function DProperties:GetCategory(name, create) end");
+    expect(output.match(new RegExp("^function DProperties:GetCategory\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("class.DPropertiesRow.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("custom_classes.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---@class DPropertiesRow : Panel");
+    expect(output).toContain("---@field Label DLabel");
+    expect(output).toContain("---@field Container Panel");
+    expect(output).toContain("---@field Inner? DProperty_Generic");
+    expect(output).toContain("local DPropertiesRow = {}");
+    expect(output).toContain("---@source garrysmod/lua/vgui/dproperties.lua");
+    expect(output).toContain("---@param rowType string");
+    expect(output).toContain("---@param vars? table");
+    expect(output).toContain("function DPropertiesRow:Setup(rowType, vars) end");
+    expect(output).toContain("---@source garrysmod/lua/vgui/dproperties.lua");
+    expect(output).toContain("---@param value any");
+    expect(output).toContain("function DPropertiesRow:SetValue(value) end");
+    expect(output.match(new RegExp("^function DPropertiesRow:Setup\\(", 'gm'))).toHaveLength(1);
+    expect(output.match(new RegExp("^function DPropertiesRow:SetValue\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("class.DPropertiesCategory.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("custom_classes.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---@class DPropertiesCategory : Panel");
+    expect(output).toContain("---@field Rows table<string, DPropertiesRow>");
+    expect(output).toContain("local DPropertiesCategory = {}");
+    expect(output).toContain("---@source garrysmod/lua/vgui/dproperties.lua");
+    expect(output).toContain("---@overload fun(self: DPropertiesCategory, name: string, create: true): DPropertiesRow");
+    expect(output).toContain("---@param name string");
+    expect(output).toContain("---@param create? boolean");
+    expect(output).toContain("---@return DPropertiesRow?");
+    expect(output).toContain("function DPropertiesCategory:GetRow(name, create) end");
+    expect(output.match(new RegExp("^function DPropertiesCategory:GetRow\\(", 'gm'))).toHaveLength(1);
+  });
+
 });

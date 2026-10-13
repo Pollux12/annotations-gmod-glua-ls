@@ -1,0 +1,11 @@
+---Creates a row in the properties panel.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DProperties:CreateRow
+---@param category string The category to list this row under
+---@param name string The label of this row
+---@return DPropertiesRow # An internal Row panel. It has 2 methods of interest:
+--- * `Setup`( string type, table vars )
+---   * Call to set up the panel as one of the `DProperty_` panels. `vars` parameter is directly fed into the created `DProperty_` panels' `Setup` function.
+--- * `SetValue`( [any](https://wiki.facepunch.com/gmod/any) value )
+---   * Call to set the value on the created `DProperty_` panel.
+function DProperties:CreateRow(category, name) end

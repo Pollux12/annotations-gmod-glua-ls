@@ -1019,4 +1019,102 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output.match(new RegExp("^function PropSelect:OnSelect\\(", 'gm'))).toHaveLength(1);
   });
 
+  test("class.MatSelect.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("matselect.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---@class (partial) MatSelect : ContextBase");
+    expect(output).toContain("---@field List MatSelectList The panel list containing the material buttons.");
+    expect(output).toContain("---@field Controls MatSelectMaterial[]");
+    expect(output).toContain("local MatSelect = {}");
+  });
+
+  test("class.MatSelectMaterial.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("custom_classes.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---@class MatSelectMaterial : DImageButton");
+    expect(output).toContain("---@field Value any");
+    expect(output).toContain("---@field ConVars? table");
+    expect(output).toContain("---@field AutoSize boolean");
+    expect(output).toContain("local MatSelectMaterial = {}");
+  });
+
+  test("MatSelect.AddMaterial.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("matselect.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Adds a new material to the selection list.");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/MatSelect:AddMaterial");
+    expect(output).toContain("---@param label string Tooltip for the material, for when the player hovers over the material.");
+    expect(output).toContain("---@param path string Path to the material. Relative to `materials/` folder (do not include it), and do not include the `.vmt` extension.");
+    expect(output).toContain("---@return MatSelectMaterial # The created material button.");
+    expect(output).toContain("function MatSelect:AddMaterial(label, path) end");
+    expect(output.match(new RegExp("^function MatSelect:AddMaterial\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("MatSelect.AddMaterialEx.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("matselect.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Adds a new material to the selection list, with some extra options.");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/MatSelect:AddMaterialEx");
+    expect(output).toContain("---@param label string Tooltip for the material, for when the player hovers over the material.");
+    expect(output).toContain("---@param path string Path to the material. Relative to `materials/` folder (do not include it), and do not include the `.vmt` extension.");
+    expect(output).toContain("---@param value any Overrides the \"value\" of the material. This will be what MatSelect:OnSelect receives in the first argument. It also affects MatSelect:FindMaterialByValue.");
+    expect(output).toContain("---@param convars table A list of convar names (as keys) and their values to set when the user selects this material. ContextBase:SetConVar will be ignored.");
+    expect(output).toContain("---@return MatSelectMaterial # The created material button.");
+    expect(output).toContain("function MatSelect:AddMaterialEx(label, path, value, convars) end");
+    expect(output.match(new RegExp("^function MatSelect:AddMaterialEx\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("MatSelect.FindMaterialByValue.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("matselect.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Find a [DImageButton](https://wiki.facepunch.com/gmod/DImageButton) panel based on the input material path.");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/MatSelect:FindMaterialByValue");
+    expect(output).toContain("---@param mat string The material to find within this MatSelect.");
+    expect(output).toContain("---@return MatSelectMaterial? # The found material, or nil.");
+    expect(output).toContain("function MatSelect:FindMaterialByValue(mat) end");
+    expect(output.match(new RegExp("^function MatSelect:FindMaterialByValue\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("MatSelect.SelectMaterial.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("matselect.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---**INTERNAL**: Use [MatSelect:FindAndSelectMaterial](https://wiki.facepunch.com/gmod/MatSelect:FindAndSelectMaterial) instead.");
+    expect(output).toContain("---");
+    expect(output).toContain("--- Selects a given material panel.");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/MatSelect:SelectMaterial");
+    expect(output).toContain("---@param mat MatSelectMaterial The material to select, found by MatSelect:FindMaterialByValue");
+    expect(output).toContain("function MatSelect:SelectMaterial(mat) end");
+    expect(output.match(new RegExp("^function MatSelect:SelectMaterial\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("MatSelect.OnRightClick.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("matselect.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Called when the player right clicks a material.");
+    expect(output).toContain("---");
+    expect(output).toContain("--- By default, this opens a menu that lets the player copy the material path.");
+    expect(output).toContain("---@hook OnRightClick");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/MatSelect:OnRightClick");
+    expect(output).toContain("---@param pnl MatSelectMaterial The DImageButton that was clicked.");
+    expect(output).toContain("function MatSelect:OnRightClick(pnl) end");
+    expect(output.match(new RegExp("^function MatSelect:OnRightClick\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("MatSelect.OnSelect.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("matselect.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Called when the player selects a material.");
+    expect(output).toContain("---@hook OnSelect");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/MatSelect:OnSelect");
+    expect(output).toContain("---@param material any Material path of the selected material, not including any file extension.");
+    expect(output).toContain("---@param pnl MatSelectMaterial The DImageButton that was clicked.");
+    expect(output).toContain("function MatSelect:OnSelect(material, pnl) end");
+    expect(output.match(new RegExp("^function MatSelect:OnSelect\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("class.MatSelectList.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("custom_classes.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---@class MatSelectList : DPanelList");
+    expect(output).toContain("---@field Items MatSelectMaterial[]");
+    expect(output).toContain("local MatSelectList = {}");
+  });
+
 });

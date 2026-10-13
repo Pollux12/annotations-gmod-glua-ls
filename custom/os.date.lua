@@ -23,9 +23,10 @@
 ---
 --- When called without arguments, `date` returns a reasonable date and time
 --- representation that depends on the host system and on the current locale.
----@overload fun(fmt:"*t", time?: number):DateData
----@overload fun(fmt:"!*t", time?: number):DateData
----@param format? string # The format string. If `*t` or `!*t`, returns a [Structures/DateData](https://wiki.facepunch.com/gmod/Structures/DateData) table instead.
+---@overload fun(format: "*t", time?: number): DateData
+---@overload fun(format: "!*t", time?: number): DateData
+---@overload fun(format?: string, time?: number): string
+---@param format "*t"|"!*t" # The format string. If `*t` or `!*t`, returns a [Structures/DateData](https://wiki.facepunch.com/gmod/Structures/DateData) table instead.
 ---@param time? number # Time to use for the format.
----@return string|DateData # Formatted date string, or a [Structures/DateData](https://wiki.facepunch.com/gmod/Structures/DateData) table if format is `*t` or `!*t`.
+---@return DateData # Formatted date string, or a [Structures/DateData](https://wiki.facepunch.com/gmod/Structures/DateData) table if format is `*t` or `!*t`.
 function os.date(format, time) end

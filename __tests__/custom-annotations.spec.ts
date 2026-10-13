@@ -1591,4 +1591,66 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output.match(new RegExp("^function DImage:SetMaterial\\(", 'gm'))).toHaveLength(1);
   });
 
+  test("os.time.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("os.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Returns the system time in seconds past the unix epoch. If a table is supplied, the function attempts to build a system time with the specified table members.");
+    expect(output).toContain("---@realm shared");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/os.time");
+    expect(output).toContain("---@param dateData? DateInput|DateData Table to generate the time from. This table's data is interpreted as being in the local timezone. See Structures/DateData");
+    expect(output).toContain("---@return number # Seconds passed since Unix epoch");
+    expect(output).toContain("function os.time(dateData) end");
+    expect(output.match(new RegExp("^function os\\.time\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("os.date.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("os.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---");
+    expect(output).toContain("--- Returns a string or a table containing date and time, formatted according");
+    expect(output).toContain("--- to the given string `format`.");
+    expect(output).toContain("---");
+    expect(output).toContain("--- If the `time` argument is present, this is the time to be formatted (see");
+    expect(output).toContain("--- the `os.time` function for a description of this value). Otherwise,");
+    expect(output).toContain("--- `date` formats the current time.");
+    expect(output).toContain("---");
+    expect(output).toContain("--- If `format` starts with '`!`', then the date is formatted in Coordinated");
+    expect(output).toContain("--- Universal Time. After this optional character, if `format` is the string");
+    expect(output).toContain("--- \"`*t`\", then `date` returns a [Structures/DateData](https://wiki.facepunch.com/gmod/Structures/DateData) table with:");
+    expect(output).toContain("---");
+    expect(output).toContain("--- **`year`** (four digits)");
+    expect(output).toContain("--- **`month`** (1–12)");
+    expect(output).toContain("--- **`day`** (1-31)");
+    expect(output).toContain("--- **`hour`** (0-23)");
+    expect(output).toContain("--- **`min`** (0-59)");
+    expect(output).toContain("--- **`sec`** (0-61), due to leap seconds");
+    expect(output).toContain("--- **`wday`** (weekday, 1–7, Sunday is 1)");
+    expect(output).toContain("--- **`yday`** (day of the year, 1–366)");
+    expect(output).toContain("---");
+    expect(output).toContain("--- If `format` is not \"`*t`\", then `date` returns the date as a string,");
+    expect(output).toContain("---");
+    expect(output).toContain("--- When called without arguments, `date` returns a reasonable date and time");
+    expect(output).toContain("--- representation that depends on the host system and on the current locale.");
+    expect(output).toContain("---@overload fun(format: \"*t\", time?: number): DateData");
+    expect(output).toContain("---@overload fun(format: \"!*t\", time?: number): DateData");
+    expect(output).toContain("---@overload fun(format?: string, time?: number): string");
+    expect(output).toContain("---@param format \"*t\"|\"!*t\" # The format string. If `*t` or `!*t`, returns a [Structures/DateData](https://wiki.facepunch.com/gmod/Structures/DateData) table instead.");
+    expect(output).toContain("---@param time? number # Time to use for the format.");
+    expect(output).toContain("---@return DateData # Formatted date string, or a [Structures/DateData](https://wiki.facepunch.com/gmod/Structures/DateData) table if format is `*t` or `!*t`.");
+    expect(output).toContain("function os.date(format, time) end");
+    expect(output.match(new RegExp("^function os\\.date\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("class.DateInput.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("custom_classes.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---@class DateInput");
+    expect(output).toContain("---@field year number|string");
+    expect(output).toContain("---@field month number|string");
+    expect(output).toContain("---@field day number|string");
+    expect(output).toContain("---@field hour? number|string");
+    expect(output).toContain("---@field min? number|string");
+    expect(output).toContain("---@field sec? number|string");
+    expect(output).toContain("---@field isdst? boolean");
+    expect(output).toContain("local DateInput = {}");
+  });
+
 });

@@ -1671,4 +1671,24 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output.match(new RegExp("^function string\\.FormattedTime\\(", 'gm'))).toHaveLength(1);
   });
 
+  test("string.gsub.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("string.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---This functions main purpose is to replace certain character sequences in a string using [Patterns](https://wiki.facepunch.com/gmod/Patterns).");
+    expect(output).toContain("---@realm shared");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/string.gsub");
+    expect(output).toContain("---@param string string String which should be modified.");
+    expect(output).toContain("---@param pattern string The pattern that defines what should be matched and eventually be replaced.");
+    expect(output).toContain("---@param replacement string|number|table|fun(...: string): string|number|nil|false In case of a string the matched sequence will be replaced with it.");
+    expect(output).toContain("---");
+    expect(output).toContain("--- In case of a table, the matched sequence will be used as key and the table will tested for the key, if a value exists it will be used as replacement.");
+    expect(output).toContain("---");
+    expect(output).toContain("--- In case of a function all matches will be passed as parameters to the function, the return value(s) of the function will then be used as replacement.");
+    expect(output).toContain("---@param maxReplaces? number Maximum number of replacements to be made.");
+    expect(output).toContain("---@return string # replaceResult");
+    expect(output).toContain("---@return number # replaceCount");
+    expect(output).toContain("function string.gsub(string, pattern, replacement, maxReplaces) end");
+    expect(output.match(new RegExp("^function string\\.gsub\\(", 'gm'))).toHaveLength(1);
+  });
+
 });

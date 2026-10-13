@@ -4,7 +4,7 @@
 ---@source https://wiki.facepunch.com/gmod/string.gsub
 ---@param string string String which should be modified.
 ---@param pattern string The pattern that defines what should be matched and eventually be replaced.
----@param replacement string|table|fun(...: string): string In case of a string the matched sequence will be replaced with it.
+---@param replacement string|number|table|fun(...: string): string|number|nil|false In case of a string the matched sequence will be replaced with it.
 ---
 --- In case of a table, the matched sequence will be used as key and the table will tested for the key, if a value exists it will be used as replacement.
 ---

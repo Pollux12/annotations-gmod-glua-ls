@@ -1567,4 +1567,28 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output.match(new RegExp("^function DListView_Line:SetColumnText\\(", 'gm'))).toHaveLength(1);
   });
 
+  test("DButton.SetMaterial.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("dbutton.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Sets an image to be displayed as the button's background.");
+    expect(output).toContain("---");
+    expect(output).toContain("--- See [DButton:SetImage](https://wiki.facepunch.com/gmod/DButton:SetImage) for equivalent function that uses file paths instead. Also see [DImageButton](https://wiki.facepunch.com/gmod/DImageButton).");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/DButton:SetMaterial");
+    expect(output).toContain("---@param img? IMaterial|string The material to use. If this is nil, the image background is removed.");
+    expect(output).toContain("function DButton:SetMaterial(img) end");
+    expect(output.match(new RegExp("^function DButton:SetMaterial\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("DImage.SetMaterial.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("dimage.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Sets a [Global.Material](https://wiki.facepunch.com/gmod/Global.Material) directly as an image.");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@realm menu");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/DImage:SetMaterial");
+    expect(output).toContain("---@param mat IMaterial|string|nil The material to set");
+    expect(output).toContain("function DImage:SetMaterial(mat) end");
+    expect(output.match(new RegExp("^function DImage:SetMaterial\\(", 'gm'))).toHaveLength(1);
+  });
+
 });

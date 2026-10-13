@@ -1284,4 +1284,26 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output.match(new RegExp("^function DListView:SelectItem\\(", 'gm'))).toHaveLength(1);
   });
 
+  test("DListBox.AddItem.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("dlistbox.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Adds a labelled item to the list box.");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@source garrysmod/lua/vgui/dlistbox.lua");
+    expect(output).toContain("---@param label string");
+    expect(output).toContain("---@return DListBoxItem");
+    expect(output).toContain("function DListBox:AddItem(label) end");
+    expect(output.match(new RegExp("^function DListBox:AddItem\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("DListBox.OnSelect.lua preserves its documentation and corrected contract", () => {
+    const output = readOutput("dlistbox.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---Called when a list box item is selected.");
+    expect(output).toContain("---@hook OnSelect");
+    expect(output).toContain("---@realm client");
+    expect(output).toContain("---@source garrysmod/lua/vgui/dlistbox.lua");
+    expect(output).toContain("---@param item DListBoxItem");
+    expect(output).toContain("function DListBox:OnSelect(item) end");
+    expect(output.match(new RegExp("^function DListBox:OnSelect\\(", 'gm'))).toHaveLength(1);
+  });
+
 });

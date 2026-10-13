@@ -1973,4 +1973,33 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output.match(new RegExp("^function DImageButton:SetMaterial\\(", 'gm'))).toHaveLength(1);
   });
 
+  test("npc.lua retains wiki class documentation with custom fields", () => {
+    const output = readOutput("npc.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---@field NPCName? string");
+    expect(output).toContain("--- This is a list of all methods only available for NPCs. It is also possible to call [Entity](https://wiki.facepunch.com/gmod/Entity) functions on NPCs.");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/NPC");
+  });
+
+  test("vehicle.lua retains wiki class documentation with custom fields", () => {
+    const output = readOutput("vehicle.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---@field VehicleName? string");
+    expect(output).toContain("--- This is a list of all methods only available for vehicles. It is also possible to call [Entity](https://wiki.facepunch.com/gmod/Entity) functions on vehicles.");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/Vehicle");
+  });
+
+  test("matselect.lua retains wiki class documentation with custom fields", () => {
+    const output = readOutput("matselect.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---@field Controls MatSelectMaterial[]");
+    expect(output).toContain("--- The panel used by Material & Lamp Sandbox tools for texture selection. Despite being only used in Sandbox, it is **not** exclusive to that gamemode.");
+    expect(output).toContain("--- See also [PropSelect](https://wiki.facepunch.com/gmod/PropSelect) for the prop selecting alternative.");
+    expect(output).toContain("---@source https://wiki.facepunch.com/gmod/MatSelect");
+  });
+
+  test("sandbox.lua retains wiki class documentation with custom fields", () => {
+    const output = readOutput("sandbox.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---@class (partial) SANDBOX : GM");
+    expect(output).toContain("--- This is a list of hooks that are only available in Sandbox or Sandbox derived gamemodes.");
+    expect(output).toContain("--- **NOTE**: This function or feature is only available in the Sandbox gamemode and its [derivatives](https://wiki.facepunch.com/gmod/Global.DeriveGamemode).");
+  });
+
 });

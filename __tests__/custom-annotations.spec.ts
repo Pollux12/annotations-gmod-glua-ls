@@ -1052,6 +1052,12 @@ describe('custom and plugin annotation smoke checks', () => {
     );
   });
 
+  test('derma.SkinList holds the registered skins by name', () => {
+    const dermaLua = readOutput('derma.lua').replace(/\r\n/g, '\n');
+
+    expect(dermaLua).toContain('---@type table<string, SKIN>\nderma.SkinList = {}');
+  });
+
   test('scripted entities and weapons keep their deprecated self aliases', () => {
     const entityLua = readOutput('entity.lua').replace(/\r\n/g, '\n');
     const weaponLua = readOutput('weapon.lua').replace(/\r\n/g, '\n');

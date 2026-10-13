@@ -132,6 +132,14 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(line).toContain('A panel used by [DListView](https://wiki.facepunch.com/gmod/DListView)');
   });
 
+  test('sql queries report failure with false and keep their documentation', () => {
+    const sqlLua = readOutput('sql.lua');
+    expect(sqlLua).toContain('---@return table|false|nil # `false` is returned if there is an error');
+    expect(sqlLua).toContain('---@return table|false # `false` is returned if there is an error (See sql.LastError)');
+    expect(sqlLua).toContain('Performs a query on the local SQLite database, returns a table as result set');
+    expect(sqlLua).toContain('Large INTEGER values');
+  });
+
   test('darkrp plugin annotation files exist and are scoped', () => {
     const darkrpLua = path.join(process.cwd(), 'plugin', 'darkrp', 'annotations', 'darkrp.lua');
     const camiLua = path.join(process.cwd(), 'plugin', 'cami', 'annotations', 'cami.lua');

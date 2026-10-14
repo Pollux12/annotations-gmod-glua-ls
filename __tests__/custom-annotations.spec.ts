@@ -264,6 +264,11 @@ describe('custom and plugin annotation smoke checks', () => {
     }
   });
 
+  test('entity target setters accept nil to clear their targets', () => {
+    expect(readOutput('entity.lua')).toContain('---@param ground Entity?');
+    expect(readOutput('player.lua')).toContain('---@param entity Entity? Entity to spectate, or nil to clear the target.');
+  });
+
   test('sound scripts can omit the default channel and sound level', () => {
     const structures = readOutput('structures.lua').replace(/\r\n/g, '\n');
     expect(structures).toContain('---@type CHAN?\nSoundData.channel = CHAN_AUTO');
@@ -318,6 +323,13 @@ describe('custom and plugin annotation smoke checks', () => {
     const weaponBase = readOutput('custom_classes.lua').split('---@class weapon_base : Weapon')[1]?.split('local weapon_base')[0];
     expect(weaponBase).toContain('---@field ActivityTranslate table<integer, integer>');
     expect(weaponBase).toContain('---@field ActivityTranslateAI table<integer, integer>');
+  });
+
+  test('SetNWEntity accepts the nil value used to clear a networked entity', () => {
+    const entity = readOutput('entity.lua');
+    const setNWEntity = entity.split('---@source https://wiki.facepunch.com/gmod/Entity:SetNWEntity')[1]?.split('function Entity:SetNWEntity')[0];
+    expect(setNWEntity).toContain('---@param key string');
+    expect(setNWEntity).toContain('---@param value Entity?');
   });
 
   test('list view lines expose their column cells and keep the wiki description', () => {
@@ -703,6 +715,38 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(randomPairs).toContain('---@return table # Internal iterator state, not the source table.');
   });
 
+  test("Entity.SetGroundEntity.lua preserves its baseline documentation", () => {
+    const output = readOutput("entity.lua").replace(/\r\n/g, '\n');
+    const anchor = output.indexOf("function Entity:SetGroundEntity(ground) end");
+    expect(anchor).toBeGreaterThanOrEqual(0);
+    const block = output.slice(output.lastIndexOf('\n\n', anchor), anchor);
+    for (const line of [
+      "---Sets the ground the entity is standing on.",
+      "---@realm shared",
+      "---@source https://wiki.facepunch.com/gmod/Entity:SetGroundEntity",
+      "---@param ground Entity? The ground entity, or nil to clear it."
+]) {
+      expect(block).toContain(line);
+    }
+  });
+
+  test("Player.SpectateEntity.lua preserves its baseline documentation", () => {
+    const output = readOutput("player.lua").replace(/\r\n/g, '\n');
+    const anchor = output.indexOf("function Player:SpectateEntity(entity) end");
+    expect(anchor).toBeGreaterThanOrEqual(0);
+    const block = output.slice(output.lastIndexOf('\n\n', anchor), anchor);
+    for (const line of [
+      "---Makes the player spectate the entity.",
+      "---",
+      "--- To get the applied spectated entity, use [Player:GetObserverTarget](https://wiki.facepunch.com/gmod/Player:GetObserverTarget).",
+      "---@realm server",
+      "---@source https://wiki.facepunch.com/gmod/Player:SpectateEntity",
+      "---@param entity Entity? Entity to spectate, or nil to clear the target."
+]) {
+      expect(block).toContain(line);
+    }
+  });
+
   test("SoundData.lua preserves its baseline documentation", () => {
     const output = readOutput("structures.lua").replace(/\r\n/g, '\n');
     const anchor = output.indexOf("---@class SoundData");
@@ -934,6 +978,27 @@ describe('custom and plugin annotation smoke checks', () => {
       "---@param width number The panels current width.",
       "---@param height number The panels current height.",
       "---@return boolean? # Should we disable default PaintOver rendering? This is useful in case with Derma panels that use Derma hooks."
+]) {
+      expect(block).toContain(line);
+    }
+  });
+
+  test("Entity.SetNWEntity.lua preserves its baseline documentation", () => {
+    const output = readOutput("entity.lua").replace(/\r\n/g, '\n');
+    const anchor = output.indexOf("function Entity:SetNWEntity(key, value) end");
+    expect(anchor).toBeGreaterThanOrEqual(0);
+    const block = output.slice(output.lastIndexOf('\n\n', anchor), anchor);
+    for (const line of [
+      "---Sets a networked entity value on the entity.",
+      "---",
+      "--- The value can then be accessed with [Entity:GetNWEntity](https://wiki.facepunch.com/gmod/Entity:GetNWEntity) both from client and server.",
+      "--- **WARNING**: There's a 4096 slots Network limit. If you need more, consider using the [net](https://wiki.facepunch.com/gmod/net) library or [Entity:SetNW2Entity](https://wiki.facepunch.com/gmod/Entity:SetNW2Entity). You should also consider the fact that you have way too many variables. You can learn more about this limit here: [Networking_Usage#nwlimits](https://wiki.facepunch.com/gmod/Networking_Usage#nwlimits)",
+      "---",
+      "--- **NOTE**: Running this function clientside will only set it for the client it is called on.",
+      "---@realm shared",
+      "---@source https://wiki.facepunch.com/gmod/Entity:SetNWEntity",
+      "---@param key string The key to associate the value with",
+      "---@param value Entity? The value to set, or nil to clear it."
 ]) {
       expect(block).toContain(line);
     }

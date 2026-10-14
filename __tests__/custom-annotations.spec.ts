@@ -2146,6 +2146,11 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output).toContain("---@hook SpawnMenuClosed");
   });
 
+  test("prop_effect's attached entity may be absent on the client", () => {
+    const output = readOutput("custom_classes.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---@field AttachedEntity? Entity");
+  });
+
   test("DNumSlider.GetDefaultValue.lua preserves its documentation and corrected contract", () => {
     const output = readOutput("dnumslider.lua").replace(/\r\n/g, '\n');
     expect(output).toContain("---Returns the default value of the slider, if one was set by [DNumSlider:SetDefaultValue](https://wiki.facepunch.com/gmod/DNumSlider:SetDefaultValue)");

@@ -2130,6 +2130,22 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output).toContain("--- **NOTE**: This function or feature is only available in the Sandbox gamemode and its [derivatives](https://wiki.facepunch.com/gmod/Global.DeriveGamemode).");
   });
 
+  test("sandbox's own GM methods are declared from its gamemode source", () => {
+    const output = readOutput("sandbox.lua").replace(/\r\n/g, '\n');
+    for (const declaration of [
+      "function SANDBOX:AddHint(name, delay) end",
+      "function SANDBOX:SuppressHint(name) end",
+      "function SANDBOX:GetSpawnmenuTools(name) end",
+      "function SANDBOX:AddSTOOL(category, itemname, text, command, controls, cpanelfunction) end",
+      "function SANDBOX:LimitHit(name) end",
+      "function SANDBOX:UnfrozeObjects(num) end",
+      "function SANDBOX:SpawnMenuClosed() end",
+    ]) {
+      expect(output).toContain(declaration);
+    }
+    expect(output).toContain("---@hook SpawnMenuClosed");
+  });
+
   test("DNumSlider.GetDefaultValue.lua preserves its documentation and corrected contract", () => {
     const output = readOutput("dnumslider.lua").replace(/\r\n/g, '\n');
     expect(output).toContain("---Returns the default value of the slider, if one was set by [DNumSlider:SetDefaultValue](https://wiki.facepunch.com/gmod/DNumSlider:SetDefaultValue)");

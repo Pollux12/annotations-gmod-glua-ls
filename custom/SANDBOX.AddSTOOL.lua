@@ -1,0 +1,11 @@
+---Adds an option to the "Main" tool tab.
+---@deprecated Use spawnmenu.AddToolMenuOption instead.
+---@realm client
+---@source https://github.com/Facepunch/garrysmod/blob/master/garrysmod/gamemodes/sandbox/gamemode/cl_spawnmenu.lua#L71
+---@param category string The internal name of the category to add into.
+---@param itemname string Unique internal identifier of the new option.
+---@param text string The nice name of the option.
+---@param command? string Console command to execute when the option is selected.
+---@param controls? string Config name for older tool settings files.
+---@param cpanelfunction fun(pnl: ControlPanel) A function to build the context panel.
+function SANDBOX:AddSTOOL(category, itemname, text, command, controls, cpanelfunction) end

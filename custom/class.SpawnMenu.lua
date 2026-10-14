@@ -6,7 +6,7 @@
 ---@field m_bHangOpen boolean Whether the spawn menu stays open (hang-open mode).
 ---@field CustomizableSpawnlistNode? DTree_Node Injected reference to the customizable spawnlist node (optional).
 ---@field SearchPropPanel? ContentContainer Injected reference to the search results content panel (optional).
----@field StartupTool? Panel The tool item panel to select and activate on first open (set by toolpanel.lua).
+---@field StartupTool? DButton The tool item button to select and activate on first open (set by toolpanel.lua).
 local SpawnMenu = {}
 
 ---@class ToolMenu : Panel

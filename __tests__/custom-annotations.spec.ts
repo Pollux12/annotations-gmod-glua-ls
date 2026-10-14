@@ -2148,6 +2148,11 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output).toContain("---@param cpanelfunction? fun(pnl: ControlPanel)");
   });
 
+  test("a panel's convar update takes the numbers its shipped callers pass", () => {
+    const output = readOutput("panel.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---@param newValue string|number The new value to set the associated console variable to, run through `tostring`.\nfunction Panel:ConVarChanged(newValue) end");
+  });
+
   test("base gamemode state fields are declared on GM from its source", () => {
     const output = readOutput("gm.lua").replace(/\r\n/g, '\n');
     for (const field of [

@@ -1,5 +1,8 @@
 ---@source garrysmod/gamemodes/base/gamemode/shared.lua
 ---@source garrysmod/gamemodes/sandbox/gamemode/shared.lua
+---@source garrysmod/gamemodes/base/gamemode/cl_hudpickup.lua
+---@source garrysmod/gamemodes/base/gamemode/cl_pickteam.lua
+---@source garrysmod/gamemodes/base/gamemode/player.lua
 ---@class GM
 ---@field Name string Gamemode display name.
 ---@field Author string Gamemode author.
@@ -8,6 +11,16 @@
 ---@field TeamBased boolean Whether the gamemode uses teams.
 ---@field IsSandboxDerived? boolean True for Sandbox and Sandbox-derived gamemodes.
 ---@field SendDeathNotice fun(self: GM, attacker: Entity|string|nil, inflictor: string, victim: Entity|string, flags: number) Sends a death notice to clients.
+---@field PickupHistory table[] Client: the pickup notices the HUD is drawing.
+---@field PickupHistoryLast number Client: when the last pickup notice was added.
+---@field PickupHistoryTop number Client: the screen height pickup notices are drawn from.
+---@field PickupHistoryWide number Client: the width of a pickup notice.
+---@field PickupHistoryCorner number Client: texture ID of a pickup notice's rounded corner.
+---@field ShowScoreboard? boolean Client: whether the scoreboard is shown.
+---@field TeamSelectFrame? DFrame Client: the open team selection menu.
+---@field SpawnPoints? Entity[] Server: the spawn points found on the map.
+---@field LastSpawnPoint? Entity|number Server: the spawn point last used, or 0 once the spawn points are gathered.
+---@field HasMasterSpawnPoints? boolean Server: whether the map has master spawn points.
 GM = {}
 
 ---Adds a tool menu option to the sandbox spawn menu. Sandbox calls this as a

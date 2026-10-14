@@ -2148,6 +2148,24 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output).toContain("---@param cpanelfunction? fun(pnl: ControlPanel)");
   });
 
+  test("base gamemode state fields are declared on GM from its source", () => {
+    const output = readOutput("gm.lua").replace(/\r\n/g, '\n');
+    for (const field of [
+      "---@field PickupHistory table[]",
+      "---@field PickupHistoryLast number",
+      "---@field PickupHistoryTop number",
+      "---@field PickupHistoryWide number",
+      "---@field PickupHistoryCorner number",
+      "---@field ShowScoreboard? boolean",
+      "---@field TeamSelectFrame? DFrame",
+      "---@field SpawnPoints? Entity[]",
+      "---@field LastSpawnPoint? Entity|number",
+      "---@field HasMasterSpawnPoints? boolean",
+    ]) {
+      expect(output).toContain(field);
+    }
+  });
+
   test("prop_effect's attached entity may be absent on the client", () => {
     const output = readOutput("custom_classes.lua").replace(/\r\n/g, '\n');
     expect(output).toContain("---@field AttachedEntity? Entity");

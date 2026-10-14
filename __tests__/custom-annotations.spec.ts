@@ -2144,6 +2144,8 @@ describe('custom and plugin annotation smoke checks', () => {
       expect(output).toContain(declaration);
     }
     expect(output).toContain("---@hook SpawnMenuClosed");
+    expect(output).toContain("---@hook LimitHit");
+    expect(output).toContain("---@param cpanelfunction? fun(pnl: ControlPanel)");
   });
 
   test("prop_effect's attached entity may be absent on the client", () => {

@@ -7,5 +7,5 @@
 ---@param text string The nice name of the option.
 ---@param command? string Console command to execute when the option is selected.
 ---@param controls? string Config name for older tool settings files.
----@param cpanelfunction fun(pnl: ControlPanel) A function to build the context panel.
+---@param cpanelfunction? fun(pnl: ControlPanel) A function to build the context panel.
 function SANDBOX:AddSTOOL(category, itemname, text, command, controls, cpanelfunction) end

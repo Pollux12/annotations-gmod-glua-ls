@@ -2252,6 +2252,35 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output).toContain("---@field Icon ModelImage");
   });
 
+  test("Entity.DTVar returns data for supported types and may return nil for arbitrary strings", () => {
+    const entity = readOutput("entity.lua").replace(/\r\n/g, '\n');
+    const classes = readOutput("custom_classes.lua").replace(/\r\n/g, '\n');
+    const blocks = entity.split(/\n\n+/).filter((part) => part.includes('function Entity:DTVar('));
+    expect(blocks).toHaveLength(1);
+    const dtvar = blocks[0];
+    const supportedTypes = '"String"|"Bool"|"Float"|"Int"|"Vector"|"Angle"|"Entity"';
+    expect(dtvar).toContain("An invalid type name logs a message and returns nothing.");
+    for (const [type, args, nameIndex, result] of [
+      [supportedTypes, 'name: string', 1, 'DTVarData'],
+      [supportedTypes, 'slot: nil, name: string', 2, 'DTVarData'],
+      [supportedTypes, 'slot: number, name: string', 2, 'DTVarData'],
+      ['string', 'name: string', 1, 'DTVarData?'],
+      ['string', 'slot: nil, name: string', 2, 'DTVarData?'],
+    ]) {
+      expect(dtvar).toContain(`---@[overload_call_arg(0, "gmod.network_var", "type")]\n---@[overload_call_arg(${nameIndex}, "gmod.network_var", "define_slot")]\n---@overload fun(type: ${type}, ${args}): ${result}\n`);
+    }
+    expect(dtvar).toContain('---@[call_arg("gmod.network_var", "type")]\n---@param type string ');
+    expect(dtvar).toContain("---@param slot number ");
+    expect(dtvar).toContain('---@[call_arg("gmod.network_var", "define_slot")]\n---@param name string ');
+    expect(dtvar).toContain("---@return DTVarData? # The data table of the registered variable, or nil for an invalid type name.");
+    expect(dtvar.match(/^---@overload /gm)).toHaveLength(5);
+    const classBlocks = classes.split(/\n\n+/).filter((part) => part.includes("---@class DTVarData\n"));
+    expect(classBlocks).toHaveLength(1);
+    for (const field of ["index number", "name string", "typename string", "element? string", "SetFunc fun(", "GetFunc fun(", "Notify ("]) {
+      expect(classBlocks[0]).toContain(`---@field ${field}`);
+    }
+  });
+
   test("ents.Create only lists engine classes in its literal-class overload", () => {
     const output = readOutput("ents.lua").replace(/\r\n/g, '\n');
     const scriptedEntities = [

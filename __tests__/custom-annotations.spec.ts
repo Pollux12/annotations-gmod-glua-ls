@@ -2249,5 +2249,22 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output).toContain("---@field Icon ModelImage");
   });
 
+  test("ents.Create only lists engine classes in its literal-class overload", () => {
+    const output = readOutput("ents.lua").replace(/\r\n/g, '\n');
+    const scriptedEntities = [
+      'gmod_anchor', 'gmod_hands', 'gmod_cameraprop', 'gmod_wheel', 'gmod_winch_controller',
+      'ragdoll_motion', 'widget_axis_arrow', 'widget_axis_disc', 'widget_bone', 'widget_bones',
+    ];
+
+    for (const name of scriptedEntities) {
+      expect(output).not.toContain(`---| "${name}"`);
+    }
+
+    expect(output).toContain('---| "phys_constraint"');
+    expect(output).toContain('---| "point_viewcontrol"');
+    expect(output).toContain("---@overload fun(class: KnownEngineEntityClass): Entity|NULL");
+    expect(output).toContain("---@return (instance) T|NULL # The created entity, or `NULL` if failed.");
+  });
+
 
 });

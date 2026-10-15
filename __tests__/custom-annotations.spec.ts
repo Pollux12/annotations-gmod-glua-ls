@@ -2299,6 +2299,12 @@ describe('custom and plugin annotation smoke checks', () => {
     }
   });
 
+  test("Tool does not declare a StartGhostEntities the engine never defines", () => {
+    const output = readOutput("tool.lua").replace(/\r\n/g, '\n');
+    expect(output).not.toContain("StartGhostEntities");
+    expect(output).toContain("function Tool:StartGhostEntity(ent) end");
+  });
+
   test("engine weapon classes are declared as Weapon subclasses", () => {
     const classes = readOutput("custom_classes.lua").replace(/\r\n/g, '\n');
     for (const name of ['weapon_357', 'weapon_ar2', 'weapon_bugbait', 'weapon_crossbow', 'weapon_crowbar', 'weapon_frag', 'weapon_physcannon', 'weapon_physgun', 'weapon_pistol', 'weapon_rpg', 'weapon_shotgun', 'weapon_slam', 'weapon_smg1', 'weapon_stunstick']) {

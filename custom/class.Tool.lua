@@ -55,10 +55,5 @@ Tool = Tool or {}
 ---@return gmod_tool # The tool gun weapon.
 function Tool:GetWeapon() end
 
----Initializes a ghost entity from the given entity's model/pos/angles.
---- This is the plural-named alias called from SWEP:StartGhostEntities; behaviour is identical to Tool:StartGhostEntity.
----@param ent Entity The entity to copy ghost parameters from.
-function Tool:StartGhostEntities(ent) end
-
 ---@class TOOL : Tool
 TOOL = {}

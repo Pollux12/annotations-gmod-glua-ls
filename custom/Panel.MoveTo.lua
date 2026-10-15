@@ -1,0 +1,16 @@
+---Moves the panel to the specified position using animation.
+---     **NOTE**: Setting the ease argument to 0 will result in the animation happening instantly, this applies to all MoveTo/SizeTo functions
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/Panel:MoveTo
+---@param posX number The target x coordinate of the panel.
+---@param posY number The target y coordinate of the panel.
+---@param time number The time to perform the animation within.
+---@param delay? number The delay before the animation starts.
+---@param ease? number The easing of the start and/or end speed of the animation. See Panel:NewAnimation for how this works.
+---@param callback? fun(animData: table, targetPanel: self) The function to be called once the animation finishes.
+---
+--- Function argument(s):
+--- * table `animData` - The Structures/AnimationData that was used.
+--- * Panel `targetPanel` - The panel object that was animated.
+function Panel:MoveTo(posX, posY, time, delay, ease, callback) end

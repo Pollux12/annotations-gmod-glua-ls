@@ -1,0 +1,33 @@
+---Creates a new animation for the panel object.
+---
+--- Methods that use this function:
+--- * [Panel:MoveTo](https://wiki.facepunch.com/gmod/Panel:MoveTo)
+--- * [Panel:SizeTo](https://wiki.facepunch.com/gmod/Panel:SizeTo)
+--- * [Panel:SlideUp](https://wiki.facepunch.com/gmod/Panel:SlideUp)
+--- * [Panel:SlideDown](https://wiki.facepunch.com/gmod/Panel:SlideDown)
+--- * [Panel:ColorTo](https://wiki.facepunch.com/gmod/Panel:ColorTo)
+--- * [Panel:AlphaTo](https://wiki.facepunch.com/gmod/Panel:AlphaTo)
+--- * [Panel:MoveBy](https://wiki.facepunch.com/gmod/Panel:MoveBy)
+--- * [Panel:LerpPositions](https://wiki.facepunch.com/gmod/Panel:LerpPositions)
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/Panel:NewAnimation
+---@param length number The length of the animation in seconds.
+---@param delay? number The delay before the animation starts.
+---@param ease? number The power/index to use for easing.
+--- * Positive values greater than 1 will ease in; the higher the number, the sharper the curve's gradient (less linear).
+--- * A value of 1 removes all easing.
+--- * Positive values between 0 and 1 ease out; values closer to 0 increase the curve's gradient (less linear).
+--- * A value of 0 will break the animation and should be avoided.
+--- * Any value less than zero will ease in/out; the value has no effect on the gradient.
+---@param callback? fun(animData: table, targetPanel: self) The function to be called when the animation ends.
+---
+--- Function argument(s):
+--- * table `animData` - The Structures/AnimationData that was used.
+--- * Panel `targetPanel` - The panel object that was animated.
+---@return AnimationData<self> # Partially filled Structures/AnimationData with the following members: 
+--- * number **EndTime** - Equal to `length` and `delay` arguments added together, plus either the Global.SysTime if there is no other animation queued or the end time of the last animation in the queue.
+--- * number **StartTime** - Equal to the `delay` argument, plus either the Global.SysTime if there is no other animation queued or the end time of the last animation in the queue.
+--- * number **Ease** - Equal to the `ease` argument.
+--- * function **OnEnd** - Equal to the `callback` argument.
+function Panel:NewAnimation(length, delay, ease, callback) end

@@ -1,0 +1,15 @@
+---Moves the panel by the specified coordinates using animation.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/Panel:MoveBy
+---@param moveX number The number of pixels to move by in the horizontal (x) direction.
+---@param moveY number The number of pixels to move by in the vertical (y) direction.
+---@param time number The time (in seconds) in which to perform the animation.
+---@param delay? number The delay (in seconds) before the animation begins.
+---@param ease? number The easing of the start and/or end speed of the animation. See Panel:NewAnimation for how this works.
+---@param callback? fun(animData: table, targetPanel: self) The function to be called once the animation is complete. 
+---
+--- Function argument(s):
+--- * table `animData` - The Structures/AnimationData that was used.
+--- * Panel `targetPanel` - The panel object that was animated.
+function Panel:MoveBy(moveX, moveY, time, delay, ease, callback) end

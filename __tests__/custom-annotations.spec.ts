@@ -2462,5 +2462,26 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(demo!.match(/---@field /g)).toHaveLength(15);
   });
 
+  test('panel animations retain the creating receiver in returns and callbacks', () => {
+    const structures = readOutput('structures.lua');
+    for (const annotation of [
+      '---@class (partial) AnimationData<T: Panel>',
+      '---@field Think fun(animData: table, tgtPanel: T, fraction: number)',
+      '---@field OnEnd fun(animData: table, tgtPanel: T)',
+      '---@field StartPos Vector',
+    ]) {
+      expect(readCustom('class.AnimationData.lua')).toContain(annotation);
+      expect(structures).toContain(annotation);
+    }
+    const panels = readOutput('panel.lua');
+    for (const name of ['NewAnimation', 'SizeTo', 'AlphaTo', 'ColorTo', 'MoveBy', 'MoveTo']) {
+      const custom = readCustom(`Panel.${name}.lua`).replace(/\r\n/g, '\n').trim();
+      expect(custom).toContain('---@param callback? fun(animData: table, targetPanel: self)');
+      expect(panels.replace(/\r\n/g, '\n')).toContain(custom);
+      if (name === 'NewAnimation' || name === 'SizeTo') {
+        expect(custom).toContain('---@return AnimationData<self>');
+      }
+    }
+  });
 
 });

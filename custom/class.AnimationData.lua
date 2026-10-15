@@ -1,0 +1,54 @@
+--- Table used by panel animation methods, primarily [Panel:AnimationThinkInternal](https://wiki.facepunch.com/gmod/Panel:AnimationThinkInternal), and returned by [Panel:NewAnimation](https://wiki.facepunch.com/gmod/Panel:NewAnimation).
+---@realm client
+---@source https://wiki.facepunch.com/gmod/Structures/AnimationData
+---@class (partial) AnimationData<T: Panel>
+---The system time value returned by Global.SysTime when the animation starts/will start.
+---@field StartTime number
+---The system time value returned by Global.SysTime when the animation ends/will end.
+---@field EndTime number
+---The ease in/out level of the animation.
+---
+--- Default: `-1`
+---@field Ease number=-1
+---The callback function that will be called upon completion of the animation.
+---
+--- Function argument(s):
+--- * table `animData` - This structure.
+--- * Panel `tgtPanel` - The panel the animation was run on.
+---@field OnEnd fun(animData: table, tgtPanel: T)
+---The `think` function called every frame that will animate the panel object. This varies based on the animation. You can create a custom function for this if you aren't using the stock panel methods.
+---
+--- Function argument(s):
+--- * table `animData` - This structure.
+--- * Panel `tgtPanel` - The panel the animation is being run on.
+---
+--- The progress fraction of the animation, between 0 and 1. The change rate of this number will not be linear if you are easing.
+---@field Think fun(animData: table, tgtPanel: T, fraction: number)
+---The target position, or target translation of the panel object. Used by Panel:MoveTo and Panel:MoveBy respectively.
+---@field Pos Vector
+---The position of the panel object when the animation started. Used by Panel:MoveTo and Panel:MoveBy.
+---@field StartPos Vector
+---Whether to resize the panel horizontally or not. Only used by Panel:SizeTo.
+---@field SizeX boolean
+---Whether to resize the panel vertically or not. Only used by Panel:SizeTo.
+---@field SizeY boolean
+---The target size of the panel object. Only used by Panel:SizeTo.
+---
+--- Default: `(0, 0, 0)`
+---@field Size Vector=(0, 0, 0)
+---The size of the panel object when the animation started. Only used by Panel:SizeTo.
+---@field StartSize Vector
+---The target colour of the panel object. Only used by Panel:ColorTo.
+---@field Color Color
+---The colour of the panel object when the animation started. Only used by Panel:ColorTo.
+---@field StartColor Color
+---The target alpha (0-255) of the panel object. Only used by Panel:AlphaTo.
+---@field Alpha number
+---The alpha (0-255) of the panel object when the animation started. Only used by Panel:AlphaTo.
+---@field StartAlpha number
+---The speed to use for transitions when using linear interpolation (Lerp) animations. Only used by Panel:LerpPositions.
+---@field Speed number
+---Whether or not to use easing to make the panel 'jump' at its target, slowing as it approaches. Only used by Panel:LerpPositions.
+---@field UseGravity boolean
+
+local AnimationData = {}

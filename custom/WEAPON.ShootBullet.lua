@@ -1,0 +1,12 @@
+---A convenient function to shoot bullets.
+---@hook ShootBullet
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/WEAPON:ShootBullet
+---@param damage number The damage of the bullet
+---@param num_bullets number Amount of bullets to shoot
+---@param aimcone number Spread of bullets
+---@param ammo_type? string Ammo type of the bullets
+---@param force? number Force of the bullets
+---@param tracer? number Show a tracer on every x bullets
+---@[replaceable]
+function Weapon:ShootBullet(damage, num_bullets, aimcone, ammo_type, force, tracer) end

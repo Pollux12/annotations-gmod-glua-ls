@@ -2166,7 +2166,10 @@ describe('custom and plugin annotation smoke checks', () => {
 
   test("a panel's convar update takes the numbers its shipped callers pass", () => {
     const output = readOutput("panel.lua").replace(/\r\n/g, '\n');
-    expect(output).toContain("---@param newValue string|number The new value to set the associated console variable to, run through `tostring`.\nfunction Panel:ConVarChanged(newValue) end");
+    const blocks = output.split(/\n\n+/).filter((part) => part.includes('function Panel:ConVarChanged('));
+    expect(blocks).toHaveLength(1);
+    expect(blocks[0]).toContain("---@param newValue string|number The new value to set the associated console variable to, run through `tostring`.");
+    expect(blocks[0]).toContain("function Panel:ConVarChanged(newValue) end");
   });
 
   test("base gamemode state fields are declared on GM from its source", () => {
@@ -2309,6 +2312,19 @@ describe('custom and plugin annotation smoke checks', () => {
     const classes = readOutput("custom_classes.lua").replace(/\r\n/g, '\n');
     for (const name of ['weapon_357', 'weapon_ar2', 'weapon_bugbait', 'weapon_crossbow', 'weapon_crowbar', 'weapon_frag', 'weapon_physcannon', 'weapon_physgun', 'weapon_pistol', 'weapon_rpg', 'weapon_shotgun', 'weapon_slam', 'weapon_smg1', 'weapon_stunstick']) {
       expect(classes).toContain(`---@class ${name} : Weapon`);
+    }
+  });
+
+  test("Lua implementations a scripted class replaces are marked replaceable once", () => {
+    for (const [file, signature] of [
+      ['weapon.lua', 'function Weapon:ShootBullet('],
+      ['panel.lua', 'function Panel:OnDrop('],
+      ['panel.lua', 'function Panel:ConVarChanged('],
+    ]) {
+      const output = readOutput(file).replace(/\r\n/g, '\n');
+      const blocks = output.split(/\n\n+/).filter((part) => part.includes(signature));
+      expect(blocks).toHaveLength(1);
+      expect(blocks[0].split('---@[replaceable]\n')).toHaveLength(2);
     }
   });
 

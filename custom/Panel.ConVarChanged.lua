@@ -3,4 +3,5 @@
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:ConVarChanged
 ---@param newValue string|number The new value to set the associated console variable to, run through `tostring`.
+---@[replaceable]
 function Panel:ConVarChanged(newValue) end

@@ -6,4 +6,5 @@
 ---@source https://wiki.facepunch.com/gmod/PANEL:OnDrop
 ---@param target Panel The panel being dropped onto.
 ---@return Panel # The panel to drop instead of us. By default you should return self.
+---@[replaceable]
 function Panel:OnDrop(target) end

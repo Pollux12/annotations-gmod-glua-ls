@@ -2328,5 +2328,14 @@ describe('custom and plugin annotation smoke checks', () => {
     }
   });
 
+  test("table.insert marks its list and its two-argument append value", () => {
+    const output = readOutput('table.lua').replace(/\r\n/g, '\n');
+    const blocks = output.split(/\n\n+/).filter((part) => part.includes('function table.insert('));
+    expect(blocks).toHaveLength(1);
+    expect(blocks[0]).toContain('---@[overload_call_arg(1, "gmod.collection", "append_value")]');
+    expect(blocks[0]).toContain('---@[call_arg("gmod.collection", "list")]');
+  });
+
+
 
 });

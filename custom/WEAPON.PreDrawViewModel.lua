@@ -1,0 +1,15 @@
+---Allows you to modify viewmodel while the weapon in use before it is drawn.
+---
+--- This hook relies on default implementation of [GM:PreDrawViewModel](https://wiki.facepunch.com/gmod/GM:PreDrawViewModel). If it appears to not work, it may have been overwritten/broken by the currently active gamemode or other addons.
+---
+--- See also [WEAPON:ViewModelDrawn](https://wiki.facepunch.com/gmod/WEAPON:ViewModelDrawn) and [WEAPON:PostDrawViewModel](https://wiki.facepunch.com/gmod/WEAPON:PostDrawViewModel).
+---@hook PreDrawViewModel
+---@realm client
+---@source https://wiki.facepunch.com/gmod/WEAPON:PreDrawViewModel
+---@param vm Entity This is the view model entity before it is drawn.
+---@param weapon Weapon This is the weapon that is from the view model.
+---@param ply Player The the owner of the view model.
+---@param flags number The Enums/STUDIO flags for this render operation.
+---@return boolean # Return `true` to prevent the default action of rendering the view model. `PostDrawViewModel` will NOT be called in this scenario.
+---@[self_call_type("GetOwner", "Player")]
+function Weapon:PreDrawViewModel(vm, weapon, ply, flags) end

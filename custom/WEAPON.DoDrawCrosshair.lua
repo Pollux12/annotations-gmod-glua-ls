@@ -1,0 +1,11 @@
+---Called when the crosshair is about to get drawn, and allows you to override it.
+---
+--- This function will **not** be called if `SWEP.DrawCrosshair` is set to false or if player is affected by [Player:CrosshairDisable](https://wiki.facepunch.com/gmod/Player:CrosshairDisable).
+---@hook DoDrawCrosshair
+---@realm client
+---@source https://wiki.facepunch.com/gmod/WEAPON:DoDrawCrosshair
+---@param x number X coordinate of the crosshair.
+---@param y number Y coordinate of the crosshair.
+---@return boolean # Return true to override the default crosshair.
+---@[self_call_type("GetOwner", "Player")]
+function Weapon:DoDrawCrosshair(x, y) end

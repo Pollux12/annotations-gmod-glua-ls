@@ -1,0 +1,12 @@
+---Called straight after the view model has been drawn. This is called before [GM:PostDrawViewModel](https://wiki.facepunch.com/gmod/GM:PostDrawViewModel) and [WEAPON:PostDrawViewModel](https://wiki.facepunch.com/gmod/WEAPON:PostDrawViewModel).
+---
+--- See [WEAPON:DrawWorldModel](https://wiki.facepunch.com/gmod/WEAPON:DrawWorldModel) for world model rendering.
+---
+--- See also [WEAPON:PreDrawViewModel](https://wiki.facepunch.com/gmod/WEAPON:PreDrawViewModel) and [WEAPON:PostDrawViewModel](https://wiki.facepunch.com/gmod/WEAPON:PostDrawViewModel).
+---@hook ViewModelDrawn
+---@realm client
+---@source https://wiki.facepunch.com/gmod/WEAPON:ViewModelDrawn
+---@param ViewModel Entity Players view model
+---@param flags number The Enums/STUDIO flags for this render operation.
+---@[self_call_type("GetOwner", "Player")]
+function Weapon:ViewModelDrawn(ViewModel, flags) end

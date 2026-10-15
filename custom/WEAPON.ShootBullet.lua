@@ -9,4 +9,6 @@
 ---@param force? number Force of the bullets
 ---@param tracer? number Show a tracer on every x bullets
 ---@[replaceable]
+---@[not_engine_called]
+---@[default_self_call("ShootEffects")]
 function Weapon:ShootBullet(damage, num_bullets, aimcone, ammo_type, force, tracer) end

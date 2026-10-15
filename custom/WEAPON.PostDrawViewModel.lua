@@ -1,0 +1,16 @@
+---Called after the view model has been drawn while the weapon in use.
+---
+--- This hook relies on default implementation of [GM:PostDrawViewModel](https://wiki.facepunch.com/gmod/GM:PostDrawViewModel). If it appears to not work, it may have been overwritten/broken by the currently active gamemode or other addons.
+---
+--- [WEAPON:ViewModelDrawn](https://wiki.facepunch.com/gmod/WEAPON:ViewModelDrawn) is an alternative hook which is always called before [GM:PostDrawViewModel](https://wiki.facepunch.com/gmod/GM:PostDrawViewModel).
+---
+--- See also [WEAPON:PreDrawViewModel](https://wiki.facepunch.com/gmod/WEAPON:PreDrawViewModel).
+---@hook PostDrawViewModel
+---@realm client
+---@source https://wiki.facepunch.com/gmod/WEAPON:PostDrawViewModel
+---@param vm Entity This is the view model entity after it is drawn
+---@param weapon Weapon This is the weapon that is from the view model (same as self)
+---@param ply Player The owner of the view model
+---@param flags number The Enums/STUDIO flags for this render operation.
+---@[self_call_type("GetOwner", "Player")]
+function Weapon:PostDrawViewModel(vm, weapon, ply, flags) end

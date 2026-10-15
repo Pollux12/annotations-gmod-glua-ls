@@ -1,0 +1,11 @@
+---A utility function to seperate your SWEPs secondary firing from players. 
+---
+--- Unlike [WEAPON:NPCShoot_Primary](https://wiki.facepunch.com/gmod/WEAPON:NPCShoot_Primary), this won't be called by the engine for `TASK_RANGE_ATTACK2`.
+---@hook NPCShoot_Secondary
+---@realm server
+---@source https://wiki.facepunch.com/gmod/WEAPON:NPCShoot_Secondary
+---@param shootPos? Vector The world position the NPC will use as attack starting position. You can create your projectiles here. 
+---@param shootDir? Vector The direction the NPC wants to shoot at. 
+---@[not_engine_called]
+---@[default_self_call("SecondaryAttack")]
+function Weapon:NPCShoot_Secondary(shootPos, shootDir) end

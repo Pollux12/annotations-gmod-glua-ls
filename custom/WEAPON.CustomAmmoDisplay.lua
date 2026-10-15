@@ -1,0 +1,14 @@
+---Allows you to use any numbers you want for the ammo display on the HUD.
+---
+--- Can be useful for weapons that don't use standard ammo.
+---@hook CustomAmmoDisplay
+---@realm client
+---@source https://wiki.facepunch.com/gmod/WEAPON:CustomAmmoDisplay
+---@return table # The new ammo display settings. A table with 4 possible keys: (All default to -1)
+--- * boolean Draw - Whether to draw the ammo display or not
+--- * number PrimaryClip - Amount of primary ammo in the clip
+--- * number PrimaryAmmo - Amount of primary ammo in the reserves
+--- * number SecondaryAmmo - Amount of secondary ammo. It is shown like alt-fire for SMG1 and AR2 are shown.
+--- * number SecondaryClip - Amount of secondary ammo in the clip. If set, the secondary ammo display will have clips and reserve ammo dispalyed.
+---@[self_call_type("GetOwner", "Player")]
+function Weapon:CustomAmmoDisplay() end

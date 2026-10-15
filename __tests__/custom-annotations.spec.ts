@@ -2366,6 +2366,48 @@ describe('custom and plugin annotation smoke checks', () => {
     }
   });
 
+  test("weapon hooks state which classes their owner can be", () => {
+    const weapon = readOutput("weapon.lua").replace(/\r\n/g, '\n');
+    const hookBlock = (name: string) => {
+      const blocks = weapon.split(/\n\n+/).filter((part) => part.includes(`function Weapon:${name}(`));
+      expect(blocks).toHaveLength(1);
+      return blocks[0];
+    };
+    for (const name of ['Think', 'Deploy', 'Reload', 'SecondaryAttack', 'DrawHUD', 'FreezeMovement', 'AdjustMouseSensitivity', 'CalcViewModelView', 'GetViewModelPosition', 'PreDrawViewModel', 'PostDrawViewModel', 'ViewModelDrawn', 'TranslateFOV', 'HUDShouldDraw', 'DoDrawCrosshair', 'DrawHUDBackground', 'CustomAmmoDisplay']) {
+      const block = hookBlock(name);
+      expect(block).toContain('---@[self_call_type("GetOwner", "Player")]');
+      expect(block).not.toContain('"NPC"');
+    }
+    const primary = hookBlock('PrimaryAttack');
+    expect(primary).toContain('---@[self_call_type("GetOwner", "Player")]');
+    expect(primary).not.toContain('"NPC"');
+    const npcPrimary = hookBlock('NPCShoot_Primary');
+    expect(npcPrimary).toContain('---@[self_call_type("GetOwner", "NPC", "server")]');
+    expect(npcPrimary).toContain('---@[default_self_call("PrimaryAttack")]');
+    expect(hookBlock('Holster')).not.toContain('self_call_type');
+    const npcSecondary = hookBlock('NPCShoot_Secondary');
+    expect(npcSecondary).not.toContain('self_call_type');
+    expect(npcSecondary).toContain('---@[not_engine_called]');
+    for (const [caller, callee] of [
+      ['CanPrimaryAttack', 'Reload'],
+      ['PrimaryAttack', 'CanPrimaryAttack'],
+      ['PrimaryAttack', 'ShootBullet'],
+      ['PrimaryAttack', 'TakePrimaryAmmo'],
+      ['SecondaryAttack', 'CanSecondaryAttack'],
+      ['SecondaryAttack', 'ShootBullet'],
+      ['SecondaryAttack', 'TakeSecondaryAmmo'],
+      ['NPCShoot_Secondary', 'SecondaryAttack'],
+      ['ShootBullet', 'ShootEffects'],
+      ['TakePrimaryAmmo', 'Ammo1'],
+      ['TakeSecondaryAmmo', 'Ammo2'],
+    ]) {
+      expect(hookBlock(caller)).toContain(`---@[default_self_call("${callee}")]`);
+    }
+    for (const name of ['CanPrimaryAttack', 'CanSecondaryAttack', 'ShootBullet', 'ShootEffects', 'TakePrimaryAmmo', 'TakeSecondaryAmmo', 'Ammo1', 'Ammo2', 'DoShootEffect']) {
+      expect(hookBlock(name)).toContain('---@[not_engine_called]');
+    }
+  });
+
   test("Lua implementations a scripted class replaces are marked replaceable once", () => {
     for (const [file, signature] of [
       ['weapon.lua', 'function Weapon:ShootBullet('],

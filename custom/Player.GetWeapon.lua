@@ -1,0 +1,23 @@
+---Returns the weapon for the specified class
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/Player:GetWeapon
+---@alias KnownEngineWeaponClass
+---| "weapon_pistol"
+---| "weapon_357"
+---| "weapon_ar2"
+---| "weapon_crossbow"
+---| "weapon_crowbar"
+---| "weapon_frag"
+---| "weapon_physcannon"
+---| "weapon_physgun"
+---| "weapon_rpg"
+---| "weapon_shotgun"
+---| "weapon_smg1"
+---| "weapon_stunstick"
+---| "weapon_slam"
+---| "weapon_bugbait"
+---@overload fun(className: KnownEngineWeaponClass): Weapon|NULL
+---@generic T : Weapon
+---@param className `T` Class name of weapon
+---@return (instance) T|NULL # The weapon for the specified class, or NULL ENTITY if the player does not have this weapon.
+function Player:GetWeapon(className) end

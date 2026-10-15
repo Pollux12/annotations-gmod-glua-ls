@@ -2266,5 +2266,26 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output).toContain("---@return (instance) T|NULL # The created entity, or `NULL` if failed.");
   });
 
+  test("Player.GetWeapon returns the weapon class it is asked for", () => {
+    const output = readOutput("player.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---@alias KnownEngineWeaponClass");
+    for (const name of ['weapon_pistol', 'weapon_357', 'weapon_physgun', 'weapon_stunstick', 'weapon_bugbait']) {
+      expect(output).toContain(`---| "${name}"`);
+    }
+    expect(output).not.toContain('---| "weapon_fists"');
+    expect(output).toContain("---@overload fun(className: KnownEngineWeaponClass): Weapon|NULL");
+    expect(output).toContain("---@generic T : Weapon");
+    expect(output).toContain("---@param className `T` Class name of weapon");
+    expect(output).toContain("---@return (instance) T|NULL # The weapon for the specified class, or NULL ENTITY if the player does not have this weapon.");
+    expect(output.match(new RegExp("^function Player:GetWeapon\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("engine weapon classes are declared as Weapon subclasses", () => {
+    const classes = readOutput("custom_classes.lua").replace(/\r\n/g, '\n');
+    for (const name of ['weapon_357', 'weapon_ar2', 'weapon_bugbait', 'weapon_crossbow', 'weapon_crowbar', 'weapon_frag', 'weapon_physcannon', 'weapon_physgun', 'weapon_pistol', 'weapon_rpg', 'weapon_shotgun', 'weapon_slam', 'weapon_smg1', 'weapon_stunstick']) {
+      expect(classes).toContain(`---@class ${name} : Weapon`);
+    }
+  });
+
 
 });

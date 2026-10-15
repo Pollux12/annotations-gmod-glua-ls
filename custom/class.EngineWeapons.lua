@@ -1,0 +1,18 @@
+---Built-in engine weapon classes shipped with Garry's Mod.
+---
+---These are C++ weapons, listed by `autorun/game_hl2.lua` for the spawn menu; they have no Lua SWEP definition.
+---@class weapon_357 : Weapon
+---@class weapon_ar2 : Weapon
+---@class weapon_bugbait : Weapon
+---@class weapon_crossbow : Weapon
+---@class weapon_crowbar : Weapon
+---@class weapon_frag : Weapon
+---@class weapon_physcannon : Weapon
+---@class weapon_physgun : Weapon
+---@class weapon_pistol : Weapon
+---@class weapon_rpg : Weapon
+---@class weapon_shotgun : Weapon
+---@class weapon_slam : Weapon
+---@class weapon_smg1 : Weapon
+---@class weapon_stunstick : Weapon
+local EngineWeapons = {}

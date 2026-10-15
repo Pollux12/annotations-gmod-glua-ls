@@ -1,0 +1,10 @@
+---Called when the panel should generate example use case / example code to use for this panel. Used in the panel opened by ``derma_controls`` or ``derma_controls_menu``(To go directly to the main menu) console command.
+---@hook GenerateExample
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/PANEL:GenerateExample
+---@param class string The classname of the panel to generate example for. This will be the class name of your panel.
+---@param dpropertysheet DPropertySheet A DPropertySheet to add your example to. See examples below.
+---@param width number Width of the property sheet?
+---@param height number Width of the property sheet?
+function Panel:GenerateExample(class, dpropertysheet, width, height) end

@@ -2203,5 +2203,12 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output.match(new RegExp("^function DNumSlider:GetDefaultValue\\(", 'gm'))).toHaveLength(1);
   });
 
+  test("Panel.GenerateExample types the sheet as the DPropertySheet the engine passes", () => {
+    const output = readOutput("panel.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---@param dpropertysheet DPropertySheet A DPropertySheet to add your example to. See examples below.");
+    expect(output).not.toContain("---@param dpropertysheet Panel");
+    expect(output.match(new RegExp("^function Panel:GenerateExample\\(", 'gm'))).toHaveLength(1);
+  });
+
 
 });

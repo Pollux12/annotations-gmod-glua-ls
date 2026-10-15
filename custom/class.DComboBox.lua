@@ -1,5 +1,5 @@
 ---@class DComboBox : DButton
----@field DropButton DPanel
+---@field DropButton DComboBoxDropButton
 ---@field Choices table<integer, string>
 ---@field Data table<integer, any>
 ---@field ChoiceIcons table<integer, string>

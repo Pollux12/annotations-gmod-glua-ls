@@ -2236,5 +2236,18 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output).toContain("---@field PaintPanel fun(self: SKIN, panel: Panel, w: number, h: number)");
   });
 
+  test("DComboBox.DropButton carries the back-reference the engine assigns", () => {
+    const comboBox = readOutput("dcombobox.lua").replace(/\r\n/g, '\n');
+    const classes = readOutput("custom_classes.lua").replace(/\r\n/g, '\n');
+    expect(comboBox).toContain("---@field DropButton DComboBoxDropButton");
+    expect(classes).toContain("---@class DComboBoxDropButton : DPanel");
+    expect(classes).toContain("---@field ComboBox DComboBox");
+  });
+
+  test("SpawnIcon declares the Icon child created in Init", () => {
+    const output = readOutput("spawnicon.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---@field Icon ModelImage");
+  });
+
 
 });

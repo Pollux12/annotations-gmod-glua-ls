@@ -1,0 +1,17 @@
+---Loads a .gwen file (created by GWEN Designer) and calls [Panel:LoadGWENString](https://wiki.facepunch.com/gmod/Panel:LoadGWENString) with the contents of the loaded file.
+---
+--- Used to load panel controls from a file.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/Panel:LoadGWENFile
+---@[call_arg("gmod.gwen", "resource")]
+---@param filename string The file to open. The path is relative to garrysmod/garrysmod/.
+---@[call_arg("gmod.gwen", "search_path")]
+---@param path? string The path used to look up the file.
+---
+--- * "GAME" Structured like base folder (garrysmod/), searches all the mounted content (main folder, addons, mounted games etc)
+--- * "LUA" or "lsv" - All Lua folders (lua/) including gamesmodes and addons
+--- * "DATA" Data folder (garrysmod/data)
+--- * "MOD" Strictly the game folder (garrysmod/), ignores mounting.
+---@[gwen_resource("resource/ui/DemoToVideo.gwen", "GwenDemoToVideo")]
+function Panel:LoadGWENFile(filename, path) end

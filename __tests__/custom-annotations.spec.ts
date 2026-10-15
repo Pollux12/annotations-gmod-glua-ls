@@ -2387,6 +2387,38 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(blocks[0]).toContain('---@[call_arg("gmod.collection", "list")]');
   });
 
+  test('GWEN loads and control lookups carry the roles that type named controls', () => {
+    const panel = readOutput('panel.lua').replace(/\r\n/g, '\n');
+    const blocks = (signature: string) => panel.split(/\n\n+/).filter((part) => part.includes(signature));
+
+    const load = blocks('function Panel:LoadGWENFile(');
+    expect(load).toHaveLength(1);
+    expect(load[0]).toMatch(/---@\[call_arg\("gmod\.gwen", "resource"\)\]\n---@param filename /);
+    expect(load[0]).toMatch(/---@\[call_arg\("gmod\.gwen", "search_path"\)\]\n---@param path\? /);
+    expect(load[0]).toContain('---@[gwen_resource("resource/ui/DemoToVideo.gwen", "GwenDemoToVideo")]');
+
+    const find = blocks('function Panel:Find(');
+    expect(find).toHaveLength(1);
+    expect(find[0]).toMatch(/---@\[call_arg\("gmod\.gwen", "control_name"\)\]\n---@param panelName /);
+    expect(find[0]).toContain('---@return Panel # foundPanel');
+  });
+
+  test('the demo-to-video resource class names its controls with the types the resource creates', () => {
+    const classes = readOutput('custom_classes.lua').replace(/\r\n/g, '\n');
+    const demo = classes.split('---@class GwenDemoToVideo')[1]?.split(/\n\n|---@class /)[0];
+    expect(demo).toBeDefined();
+    for (const [name, type] of [
+      ['btnStart', 'DButton'],
+      ['inCodec', 'DComboBox'],
+      ['inFPS', 'DTextEntry'],
+      ['inDepthOfField', 'DComboBox'],
+      ['inDOFBlurSize', 'DTextEntry'],
+      ['inDrawHUD', 'DCheckBoxLabel'],
+    ]) {
+      expect(demo).toMatch(new RegExp(`^---@field ${name} ${type}$`, 'm'));
+    }
+    expect(demo!.match(/---@field /g)).toHaveLength(15);
+  });
 
 
 });

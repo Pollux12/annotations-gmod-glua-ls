@@ -2210,5 +2210,31 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output.match(new RegExp("^function Panel:GenerateExample\\(", 'gm'))).toHaveLength(1);
   });
 
+  test("SKIN paint hooks take the control the engine paints them for", () => {
+    const output = readOutput("custom_classes.lua").replace(/\r\n/g, '\n');
+    const receivers: Record<string, string> = {
+      PaintCheckBox: 'DCheckBox',
+      PaintRadioButton: 'DCheckBox',
+      PaintExpandButton: 'DExpandButton',
+      PaintMenu: 'DMenu',
+      PaintMenuOption: 'DMenuOption',
+      PaintPropertySheet: 'DPropertySheet',
+      PaintTab: 'DTab',
+      PaintActiveTab: 'DTab',
+      PaintComboBox: 'DComboBox',
+      PaintComboDownArrow: 'DComboBoxDropButton',
+      PaintNumSlider: 'DSlider',
+      PaintProgress: 'DProgress',
+      PaintCollapsibleCategory: 'DCollapsibleCategory',
+      PaintCategoryList: 'DCategoryList|DForm',
+    };
+
+    for (const [hook, receiver] of Object.entries(receivers)) {
+      expect(output).toContain(`---@field ${hook} fun(self: SKIN, panel: ${receiver}, w: number, h: number)`);
+    }
+
+    expect(output).toContain("---@field PaintPanel fun(self: SKIN, panel: Panel, w: number, h: number)");
+  });
+
 
 });

@@ -408,14 +408,6 @@ describe('custom and plugin annotation smoke checks', () => {
   });
 
   test('unsupported menu-only custom overrides stay absent', () => {
-    const removedFiles = [
-      'steamworks.SetFavorite.lua',
-    ];
-
-    for (const file of removedFiles) {
-      expect(fs.existsSync(path.join(customRoot, file))).toBe(false);
-    }
-
     const workshopFileBaseOutput = readOutput('workshopfilebase.lua');
     expect(workshopFileBaseOutput).not.toContain('DupeWorkshopFileBase');
     expect(workshopFileBaseOutput).not.toContain('function WorkshopFileBase:Arm');
@@ -2349,6 +2341,22 @@ describe('custom and plugin annotation smoke checks', () => {
     const output = readOutput("tool.lua").replace(/\r\n/g, '\n');
     expect(output).not.toContain("StartGhostEntities");
     expect(output).toContain("function Tool:StartGhostEntity(ent) end");
+  });
+
+  test("undocumented menu functions the engine Lua calls are annotated for the menu realm", () => {
+    const block = (output: string, name: string) => {
+      const blocks = output.split(/\n\n+/).filter((part) => part.includes(`function ${name}(`));
+      expect(blocks).toHaveLength(1);
+      return blocks[0];
+    };
+    const setFavorite = block(readOutput("steamworks.lua").replace(/\r\n/g, '\n'), 'steamworks.SetFavorite');
+    const serverAddress = block(readOutput("engine.lua").replace(/\r\n/g, '\n'), 'engine.CurrentServerAddress');
+    expect(setFavorite).toContain("---@realm menu");
+    expect(setFavorite).toContain("---@param workshopItemID string The ID of the Steam Workshop item.");
+    expect(setFavorite).toContain("---@param favorite boolean Whether the item should be favorited.");
+    expect(serverAddress).toContain("---@realm menu");
+    expect(serverAddress).toContain("function engine.CurrentServerAddress() end");
+    expect(serverAddress).not.toContain("---@return");
   });
 
   test("engine weapon classes are declared as Weapon subclasses", () => {

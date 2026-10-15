@@ -2095,9 +2095,15 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output).toContain("---@source https://wiki.facepunch.com/gmod/Global.WorkshopFileBase");
     expect(output).toContain("---@param namespace string Namespace for the file base");
     expect(output).toContain("---@param requiredTags table Tags required for a Workshop submission to be interacted with by the filebase");
-    expect(output).toContain("---@return table # WorkshopFileBase element");
+    expect(output).toContain("---@return (instance) WorkshopFileBase # WorkshopFileBase element");
     expect(output).toContain("function _G.WorkshopFileBase(namespace, requiredTags) end");
     expect(output.match(new RegExp("^function _G\\.WorkshopFileBase\\(", 'gm'))).toHaveLength(1);
+  });
+
+  test("WorkshopFileBase fetches take the filter as the string the base code compares", () => {
+    const output = readOutput("workshopfilebase.lua").replace(/\r\n/g, '\n');
+    expect(output.match(/^---@param filter\? string /gm)).toHaveLength(2);
+    expect(output).not.toContain("---@param filter? number");
   });
 
   test("DImageButton.SetMaterial.lua preserves its documentation and corrected contract", () => {

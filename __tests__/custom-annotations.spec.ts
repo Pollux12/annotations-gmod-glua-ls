@@ -2280,6 +2280,13 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output.match(new RegExp("^function Player:GetWeapon\\(", 'gm'))).toHaveLength(1);
   });
 
+  test("HullTrace is a Trace", () => {
+    const output = readOutput("structures.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---@class HullTrace : Trace");
+    expect(output).toContain("HullTrace.mins = nil");
+    expect(output).toContain("HullTrace.maxs = nil");
+  });
+
   test("engine weapon classes are declared as Weapon subclasses", () => {
     const classes = readOutput("custom_classes.lua").replace(/\r\n/g, '\n');
     for (const name of ['weapon_357', 'weapon_ar2', 'weapon_bugbait', 'weapon_crossbow', 'weapon_crowbar', 'weapon_frag', 'weapon_physcannon', 'weapon_physgun', 'weapon_pistol', 'weapon_rpg', 'weapon_shotgun', 'weapon_slam', 'weapon_smg1', 'weapon_stunstick']) {

@@ -2287,6 +2287,18 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output).toContain("HullTrace.maxs = nil");
   });
 
+  test("os.time accepts the input shape of the Lua 5.1 contract", () => {
+    const os = readOutput("os.lua").replace(/\r\n/g, '\n');
+    const classes = readOutput("custom_classes.lua").replace(/\r\n/g, '\n');
+    expect(os).toContain("---@param dateData? DateData|DateDataInput Table to generate the time from.");
+    expect(os.match(new RegExp("^function os\\.time\\(", 'gm'))).toHaveLength(1);
+    const inputBlocks = classes.split(/\n\n+/).filter((part) => part.includes("---@class DateDataInput"));
+    expect(inputBlocks).toHaveLength(1);
+    for (const field of ["year number", "month number", "day number", "hour? number", "min? number", "sec? number", "isdst? boolean"]) {
+      expect(inputBlocks[0]).toContain(`---@field ${field}`);
+    }
+  });
+
   test("engine weapon classes are declared as Weapon subclasses", () => {
     const classes = readOutput("custom_classes.lua").replace(/\r\n/g, '\n');
     for (const name of ['weapon_357', 'weapon_ar2', 'weapon_bugbait', 'weapon_crossbow', 'weapon_crowbar', 'weapon_frag', 'weapon_physcannon', 'weapon_physgun', 'weapon_pistol', 'weapon_rpg', 'weapon_shotgun', 'weapon_slam', 'weapon_smg1', 'weapon_stunstick']) {

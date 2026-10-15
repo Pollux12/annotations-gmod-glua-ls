@@ -2076,6 +2076,16 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output.match(new RegExp("^function DTree_Node:InstallDraggable\\(", 'gm'))).toHaveLength(1);
   });
 
+  test("engine vehicles and NPCs extend the metatable the engine gives them", () => {
+    const output = readOutput("custom_classes.lua").replace(/\r\n/g, '\n');
+    for (const vehicle of ["prop_vehicle_jeep", "prop_vehicle_airboat", "prop_vehicle_jeep_old", "prop_vehicle_prisoner_pod"]) {
+      expect(output).toContain(`---@class ${vehicle} : Vehicle`);
+    }
+    for (const npc of ["npc_manhack", "npc_rollermine"]) {
+      expect(output).toContain(`---@class ${npc} : NPC`);
+    }
+  });
+
   test("WorkshopFileBase retains namespace extension tables and wiki documentation", () => {
     const output = readOutput("global.lua").replace(/\r\n/g, '\n');
     expect(output).toContain("---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.");

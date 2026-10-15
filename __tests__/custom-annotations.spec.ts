@@ -2312,6 +2312,20 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output.match(new RegExp("^function Player:GetWeapon\\(", 'gm'))).toHaveLength(1);
   });
 
+  test("util.GetPlayerTrace allows omitted direction for Players and requires it for NPCs", () => {
+    const output = readOutput("util.lua").replace(/\r\n/g, '\n');
+    const blocks = output.split(/\n\n+/).filter((part) => part.includes('function util.GetPlayerTrace('));
+    expect(blocks).toHaveLength(1);
+    expect(blocks[0]).toContain("---@realm shared");
+    expect(blocks[0]).toContain("---@realm menu");
+    expect(blocks[0]).toContain("---@overload fun(ply: Player, dir?: Vector): Trace\n");
+    expect(blocks[0].match(/^---@overload /gm)).toHaveLength(1);
+    expect(blocks[0]).toContain("---@param ply NPC The NPC the trace should be based on.");
+    expect(blocks[0]).toContain("---@param dir Vector The direction of the trace.");
+    expect(blocks[0]).not.toContain("---@param dir?");
+    expect(blocks[0]).toContain("---@return Trace # The trace data. See Structures/Trace");
+  });
+
   test("HullTrace is a Trace", () => {
     const output = readOutput("structures.lua").replace(/\r\n/g, '\n');
     expect(output).toContain("---@class HullTrace : Trace");

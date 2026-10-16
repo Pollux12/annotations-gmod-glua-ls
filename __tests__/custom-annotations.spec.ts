@@ -2252,6 +2252,19 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output).toContain("---@field Icon ModelImage");
   });
 
+  test("SpawnIcon ingests the internal resize menu contract", () => {
+    const output = readOutput("spawnicon.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---@param menu DMenu");
+    expect(output).toContain("---@param callback fun(width: number, height: number)");
+    expect(output).toContain("---@param label? string");
+    expect(output).toContain("function SpawnIcon:InternalAddResizeMenu(menu, callback, label) end");
+  });
+
+  test("Entity.SetCreator accepts the engine nil and NULL domain", () => {
+    const output = readOutput("entity.lua").replace(/\r\n/g, '\n');
+    expect(output).toContain("---@param ply Entity|NULL|nil The creator.\nfunction Entity:SetCreator(ply) end");
+  });
+
   test("Entity.DTVar returns data for supported types and may return nil for arbitrary strings", () => {
     const entity = readOutput("entity.lua").replace(/\r\n/g, '\n');
     const classes = readOutput("custom_classes.lua").replace(/\r\n/g, '\n');

@@ -1,0 +1,14 @@
+---Centers the panel on its parent. 
+---
+--- See [Panel:CenterHorizontal](https://wiki.facepunch.com/gmod/Panel:CenterHorizontal) and [Panel:CenterVertical](https://wiki.facepunch.com/gmod/Panel:CenterVertical) for more specialized functions.
+---
+--- 	**NOTE**: This will center the panel using the current size of the panel, so it should be called **AFTER** setting or adjusting the size of the panel.
+---
+--- Take special care when using [Panel:Dock](https://wiki.facepunch.com/gmod/Panel:Dock) as it will not update the size immediately.
+---
+--- You may want to use [Panel:PerformLayout](https://wiki.facepunch.com/gmod/Panel:PerformLayout) to set positions of child panels.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/Panel:Center
+---@[keeps_children]
+function Panel:Center() end

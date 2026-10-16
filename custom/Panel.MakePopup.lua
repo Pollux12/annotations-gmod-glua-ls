@@ -1,0 +1,12 @@
+---Focuses the panel and enables it to receive input.
+---
+--- This automatically calls [Panel:SetMouseInputEnabled](https://wiki.facepunch.com/gmod/Panel:SetMouseInputEnabled) and [Panel:SetKeyboardInputEnabled](https://wiki.facepunch.com/gmod/Panel:SetKeyboardInputEnabled(lowercase)) and sets them to `true`.
+---
+--- **NOTE**: Panels derived from [Panel](https://wiki.facepunch.com/gmod/Panel) will not work properly with this function. Due to this, any children will not be intractable with keyboard. Derive from [EditablePanel](https://wiki.facepunch.com/gmod/EditablePanel) instead.
+---
+--- For non gui related mouse focus, you can use [gui.EnableScreenClicker](https://wiki.facepunch.com/gmod/gui.EnableScreenClicker).
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/Panel:MakePopup
+---@[keeps_children]
+function Panel:MakePopup() end

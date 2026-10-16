@@ -2466,6 +2466,33 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(find[0]).toContain('---@return Panel # foundPanel');
   });
 
+  test('vetted Panel state methods preserve resource children', () => {
+    const panel = readOutput('panel.lua').replace(/\r\n/g, '\n');
+    for (const name of ['Center', 'MakePopup', 'SetVisible', 'SetMouseInputEnabled', 'SetZPos', 'SetAlpha', 'SetCursor']) {
+      const custom = readCustom(`Panel.${name}.lua`).replace(/\r\n/g, '\n').trim();
+      const blocks = panel.split(/\n\n+/).filter((part) => part.includes(`function Panel:${name}(`));
+      expect(blocks).toHaveLength(1);
+      expect(custom.match(/^---@\[keeps_children\]$/gm)).toHaveLength(1);
+      expect(custom).toContain(`---@[keeps_children]\nfunction Panel:${name}(`);
+      expect(blocks[0]).toContain(custom);
+    }
+    for (const name of ['SetSize', 'SetPos', 'SetWide', 'SetTall', 'SetKeyboardInputEnabled', 'InvalidateLayout', 'SizeToContents', 'SetParent', 'Dock']) {
+      const blocks = panel.split(/\n\n+/).filter((part) => part.includes(`function Panel:${name}(`));
+      expect(blocks).toHaveLength(1);
+      expect(blocks[0]).not.toContain('---@[keeps_children]');
+    }
+  });
+
+  test('DFrame Center preserves resource children in its override slot', () => {
+    const frame = readOutput('dframe.lua').replace(/\r\n/g, '\n');
+    const custom = readCustom('DFrame.Center.lua').replace(/\r\n/g, '\n').trim();
+    const blocks = frame.split(/\n\n+/).filter((part) => part.includes('function DFrame:Center('));
+    expect(blocks).toHaveLength(1);
+    expect(custom.match(/^---@\[keeps_children\]$/gm)).toHaveLength(1);
+    expect(custom).toContain('---@[keeps_children]\nfunction DFrame:Center(');
+    expect(blocks[0]).toContain(custom);
+  });
+
   test('the demo-to-video resource class names its controls with the types the resource creates', () => {
     const classes = readOutput('custom_classes.lua').replace(/\r\n/g, '\n');
     const demo = classes.split('---@class GwenDemoToVideo')[1]?.split(/\n\n|---@class /)[0];

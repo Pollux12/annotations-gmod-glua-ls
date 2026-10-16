@@ -1,0 +1,24 @@
+---Sets the appearance of the cursor. You can find a list of all available cursors with image previews [here](https://wiki.facepunch.com/gmod/Cursors).
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/Panel:SetCursor
+---@param cursor string The cursor to be set. Can be one of the following:
+---
+--- * [arrow](https://wiki.facepunch.com/gmod/Cursors#:~:text=arrow)
+--- * [beam](https://wiki.facepunch.com/gmod/Cursors#:~:text=beam)
+--- * [hourglass](https://wiki.facepunch.com/gmod/Cursors#:~:text=hourglass)
+--- * [waitarrow](https://wiki.facepunch.com/gmod/Cursors#:~:text=waitarrow)
+--- * [crosshair](https://wiki.facepunch.com/gmod/Cursors#:~:text=crosshair)
+--- * [up](https://wiki.facepunch.com/gmod/Cursors#:~:text=up)
+--- * [sizenwse](https://wiki.facepunch.com/gmod/Cursors#:~:text=sizenwse)
+--- * [sizenesw](https://wiki.facepunch.com/gmod/Cursors#:~:text=sizenesw)
+--- * [sizewe](https://wiki.facepunch.com/gmod/Cursors#:~:text=sizewe)
+--- * [sizens](https://wiki.facepunch.com/gmod/Cursors#:~:text=sizens)
+--- * [sizeall](https://wiki.facepunch.com/gmod/Cursors#:~:text=sizeall)
+--- * [no](https://wiki.facepunch.com/gmod/Cursors#:~:text=no)
+--- * [hand](https://wiki.facepunch.com/gmod/Cursors#:~:text=hand)
+--- * [blank](https://wiki.facepunch.com/gmod/Cursors#:~:text=blank)
+---
+--- Set to anything else to set it to "none", the default fallback. Do note that a value of "none" does not, as one might assume, result in no cursor being drawn - hiding the cursor requires a value of "blank" instead.
+---@[keeps_children]
+function Panel:SetCursor(cursor) end

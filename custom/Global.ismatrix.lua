@@ -4,4 +4,5 @@
 ---@source https://wiki.facepunch.com/gmod/Global.ismatrix
 ---@param var any
 ---@return TypeGuard<VMatrix> isMatrix # Whether the value is a VMatrix.
+---@[exhaustive_type_guard]
 function _G.ismatrix(var) end

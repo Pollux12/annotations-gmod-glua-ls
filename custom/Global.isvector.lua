@@ -4,4 +4,5 @@
 ---@source https://wiki.facepunch.com/gmod/Global.isvector
 ---@param var any
 ---@return TypeGuard<Vector> isVector # Whether the value is a Vector.
+---@[exhaustive_type_guard]
 function _G.isvector(var) end

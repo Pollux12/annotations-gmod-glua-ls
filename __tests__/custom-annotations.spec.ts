@@ -685,6 +685,31 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(legacyIsEntityOverride).not.toContain('function _G.isentity');
   });
 
+  test.each([
+    ['Global.IsEntity.lua', 'isentity', 'Entity'],
+    ['Global.ispanel.lua', 'ispanel', 'Panel'],
+    ['Global.isvector.lua', 'isvector', 'Vector'],
+    ['Global.isangle.lua', 'isangle', 'Angle'],
+    ['Global.ismatrix.lua', 'ismatrix', 'VMatrix'],
+  ])('runtime type test %s declares its exhaustive guard contract', (file, name, type) => {
+    const custom = readCustom(file).replace(/\r\n/g, '\n');
+    expect(custom.match(/^---@\[exhaustive_type_guard\]$/gm)).toHaveLength(1);
+    expect(custom).toContain(`---@return TypeGuard<${type}>`);
+    expect(custom).toContain(`---@[exhaustive_type_guard]\nfunction _G.${name}(var) end`);
+    const block = readOutput('global.lua').replace(/\r\n/g, '\n').match(
+      new RegExp(String.raw`---@source https://wiki\.facepunch\.com/gmod/Global\.${name}\n[\s\S]*?function _G\.${name}\(var\) end`),
+    )?.[0];
+    expect(block).toBeDefined();
+    expect(block).toContain('---@[exhaustive_type_guard]');
+  });
+
+  test.each(['Global.IsColor.lua', 'Global.IsValid.lua'])(
+    '%s does not declare an exhaustive runtime type test',
+    (file) => {
+      expect(readCustom(file)).not.toContain('---@[exhaustive_type_guard]');
+    },
+  );
+
   test('sorted-pairs overrides expose typed generic-for values', () => {
     const sortedPairs = readCustom('Global.SortedPairs.lua');
     const sortedPairsByValue = readCustom('Global.SortedPairsByValue.lua');

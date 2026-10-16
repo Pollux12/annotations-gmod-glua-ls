@@ -2227,7 +2227,8 @@ describe('custom and plugin annotation smoke checks', () => {
       PaintNumSlider: 'DSlider',
       PaintProgress: 'DProgress',
       PaintCollapsibleCategory: 'DCollapsibleCategory',
-      PaintCategoryList: 'DCategoryList|DForm',
+      PaintCategoryList: 'DCategoryList',
+      PaintScrollBarGrip: 'DScrollBarGrip',
     };
 
     for (const [hook, receiver] of Object.entries(receivers)) {

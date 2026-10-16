@@ -186,7 +186,7 @@
 ---@field tex SKINTex
 ---@field PaintPanel fun(self: SKIN, panel: Panel, w: number, h: number)
 ---@field PaintShadow fun(self: SKIN, panel: Panel, w: number, h: number)
----@field PaintFrame fun(self: SKIN, panel: Panel, w: number, h: number)
+---@field PaintFrame fun(self: SKIN, panel: DFrame, w: number, h: number)
 ---@field PaintButton fun(self: SKIN, panel: Panel, w: number, h: number)
 ---@field PaintTree fun(self: SKIN, panel: Panel, w: number, h: number)
 ---@field PaintCheckBox fun(self: SKIN, panel: DCheckBox, w: number, h: number)

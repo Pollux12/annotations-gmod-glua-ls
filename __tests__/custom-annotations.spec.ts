@@ -2213,6 +2213,7 @@ describe('custom and plugin annotation smoke checks', () => {
   test("SKIN paint hooks take the control the engine paints them for", () => {
     const output = readOutput("custom_classes.lua").replace(/\r\n/g, '\n');
     const receivers: Record<string, string> = {
+      PaintFrame: 'DFrame',
       PaintCheckBox: 'DCheckBox',
       PaintRadioButton: 'DCheckBox',
       PaintExpandButton: 'DExpandButton',

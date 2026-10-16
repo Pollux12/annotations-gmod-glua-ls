@@ -2407,7 +2407,7 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(npcPrimary).toContain('---@[default_self_call("PrimaryAttack")]');
     expect(hookBlock('Holster')).not.toContain('self_call_type');
     const npcSecondary = hookBlock('NPCShoot_Secondary');
-    expect(npcSecondary).not.toContain('self_call_type');
+    expect(npcSecondary).toContain('---@[self_call_type("GetOwner", "NPC", "server")]');
     expect(npcSecondary).toContain('---@[not_engine_called]');
     for (const [caller, callee] of [
       ['CanPrimaryAttack', 'Reload'],

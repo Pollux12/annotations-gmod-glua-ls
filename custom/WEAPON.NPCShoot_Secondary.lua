@@ -7,5 +7,6 @@
 ---@param shootPos? Vector The world position the NPC will use as attack starting position. You can create your projectiles here. 
 ---@param shootDir? Vector The direction the NPC wants to shoot at. 
 ---@[not_engine_called]
+---@[self_call_type("GetOwner", "NPC", "server")]
 ---@[default_self_call("SecondaryAttack")]
 function Weapon:NPCShoot_Secondary(shootPos, shootDir) end

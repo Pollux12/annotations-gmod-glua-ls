@@ -2394,7 +2394,7 @@ describe('custom and plugin annotation smoke checks', () => {
       expect(blocks).toHaveLength(1);
       return blocks[0];
     };
-    for (const name of ['Think', 'Deploy', 'Reload', 'SecondaryAttack', 'DrawHUD', 'FreezeMovement', 'AdjustMouseSensitivity', 'CalcViewModelView', 'GetViewModelPosition', 'PreDrawViewModel', 'PostDrawViewModel', 'ViewModelDrawn', 'TranslateFOV', 'HUDShouldDraw', 'DoDrawCrosshair', 'DrawHUDBackground', 'CustomAmmoDisplay']) {
+    for (const name of ['Think', 'Tick', 'Deploy', 'Reload', 'SecondaryAttack', 'DrawHUD', 'FreezeMovement', 'AdjustMouseSensitivity', 'CalcViewModelView', 'GetViewModelPosition', 'PreDrawViewModel', 'PostDrawViewModel', 'ViewModelDrawn', 'TranslateFOV', 'HUDShouldDraw', 'DoDrawCrosshair', 'DrawHUDBackground', 'CustomAmmoDisplay']) {
       const block = hookBlock(name);
       expect(block).toContain('---@[self_call_type("GetOwner", "Player")]');
       expect(block).not.toContain('"NPC"');

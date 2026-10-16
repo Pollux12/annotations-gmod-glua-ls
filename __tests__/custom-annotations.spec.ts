@@ -498,6 +498,7 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(defineSkin).toContain(
       '---@param skin Partial<SKIN> Table containing skin overrides. Missing values inherit from the Default skin.',
     );
+    expect(defineSkin).toMatch(/---@\[call_arg\("gmod\.derma_skin", "table"\)\]\r?\n---@param skin /);
   });
 
   test('source-backed VGUI lookup and creation overrides expose nil failure paths', () => {

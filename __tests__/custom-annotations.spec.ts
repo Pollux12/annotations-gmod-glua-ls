@@ -2205,6 +2205,11 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output.match(new RegExp("^function Panel:GenerateExample\\(", 'gm'))).toHaveLength(1);
   });
 
+  test("Panel.GenerateExample marks the class name parameter as the panel's own class", () => {
+    const output = readOutput("panel.lua").replace(/\r\n/g, '\n');
+    expect(output).toMatch(/---@\[call_arg\("gmod\.vgui_panel", "own_class"\)\]\n---@param class string /);
+  });
+
   test("SKIN paint hooks take the control the engine paints them for", () => {
     const output = readOutput("custom_classes.lua").replace(/\r\n/g, '\n');
     const receivers: Record<string, string> = {

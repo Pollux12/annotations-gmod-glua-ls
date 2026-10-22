@@ -2290,6 +2290,18 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(output).toContain("---@param ply Entity|NULL|nil The creator.\nfunction Entity:SetCreator(ply) end");
   });
 
+  test.each([
+    ["tool.lua", "---@return boolean # The value of the requested ConVar.", "function Tool:GetClientBool(name, default) end"],
+    ["dtree_node.lua", "---@return boolean # Whether the icons are shown or not", "function DTree_Node:ShowIcons() end"],
+    ["cnewparticleeffect.lua", "---@return number # The highest control point number", "function CNewParticleEffect:GetHighestControlPoint() end"],
+    ["pathfollower.lua", "---@return PathSegment[] # A table of tables", "function PathFollower:GetAllSegments() end"],
+    ["utf8.lua", "---@return number|false # The number of UTF-8 characters", "function utf8.len(string, startPos, endPos) end"],
+  ])("%s return type matches its documented value: %s", (file, returnLine, signature) => {
+    const blocks = readOutput(file).replace(/\r\n/g, '\n').split(/\n\n+/).filter((part) => part.includes(signature));
+    expect(blocks).toHaveLength(1);
+    expect(blocks[0]).toContain(returnLine);
+  });
+
   test("Entity.DTVar returns data for supported types and may return nil for arbitrary strings", () => {
     const entity = readOutput("entity.lua").replace(/\r\n/g, '\n');
     const classes = readOutput("custom_classes.lua").replace(/\r\n/g, '\n');

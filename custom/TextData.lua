@@ -1,9 +1,4 @@
---- Override: make `text` and `pos` optional so that incrementally-built
---- TextData tables (e.g. in gmod_tool SWEP DrawHUD) do not produce
---- missing-fields / param-type-mismatch diagnostics.
---- The real draw.Text / draw.TextShadow functions do require these values
---- to be set before calling, but they are set on the same local table
---- before each call, not at construction time.
+---Structure used for [draw.Text](https://wiki.facepunch.com/gmod/draw.Text).
 ---@class (partial) TextData
 ---Text to be drawn.
 ---@field text? any

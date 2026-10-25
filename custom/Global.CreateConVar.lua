@@ -1,6 +1,4 @@
---- Custom override: CreateConVar accepts string or number as the default value.
---- The wiki documents the parameter as string, but numbers are automatically
---- converted by Lua and are commonly used in practice.
+---Creates a [ConVar](https://wiki.facepunch.com/gmod/ConVar).
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Global.CreateConVar

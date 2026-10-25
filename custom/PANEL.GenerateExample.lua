@@ -6,6 +6,6 @@
 ---@[call_arg("gmod.vgui_panel", "own_class")]
 ---@param class string The classname of the panel to generate example for. This will be the class name of your panel.
 ---@param dpropertysheet DPropertySheet A DPropertySheet to add your example to. See examples below.
----@param width number Width of the property sheet?
----@param height number Width of the property sheet?
+---@param width number Width of the property sheet.
+---@param height number Height of the property sheet.
 function Panel:GenerateExample(class, dpropertysheet, width, height) end

@@ -1,8 +1,4 @@
---- Override: make all TextureData fields optional so that incrementally-built
---- TextureData tables (e.g. in gmod_tool SWEP DrawHUD) do not produce
---- missing-fields diagnostics.
---- The real draw.TexturedQuad function does require these values to be set
---- before calling, but they are set on the same local table before each call.
+---Structure used for [draw.TexturedQuad](https://wiki.facepunch.com/gmod/draw.TexturedQuad).
 ---@class (partial) TextureData
 ---surface.GetTextureID number of the texture to be drawn.
 ---@field texture? number

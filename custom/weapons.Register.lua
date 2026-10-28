@@ -6,7 +6,7 @@
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/weapons.Register
 ---@[call_arg("gmod.scripted_class", "weapon_table")]
----@param SWEP SWEP The SWEP table to register.
+---@param SWEP table The SWEP table to register.
 --- For the table's format and available options see the Structures/SWEP page.
 ---@[call_arg("gmod.scripted_class", "define")]
 ---@param classname string Classname to assign to that swep

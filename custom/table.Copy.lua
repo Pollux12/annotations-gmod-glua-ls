@@ -11,4 +11,5 @@
 ---@param originalTable T The table to be copied.
 ---@param lookupTable? table<any, any> Table used internally to preserve cyclic references.
 ---@return T # A deep copy of the original table, or nil when originalTable is nil.
+---@[copy_result]
 function table.Copy(originalTable, lookupTable) end

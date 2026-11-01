@@ -1,8 +1,7 @@
 ---@meta
 
---- This is a list of all methods only available for weapons. It is also possible to call [Entity](https://wiki.facepunch.com/gmod/Entity) functions on weapons.
----
---- **NOTE**: A list of available methods has been expanded in your navigation bar.
+--- This is a list of all methods only available for all weapons. (scripted and non-scripted) It is also possible to call [Entity](https://wiki.facepunch.com/gmod/Entity) functions on weapons.
+--- This is a list of all events only available for scripted weapons.
 ---@source https://wiki.facepunch.com/gmod/Weapon
 ---@class Weapon : Entity
 local Weapon = {}
@@ -173,11 +172,17 @@ function Weapon:Clip2() end
 function Weapon:CustomAmmoDisplay() end
 
 ---Forces the weapon to reload while playing given animation.
+---
+--- Ammo will be reloaded after the animation ends, and it will reload both [Weapon:SetClip1](https://wiki.facepunch.com/gmod/Weapon:SetClip1) and [Weapon:SetClip2](https://wiki.facepunch.com/gmod/Weapon:SetClip2) (if used)
+---
+--- [Primary attack](https://wiki.facepunch.com/gmod/Weapon:SetNextPrimaryFire) and [secondary attack](https://wiki.facepunch.com/gmod/Weapon:SetNextSecondaryFire) will be unavailable for the duration of the reload (or until the weapon is switched away from)
 --- 	**NOTE**: This will stop the [Weapon:Think](https://wiki.facepunch.com/gmod/Weapon:Think) function from getting called while the weapon is reloading!
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Weapon:DefaultReload
----@param act number Sequence to use as reload animation. Uses the Enums/ACT.
----@return boolean # Did reloading actually take place
+---@param act ACT View model activity (animation) to play. This is usually `ACT_VM_RELOAD`.
+---
+--- Uses the Enums/ACT.
+---@return boolean # Did reloading actually take place (`true`) or fail (`false`), such as when no reload was necessary.
 function Weapon:DefaultReload(act) end
 
 ---Called when player has just switched to this weapon.
@@ -472,7 +477,7 @@ function Weapon:HUDShouldDraw(element) end
 ---
 --- **NOTE**: [Entity:GetOwner](https://wiki.facepunch.com/gmod/Entity:GetOwner) will return NULL at this point because the weapon is not equpped by a player or NPC yet. Use [WEAPON:Equip](https://wiki.facepunch.com/gmod/WEAPON:Equip) or [WEAPON:Deploy](https://wiki.facepunch.com/gmod/WEAPON:Deploy) if you need the owner to be valid.
 ---
---- This is not called serverside after a quicksave.
+--- This is not called serverside after loading an engine save. (Validate: Including level transitions?) Use [WEAPON:OnRestore](https://wiki.facepunch.com/gmod/WEAPON:OnRestore)
 ---@hook Initialize
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/WEAPON:Initialize
@@ -487,7 +492,7 @@ function Weapon:IsCarriedByLocalPlayer() end
 ---Checks if the weapon is a SWEP or a built-in weapon.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Weapon:IsScripted
----@return boolean # Returns true if weapon is scripted ( SWEP ), false if not ( A built-in HL2/HL:S weapon )
+---@return boolean # Returns `true` if weapon is Structures/SWEP, `false` if not (A built-in HL2/HL:S weapon)
 function Weapon:IsScripted() end
 
 ---Returns whether the weapon is visible. The term visibility is not exactly what gets checked here, first it checks if the owner is a player, then checks if the active view model has EF_NODRAW flag NOT set.
@@ -663,10 +668,12 @@ function Weapon:SendWeaponAnim(act) end
 ---@param act number The new activity to set, see Enums/ACT.
 function Weapon:SetActivity(act) end
 
----Lets you change the number of bullets in the given weapons primary clip.
+---Sets the number of bullets in the weapon's primary clip.
+---
+--- See [Weapon:SetClip2](https://wiki.facepunch.com/gmod/Weapon:SetClip2) for the secondary clip. See also [Weapon:DefaultReload](https://wiki.facepunch.com/gmod/Weapon:DefaultReload).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Weapon:SetClip1
----@param ammo number The amount of bullets the clip should contain
+---@param ammo number The amount of bullets the primary clip should contain.
 function Weapon:SetClip1(ammo) end
 
 ---Lets you change the number of bullets in the given weapons secondary clip.

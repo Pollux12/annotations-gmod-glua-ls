@@ -1,5 +1,7 @@
 ---@meta
 
+--- **INTERNAL**: Do not use.
+---
 --- A window that is used to publish dupes and saves
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/UGCPublishWindow

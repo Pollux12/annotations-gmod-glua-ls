@@ -14,6 +14,8 @@ local DAdjustableModelPanel = {}
 ---  Used by the panel to perform mouse capture operations when adjusting the model.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DAdjustableModelPanel:CaptureMouse
+---@return number # Mouse X delta since last call
+---@return number # Mouse Y delta since last call
 function DAdjustableModelPanel:CaptureMouse() end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.

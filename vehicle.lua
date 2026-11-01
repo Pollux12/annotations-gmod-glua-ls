@@ -319,7 +319,7 @@ function Vehicle:SetVehicleEntryAnim(bOn) end
 ---@param params VehicleParams The new new vehicle parameters. See Structures/VehicleParams.
 function Vehicle:SetVehicleParams(params) end
 
----Sets friction of given wheel.  This function may be broken.
+---Sets friction of given wheel. This must be used on an AirBoat. it is not supported for Jeep vehicles.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/Vehicle:SetWheelFriction
 ---@param wheel number The wheel to change the friction of

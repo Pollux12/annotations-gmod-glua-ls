@@ -647,11 +647,14 @@ function DTree_Node:SetSelected(selected) end
 ---@param showFiles? boolean
 function DTree_Node:SetShowFiles(showFiles) end
 
----Currently does nothing, not implemented.
+---**INTERNAL**: Called internally from [DTree_Node:Copy](https://wiki.facepunch.com/gmod/DTree_Node:Copy).
+---
+--- Currently does nothing, not implemented.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:SetupCopy
-function DTree_Node:SetupCopy() end
+---@param Panel Panel
+function DTree_Node:SetupCopy(Panel) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---

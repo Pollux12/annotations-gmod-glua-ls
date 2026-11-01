@@ -70,9 +70,7 @@ function DHorizontalDivider:GetRightMin() end
 ---@param width number The width of the horizontal divider bar.
 function DHorizontalDivider:SetDividerWidth(width) end
 
----**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
----
---- Sets whether the player is dragging the divider or not
+---Sets whether the player is dragging the divider or not
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DHorizontalDivider:SetDragging
 ---@param dragonot boolean
@@ -125,6 +123,7 @@ function DHorizontalDivider:SetRight(pnl) end
 function DHorizontalDivider:SetRightMin(minWidth) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
+---
 --- TODO Document me
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DHorizontalDivider:StartGrab

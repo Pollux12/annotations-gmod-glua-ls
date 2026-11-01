@@ -84,12 +84,15 @@ function DMenu:ClearHighlights() end
 function DMenu:CloseSubMenu(menu) end
 
 ---Gets a child by its index.
+---
+--- This is an override/reimplementation of [Panel:GetChild](https://wiki.facepunch.com/gmod/Panel:GetChild) for [DMenu](https://wiki.facepunch.com/gmod/DMenu), documented here only to list its differences from the base panel method.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DMenu:GetChild
 ---@param childIndex number The index of the child to get.
 ---
 --- Unlike [Panel:GetChild](https://wiki.facepunch.com/gmod/Panel:GetChild), this index starts at 1.
+---@return Panel # The child panel, or a `nil`
 function DMenu:GetChild(childIndex) end
 
 ---Set by [DMenu:SetDeleteSelf](https://wiki.facepunch.com/gmod/DMenu:SetDeleteSelf)
@@ -196,7 +199,7 @@ function DMenu:OptionSelectedInternal(option) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DMenu:SetDeleteSelf
----@param newState boolean true to delete menu on close, false to simply hide.
+---@param newState? boolean True to delete menu on close, false to simply hide.
 function DMenu:SetDeleteSelf(newState) end
 
 ---Does nothing.

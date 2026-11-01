@@ -381,7 +381,6 @@ function _G.CreateConVar(name, value, flags, helptext, min, max) end
 ---
 --- .pngs must be loaded with [Global.Material](https://wiki.facepunch.com/gmod/Global.Material) before being used with this function.
 ---@realm client
----@realm menu
 ---@source https://wiki.facepunch.com/gmod/Global.CreateMaterial
 ---@param name string The material name. Must be unique.
 ---@param shaderName string The shader name. See Shaders.
@@ -1942,11 +1941,13 @@ function _G.LanguageChanged(lang) end
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Global.Lerp
----@param t number The fraction for finding the result. This number is clamped between 0 and 1. Shouldn't be a constant.
----@param from number The starting number. The result will be equal to this if delta is 0.
----@param to number The ending number. The result will be equal to this if delta is 1.
----@return number # The result of the linear interpolation, `from + (to - from) * t`.
-function _G.Lerp(t, from, to) end
+---@param fraction number The fraction for finding the result, in range of 0 to 1, which will be math.Clamp.
+---
+--- This is usually derived from time passage, it shouldn't be a constant. See examples.
+---@param from number The starting number. The result will be equal to this if fraction is 0.
+---@param to number The ending number. The result will be equal to this if fraction is 1.
+---@return number # The result of the linear interpolation, `from + (to - from) * fraction`.
+function _G.Lerp(fraction, from, to) end
 
 ---Returns point between first and second angle using given fraction and linear interpolation
 --- **NOTE**: This function is not meant to be used with constant value in the first argument, if you're dealing with animation! Use a value that changes over time
@@ -2627,7 +2628,9 @@ function require(moduleName) end
 ---@source https://wiki.facepunch.com/gmod/Global.RestoreCursorPosition
 function _G.RestoreCursorPosition() end
 
----Executes the given console command with the parameters.
+---Executes the given [console command](https://wiki.facepunch.com/gmod/Console_commands) with the parameters.
+---
+--- Will be ran on the local client if used clientside, will run on the server if ran serverside. Keep in mind that the server and client are one and the same in singleplayer and for listen server hosts.
 ---
 --- **NOTE**: Some commands/convars are blocked from being ran/changed using this function, usually to prevent harm/annoyance to clients. For a list of blocked commands, see [Blocked ConCommands](https://wiki.facepunch.com/gmod/Blocked_ConCommands).
 ---@realm shared
@@ -3118,6 +3121,7 @@ function _G.SQLStr(input, noQuotes) end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/Global.SScale
 ---@param Size number The number you want to scale.
+---@return number # The scaled number based on the player's screen width.
 ---@deprecated You should be using Global.ScreenScale instead.
 function _G.SScale(Size) end
 
@@ -3150,11 +3154,15 @@ function _G.SysTime() end
 ---@return TauntCamera # The created taunt camera object.
 function _G.TauntCamera() end
 
----Clears focus from any text entries player may have focused.
+---**INTERNAL**: Called automatically from [GM:VGUIMousePressed](https://wiki.facepunch.com/gmod/GM:VGUIMousePressed).
+---
+--- Clears focus from any text entries player may have focused.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Global.TextEntryLoseFocus
-function _G.TextEntryLoseFocus() end
+---@param Panel Panel
+---@param number number
+function _G.TextEntryLoseFocus(Panel, number) end
 
 ---Returns a cosine value that fluctuates based on the current time
 ---@realm shared

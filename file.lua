@@ -141,7 +141,7 @@ function file.Open(fileName, fileMode, gamePath) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/File:Read
 ---@param length? number Reads the specified amount of chars. If not set, will read the entire file.
----@return string # The read data.
+---@return string # The read data, a binary_string.
 function File:Read(length) end
 
 ---Returns the content of a file.

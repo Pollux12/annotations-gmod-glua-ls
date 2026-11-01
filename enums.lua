@@ -6861,8 +6861,12 @@ FSASYNC_ERR_READING = -4
 FSASYNC_ERR_NOMEMORY = -3
 ---@readonly
 FSASYNC_ERR_UNKNOWNID = -2
+--- File does not exist or could not be opened.
 ---@readonly
 FSASYNC_ERR_FILEOPEN = -1
+--- As return value from [file.AsyncRead](https://wiki.facepunch.com/gmod/file.AsyncRead) - you can expect the callback.
+---
+--- Inside the callback - data is good.
 ---@readonly
 FSASYNC_OK = 0
 ---@readonly

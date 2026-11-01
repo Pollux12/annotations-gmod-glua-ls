@@ -35,12 +35,14 @@ function DHorizontalScroller:GetOverlap() end
 function DHorizontalScroller:GetShowDropTargets() end
 
 ---Same as [DDragBase:MakeDroppable](https://wiki.facepunch.com/gmod/DDragBase:MakeDroppable).
+---
 --- TODO: Transclude or whatever to here?
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DHorizontalScroller:MakeDroppable
 ---@param name string
-function DHorizontalScroller:MakeDroppable(name) end
+---@param allowCopy? boolean Whether to allow right click dragging to open a menu with copy option.
+function DHorizontalScroller:MakeDroppable(name, allowCopy) end
 
 ---Scrolls the [DHorizontalScroller](https://wiki.facepunch.com/gmod/DHorizontalScroller) to given child panel.
 ---@realm client

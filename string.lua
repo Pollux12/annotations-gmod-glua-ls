@@ -61,7 +61,7 @@ function string.CardinalToOrdinal(input) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/string.char
 ---@param ... any The bytes to create the string from.
----@return string # String built from given bytes
+---@return string # String built from given bytes, see binary_string.
 function string.char(...) end
 
 ---Inserts commas for every third digit of a given number.
@@ -81,7 +81,7 @@ function string.Comma(value, separator) end
 ---@source https://wiki.facepunch.com/gmod/string.dump
 ---@param func function The function to get the bytecode of
 ---@param stripDebugInfo? boolean True to strip the debug data, false to keep it
----@return string # Bytecode
+---@return string # Bytecode, a binary_string.
 function string.dump(func, stripDebugInfo) end
 
 ---Returns whether or not the second passed string matches the end of the first.

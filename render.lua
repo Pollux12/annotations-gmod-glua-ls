@@ -54,7 +54,7 @@ function render.BrushMaterialOverride(mat) end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/render.Capture
 ---@param captureData RenderCaptureData Parameters of the capture. See Structures/RenderCaptureData.
----@return string # The binary data.
+---@return string # The binary_string.
 function render.Capture(captureData) end
 
 ---Dumps the current render target and allows the pixels to be accessed by [render.ReadPixel](https://wiki.facepunch.com/gmod/render.ReadPixel).

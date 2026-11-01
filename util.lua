@@ -46,7 +46,7 @@ function util.AimVector(ViewAngles, ViewFOV, x, y, scrWidth, scrHeight) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/util.Base64Decode
 ---@param str string String to decode.
----@return string # The raw bytes of the decoded string.
+---@return string # The binary_string of the decoded string.
 function util.Base64Decode(str) end
 
 ---Encodes the specified string to base64.
@@ -89,7 +89,7 @@ function util.BlastDamageInfo(dmg, damageOrigin, damageRadius) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/util.Compress
 ---@param str string String to compress.
----@return string # The compressed string, or an empty string if the input string was zero length ("").
+---@return string # The compressed binary_string, or an empty string if the input string was zero length ("").
 function util.Compress(str) end
 
 ---Generates the [CRC Checksum](https://en.wikipedia.org/wiki/Cyclic_redundancy_check) of the specified string.
@@ -154,7 +154,7 @@ function util.DecalMaterial(decalName) end
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/util.Decompress
----@param compressedString string The compressed string to decompress.
+---@param compressedString string The compressed binary_string to decompress.
 ---@param maxSize? number The maximum size of uncompressed data in bytes, if greater it fails.
 ---@return string|nil # The original, decompressed string or `nil` on failure or invalid input. Also returns empty string if the input string was zero length ("").
 function util.Decompress(compressedString, maxSize) end
@@ -293,6 +293,8 @@ function util.GetModelInfo(mdl) end
 ---
 --- The mesh data is raw, and is not transformed via bone transformations. That's what the second return value is for.
 ---@return Structures/BoneBindPose[] # This tables indices are bone IDs for the Structures/BoneBindPose stored at each index.
+---
+--- Bone IDs start at `0`, so [Global.ipairs](https://wiki.facepunch.com/gmod/Global.ipairs) skips the first bone (usually the root). Loop with `for boneId = 0, #modelBindPoses do` instead.
 function util.GetModelMeshes(model, lod, bodygroupMask, skin) end
 
 ---Gets persistent data of an offline player using their SteamID.
@@ -730,17 +732,20 @@ function util.ParticleTracerEx(name, startPos, endPos, doWhiz, entityIndex, atta
 function util.PixelVisible(position, size, PixVis) end
 
 ---Returns the contents of the position specified.
---- **NOTE**: This function will sample only the world environments. It can be used to check if [Entity:GetPos](https://wiki.facepunch.com/gmod/Entity:GetPos) is underwater for example unlike [Entity:WaterLevel](https://wiki.facepunch.com/gmod/Entity:WaterLevel) which works for players only.
+---
+--- This function will sample only the world environments. It will not sample entities, including brush entities.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/util.PointContents
 ---@param position Vector Position to get the contents sample from.
 ---@return CONTENTS # Contents bitflag, see Enums/CONTENTS
 function util.PointContents(position) end
 
----Precaches a model for later use. Model is cached after being loaded once.
---- 	**WARNING**: Modelprecache is limited to 8192 unique models. When it reaches the limit the game will crash.
+---Precaches a model for later use. The model is cached after being loaded once.
+--- 	**WARNING**: Model pre-caching is limited to 8192 unique models. When it reaches the limit, the game will crash.
 ---
 --- 	**NOTE**: Does nothing on the client.
+---
+--- 	See also [Global.Model](https://wiki.facepunch.com/gmod/Global.Model)
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/util.PrecacheModel
 ---@param modelName string The model to precache.
@@ -750,6 +755,7 @@ function util.PrecacheModel(modelName) end
 --- **NOTE**: Soundcache is limited to 16384 unique sounds on the server. Due to this fact this function is disabled on purpose, as exceeding the limit causes the server to shutdown.
 ---
 --- Ultimately does nothing on client, and only works with sound scripts, not direct paths.
+--- See also [Global.Sound](https://wiki.facepunch.com/gmod/Global.Sound)
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/util.PrecacheSound
 ---@param soundName string The sound to precache.

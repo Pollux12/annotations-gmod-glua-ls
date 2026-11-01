@@ -27,6 +27,8 @@ function timer.Check() end
 --- For a simple one-time timer with no identifiers, see [timer.Simple](https://wiki.facepunch.com/gmod/timer.Simple).
 ---
 --- **WARNING**: Timers use [Global.CurTime](https://wiki.facepunch.com/gmod/Global.CurTime) internally. Due to this, they won't advance while the client is timing out from the server or on an empty dedicated server due to hibernation. (unless `sv_hibernate_think` is set to `1` or `delay` is set to `0` ).
+---
+--- **NOTE**: Once the timer reaches the set number of repetitions, it is removed.
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/timer.Create

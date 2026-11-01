@@ -18,11 +18,14 @@ function DNumberWang:GetDecimals() end
 ---@return number #
 function DNumberWang:GetFloatValue() end
 
----Returns a fraction representing the current number selector value to number selector min/max range ratio. If argument `val` is supplied, that number will be computed instead.
+---Returns a fraction representing the current number selector value to number selector min/max range ratio.
+---
+--- If argument `val` is supplied, that number will be computed instead.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DNumberWang:GetFraction
----@param val number The fraction numerator.
+---@param val? number The value override. If unset, will use panel's current value.
+---@return number # The unclamped fraction in range [0,1], based on panels min and max values.
 function DNumberWang:GetFraction(val) end
 
 ---Returns interval at which the up and down buttons change the current value.

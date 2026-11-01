@@ -214,15 +214,22 @@ function Player:CheckLimit(str) end
 ---@source https://wiki.facepunch.com/gmod/PLAYER:ClassChanged
 function PLAYER:ClassChanged() end
 
----Runs the concommand on the player. This does not work on bots. If used clientside, always runs the command on the local player.
+---Runs the [console command](https://wiki.facepunch.com/gmod/Console_commands) on the player. This does not work on bots.
+---
+--- If used clientside, always runs the command on the local player. You should use [Global.RunConsoleCommand](https://wiki.facepunch.com/gmod/Global.RunConsoleCommand) in client realm instead.
 ---
 --- If you wish to directly modify the movement input of bots, use [GM:StartCommand](https://wiki.facepunch.com/gmod/GM:StartCommand) instead.
 ---
 --- **NOTE**: Some commands/convars are blocked from being run/changed using this function, usually to prevent harm/annoyance to clients. For a list of blocked commands, see [Blocked ConCommands](https://wiki.facepunch.com/gmod/Blocked_ConCommands).
+---
+--- **WARNING**: If you use data that were received from a client, you should avoid using this function because semicolon (at least) allow the client to run arbitrary commands!
+---
+--- For safety, you are urged to prefer using [Player:RunConsoleCommand](https://wiki.facepunch.com/gmod/Player:RunConsoleCommand) in this case.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Player:ConCommand
----@param command string command to run
-function Player:ConCommand(command) end
+---@param command string The console command to run.
+---@param skip_queue? boolean Whether to skip the command queue and send the command immediately. Clientside only.
+function Player:ConCommand(command, skip_queue) end
 
 ---Similar to the serverside command "bot", this function creates a new Player bot with the given name. This bot will not obey to the usual `bot_*` commands, and it's the same bot base used in TF2 and CS:S.
 ---
@@ -991,6 +998,8 @@ function Player:GetTool(mode) end
 function Player:GetUnDuckSpeed() end
 
 ---Returns the entity the player would use if they would press their `+use` keybind.
+---
+--- This will call [GM:FindUseEntity](https://wiki.facepunch.com/gmod/GM:FindUseEntity).
 --- 	**NOTE**: Because entity physics objects usually do not exist on the client, the client's use entity will resolve to whatever the crosshair is placed on within a little less than 72 units of the player's eye position. This differs from the entity returned by the server, which has fully physical use checking. See [util.TraceHull](https://wiki.facepunch.com/gmod/util.TraceHull).
 ---
 --- Issue tracker: [5027](https://github.com/Facepunch/garrysmod-issues/issues/5027)

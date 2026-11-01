@@ -11,6 +11,7 @@ local PropSelect = {}
 ---@source https://wiki.facepunch.com/gmod/PropSelect:AddModel
 ---@param model string Model path, **including** `models/` and `.mdl`.
 ---@param convars table A list of convar names (as keys) and their values to set when the user selects this model.
+---@return SpawnIcon # The created icon
 function PropSelect:AddModel(model, convars) end
 
 ---Adds a new model to the selection list.
@@ -19,6 +20,7 @@ function PropSelect:AddModel(model, convars) end
 ---@param value string The "value" for this model, which is used to set the ContextBase:SetConVar.
 ---@param model string Model path, **including** `models/` and `.mdl`.
 ---@param skin number The skin number for this model. It will **not** be set to the convar, use the value argument to track skin-model combos.
+---@return SpawnIcon # The created icon
 function PropSelect:AddModelEx(value, model, skin) end
 
 ---Find and select a [SpawnIcon](https://wiki.facepunch.com/gmod/SpawnIcon) panel based on the input model path.

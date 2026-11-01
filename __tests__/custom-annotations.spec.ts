@@ -693,7 +693,9 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(readOutput('os.lua')).toContain('---@return DateData');
     expect(readOutput('string.lua')).toContain('---@return string # replaceResult');
     expect(readOutput('string.lua')).toContain('---@return number # replaceCount');
-    expect(readOutput('structures.lua')).toContain('---@class (partial) RenderCaptureData');
+    const structures = readOutput('structures.lua');
+    expect(structures.match(/---@class \(partial\) RenderCaptureData\r?\n/g)).toHaveLength(1);
+    expect(structures).toContain('---@field quality? number');
   });
 
   test('widget_base class and Player.GetPressedWidget return type', () => {

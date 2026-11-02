@@ -16,12 +16,12 @@ SoundData.sound = nil
 SoundData.name = nil
 
 ---The sound channel to play in. See Enums/CHAN
----@type CHAN
-SoundData.channel = nil
+---@type CHAN?
+SoundData.channel = CHAN_AUTO
 
 ---The soundlevel of the sound in dB. See Enums/SNDLVL. This will affect how far the sound can be heard.
----@type SNDLVL
-SoundData.level = nil
+---@type SNDLVL?
+SoundData.level = SNDLVL_NORM
 
 ---The volume of the sound as a decimal between `0` and `1`. Can be a table of two numbers, a minimum and a maximum value.
 ---

@@ -1,0 +1,13 @@
+---Called internally during `TASK_RANGE_ATTACK1 --> OnRangeAttack1`. This allows you to separate your SWEPs primary firing function from players and NPCs. 
+---
+--- To get the delay the NPC will fire again, you can call `self:GetOwner():GetInternalVariable("m_flNextAttack")`
+---
+--- **NOTE**: This hook is called internally only for NPCs that has `CAP_USE_SHOT_REGULATOR` set.
+---@hook NPCShoot_Primary
+---@realm server
+---@source https://wiki.facepunch.com/gmod/WEAPON:NPCShoot_Primary
+---@param shootPos? Vector The world position the NPC will use as attack starting position. You can create your projectiles here. 
+---@param shootDir? Vector The direction the NPC wants to shoot at. 
+---@[self_call_type("GetOwner", "NPC", "server")]
+---@[default_self_call("PrimaryAttack")]
+function Weapon:NPCShoot_Primary(shootPos, shootDir) end

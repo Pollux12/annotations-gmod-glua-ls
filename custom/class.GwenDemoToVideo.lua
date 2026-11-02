@@ -1,0 +1,18 @@
+---The named controls the demo-to-video menu panel creates from `resource/ui/DemoToVideo.gwen`. See [Panel:LoadGWENFile](https://wiki.facepunch.com/gmod/Panel:LoadGWENFile).
+---@class GwenDemoToVideo
+---@field btnStart DButton
+---@field inCodec DComboBox
+---@field inBitRate DTextEntry
+---@field inFPS DTextEntry
+---@field inQuality DComboBox
+---@field inSize DComboBox
+---@field inFrameBlend DComboBox
+---@field inFBShutter DComboBox
+---@field inDepthOfField DComboBox
+---@field inDOFFocusSpeed DTextEntry
+---@field inDOFBlurSize DTextEntry
+---@field inViewSmooth DComboBox
+---@field inPosSmooth DComboBox
+---@field inDrawViewModel DCheckBoxLabel
+---@field inDrawHUD DCheckBoxLabel
+local GwenDemoToVideo = {}

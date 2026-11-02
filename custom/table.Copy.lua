@@ -7,8 +7,9 @@
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/table.Copy
 ---@generic T : table
----@overload fun(originalTable: nil): nil
----@param originalTable T? The table to be copied.
+---@overload fun(originalTable: nil, lookupTable?: table<any, any>): nil
+---@param originalTable T The table to be copied.
 ---@param lookupTable? table<any, any> Table used internally to preserve cyclic references.
----@return T? # A deep copy of the original table, or nil when originalTable is nil.
+---@return T # A deep copy of the original table, or nil when originalTable is nil.
+---@[copy_result]
 function table.Copy(originalTable, lookupTable) end

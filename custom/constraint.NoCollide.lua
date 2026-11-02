@@ -1,0 +1,15 @@
+---Creates an no-collide "constraint". Disables collision between two entities.
+--- **NOTE**: Does not work with players.
+---@realm server
+---@source https://wiki.facepunch.com/gmod/constraint.NoCollide
+---@param ent1 Entity First entity.
+---@param ent2 Entity Second entity.
+---@param bone1 number PhysObj number of first entity to constrain to. (0 for non-ragdolls).
+---
+--- See Entity:TranslateBoneToPhysBone.
+---@param bone2 number PhysObj number of second entity to constrain to. (0 for non-ragdolls).
+---
+--- See Entity:TranslateBoneToPhysBone.
+---@param disableOnRemove? boolean If set, the nocollide will be reversed if the constraint is removed.
+---@return ConstraintEntity|false|nil # The created constraint. ([logic_collision_pair](https://developer.valvesoftware.com/wiki/Logic_collision_pair)) Will return `false` if the constraint could not be created.
+function constraint.NoCollide(ent1, ent2, bone1, bone2, disableOnRemove) end

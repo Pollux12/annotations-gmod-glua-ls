@@ -1,0 +1,25 @@
+---Creates a simple rope (length) based constraint.
+---@realm server
+---@source https://wiki.facepunch.com/gmod/constraint.Rope
+---@param ent1 Entity First entity.
+---@param ent2 Entity Second entity.
+---@param bone1 number PhysObj number of first entity to constrain to. (0 for non-ragdolls).
+---
+--- See Entity:TranslateBoneToPhysBone.
+---@param bone2 number PhysObj number of second entity to constrain to. (0 for non-ragdolls).
+---
+--- See Entity:TranslateBoneToPhysBone.
+---@param localPos1 Vector Position relative to the the first physics object to constrain to.
+---@param localPos2 Vector Position relative to the the second physics object to constrain to.
+---@param length number Length of the rope.
+---@param addLength? number Amount to add to the length of the rope. Works as it does in the Rope tool.
+---@param forceLimit? number Amount of force until it breaks (0 = unbreakable).
+---@param width number Width of the rope.
+---@param material? string Material of the rope. If unset, will be solid black.
+---@param rigid? boolean Whether the constraint is rigid.
+---@param color? Color The color of the rope.
+---@return ConstraintEntity|false|nil # The constraint entity ([phys_lengthconstraint](https://developer.valvesoftware.com/wiki/Phys_lengthconstraint)).
+---
+--- Will be a `keyframe_rope` if you are roping to the same bone on the same entity. Will return `false` if the constraint could not be created.
+---@return Entity? # The rope entity. Will return `nil` if `constraint` return value is a [keyframe_rope](https://developer.valvesoftware.com/wiki/Keyframe_rope) or if the constraint could not be created.
+function constraint.Rope(ent1, ent2, bone1, bone2, localPos1, localPos2, length, addLength, forceLimit, width, material, rigid, color) end

@@ -1,0 +1,17 @@
+---Creates a ballsocket joint. See See [constraint.AdvBallsocket](https://wiki.facepunch.com/gmod/constraint.AdvBallsocket) if you also wish to limit rotation angles in some way.
+---@realm server
+---@source https://wiki.facepunch.com/gmod/constraint.Ballsocket
+---@param ent1 Entity First entity.
+---@param ent2 Entity Second entity.
+---@param bone1 number PhysObj number of first entity to constrain to. (0 for non-ragdolls).
+---
+--- See Entity:TranslateBoneToPhysBone.
+---@param bone2 number PhysObj number of second entity to constrain to. (0 for non-ragdolls).
+---
+--- See Entity:TranslateBoneToPhysBone.
+---@param localPos Vector Center position of the joint, relative to the **second** entity's physics object.
+---@param forceLimit? number Amount of force until it breaks (0 = unbreakable).
+---@param torqueLimit? number Amount of torque (rotational force) until it breaks (0 = unbreakable).
+---@param nocollide? number Whether the constrained entities should collided with each other or not.
+---@return ConstraintEntity|false # The created constraint. ([phys_ballsocket](https://developer.valvesoftware.com/wiki/Phys_ballsocket)) Will return `false` if the constraint could not be created.
+function constraint.Ballsocket(ent1, ent2, bone1, bone2, localPos, forceLimit, torqueLimit, nocollide) end

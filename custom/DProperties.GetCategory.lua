@@ -1,0 +1,12 @@
+---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
+---
+--- Returns (or creates) a category of properties.
+---
+--- See [DProperties:CreateRow](https://wiki.facepunch.com/gmod/DProperties:CreateRow) for adding actual properties.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DProperties:GetCategory
+---@param name string Name of the category
+---@param create? boolean Create a new category if it doesn't exist.
+---@return DPropertiesCategory? # An internal panel.
+---@overload fun(self: DProperties, name: string, create: true): DPropertiesCategory
+function DProperties:GetCategory(name, create) end

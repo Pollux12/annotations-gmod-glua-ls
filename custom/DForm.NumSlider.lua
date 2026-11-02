@@ -1,0 +1,11 @@
+---Adds a [DNumSlider](https://wiki.facepunch.com/gmod/DNumSlider) onto the [DForm](https://wiki.facepunch.com/gmod/DForm)
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DForm:NumSlider
+---@param label string A short label for the slider.
+---@param convar string? The [console variable](https://wiki.facepunch.com/gmod/ConVars) to change when the slider is changed
+---@param min number The minimum value of the slider
+---@param max number The maximum value of the slider
+---@param decimals? number The number of decimals to allow for the slider value.
+---@return DNumSlider # The created DNumSlider.
+function DForm:NumSlider(label, convar, min, max, decimals) end

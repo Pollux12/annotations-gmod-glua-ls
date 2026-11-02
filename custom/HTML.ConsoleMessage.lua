@@ -1,0 +1,18 @@
+---Called when the page inside the [HTML](https://wiki.facepunch.com/gmod/HTML) window runs the `console.log` javascript function.
+---
+--- On the x86-64 beta, it's called for all built-in `console.*` javascript functions.
+---
+--- Overwriting this function in any way will disable default behavior of printing the message to the in-game console.
+---@hook ConsoleMessage
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/HTML:ConsoleMessage
+---@param msg string The message to be logged (or Lua code to be executed; see above).
+---@param file? string The message source file, if any.
+---@param lineNr? number The line number in the file the message was output from.
+---@param severity? string The severity of the message. Possible values are:
+--- * "log"
+--- * "warn"
+--- * "error"
+--- * "debug"
+function HTML:ConsoleMessage(msg, file, lineNr, severity) end

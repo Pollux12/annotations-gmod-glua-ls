@@ -1,0 +1,12 @@
+---Sets the panels z position which determines the rendering order.
+---
+--- Panels with lower z positions appear behind panels with higher z positions.
+---
+--- This also controls in which order panels docked with [Panel:Dock](https://wiki.facepunch.com/gmod/Panel:Dock) appears.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/Panel:SetZPos
+---@param zIndex number The z position of the panel. 
+--- Can't be lower than -32768 or higher than 32767.
+---@[keeps_children]
+function Panel:SetZPos(zIndex) end

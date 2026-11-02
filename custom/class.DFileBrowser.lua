@@ -1,4 +1,4 @@
----@class DFileBrowser : Panel
+---@class DFileBrowser : DPanel
 --- The horizontal divider separating the tree and file list.
 ---@field Divider DHorizontalDivider
 --- The directory tree panel.

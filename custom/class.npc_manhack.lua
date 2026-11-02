@@ -1,2 +1,2 @@
----@class npc_manhack : Entity
+---@class npc_manhack : NPC
 local npc_manhack = {}

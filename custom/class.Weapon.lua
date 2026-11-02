@@ -1,6 +1,8 @@
 ---@class Weapon : Entity
 local Weapon = {}
 ---@class WEAPON : Weapon
+---@field Entity self Deprecated alias for the weapon itself; use `self` instead.
+---@field Weapon self Deprecated alias for the weapon itself; use `self` instead.
 WEAPON = Weapon
 
 ---@alias WeaponAmmoTable { ClipSize: number, DefaultClip: number, Automatic: boolean, Ammo: string }

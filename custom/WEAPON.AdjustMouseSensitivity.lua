@@ -7,4 +7,5 @@
 ---@param defaultFOV number
 ---@return number? sensitivityMultiplier # Return a multiplier to override sensitivity.
 ---@[self_call_valid("GetOwner")]
+---@[self_call_type("GetOwner", "Player")]
 function Weapon:AdjustMouseSensitivity(defaultSensitivity, localFOV, defaultFOV) end

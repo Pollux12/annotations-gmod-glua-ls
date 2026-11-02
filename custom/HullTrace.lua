@@ -1,7 +1,7 @@
 --- Table used by [util.TraceHull](https://wiki.facepunch.com/gmod/util.TraceHull).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Structures/HullTrace
----@class HullTrace
+---@class HullTrace : Trace
 local HullTrace = {}
 
 ---The start position of the trace

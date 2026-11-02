@@ -1,0 +1,13 @@
+---Uses animation to transition the current alpha value of a panel to a new alpha, over a set period of time and after a specified delay.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/Panel:AlphaTo
+---@param alpha number The alpha value (0-255) to approach.
+---@param duration number The time in seconds it should take to reach the alpha.
+---@param delay? number The delay before the animation starts.
+---@param callback? fun(animData: table, targetPanel: self) The function to be called once the animation finishes. 
+---
+--- Function argument(s):
+--- * table `animData` - The Structures/AnimationData that was used.
+--- * Panel `targetPanel` - The panel object that was animated.
+function Panel:AlphaTo(alpha, duration, delay, callback) end

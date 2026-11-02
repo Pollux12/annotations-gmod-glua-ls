@@ -6,8 +6,41 @@
 ---@field m_bHangOpen boolean Whether the spawn menu stays open (hang-open mode).
 ---@field CustomizableSpawnlistNode? DTree_Node Injected reference to the customizable spawnlist node (optional).
 ---@field SearchPropPanel? ContentContainer Injected reference to the search results content panel (optional).
----@field StartupTool? Panel The tool item panel to select and activate on first open (set by toolpanel.lua).
+---@field StartupTool? DButton The tool item button to select and activate on first open (set by toolpanel.lua).
 local SpawnMenu = {}
+
+---Opens the spawn menu.
+---@realm client
+function SpawnMenu:Open() end
+
+---Closes the spawn menu, or only ends hang-open mode when it is on.
+---@realm client
+function SpawnMenu:Close() end
+
+---Switches the creation menu to the tab with the given name.
+---@realm client
+---@param name string The tab name.
+function SpawnMenu:OpenCreationMenuTab(name) end
+
+---Returns the tool menu panel.
+---@realm client
+---@return ToolMenu
+function SpawnMenu:GetToolMenu() end
+
+---Returns the creation menu panel.
+---@realm client
+---@return CreationMenu
+function SpawnMenu:GetCreationMenu() end
+
+---Returns whether the spawn menu stays open (hang-open mode).
+---@realm client
+---@return boolean
+function SpawnMenu:GetHangOpen() end
+
+---Sets whether the spawn menu stays open (hang-open mode).
+---@realm client
+---@param hangOpen boolean
+function SpawnMenu:SetHangOpen(hangOpen) end
 
 ---@class ToolMenu : Panel
 local ToolMenu = {}

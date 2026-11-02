@@ -1,0 +1,11 @@
+---Publishes a file through the namespace's workshop handler.
+---@realm menu
+---@source garrysmod/lua/menu/menu_save.lua
+---@param filename string
+---@param imagename string
+---@param name string
+---@param description string
+---@param chosenTag string
+---@param other table
+---@return string? error
+function WorkshopFileBase:FinishPublish(filename, imagename, name, description, chosenTag, other) end

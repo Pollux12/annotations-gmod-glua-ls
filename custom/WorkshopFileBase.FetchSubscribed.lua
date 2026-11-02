@@ -1,0 +1,12 @@
+---Fetches all subscriptions for the set namespace and passes the result to [WorkshopFileBase:FillFileInfo](https://wiki.facepunch.com/gmod/WorkshopFileBase:FillFileInfo).
+---@realm shared
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/WorkshopFileBase:FetchSubscribed
+---@param offset number Skips the first x results.
+---@param perpage number How many results per page should be returned.
+---@param tags table additional tags to filter the results.
+---@param searchText string text that needs to be in the addon title. Use an empty string for none
+---@param isUGC? boolean if true it will use engine.GetUserContent instead of engine.GetAddons
+---@param filter? string The filter for the results. (`enabledonly`, `disabledonly`)
+---@param sort? string How it should be sorted. If set to `nil`, it will fallback to `timeadded`. (`title`, `size`, `updated`)
+function WorkshopFileBase:FetchSubscribed(offset, perpage, tags, searchText, isUGC, filter, sort) end

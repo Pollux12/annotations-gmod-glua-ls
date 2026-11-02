@@ -1,0 +1,12 @@
+---To be called in the behaviour coroutine only! Will yield until the bot has reached the goal or is stuck
+---@realm server
+---@source https://wiki.facepunch.com/gmod/NextBot:MoveToPos
+---@param pos Vector The position we want to get to
+---@param options? table A table containing a bunch of tweakable options.
+--- * number lookahead - Minimum look ahead distance.
+--- * number tolerance - How close we must be to the goal before it can be considered complete.
+--- * boolean draw - Draw the path. Only visible on listen servers and single player.
+--- * number maxage - Maximum age of the path before it times out.
+--- * number repath - Rebuilds the path after this number of seconds.
+---@return string # Either `"failed"`, `"stuck"`, `"timeout"` or `"ok"` - depending on how the NPC got on
+function NextBot:MoveToPos(pos, options) end

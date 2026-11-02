@@ -1,0 +1,13 @@
+---Registers a Scripted Weapon (SWEP) class manually. When the engine spawns an entity, weapons registered with this function will be created if the class names match.
+---
+--- See also [scripted_ents.Register](https://wiki.facepunch.com/gmod/scripted_ents.Register) for Scripted Entities (SENTs)
+---
+--- Sub-tables provided in the first argument will not carry over their metatable, and will receive a BaseClass key if the table was merged with the base's. Userdata references, which includes Vectors, Angles, Entities, etc. will not be copied.
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/weapons.Register
+---@[call_arg("gmod.scripted_class", "weapon_table")]
+---@param SWEP table The SWEP table to register.
+--- For the table's format and available options see the Structures/SWEP page.
+---@[call_arg("gmod.scripted_class", "define")]
+---@param classname string Classname to assign to that swep
+function weapons.Register(SWEP, classname) end

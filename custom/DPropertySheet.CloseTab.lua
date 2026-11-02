@@ -1,0 +1,11 @@
+---Removes tab and/or panel from the parent DPropertySheet.
+--- **NOTE**: In case you close the active tab, it will be reset to the last item available in the list.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DPropertySheet:CloseTab
+---@param tab DTab The DTab of the sheet from DPropertySheet.
+---
+--- See DPropertySheet:GetItems.
+---@param removePanel boolean Set to true to remove the associated panel object as well.
+---@return Panel # The panel of the tab.
+function DPropertySheet:CloseTab(tab, removePanel) end

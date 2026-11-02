@@ -1,3 +1,4 @@
 ---@class (partial) MatSelect : ContextBase
----@field List DPanelList The panel list containing the material buttons.
+---@field List MatSelectList The panel list containing the material buttons.
+---@field Controls MatSelectMaterial[]
 local MatSelect = {}

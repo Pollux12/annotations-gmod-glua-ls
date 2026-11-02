@@ -1,0 +1,13 @@
+---Returns the contents of the file from the current position up until the end of the current line.
+---
+--- **NOTE**: This function will look specifically for `Line Feed` characters `\n` and will **completely ignore `Carriage Return` characters** `\r`.
+---
+--- It will also stop at a `\0` or `NULL` character, but will add a new line instead.
+---
+--- This function will not return more than 8192 characters. The return value will include the `\n` character.
+---@realm shared
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/File:ReadLine
+---@return string # The string of data from the read line.
+---@[fresh_result]
+function File:ReadLine() end

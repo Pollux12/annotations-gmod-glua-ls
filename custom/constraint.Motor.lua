@@ -22,6 +22,6 @@
 ---@param key_bwd? number The key binding for "backwards", corresponding to an Enums/KEY.
 ---@param direction? number Either `1` or `-1` signifying which direction the motor should spin.
 ---@param localAxis? Vector Overrides axis of rotation?
----@return Entity|false # The created constraint. ([phys_torque](https://developer.valvesoftware.com/wiki/Phys_torque)) Will return `false` if the constraint could not be created.
----@return Entity? # The created axis constraint. ([phys_hinge](https://developer.valvesoftware.com/wiki/Phys_hinge)) Will return `nil` if the constraint could not be created.
+---@return ConstraintEntity|false # The created constraint. ([phys_torque](https://developer.valvesoftware.com/wiki/Phys_torque)) Will return `false` if the constraint could not be created.
+---@return ConstraintEntity? # The created axis constraint. ([phys_hinge](https://developer.valvesoftware.com/wiki/Phys_hinge)) Will return `nil` if the constraint could not be created.
 function constraint.Motor(ent1, ent2, bone1, bone2, localPos1, localPos2, friction, torque, forcetime, nocollide, toggle, player, forcelimit, key_fwd, key_bwd, direction, localAxis) end

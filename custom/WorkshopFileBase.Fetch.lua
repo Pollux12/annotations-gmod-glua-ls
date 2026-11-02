@@ -1,0 +1,13 @@
+---Fetches all subscriptions for the set namespace and type
+--- **NOTE**: If you want to use the type `local` you need to implement the `:FetchLocal(offset, perpage)` function!
+---@realm shared
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/WorkshopFileBase:Fetch
+---@param type string The type to search for. (`local`, `subscribed`, `subscribed_ugc`, `mine`, `favorite`)
+---@param offset number Skips the first x results.
+---@param perpage number How many results per page should be returned.
+---@param extratags table additional tags to filter the results.
+---@param searchText string text that needs to be in the addon title. Use an empty string for none
+---@param filter? string The filter for the results. (`enabledonly`, `disabledonly`)
+---@param sort? string How it should be sorted. If set to `nil`, it will fallback to `timeadded`. (`title`, `size`, `updated`)
+function WorkshopFileBase:Fetch(type, offset, perpage, extratags, searchText, filter, sort) end

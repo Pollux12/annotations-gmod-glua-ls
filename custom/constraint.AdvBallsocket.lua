@@ -1,0 +1,29 @@
+---Creates an advanced ballsocket (ragdoll) constraint. See [constraint.Ballsocket](https://wiki.facepunch.com/gmod/constraint.Ballsocket) for the simpler version.
+---@realm server
+---@source https://wiki.facepunch.com/gmod/constraint.AdvBallsocket
+---@param ent1 Entity First entity.
+---@param ent2 Entity Second entity.
+---@param bone1 number PhysObj number of first entity to constrain to. (0 for non-ragdolls).
+---
+--- See Entity:TranslateBoneToPhysBone.
+---@param bone2 number PhysObj number of second entity to constrain to. (0 for non-ragdolls).
+---
+--- See Entity:TranslateBoneToPhysBone.
+---@param localPos1 Vector Position relative to the the first physics object to constrain to.
+---@param localPos2? Vector Position relative to the the second physics object to constrain to.
+--- 			Does nothing!
+---@param forceLimit? number Amount of force until it breaks (0 = unbreakable).
+---@param torqueLimit? number Amount of torque (rotation speed) until it breaks (0 = unbreakable).
+---@param xMin number Minimum angle in rotations around the X axis local to the constraint.
+---@param yMin number Minimum angle in rotations around the Y axis local to the constraint.
+---@param zMin number Minimum angle in rotations around the Z axis local to the constraint.
+---@param xMax number Maximum angle in rotations around the X axis local to the constraint.
+---@param yMax number Maximum angle in rotations around the Y axis local to the constraint.
+---@param zMax number Maximum angle in rotations around the Z axis local to the constraint.
+---@param xFric? number Rotational friction in the X axis local to the constraint.
+---@param yFric? number Rotational friction in the Y axis local to the constraint.
+---@param zFric? number Rotational friction in the Z axis local to the constraint.
+---@param onlyRotation? number Only limit rotation, free movement.
+---@param noCollide? number Whether the entities should be no-collided.
+---@return ConstraintEntity|false # A [phys_ragdollconstraint](https://developer.valvesoftware.com/wiki/Phys_ragdollconstraint) entity. Will return `false` if the constraint could not be created.
+function constraint.AdvBallsocket(ent1, ent2, bone1, bone2, localPos1, localPos2, forceLimit, torqueLimit, xMin, yMin, zMin, xMax, yMax, zMax, xFric, yFric, zFric, onlyRotation, noCollide) end

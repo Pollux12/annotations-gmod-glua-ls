@@ -18,8 +18,8 @@
 ---@param starton boolean Whether the muscle starts relaxed or active.
 ---@param material string The material of the rope.
 ---@param color Color The color of the rope. See Color.
----@return Entity|false|nil # The created spring constraint. Returns `false` for invalid inputs.
+---@return ConstraintEntity|false # The created spring constraint. Returns `false` for invalid inputs.
 ---@return Entity? # The created rope entity (`keyframe_rope`). Returns `nil` if no rope was created.
 ---@return gmod_winch_controller? # The created winch controller.
----@return Entity? # The created slider constraint if `fixed` is 1.
+---@return ConstraintEntity? # The created slider constraint if `fixed` is 1.
 function constraint.Muscle(pl, ent1, ent2, bone1, bone2, localPos1, localPos2, length1, length2, width, key, fixed, period, amplitude, starton, material, color) end

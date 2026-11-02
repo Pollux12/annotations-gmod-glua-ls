@@ -1,0 +1,16 @@
+---Uses animation to resize the panel to the specified size.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/Panel:SizeTo
+---@param sizeW? number The target width of the panel. Use -1 to retain the current width.
+---@param sizeH? number The target height of the panel. Use -1 to retain the current height.
+---@param time number The time to perform the animation within.
+---@param delay? number The delay before the animation starts.
+---@param ease? number Easing of the start and/or end speed of the animation. See Panel:NewAnimation for how this works.
+---@param callback? fun(animData: table, targetPanel: self) The function to be called once the animation finishes.
+---
+--- Function argument(s):
+--- * table `animData` - The Structures/AnimationData that was used.
+--- * Panel `targetPanel` - The panel object that was animated.
+---@return AnimationData<self> # The animation data.
+function Panel:SizeTo(sizeW, sizeH, time, delay, ease, callback) end

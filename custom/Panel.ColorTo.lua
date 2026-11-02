@@ -1,0 +1,14 @@
+---Fades panels color to specified one. 
+---        **NOTE**: The panel must have `GetColor` and `SetColor` functions for `ColorTo` to work.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/Panel:ColorTo
+---@param color Color The color to fade to
+---@param length number Length of the animation
+---@param delay? number Delay before start fading
+---@param callback? fun(animData: table, targetPanel: self) Function to execute when finished
+---
+--- Function argument(s):
+--- * table{AnimationData} `animData` - The Structures/AnimationData that was used.
+--- * Panel `targetPanel` - The panel object that was animated.
+function Panel:ColorTo(color, length, delay, callback) end

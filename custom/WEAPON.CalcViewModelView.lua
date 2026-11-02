@@ -1,0 +1,13 @@
+---Allows overriding the position and angle of the viewmodel. This hook only works if you haven't overridden [GM:CalcViewModelView](https://wiki.facepunch.com/gmod/GM:CalcViewModelView).
+---@hook CalcViewModelView
+---@realm client
+---@source https://wiki.facepunch.com/gmod/WEAPON:CalcViewModelView
+---@param ViewModel Entity The viewmodel entity
+---@param OldEyePos Vector Original position (before viewmodel bobbing and swaying)
+---@param OldEyeAng Angle Original angle (before viewmodel bobbing and swaying)
+---@param EyePos Vector Current position
+---@param EyeAng Angle Current angle
+---@return Vector # New position
+---@return Angle # New angle
+---@[self_call_type("GetOwner", "Player")]
+function Weapon:CalcViewModelView(ViewModel, OldEyePos, OldEyeAng, EyePos, EyeAng) end

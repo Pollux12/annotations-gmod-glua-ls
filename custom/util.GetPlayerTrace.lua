@@ -1,0 +1,11 @@
+---Utility function to quickly generate a trace table that starts at the players view position, and ends `32768` units along a specified direction.
+---
+--- For usage with [util.TraceLine](https://wiki.facepunch.com/gmod/util.TraceLine) and similar functions.
+---@realm shared
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/util.GetPlayerTrace
+---@overload fun(ply: Player, dir?: Vector): Trace
+---@param ply NPC The NPC the trace should be based on.
+---@param dir Vector The direction of the trace.
+---@return Trace # The trace data. See Structures/Trace
+function util.GetPlayerTrace(ply, dir) end

@@ -1,0 +1,12 @@
+--- Table [os.time](https://wiki.facepunch.com/gmod/os.time) builds a time from. `year`, `month` and `day` are required; the table [os.date](https://wiki.facepunch.com/gmod/os.date) returns is accepted as is.
+---@class DateDataInput
+---@field year number
+---@field month number
+---@field day number
+---@field hour? number
+---@field min? number
+---@field sec? number
+---@field isdst? boolean
+---@field wday? number
+---@field yday? number
+local DateDataInput = {}

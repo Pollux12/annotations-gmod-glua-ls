@@ -3,7 +3,9 @@
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/table.insert
+---@[overload_call_arg(1, "gmod.collection", "append_value")]
 ---@overload fun(tbl: table, value: any): number
+---@[call_arg("gmod.collection", "list")]
 ---@param tbl table The table to insert the variable into.
 ---@param position number The position in the table to insert the variable. If the third argument is nil this argument becomes the value to insert at the end of given table.
 ---@param value any The variable to insert into the table.

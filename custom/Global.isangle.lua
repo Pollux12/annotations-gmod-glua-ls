@@ -4,4 +4,5 @@
 ---@source https://wiki.facepunch.com/gmod/Global.isangle
 ---@param var any
 ---@return TypeGuard<Angle> isAngle # Whether the value is an Angle.
+---@[exhaustive_type_guard]
 function _G.isangle(var) end

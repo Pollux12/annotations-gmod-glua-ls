@@ -1,4 +1,4 @@
----@class DTextEntry : Panel
+---@class DTextEntry : TextEntry
 --- Text entry input history table, used for up/down arrow navigation.
 ---@field History table
 --- Current position in the history table (0 = none selected).

@@ -196,13 +196,6 @@ jobs:
             --artifactManifest plugin.json \
             --version "${{ steps.build_ts.outputs.value }}" \
             --generatedAt "${{ steps.build_ts.outputs.value }}"
-      - name: Format the output with StyLua
-        if: steps.gate.outputs.should_generate == 'true'
-        uses: JohnnyMorganz/stylua-action@v2.0.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          version: latest
-          args: --no-editorconfig output/
       - name: Prepare release payloads
         id: payloads
         if: steps.gate.outputs.should_generate == 'true'

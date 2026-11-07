@@ -8,12 +8,12 @@
     "Lua",
     "Language Server"
   ],
-  "homepage": "https://github.com/luttje/glua-api-snippets",
+  "homepage": "https://github.com/Pollux12/annotations-gmod-glua-ls",
   "repository": {
     "type": "git",
-    "url": "https://github.com/luttje/glua-api-snippets"
+    "url": "https://github.com/Pollux12/annotations-gmod-glua-ls"
   },
-  "author": "Luttje",
+  "author": "Pollux12",
   "license": "MIT",
   "version": "0.2.0",
   "type": "module",

@@ -6,3 +6,4 @@
 ---@source https://wiki.facepunch.com/gmod/DListViewLine
 ---@class (partial) DListViewLine : Panel
 local DListViewLine = {}
+

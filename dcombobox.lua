@@ -5,7 +5,7 @@
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DComboBox
 ---@class DComboBox : DButton
----@field DropButton DPanel
+---@field DropButton DComboBoxDropButton
 ---@field Choices table<integer, string>
 ---@field Data table<integer, any>
 ---@field ChoiceIcons table<integer, string>
@@ -175,3 +175,4 @@ function DComboBox:SetSortItems(sort) end
 ---@source https://wiki.facepunch.com/gmod/DComboBox:SetValue
 ---@param value string The text in the DComboBox.
 function DComboBox:SetValue(value) end
+

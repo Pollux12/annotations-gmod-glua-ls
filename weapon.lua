@@ -6,6 +6,8 @@
 ---@class Weapon : Entity
 local Weapon = {}
 ---@class WEAPON : Weapon
+---@field Entity self Deprecated alias for the weapon itself; use `self` instead.
+---@field Weapon self Deprecated alias for the weapon itself; use `self` instead.
 WEAPON = Weapon
 
 ---@alias WeaponAmmoTable { ClipSize: number, DefaultClip: number, Automatic: boolean, Ammo: string }
@@ -57,7 +59,9 @@ function Weapon:AcceptInput(inputName, activator, called, data) end
 ---@param defaultFOV number
 ---@return number? sensitivityMultiplier # Return a multiplier to override sensitivity.
 ---@[self_call_valid("GetOwner")]
+---@[self_call_type("GetOwner", "Player")]
 function Weapon:AdjustMouseSensitivity(defaultSensitivity, localFOV, defaultFOV) end
+
 
 ---Returns whether the weapon allows to being switched from when a better ( [Weapon:GetWeight](https://wiki.facepunch.com/gmod/Weapon:GetWeight) ) weapon is being picked up.
 ---@realm shared
@@ -76,14 +80,18 @@ function Weapon:AllowsAutoSwitchTo() end
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/WEAPON:Ammo1
 ---@return number # The amount of primary ammo player has
+---@[not_engine_called]
 function Weapon:Ammo1() end
+
 
 ---Returns how much of secondary ammo the player has.
 ---@hook Ammo2
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/WEAPON:Ammo2
 ---@return number # The amount of secondary ammo player has
+---@[not_engine_called]
 function Weapon:Ammo2() end
+
 
 ---Allows you to adjust player view while this weapon in use.
 ---
@@ -111,7 +119,9 @@ function Weapon:CalcView(ply, pos, ang, fov) end
 ---@param EyeAng Angle Current angle
 ---@return Vector # New position
 ---@return Angle # New angle
+---@[self_call_type("GetOwner", "Player")]
 function Weapon:CalcViewModelView(ViewModel, OldEyePos, OldEyeAng, EyePos, EyeAng) end
+
 
 ---Calls a SWEP function on client. Does nothing on client.
 ---
@@ -134,14 +144,19 @@ function Weapon:CanBePickedUpByNPCs() end
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/WEAPON:CanPrimaryAttack
 ---@return boolean # Can use primary attack
+---@[not_engine_called]
+---@[default_self_call("Reload")]
 function Weapon:CanPrimaryAttack() end
+
 
 ---Helper function for checking for no ammo.
 ---@hook CanSecondaryAttack
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/WEAPON:CanSecondaryAttack
 ---@return boolean # Can use secondary attack
+---@[not_engine_called]
 function Weapon:CanSecondaryAttack() end
+
 
 ---Returns how much primary ammo is in the magazine.
 --- 	**NOTE**: This is not shared between clients and will instead return the maximum primary clip size.
@@ -169,7 +184,9 @@ function Weapon:Clip2() end
 --- * number PrimaryAmmo - Amount of primary ammo in the reserves
 --- * number SecondaryAmmo - Amount of secondary ammo. It is shown like alt-fire for SMG1 and AR2 are shown.
 --- * number SecondaryClip - Amount of secondary ammo in the clip. If set, the secondary ammo display will have clips and reserve ammo dispalyed.
+---@[self_call_type("GetOwner", "Player")]
 function Weapon:CustomAmmoDisplay() end
+
 
 ---Forces the weapon to reload while playing given animation.
 ---
@@ -191,7 +208,9 @@ function Weapon:DefaultReload(act) end
 ---@source https://wiki.facepunch.com/gmod/WEAPON:Deploy
 ---@return boolean? # Return true to allow switching away from this weapon using `lastinv` command.
 ---@[self_call_valid("GetOwner")]
+---@[self_call_type("GetOwner", "Player")]
 function Weapon:Deploy() end
+
 
 ---Called when the crosshair is about to get drawn, and allows you to override it.
 ---
@@ -202,7 +221,9 @@ function Weapon:Deploy() end
 ---@param x number X coordinate of the crosshair.
 ---@param y number Y coordinate of the crosshair.
 ---@return boolean # Return true to override the default crosshair.
+---@[self_call_type("GetOwner", "Player")]
 function Weapon:DoDrawCrosshair(x, y) end
+
 
 ---Called so the weapon can override the impact effects it makes.
 --- **NOTE**: If the bullet was fired in a predicted environment, the hook will not be called on the `CLIENT` realm.
@@ -222,13 +243,17 @@ function Weapon:DoImpactEffect(tr, damageType) end
 ---@hook DrawHUD
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/WEAPON:DrawHUD
+---@[self_call_type("GetOwner", "Player")]
 function Weapon:DrawHUD() end
+
 
 ---This hook allows you to draw on screen while this weapon is in use. This hook is called **before** [WEAPON:DrawHUD](https://wiki.facepunch.com/gmod/WEAPON:DrawHUD) and is equivalent of [GM:HUDPaintBackground](https://wiki.facepunch.com/gmod/GM:HUDPaintBackground).
 ---@hook DrawHUDBackground
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/WEAPON:DrawHUDBackground
+---@[self_call_type("GetOwner", "Player")]
 function Weapon:DrawHUDBackground() end
+
 
 ---This hook draws the selection icon in the weapon selection menu.
 ---@hook DrawWeaponSelection
@@ -265,8 +290,9 @@ function Weapon:DrawWorldModelTranslucent(flags) end
 ---@hook Equip
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/WEAPON:Equip
----@param NewOwner Entity The one who picked the weapon up. Can be Player or NPC.
+---@param NewOwner Player|NPC The one who picked the weapon up. Can be Player or NPC.
 function Weapon:Equip(NewOwner) end
+
 
 ---The player has picked up the weapon and has taken the ammo from it.
 --- The weapon will be removed immediately after this call.
@@ -296,7 +322,9 @@ function Weapon:FireAnimationEvent(pos, ang, event, options, source) end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/WEAPON:FreezeMovement
 ---@return boolean # Return true to freeze moving the view
+---@[self_call_type("GetOwner", "Player")]
 function Weapon:FreezeMovement() end
+
 
 ---Returns the sequence enumeration number that the weapon is playing.
 ---
@@ -427,7 +455,9 @@ function Weapon:GetTracerOrigin() end
 ---@param EyeAng Angle Current angle
 ---@return Vector # New position
 ---@return Angle # New angle
+---@[self_call_type("GetOwner", "Player")]
 function Weapon:GetViewModelPosition(EyePos, EyeAng) end
+
 
 ---Returns the view model of the weapon.
 ---@realm shared
@@ -465,13 +495,16 @@ function Weapon:HasAmmo() end
 --- This will not have an effect if weapon was switched away from using Player:SetActiveWeapon
 function Weapon:Holster(weapon) end
 
+
 ---This hook determines which parts of the HUD to draw.
 ---@hook HUDShouldDraw
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/WEAPON:HUDShouldDraw
 ---@param element string The HUD element in question
 ---@return boolean # Return false to hide this HUD element
+---@[self_call_type("GetOwner", "Player")]
 function Weapon:HUDShouldDraw(element) end
+
 
 ---Called when the weapon entity is created.
 ---
@@ -520,7 +553,7 @@ function Weapon:KeyValue(key, value) end
 ---@return number # The time in seconds when the last bullet was fired.
 function Weapon:LastShootTime() end
 
----Called internally during `TASK_RANGE_ATTACK1 --> OnRangeAttack1`. This allows you to separate your SWEPs primary firing function from players and NPCs.
+---Called internally during `TASK_RANGE_ATTACK1 --> OnRangeAttack1`. This allows you to separate your SWEPs primary firing function from players and NPCs. 
 ---
 --- To get the delay the NPC will fire again, you can call `self:GetOwner():GetInternalVariable("m_flNextAttack")`
 ---
@@ -528,19 +561,26 @@ function Weapon:LastShootTime() end
 ---@hook NPCShoot_Primary
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/WEAPON:NPCShoot_Primary
----@param shootPos? Vector The world position the NPC will use as attack starting position. You can create your projectiles here.
----@param shootDir? Vector The direction the NPC wants to shoot at.
+---@param shootPos? Vector The world position the NPC will use as attack starting position. You can create your projectiles here. 
+---@param shootDir? Vector The direction the NPC wants to shoot at. 
+---@[self_call_type("GetOwner", "NPC", "server")]
+---@[default_self_call("PrimaryAttack")]
 function Weapon:NPCShoot_Primary(shootPos, shootDir) end
 
----A utility function to seperate your SWEPs secondary firing from players.
+
+---A utility function to seperate your SWEPs secondary firing from players. 
 ---
 --- Unlike [WEAPON:NPCShoot_Primary](https://wiki.facepunch.com/gmod/WEAPON:NPCShoot_Primary), this won't be called by the engine for `TASK_RANGE_ATTACK2`.
 ---@hook NPCShoot_Secondary
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/WEAPON:NPCShoot_Secondary
----@param shootPos? Vector The world position the NPC will use as attack starting position. You can create your projectiles here.
----@param shootDir? Vector The direction the NPC wants to shoot at.
+---@param shootPos? Vector The world position the NPC will use as attack starting position. You can create your projectiles here. 
+---@param shootDir? Vector The direction the NPC wants to shoot at. 
+---@[not_engine_called]
+---@[self_call_type("GetOwner", "NPC", "server")]
+---@[default_self_call("SecondaryAttack")]
 function Weapon:NPCShoot_Secondary(shootPos, shootDir) end
+
 
 ---Called when weapon is dropped by [Player:DropWeapon](https://wiki.facepunch.com/gmod/Player:DropWeapon).
 ---
@@ -597,7 +637,9 @@ function Weapon:OwnerChanged() end
 ---@param weapon Weapon This is the weapon that is from the view model (same as self)
 ---@param ply Player The owner of the view model
 ---@param flags number The Enums/STUDIO flags for this render operation.
+---@[self_call_type("GetOwner", "Player")]
 function Weapon:PostDrawViewModel(vm, weapon, ply, flags) end
+
 
 ---Allows you to modify viewmodel while the weapon in use before it is drawn.
 ---
@@ -612,14 +654,21 @@ function Weapon:PostDrawViewModel(vm, weapon, ply, flags) end
 ---@param ply Player The the owner of the view model.
 ---@param flags number The Enums/STUDIO flags for this render operation.
 ---@return boolean # Return `true` to prevent the default action of rendering the view model. `PostDrawViewModel` will NOT be called in this scenario.
+---@[self_call_type("GetOwner", "Player")]
 function Weapon:PreDrawViewModel(vm, weapon, ply, flags) end
+
 
 ---Called when the weapon is fired with primary attack.
 ---@hook PrimaryAttack
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/WEAPON:PrimaryAttack
 ---@[self_call_valid("GetOwner")]
+---@[self_call_type("GetOwner", "Player")]
+---@[default_self_call("CanPrimaryAttack")]
+---@[default_self_call("ShootBullet")]
+---@[default_self_call("TakePrimaryAmmo")]
 function Weapon:PrimaryAttack() end
+
 
 ---A convenience function that draws the weapon info box, used in [WEAPON:DrawWeaponSelection](https://wiki.facepunch.com/gmod/WEAPON:DrawWeaponSelection).
 ---@hook PrintWeaponInfo
@@ -635,7 +684,9 @@ function Weapon:PrintWeaponInfo(x, y, alpha) end
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/WEAPON:Reload
 ---@[self_call_valid("GetOwner")]
+---@[self_call_type("GetOwner", "Player")]
 function Weapon:Reload() end
+
 
 ---Called every frame just before [GM:RenderScene](https://wiki.facepunch.com/gmod/GM:RenderScene).
 ---
@@ -652,7 +703,12 @@ function Weapon:RenderScreen() end
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/WEAPON:SecondaryAttack
 ---@[self_call_valid("GetOwner")]
+---@[self_call_type("GetOwner", "Player")]
+---@[default_self_call("CanSecondaryAttack")]
+---@[default_self_call("ShootBullet")]
+---@[default_self_call("TakeSecondaryAmmo")]
 function Weapon:SecondaryAttack() end
+
 
 ---Forces weapon to play activity/animation.
 ---@realm shared
@@ -747,13 +803,19 @@ function Weapon:SetWeaponHoldType(name) end
 ---@param ammo_type? string Ammo type of the bullets
 ---@param force? number Force of the bullets
 ---@param tracer? number Show a tracer on every x bullets
+---@[replaceable]
+---@[not_engine_called]
+---@[default_self_call("ShootEffects")]
 function Weapon:ShootBullet(damage, num_bullets, aimcone, ammo_type, force, tracer) end
+
 
 ---A convenience function to create shoot effects.
 ---@hook ShootEffects
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/WEAPON:ShootEffects
+---@[not_engine_called]
 function Weapon:ShootEffects() end
+
 
 ---Called to determine if the view model should be drawn or not.
 ---@hook ShouldDrawViewModel
@@ -776,28 +838,39 @@ function Weapon:ShouldDropOnDie() end
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/WEAPON:TakePrimaryAmmo
 ---@param amount number Amount of primary ammo to remove
+---@[not_engine_called]
+---@[default_self_call("Ammo1")]
 function Weapon:TakePrimaryAmmo(amount) end
+
 
 ---A convenience function to remove secondary ammo from clip.
 ---@hook TakeSecondaryAmmo
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/WEAPON:TakeSecondaryAmmo
 ---@param amount number How much of secondary ammo to remove
+---@[not_engine_called]
+---@[default_self_call("Ammo2")]
 function Weapon:TakeSecondaryAmmo(amount) end
+
 
 ---Called when the weapon thinks.
 ---@hook Think
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/WEAPON:Think
 ---@[self_call_valid("GetOwner")]
+---@[self_call_type("GetOwner", "Player")]
 function Weapon:Think() end
+
 
 ---Alias of [Weapon:Think](https://wiki.facepunch.com/gmod/Weapon:Think).
 ---@hook Tick
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/WEAPON:Tick
 ---@deprecated Use Weapon:Think instead.
+---@[self_call_valid("GetOwner")]
+---@[self_call_type("GetOwner", "Player")]
 function Weapon:Tick() end
+
 
 ---Translate a generic activity into a more specific activity, such as holdtype-specific activities.
 ---
@@ -819,7 +892,9 @@ function Weapon:TranslateActivity(act) end
 ---@source https://wiki.facepunch.com/gmod/WEAPON:TranslateFOV
 ---@param fov number The current/default FOV.
 ---@return number # The target FOV.
+---@[self_call_type("GetOwner", "Player")]
 function Weapon:TranslateFOV(fov) end
+
 
 ---Called straight after the view model has been drawn. This is called before [GM:PostDrawViewModel](https://wiki.facepunch.com/gmod/GM:PostDrawViewModel) and [WEAPON:PostDrawViewModel](https://wiki.facepunch.com/gmod/WEAPON:PostDrawViewModel).
 ---
@@ -831,13 +906,17 @@ function Weapon:TranslateFOV(fov) end
 ---@source https://wiki.facepunch.com/gmod/WEAPON:ViewModelDrawn
 ---@param ViewModel Entity Players view model
 ---@param flags number The Enums/STUDIO flags for this render operation.
+---@[self_call_type("GetOwner", "Player")]
 function Weapon:ViewModelDrawn(ViewModel, flags) end
+
+
 
 ---Called to play weapon shooting effects.
 ---@hook DoShootEffect
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/WEAPON:DoShootEffect
 ---@[self_call_valid("GetOwner")]
+---@[not_engine_called]
 function Weapon:DoShootEffect() end
 
 ---Called by the toolgun SWEP to build a tool trace.
@@ -863,7 +942,8 @@ function gmod_tool:CheckLimit(limitName) end
 ---@return Player|NULL # The tool user, or NULL while unowned.
 function gmod_tool:GetOwner() end
 
----@class gmod_tool : Weapon
+---@class gmod_tool : SWEP
+---@field Tool table<string, Tool> Map of tool mode name → instantiated tool object, filled when the gmod_tool SWEP loads.
 local gmod_tool = {}
 
 ---Returns the tool object associated with the current or specified tool mode.

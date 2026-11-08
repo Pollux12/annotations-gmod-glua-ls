@@ -29,6 +29,7 @@ function weapons.GetList() end
 ---@return (definition) `T`? # The weapon table, or nil if no weapon is registered with that class name.
 function weapons.GetStored(weapon_class) end
 
+
 ---Checks if name is based on base
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/weapons.IsBasedOn
@@ -55,7 +56,11 @@ function weapons.OnLoaded() end
 --- Sub-tables provided in the first argument will not carry over their metatable, and will receive a BaseClass key if the table was merged with the base's. Userdata references, which includes Vectors, Angles, Entities, etc. will not be copied.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/weapons.Register
----@param SWEP SWEP The SWEP table to register.
+---@[call_arg("gmod.scripted_class", "weapon_table")]
+---@param SWEP table The SWEP table to register.
 --- For the table's format and available options see the Structures/SWEP page.
+---@[call_arg("gmod.scripted_class", "define")]
 ---@param classname string Classname to assign to that swep
 function weapons.Register(SWEP, classname) end
+
+

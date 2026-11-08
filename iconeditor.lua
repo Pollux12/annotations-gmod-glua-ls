@@ -45,7 +45,7 @@ function IconEditor:FullFrontalLayout() end
 ---@source https://wiki.facepunch.com/gmod/IconEditor:OriginLayout
 function IconEditor:OriginLayout() end
 
----Updates the internal [DAdjustableModelPanel](https://wiki.facepunch.com/gmod/DAdjustableModelPanel) and [SpawnIcon](https://wiki.facepunch.com/gmod/SpawnIcon).
+---Updates the internal [DAdjustableModelPanel](https://wiki.facepunch.com/gmod/DAdjustableModelPanel) and [SpawnIcon](https://wiki.facepunch.com/gmod/SpawnIcon). 
 ---
 --- This should be called immediately after setting the SpawnIcon with [IconEditor:SetIcon](https://wiki.facepunch.com/gmod/IconEditor:SetIcon).
 ---@realm client
@@ -86,9 +86,11 @@ function IconEditor:SetFromEntity(ent) end
 ---@param icon SpawnIcon The SpawnIcon object to modify.
 function IconEditor:SetIcon(icon) end
 
+
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---  Updates the entity being rendered in the internal [DAdjustableModelPanel](https://wiki.facepunch.com/gmod/DAdjustableModelPanel). Called by the model panel's [DModelPanel:LayoutEntity](https://wiki.facepunch.com/gmod/DModelPanel:LayoutEntity) method.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/IconEditor:UpdateEntity
 ---@param ent Entity The entity being rendered within the model panel.
 function IconEditor:UpdateEntity(ent) end
+

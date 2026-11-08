@@ -18,7 +18,7 @@ function DNumberWang:GetDecimals() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DNumberWang:GetFloatValue
----@return number #
+---@return number # 
 function DNumberWang:GetFloatValue() end
 
 ---Returns a fraction representing the current number selector value to number selector min/max range ratio.
@@ -91,7 +91,7 @@ function DNumberWang:SetDecimals(num) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DNumberWang:SetFloatValue
----@param val number
+---@param val number 
 function DNumberWang:SetFloatValue(val) end
 
 ---Sets the value of the number selector based on the given fraction number.
@@ -136,3 +136,4 @@ function DNumberWang:SetMinMax(min, max) end
 ---@source https://wiki.facepunch.com/gmod/DNumberWang:SetValue
 ---@param val number The value to set.
 function DNumberWang:SetValue(val) end
+

@@ -68,3 +68,4 @@ function DHTML:SetAllowLua(allow) end
 ---@param show boolean True if scrollbars should be visible.
 ---@deprecated Broken. Use the CSS `overflow` rule instead.
 function DHTML:SetScrollbars(show) end
+

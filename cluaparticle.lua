@@ -191,6 +191,7 @@ function CLuaParticle:SetCollideCallback(collideFunc) end
 ---@param b number The blue component.
 function CLuaParticle:SetColor(r, g, b) end
 
+
 ---Sets the time where the particle will be removed.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/CLuaParticle:SetDieTime
@@ -302,8 +303,9 @@ function CLuaParticle:SetThinkFunction(thinkFunc) end
 ---@param vel Vector The new velocity of the particle.
 function CLuaParticle:SetVelocity(vel) end
 
----Automatically scales the length of the particle based on the particle speed, multiplied with [CLuaParticle:SetStartLength](https://wiki.facepunch.com/gmod/CLuaParticle:SetStartLength) and [CLuaParticle:SetEndLength](https://wiki.facepunch.com/gmod/CLuaParticle:SetEndLength). Width remains the same as [CLuaParticle:SetStartSize](https://wiki.facepunch.com/gmod/CLuaParticle:SetStartSize) and [CLuaParticle:SetEndSize](https://wiki.facepunch.com/gmod/CLuaParticle:SetEndSize).
+---Automatically scales the length of the particle based on the particle speed, multiplied with [CLuaParticle:SetStartLength](https://wiki.facepunch.com/gmod/CLuaParticle:SetStartLength) and [CLuaParticle:SetEndLength](https://wiki.facepunch.com/gmod/CLuaParticle:SetEndLength). Width remains the same as [CLuaParticle:SetStartSize](https://wiki.facepunch.com/gmod/CLuaParticle:SetStartSize) and [CLuaParticle:SetEndSize](https://wiki.facepunch.com/gmod/CLuaParticle:SetEndSize). 
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/CLuaParticle:SetVelocityScale
 ---@param doScale? boolean Use velocity scaling.
 function CLuaParticle:SetVelocityScale(doScale) end
+

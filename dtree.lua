@@ -20,6 +20,7 @@ local DTree = {}
 ---@return DTree_Node # The created node.
 function DTree:AddNode(name, icon) end
 
+
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
 --- Calls directly to [Panel:InvalidateLayout](https://wiki.facepunch.com/gmod/Panel:InvalidateLayout).
@@ -32,7 +33,7 @@ function DTree:AddNode(name, icon) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree:ChildExpanded
----@param bExpand boolean
+---@param bExpand boolean 
 function DTree:ChildExpanded(bExpand) end
 
 ---@realm client
@@ -42,13 +43,14 @@ function DTree:ChildExpanded(bExpand) end
 ---@return boolean # Return true to handle the click.
 function DTree:DoClick(node) end
 
+
 ---Called when the any node is right clicked. Called by [DTree_Node:DoRightClick](https://wiki.facepunch.com/gmod/DTree_Node:DoRightClick).
 ---@hook DoRightClick
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree:DoRightClick
 ---@param node DTree_Node The right clicked node.
----@return boolean #
+---@return boolean # 
 function DTree:DoRightClick(node) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -59,14 +61,14 @@ function DTree:DoRightClick(node) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree:ExpandTo
----@param bExpand boolean
+---@param bExpand boolean 
 function DTree:ExpandTo(bExpand) end
 
 ---Returns the status of [DTree:SetClickOnDragHover](https://wiki.facepunch.com/gmod/DTree:SetClickOnDragHover). See that for more info.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree:GetClickOnDragHover
----@return boolean #
+---@return boolean # 
 function DTree:GetClickOnDragHover() end
 
 ---Returns the indentation size of the [DTree](https://wiki.facepunch.com/gmod/DTree), the distance between each "level" of the tree is offset on the left from the previous level.
@@ -128,11 +130,13 @@ function DTree:MoveChildTo(child, pos) end
 ---@param node DTree_Node The node that was selected.
 function DTree:OnNodeSelected(node) end
 
+
 ---Returns the root node for this tree.
 ---@realm client
 ---@realm menu
 ---@return DTree_Node # The root tree node.
 function DTree:Root() end
+
 
 ---Enables the "click when drag-hovering" functionality.
 ---
@@ -142,7 +146,7 @@ function DTree:Root() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree:SetClickOnDragHover
----@param enable boolean
+---@param enable boolean 
 function DTree:SetClickOnDragHover(enable) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -153,7 +157,7 @@ function DTree:SetClickOnDragHover(enable) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree:SetExpanded
----@param bExpand boolean
+---@param bExpand boolean 
 function DTree:SetExpanded(bExpand) end
 
 ---Sets the indentation size of the [DTree](https://wiki.facepunch.com/gmod/DTree), the distance between each "level" of the tree is offset on the left from the previous level.
@@ -198,6 +202,7 @@ function DTree:SetShowIcons(show) end
 ---@source https://wiki.facepunch.com/gmod/DTree:ShowIcons
 ---@return boolean # Whether or not the silkicons next to each node will be displayed.
 function DTree:ShowIcons() end
+
 
 ---@realm client
 ---@realm menu

@@ -19,6 +19,7 @@ function net.Abort() end
 ---@[net_send("client")]
 function net.Broadcast() end
 
+
 ---Returns the amount of data left to read in the current message. Does nothing when sending data.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/net.BytesLeft
@@ -57,6 +58,7 @@ function net.Incoming(length, client) end
 ---@[net_payload("read", "angle")]
 function net.ReadAngle() end
 
+
 ---Reads a bit from the received net message.
 ---
 --- **WARNING**: You **must** read information in same order as you write it.
@@ -66,6 +68,7 @@ function net.ReadAngle() end
 ---@[net_payload("read", "bit")]
 function net.ReadBit() end
 
+
 ---Reads a boolean from the received net message.
 ---
 --- **WARNING**: You **must** read information in same order as you write it.
@@ -74,6 +77,7 @@ function net.ReadBit() end
 ---@return boolean # `true` or `false`, or `false` if the bool could not be read.
 ---@[net_payload("read", "bool")]
 function net.ReadBool() end
+
 
 ---Reads a [Color](https://wiki.facepunch.com/gmod/Color) from the current net message.
 ---
@@ -85,6 +89,7 @@ function net.ReadBool() end
 ---@[net_payload("read", "color")]
 function net.ReadColor(hasAlpha) end
 
+
 ---Reads pure binary data from the message.
 ---
 --- **WARNING**: You **must** read information in same order as you write it.
@@ -95,6 +100,7 @@ function net.ReadColor(hasAlpha) end
 ---@[net_payload("read", "data")]
 function net.ReadData(length) end
 
+
 ---Reads a double-precision number from the received net message.
 ---
 --- **WARNING**: You **must** read information in same order as you write it.
@@ -103,6 +109,7 @@ function net.ReadData(length) end
 ---@return number # The double-precision number, or `0` if no number could be read.
 ---@[net_payload("read", "double")]
 function net.ReadDouble() end
+
 
 ---Reads an entity from the received net message. You should always check if the specified entity exists as it may have been removed and therefore `NULL` if it is outside of the players [PVS (Potential Visibility Set)](https://developer.valvesoftware.com/wiki/PVS "PVS - Valve Developer Community") or was already removed.
 ---
@@ -113,6 +120,7 @@ function net.ReadDouble() end
 ---@[net_payload("read", "entity")]
 function net.ReadEntity() end
 
+
 ---Reads a floating point number from the received net message.
 ---
 --- **WARNING**: You **must** read information in same order as you write it.
@@ -121,6 +129,7 @@ function net.ReadEntity() end
 ---@return number # The floating point number, or `0` if no number could be read.
 ---@[net_payload("read", "float")]
 function net.ReadFloat() end
+
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
@@ -143,6 +152,7 @@ function net.ReadHeader() end
 ---@[net_payload("read", "int")]
 function net.ReadInt(bitCount) end
 
+
 ---Reads a [VMatrix](https://wiki.facepunch.com/gmod/VMatrix) from the received net message.
 --- **WARNING**: You **must** read information in same order as you write it.
 ---@realm shared
@@ -150,6 +160,7 @@ function net.ReadInt(bitCount) end
 ---@return VMatrix # The matrix, or an empty matrix if no matrix could be read.
 ---@[net_payload("read", "matrix")]
 function net.ReadMatrix() end
+
 
 ---Reads a normal vector from the net message.
 ---
@@ -159,6 +170,7 @@ function net.ReadMatrix() end
 ---@return Vector # The normalized vector ( length = `1` ), or `Vector( 0, 0, 1 )` if no normal could be read.
 ---@[net_payload("read", "normal")]
 function net.ReadNormal() end
+
 
 ---Reads a player entity that was written with [net.WritePlayer](https://wiki.facepunch.com/gmod/net.WritePlayer) from the received net message.
 ---
@@ -171,6 +183,7 @@ function net.ReadNormal() end
 ---@[net_payload("read", "player")]
 function net.ReadPlayer() end
 
+
 ---Reads a [null-terminated string](https://en.wikipedia.org/wiki/Null-terminated_string) from the net stream. The size of the string is 8 bits plus 8 bits for every ASCII character in the string.
 ---
 --- **WARNING**: You **must** read information in same order as you write it.
@@ -179,6 +192,7 @@ function net.ReadPlayer() end
 ---@return string # The read string, or a string with `0` length if no string could be read.
 ---@[net_payload("read", "string")]
 function net.ReadString() end
+
 
 ---Reads a table from the received net message.
 ---
@@ -194,6 +208,7 @@ function net.ReadString() end
 ---@[net_payload("read", "table")]
 function net.ReadTable(sequential) end
 
+
 ---**INTERNAL**: Used internally by [net.ReadTable](https://wiki.facepunch.com/gmod/net.ReadTable).
 ---
 --- Reads a value from the net message with the specified type, written by [net.WriteType](https://wiki.facepunch.com/gmod/net.WriteType).
@@ -205,6 +220,7 @@ function net.ReadTable(sequential) end
 ---@return any # The value, or the respective blank value based on the type you're reading if the value could not be read.
 ---@[net_payload("read", "type")]
 function net.ReadType(typeID) end
+
 
 ---Reads an unsigned integer with the specified number of bits from the received net message.
 ---
@@ -219,6 +235,7 @@ function net.ReadType(typeID) end
 ---@[net_payload("read", "uint")]
 function net.ReadUInt(bitCount) end
 
+
 ---Reads a unsigned integer with 64 bits from the received net message.
 ---
 --- **WARNING**: You **must** read information in same order as you write it.
@@ -230,6 +247,7 @@ function net.ReadUInt(bitCount) end
 ---@[net_payload("read", "uint64")]
 function net.ReadUInt64() end
 
+
 ---Reads a vector from the received net message. Vectors sent by this function are **compressed**, which may result in precision loss. See [net.WriteVector](https://wiki.facepunch.com/gmod/net.WriteVector) for more information.
 ---
 --- **WARNING**: You **must** read information in same order as you write it.
@@ -239,6 +257,7 @@ function net.ReadUInt64() end
 ---@[net_payload("read", "vector")]
 function net.ReadVector() end
 
+
 ---Registers a callback for a network message.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/net.Receive
@@ -247,6 +266,7 @@ function net.ReadVector() end
 ---@[call_arg("gmod.net_message", "callback")]
 ---@param callback fun(len: number, ply: Player) The function to be called if the specified message was received.
 function net.Receive(messageName, callback) end
+
 
 ---Sends the current net message to the specified player(s)
 ---@realm server
@@ -258,6 +278,7 @@ function net.Receive(messageName, callback) end
 ---@[net_send("client")]
 function net.Send(ply) end
 
+
 ---Sends the current message (see [net.Start](https://wiki.facepunch.com/gmod/net.Start)) to all except the player or players specified.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/net.SendOmit
@@ -267,6 +288,7 @@ function net.Send(ply) end
 ---@[net_send("client")]
 function net.SendOmit(ply) end
 
+
 ---Sends current net message (see [net.Start](https://wiki.facepunch.com/gmod/net.Start)) to all players that are in the same [Potentially Audible Set (PAS)](https://developer.valvesoftware.com/wiki/PAS) as the position, or simply said, it adds all players that can potentially hear sounds from this position.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/net.SendPAS
@@ -275,6 +297,7 @@ function net.SendOmit(ply) end
 ---@[net_send("client")]
 function net.SendPAS(position) end
 
+
 ---Sends current net message (see [net.Start](https://wiki.facepunch.com/gmod/net.Start)) to all players in the [PVS (Potential Visibility Set)](https://developer.valvesoftware.com/wiki/PVS "PVS - Valve Developer Community") of the position, or, more simply said, sends the message to players that can potentially see this position.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/net.SendPVS
@@ -282,6 +305,7 @@ function net.SendPAS(position) end
 ---@param position Vector Position that must be in players' visibility set.
 ---@[net_send("client")]
 function net.SendPVS(position) end
+
 
 ---Sends the current net message (see [net.Start](https://wiki.facepunch.com/gmod/net.Start)) to the server. The player object must exist on the server for the net message to be received successfully by the server.
 ---
@@ -293,6 +317,7 @@ function net.SendPVS(position) end
 ---@[net_send("server")]
 function net.SendToServer() end
 
+
 ---Begins a new net message.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/net.Start
@@ -302,12 +327,14 @@ function net.SendToServer() end
 ---@return boolean # `true` if the message has been started.
 function net.Start(messageName, unreliable) end
 
+
 ---Writes an angle to the current net message.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/net.WriteAngle
 ---@param angle Angle The angle to be sent.
 ---@[net_payload("write", "angle")]
 function net.WriteAngle(angle) end
+
 
 ---Appends a boolean (as `1` or `0`) to the current net message.
 ---
@@ -318,12 +345,14 @@ function net.WriteAngle(angle) end
 ---@[net_payload("write", "bit")]
 function net.WriteBit(boolean) end
 
+
 ---Appends a boolean to the current net message. Alias of [net.WriteBit](https://wiki.facepunch.com/gmod/net.WriteBit).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/net.WriteBool
 ---@param boolean boolean Boolean value to write.
 ---@[net_payload("write", "bool")]
 function net.WriteBool(boolean) end
+
 
 ---Appends a [Color](https://wiki.facepunch.com/gmod/Color) to the current net message.
 ---@realm shared
@@ -333,6 +362,7 @@ function net.WriteBool(boolean) end
 ---@[net_payload("write", "color")]
 function net.WriteColor(Color, writeAlpha) end
 
+
 ---Writes a chunk of binary data to the message.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/net.WriteData
@@ -341,12 +371,14 @@ function net.WriteColor(Color, writeAlpha) end
 ---@[net_payload("write", "data")]
 function net.WriteData(binaryData, length) end
 
+
 ---Appends a double-precision number to the current net message.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/net.WriteDouble
 ---@param double number The double to be sent
 ---@[net_payload("write", "double")]
 function net.WriteDouble(double) end
+
 
 ---Appends an entity to the current net message using its [Entity:EntIndex](https://wiki.facepunch.com/gmod/Entity:EntIndex).
 ---
@@ -357,12 +389,14 @@ function net.WriteDouble(double) end
 ---@[net_payload("write", "entity")]
 function net.WriteEntity(entity) end
 
+
 ---Appends a float (number with decimals) to the current net message.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/net.WriteFloat
 ---@param float number The float to be sent.
 ---@[net_payload("write", "float")]
 function net.WriteFloat(float) end
+
 
 ---Appends a signed integer - a whole number, positive/negative - to the current net message. Can be read back with [net.ReadInt](https://wiki.facepunch.com/gmod/net.ReadInt) on the receiving end.
 ---
@@ -414,12 +448,14 @@ Consult the table below to determine the bit count you need:
 ---@[net_payload("write", "int")]
 function net.WriteInt(integer, bitCount) end
 
+
 ---Writes a [VMatrix](https://wiki.facepunch.com/gmod/VMatrix) to the current net message.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/net.WriteMatrix
 ---@param matrix VMatrix The matrix to be sent.
 ---@[net_payload("write", "matrix")]
 function net.WriteMatrix(matrix) end
+
 
 ---Writes a normalized/direction vector ( Vector with length of 1 ) to the net message.
 ---
@@ -430,6 +466,7 @@ function net.WriteMatrix(matrix) end
 ---@[net_payload("write", "normal")]
 function net.WriteNormal(normal) end
 
+
 ---Appends a player entity to the current net message using its [Entity:EntIndex](https://wiki.facepunch.com/gmod/Entity:EntIndex). This saves a small amount of network bandwidth over [net.WriteEntity](https://wiki.facepunch.com/gmod/net.WriteEntity).
 ---
 --- See [net.ReadPlayer](https://wiki.facepunch.com/gmod/net.ReadPlayer) for the function to read the entity.
@@ -438,6 +475,7 @@ function net.WriteNormal(normal) end
 ---@param ply Player The player to be sent.
 ---@[net_payload("write", "player")]
 function net.WritePlayer(ply) end
+
 
 ---Appends a string to the current net message. The size of the written data is 8 bits for every ASCII character in the string + 8 bits for the null terminator.
 ---
@@ -449,6 +487,7 @@ function net.WritePlayer(ply) end
 --- The input will be terminated at the first null byte if one is present. See net.WriteData if you wish to write binary data.
 ---@[net_payload("write", "string")]
 function net.WriteString(string) end
+
 
 ---Appends a table to the current net message. Adds **16 extra bits** per key/value pair, so you're better off writing each individual key/value as the exact type if possible.
 ---
@@ -468,6 +507,7 @@ function net.WriteString(string) end
 ---@[net_payload("write", "table")]
 function net.WriteTable(table, sequential) end
 
+
 ---**INTERNAL**: Used internally by [net.WriteTable](https://wiki.facepunch.com/gmod/net.WriteTable).
 ---
 --- Appends any type of value to the current net message.
@@ -478,6 +518,7 @@ function net.WriteTable(table, sequential) end
 ---@param Data any The data to be sent.
 ---@[net_payload("write", "type")]
 function net.WriteType(Data) end
+
 
 ---Appends an unsigned integer with the specified number of bits to the current net message.
 ---
@@ -533,6 +574,7 @@ Consult the table below to determine the bit count you need. The minimum value f
 ---@[net_payload("write", "uint")]
 function net.WriteUInt(unsignedInteger, bitCount) end
 
+
 ---Appends an unsigned integer with 64 bits to the current net message.
 ---
 --- The limit for an uint64 is 18'446'744'073'709'551'615.
@@ -552,6 +594,7 @@ function net.WriteUInt(unsignedInteger, bitCount) end
 ---@[net_payload("write", "uint64")]
 function net.WriteUInt64(uint64) end
 
+
 ---Appends a vector to the current net message.
 --- Vectors sent by this function are compressed, which may result in precision loss. XYZ components greater than `16384` or less than `-16384` are irrecoverably altered (most significant bits are trimmed) and precision after the decimal point is 1 digit (5 bits).
 ---@realm shared
@@ -559,3 +602,5 @@ function net.WriteUInt64(uint64) end
 ---@param vector Vector The vector to be sent.
 ---@[net_payload("write", "vector")]
 function net.WriteVector(vector) end
+
+

@@ -34,3 +34,4 @@ function DSizeToContents:SetSizeX(sizeX) end
 ---@source https://wiki.facepunch.com/gmod/DSizeToContents:SetSizeY
 ---@param sizeY boolean Whether the panel should size to contents vertically.
 function DSizeToContents:SetSizeY(sizeY) end
+

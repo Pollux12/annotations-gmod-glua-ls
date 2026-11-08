@@ -175,3 +175,4 @@ function gui.SetMousePos(mouseX, mouseY) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/gui.ShowConsole
 function gui.ShowConsole() end
+

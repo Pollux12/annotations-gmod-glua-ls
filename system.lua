@@ -94,3 +94,4 @@ function system.SteamTime() end
 ---@source https://wiki.facepunch.com/gmod/system.UpTime
 ---@return number # The amount of seconds since the Steam user last moved their mouse.
 function system.UpTime() end
+

@@ -5,7 +5,7 @@
 ---@class (partial) PathFollower
 local PathFollower = {}
 
----Computes the shortest path to the provided entity arg. PathFollower Object must have `Chase` type.
+---Computes the shortest path to the provided entity arg. PathFollower Object must have `Chase` type. 
 ---
 --- For PathFollower objects of the `Follow` type use [PathFollower:Compute](https://wiki.facepunch.com/gmod/PathFollower:Compute)
 ---@realm server
@@ -25,7 +25,7 @@ local PathFollower = {}
 --- * number `cost` - The cost of movement between `area` and `fromArea`.
 function PathFollower:Chase(bot, ent, generator) end
 
----Compute shortest path from bot to 'goal' via A* algorithm. This only works if the PathFollower is the `Follow` Type.
+---Compute shortest path from bot to 'goal' via A* algorithm. This only works if the PathFollower is the `Follow` Type. 
 ---
 --- For PathFollowers of the `Chase` Type see [PathFollower:Chase](https://wiki.facepunch.com/gmod/PathFollower:Chase)
 ---@realm server
@@ -55,8 +55,9 @@ function PathFollower:Draw() end
 ---Returns the first segment of the path.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/PathFollower:FirstSegment
----@return table # A table with Structures/PathSegment.
+---@return PathSegment? # The first path segment, or nil if the path is empty.
 function PathFollower:FirstSegment() end
+
 
 ---Returns the age since the path was built
 ---@realm server
@@ -67,8 +68,9 @@ function PathFollower:GetAge() end
 ---Returns all of the segments of the given path.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/PathFollower:GetAllSegments
----@return PathSegment # A table of tables with Structures/PathSegment.
+---@return PathSegment[] # A table of tables with Structures/PathSegment.
 function PathFollower:GetAllSegments() end
+
 
 ---The closest position along the path to a position
 ---@realm server
@@ -80,8 +82,9 @@ function PathFollower:GetClosestPosition(position) end
 ---Returns the current goal data. Can return nil if the current goal is invalid, for example immediately after [PathFollower:Update](https://wiki.facepunch.com/gmod/PathFollower:Update).
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/PathFollower:GetCurrentGoal
----@return table # A table with Structures/PathSegment.
+---@return PathSegment? # The current goal path segment, or nil if invalid.
 function PathFollower:GetCurrentGoal() end
+
 
 ---Returns the cursor data
 ---@realm server
@@ -158,8 +161,9 @@ function PathFollower:IsValid() end
 ---Returns the last segment of the path.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/PathFollower:LastSegment
----@return table # A table with Structures/PathSegment.
+---@return PathSegment? # The last path segment, or nil if the path is empty.
 function PathFollower:LastSegment() end
+
 
 ---Moves the cursor by give distance.
 ---
@@ -180,7 +184,7 @@ function PathFollower:MoveCursorTo(distance) end
 ---Moves the cursor of the path to the closest position compared to given vector.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/PathFollower:MoveCursorToClosestPosition
----@param pos Vector
+---@param pos Vector 
 ---@param type? number Seek type
 ---
 --- 0 = SEEK_ENTIRE_PATH - Search the entire path length
@@ -188,7 +192,7 @@ function PathFollower:MoveCursorTo(distance) end
 --- 1 = SEEK_AHEAD - Search from current cursor position forward toward end of path
 ---
 --- 2 = SEEK_BEHIND - Search from current cursor position backward toward path start
----@param alongLimit? number
+---@param alongLimit? number 
 function PathFollower:MoveCursorToClosestPosition(pos, type, alongLimit) end
 
 ---Moves the cursor to the end of the path
@@ -204,14 +208,16 @@ function PathFollower:MoveCursorToStart() end
 ---Returns the next segment of the path.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/PathFollower:NextSegment
----@return table # A table with Structures/PathSegment.
+---@return PathSegment? # The next path segment, or nil if there are no more segments.
 function PathFollower:NextSegment() end
+
 
 ---Returns the previous segment of the path.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/PathFollower:PriorSegment
----@return table # A table with Structures/PathSegment.
+---@return PathSegment? # The previous path segment, or nil if at the start of the path.
 function PathFollower:PriorSegment() end
+
 
 ---Resets the age which is retrieved by [PathFollower:GetAge](https://wiki.facepunch.com/gmod/PathFollower:GetAge) to 0.
 ---@realm server
@@ -236,3 +242,4 @@ function PathFollower:SetMinLookAheadDistance(mindist) end
 ---@source https://wiki.facepunch.com/gmod/PathFollower:Update
 ---@param bot NextBot The bot to update along the path. This can also be a nextbot player (player.CreateNextbot)
 function PathFollower:Update(bot) end
+

@@ -147,3 +147,4 @@ function DVerticalDivider:SetTopMin(height) end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DVerticalDivider:StartGrab
 function DVerticalDivider:StartGrab() end
+

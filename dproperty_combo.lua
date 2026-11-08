@@ -41,3 +41,4 @@ function DProperty_Combo:SetSelected(Id) end
 --- * table icons - The icons for each value. They will be matched by key name.
 --- * boolean select - The "nice" name/key of the value that should be initially selected.
 function DProperty_Combo:Setup(data) end
+

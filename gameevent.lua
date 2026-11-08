@@ -397,7 +397,7 @@ local player_changename = {}
 ---@field userid number
 ---The Entity:EntIndex of the player, minus one.
 ---@field index number
----The Player:IPAddress of the connecting player.
+---The Player:IPAddress of the connecting player. 
 --- Will be `none` for bots and `loopback` for listen server and single-player hosts.
 ---@field address string
 
@@ -643,3 +643,4 @@ gameevent = {}
 ---@source https://wiki.facepunch.com/gmod/gameevent.Listen
 ---@param eventName string The event to listen to. List of valid events (with examples) can be found [here](https://wiki.facepunch.com/gmod/gameevent).
 function gameevent.Listen(eventName) end
+

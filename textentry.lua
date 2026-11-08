@@ -27,3 +27,4 @@ function TextEntry:OnKeyCodeTyped(keyCode) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/TextEntry:OnTextChanged
 function TextEntry:OnTextChanged() end
+

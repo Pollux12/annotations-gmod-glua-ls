@@ -37,12 +37,14 @@ function os.clock() end
 ---
 --- When called without arguments, `date` returns a reasonable date and time
 --- representation that depends on the host system and on the current locale.
----@overload fun(fmt:"*t", time?: number):DateData
----@overload fun(fmt:"!*t", time?: number):DateData
----@param format? string # The format string. If `*t` or `!*t`, returns a [Structures/DateData](https://wiki.facepunch.com/gmod/Structures/DateData) table instead.
+---@overload fun(format: "*t", time?: number): DateData
+---@overload fun(format: "!*t", time?: number): DateData
+---@overload fun(format?: string, time?: number): string
+---@param format "*t"|"!*t" # The format string. If `*t` or `!*t`, returns a [Structures/DateData](https://wiki.facepunch.com/gmod/Structures/DateData) table instead.
 ---@param time? number # Time to use for the format.
----@return string|DateData # Formatted date string, or a [Structures/DateData](https://wiki.facepunch.com/gmod/Structures/DateData) table if format is `*t` or `!*t`.
+---@return DateData # Formatted date string, or a [Structures/DateData](https://wiki.facepunch.com/gmod/Structures/DateData) table if format is `*t` or `!*t`.
 function os.date(format, time) end
+
 
 ---Subtracts the second from the first value and rounds the result.
 ---@realm shared
@@ -57,6 +59,8 @@ function os.difftime(timeA, timeB) end
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/os.time
----@param dateData? DateData Table to generate the time from. This table's data is interpreted as being in the local timezone. See Structures/DateData
+---@param dateData? DateData|DateDataInput Table to generate the time from. This table's data is interpreted as being in the local timezone. See Structures/DateData
 ---@return number # Seconds passed since Unix epoch
 function os.time(dateData) end
+
+

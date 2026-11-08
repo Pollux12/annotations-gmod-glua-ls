@@ -8,3 +8,4 @@
 ---@source https://wiki.facepunch.com/gmod/PresetEditor
 ---@class (partial) PresetEditor : DFrame
 local PresetEditor = {}
+

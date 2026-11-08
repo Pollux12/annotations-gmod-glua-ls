@@ -7,3 +7,4 @@
 ---@source https://wiki.facepunch.com/gmod/fingerposer
 ---@class (partial) fingerposer : ContextBase
 local fingerposer = {}
+

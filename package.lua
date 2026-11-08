@@ -9,3 +9,4 @@ package = {}
 ---@source https://wiki.facepunch.com/gmod/package.seeall
 ---@param module table The module table to be given a metatable
 function package.seeall(module) end
+

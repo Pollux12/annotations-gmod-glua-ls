@@ -124,7 +124,7 @@ function EFFECT:Init(effectData) end
 ---@param collider PhysObj The physics object of the entity that collided with the effect.
 function EFFECT:PhysicsCollide(colData, collider) end
 
----Called when the effect should be rendered.
+---Called when the effect should be rendered. 
 ---
 --- 	When not overridden, it will perform default action, which is [Entity:DrawModel](https://wiki.facepunch.com/gmod/Entity:DrawModel).
 ---@hook Render
@@ -150,3 +150,4 @@ function EFFECT:Think() end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/EFFECT:Touch
 function EFFECT:Touch() end
+

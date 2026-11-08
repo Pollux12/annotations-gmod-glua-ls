@@ -161,3 +161,4 @@ function cam.Start3D2D(pos, angles, scale) end
 ---@param rightOffset number The right plane offset.
 ---@param bottomOffset number The bottom plane offset.
 function cam.StartOrthoView(leftOffset, topOffset, rightOffset, bottomOffset) end
+

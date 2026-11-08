@@ -9,11 +9,6 @@ ents = {}
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/ents.Create
 ---@alias KnownEngineEntityClass
----| "gmod_anchor"
----| "gmod_hands"
----| "gmod_cameraprop"
----| "gmod_wheel"
----| "gmod_winch_controller"
 ---| "hunter_flechette"
 ---| "keyframe_rope"
 ---| "logic_collision_pair"
@@ -31,16 +26,12 @@ ents = {}
 ---| "phys_spring"
 ---| "phys_torque"
 ---| "point_viewcontrol"
----| "ragdoll_motion"
----| "widget_axis_arrow"
----| "widget_axis_disc"
----| "widget_bone"
----| "widget_bones"
----@overload fun(class: KnownEngineEntityClass): Entity
+---@overload fun(class: KnownEngineEntityClass): Entity|NULL
 ---@generic T : Entity
 ---@param class `T` The classname of the entity to create.
 ---@return (instance) T|NULL # The created entity, or `NULL` if failed.
 function ents.Create(class) end
+
 
 ---Creates a clientside only prop with optional physics.
 ---@realm client
@@ -48,6 +39,7 @@ function ents.Create(class) end
 ---@param model? string The model for the entity to be created.
 ---@return (instance) Entity # Created entity (`C_PhysPropClientside`).
 function ents.CreateClientProp(model) end
+
 
 ---Creates a clientside only rope, similar to those used by the Dog and Fast Zombie models from Half-Life 2.
 ---
@@ -69,6 +61,7 @@ function ents.CreateClientProp(model) end
 ---@return (instance) Entity # Created entity (`C_RopeKeyframe`).
 function ents.CreateClientRope(ent1, ent1attach, ent2, ent2attach, extra) end
 
+
 ---Creates a clientside only scripted entity. The scripted entity must be of "anim" type.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/ents.CreateClientside
@@ -76,6 +69,7 @@ function ents.CreateClientRope(ent1, ent1attach, ent2, ent2attach, extra) end
 ---@param class `T` The class name of the entity to create.
 ---@return (instance) T # Created entity.
 function ents.CreateClientside(class) end
+
 
 ---Returns a table of all entities along the ray. The ray does not stop on collisions, meaning it will go through walls/entities.
 ---
@@ -95,7 +89,7 @@ function ents.FindAlongRay(start, _end, mins, maxs) end
 ---
 --- This function returns a sequential table, meaning it should be looped with [Global.ipairs](https://wiki.facepunch.com/gmod/Global.ipairs) instead of [Global.pairs](https://wiki.facepunch.com/gmod/Global.pairs) for efficiency reasons.
 ---
---- This works internally by iterating over [ents.GetAll](https://wiki.facepunch.com/gmod/ents.GetAll). `ents.FindByClass` is always faster than [ents.GetAll](https://wiki.facepunch.com/gmod/ents.GetAll) or [ents.Iterator](https://wiki.facepunch.com/gmod/ents.Iterator).
+--- This works by iterating over all entities internally. Using this function is faster than [ents.GetAll](https://wiki.facepunch.com/gmod/ents.GetAll) or [ents.Iterator](https://wiki.facepunch.com/gmod/ents.Iterator) when you need to iterate over a specific class.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/ents.FindByClass
 ---@generic T : Entity
@@ -246,3 +240,5 @@ function ents.GetMapCreatedEntity(id) end
 ---@return Entity[] # Table of all existing Entity. This is a cached copy of ents.GetAll.
 ---@return integer # The origin index (0).
 function ents.Iterator() end
+
+

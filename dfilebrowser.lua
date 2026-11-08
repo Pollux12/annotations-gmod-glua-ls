@@ -5,7 +5,7 @@
 --- It allows filtering by folder (directory) name and file extension, and can display models as [SpawnIcon](https://wiki.facepunch.com/gmod/SpawnIcon)s.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DFileBrowser
----@class DFileBrowser : Panel
+---@class DFileBrowser : DPanel
 --- The horizontal divider separating the tree and file list.
 ---@field Divider DHorizontalDivider
 --- The directory tree panel.
@@ -101,9 +101,10 @@ function DFileBrowser:GetSearch() end
 ---@hook OnDoubleClick
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DFileBrowser:OnDoubleClick
----@param selectedPanel Panel The panel that was double-clicked to select this file.This will either be a DListView_Line or SpawnIcon depending on whether the model viewer mode is enabled. See DFileBrowser:SetModels.
 ---@param filePath string The path to the file that was double-clicked.
-function DFileBrowser:OnDoubleClick(selectedPanel, filePath) end
+---@param selectedPanel DListView_Line|SpawnIcon The panel that was double-clicked to select this file.This will either be a DListView_Line or SpawnIcon depending on whether the model viewer mode is enabled. See DFileBrowser:SetModels.
+function DFileBrowser:OnDoubleClick(filePath, selectedPanel) end
+
 
 ---Called when a file is right-clicked.
 ---
@@ -121,9 +122,10 @@ function DFileBrowser:OnRightClick(filePath, selectedPanel) end
 ---@hook OnSelect
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DFileBrowser:OnSelect
----@param selectedPanel Panel The panel that was clicked to select this file.This will either be a DListView_Line or SpawnIcon depending on whether the model viewer mode is enabled. See DFileBrowser:SetModels.
 ---@param filePath string The path to the file that was selected.
-function DFileBrowser:OnSelect(selectedPanel, filePath) end
+---@param selectedPanel DListView_Line|SpawnIcon The panel that was clicked to select this file.This will either be a DListView_Line or SpawnIcon depending on whether the model viewer mode is enabled. See DFileBrowser:SetModels.
+function DFileBrowser:OnSelect(filePath, selectedPanel) end
+
 
 ---An [Global.AccessorFunc](https://wiki.facepunch.com/gmod/Global.AccessorFunc) that sets the root directory/folder of the file tree.
 ---
@@ -172,6 +174,8 @@ function DFileBrowser:SetName(treeName) end
 ---@param open any Value to coerce into the open state.
 ---@param useAnim? boolean If true, the DTree open/close animation is used.
 function DFileBrowser:SetOpen(open, useAnim) end
+
+
 
 ---An [Global.AccessorFunc](https://wiki.facepunch.com/gmod/Global.AccessorFunc) that sets the access path for the file tree. This is set to `GAME` by default.
 ---
@@ -223,6 +227,7 @@ function DFileBrowser:SetupTree() end
 ---@param currentDir? string The directory to populate the list from.
 function DFileBrowser:ShowFolder(currentDir) end
 
+
 ---Sorts the file list.
 ---
 --- **NOTE**: This is only functional when not using the model viewer. See [DFileBrowser:SetModels](https://wiki.facepunch.com/gmod/DFileBrowser:SetModels)
@@ -230,3 +235,4 @@ function DFileBrowser:ShowFolder(currentDir) end
 ---@source https://wiki.facepunch.com/gmod/DFileBrowser:SortFiles
 ---@param descending? boolean The sort order. `true` for descending (z-a), `false` for ascending (a-z).
 function DFileBrowser:SortFiles(descending) end
+

@@ -47,8 +47,9 @@ function DHTMLControls:SetButtonColor(clr) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DHTMLControls:SetHTML
----@param dhtml Panel The HTML panel
+---@param dhtml HTML The HTML panel
 function DHTMLControls:SetHTML(dhtml) end
+
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---@realm client
@@ -62,7 +63,7 @@ function DHTMLControls:StartedLoading() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DHTMLControls:UpdateHistory
----@param url string
+---@param url string 
 function DHTMLControls:UpdateHistory(url) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -70,3 +71,4 @@ function DHTMLControls:UpdateHistory(url) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DHTMLControls:UpdateNavButtonStatus
 function DHTMLControls:UpdateNavButtonStatus() end
+

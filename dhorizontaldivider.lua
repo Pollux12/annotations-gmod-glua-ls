@@ -25,7 +25,7 @@ function DHorizontalDivider:GetDragging() end
 --- Returns the local X coordinate of where the player started dragging the thing
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DHorizontalDivider:GetHoldPos
----@return number #
+---@return number # 
 function DHorizontalDivider:GetHoldPos() end
 
 ---Returns the left side content of the [DHorizontalDivider](https://wiki.facepunch.com/gmod/DHorizontalDivider)
@@ -73,7 +73,7 @@ function DHorizontalDivider:SetDividerWidth(width) end
 ---Sets whether the player is dragging the divider or not
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DHorizontalDivider:SetDragging
----@param dragonot boolean
+---@param dragonot boolean 
 function DHorizontalDivider:SetDragging(dragonot) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -81,7 +81,7 @@ function DHorizontalDivider:SetDragging(dragonot) end
 --- Sets the local X coordinate of where the player started dragging the thing
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DHorizontalDivider:SetHoldPos
----@param x number
+---@param x number 
 function DHorizontalDivider:SetHoldPos(x) end
 
 ---Sets the left side content of the [DHorizontalDivider](https://wiki.facepunch.com/gmod/DHorizontalDivider).
@@ -89,6 +89,7 @@ function DHorizontalDivider:SetHoldPos(x) end
 ---@source https://wiki.facepunch.com/gmod/DHorizontalDivider:SetLeft
 ---@param pnl Panel? The panel to set as the left side, or nil to detach.
 function DHorizontalDivider:SetLeft(pnl) end
+
 
 ---Sets the minimum width of the left side
 ---@realm client
@@ -116,6 +117,7 @@ function DHorizontalDivider:SetMiddle(middle) end
 ---@param pnl Panel? The panel to set as the right side, or nil to detach.
 function DHorizontalDivider:SetRight(pnl) end
 
+
 ---Sets the minimum width of the right side
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DHorizontalDivider:SetRightMin
@@ -128,3 +130,4 @@ function DHorizontalDivider:SetRightMin(minWidth) end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DHorizontalDivider:StartGrab
 function DHorizontalDivider:StartGrab() end
+

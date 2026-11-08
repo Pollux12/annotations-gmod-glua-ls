@@ -43,3 +43,4 @@ function matproxy.Init(name, uname, mat, values) end
 ---@param name string The name of proxy in question
 ---@return boolean # Whether the material proxy of given name is registered.
 function matproxy.ShouldOverrideProxy(name) end
+

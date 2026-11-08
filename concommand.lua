@@ -16,6 +16,7 @@ concommand = {}
 ---@param flags? FCVAR|number[]
 function concommand.Add(name, callback, autoComplete, helpText, flags) end
 
+
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
 --- Used by the engine to call the autocomplete function for a console command, and retrieve returned options.
@@ -62,3 +63,4 @@ function concommand.Remove(name) end
 ---@param argumentString string string of all arguments sent to the command.
 ---@return boolean # `true` if the console command with the given name exists, and `false` if it doesn't.
 function concommand.Run(ply, cmd, args, argumentString) end
+

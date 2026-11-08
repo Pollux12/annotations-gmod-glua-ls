@@ -40,3 +40,4 @@ function DColumnSheet:SetActiveButton(active) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DColumnSheet:UseButtonOnlyStyle
 function DColumnSheet:UseButtonOnlyStyle() end
+

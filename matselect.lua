@@ -6,7 +6,8 @@
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/MatSelect
 ---@class (partial) MatSelect : ContextBase
----@field List DPanelList The panel list containing the material buttons.
+---@field List MatSelectList The panel list containing the material buttons.
+---@field Controls MatSelectMaterial[]
 local MatSelect = {}
 
 ---Adds a new material to the selection list.
@@ -14,7 +15,9 @@ local MatSelect = {}
 ---@source https://wiki.facepunch.com/gmod/MatSelect:AddMaterial
 ---@param label string Tooltip for the material, for when the player hovers over the material.
 ---@param path string Path to the material. Relative to `materials/` folder (do not include it), and do not include the `.vmt` extension.
+---@return MatSelectMaterial # The created material button.
 function MatSelect:AddMaterial(label, path) end
+
 
 ---Adds a new material to the selection list, with some extra options.
 ---@realm client
@@ -23,7 +26,9 @@ function MatSelect:AddMaterial(label, path) end
 ---@param path string Path to the material. Relative to `materials/` folder (do not include it), and do not include the `.vmt` extension.
 ---@param value any Overrides the "value" of the material. This will be what MatSelect:OnSelect receives in the first argument. It also affects MatSelect:FindMaterialByValue.
 ---@param convars table A list of convar names (as keys) and their values to set when the user selects this material. ContextBase:SetConVar will be ignored.
+---@return MatSelectMaterial # The created material button.
 function MatSelect:AddMaterialEx(label, path, value, convars) end
+
 
 ---Find a material and selects it, if it exists in this panel.
 ---@realm client
@@ -35,8 +40,9 @@ function MatSelect:FindAndSelectMaterial(mat) end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/MatSelect:FindMaterialByValue
 ---@param mat string The material to find within this MatSelect.
----@return DImageButton # The found material, or nil.
+---@return MatSelectMaterial? # The found material, or nil.
 function MatSelect:FindMaterialByValue(mat) end
+
 
 ---Returns whether the panel would set its own height to fit all materials within its height.
 ---@realm client
@@ -50,16 +56,18 @@ function MatSelect:GetAutoHeight() end
 ---@hook OnRightClick
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/MatSelect:OnRightClick
----@param pnl Panel The DImageButton that was clicked.
+---@param pnl MatSelectMaterial The DImageButton that was clicked.
 function MatSelect:OnRightClick(pnl) end
+
 
 ---Called when the player selects a material.
 ---@hook OnSelect
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/MatSelect:OnSelect
----@param material string Material path of the selected material, not including any file extension.
----@param pnl Panel The DImageButton that was clicked.
+---@param material any Material path of the selected material, not including any file extension.
+---@param pnl MatSelectMaterial The DImageButton that was clicked.
 function MatSelect:OnSelect(material, pnl) end
+
 
 ---Defines a paint over function for a [DImageButton](https://wiki.facepunch.com/gmod/DImageButton) when it is selected.
 ---
@@ -76,8 +84,9 @@ function MatSelect:SelectedItemPaintOver(w, h) end
 --- Selects a given material panel.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/MatSelect:SelectMaterial
----@param mat DImageButton The material to select, found by MatSelect:FindMaterialByValue
+---@param mat MatSelectMaterial The material to select, found by MatSelect:FindMaterialByValue
 function MatSelect:SelectMaterial(mat) end
+
 
 ---Sets whether the panel should set its own height to fit all materials within its height.
 ---@realm client
@@ -102,3 +111,4 @@ function MatSelect:SetItemWidth(width) end
 ---@source https://wiki.facepunch.com/gmod/MatSelect:SetNumRows
 ---@param rows number Amount of rows to target the height to. Default is `2`.
 function MatSelect:SetNumRows(rows) end
+

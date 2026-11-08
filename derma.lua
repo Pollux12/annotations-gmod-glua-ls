@@ -7,8 +7,8 @@ derma = {}
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/derma.Color
----@param name string
----@param pnl Panel
+---@param name string 
+---@param pnl Panel 
 ---@param default Color The default Color in case of failure.
 function derma.Color(name, pnl, default) end
 
@@ -27,6 +27,7 @@ function derma.Color(name, pnl, default) end
 ---@return T # A table containing the new control's methods and properties.
 function derma.DefineControl(name, description, tab, base) end
 
+
 ---Defines a new skin so that it is usable by Derma.
 ---@realm client
 ---@realm menu
@@ -34,8 +35,10 @@ function derma.DefineControl(name, description, tab, base) end
 ---@[call_arg("gmod.derma_skin", "define")]
 ---@param name string Name of the skin.
 ---@param description string Description of the skin.
+---@[call_arg("gmod.derma_skin", "table")]
 ---@param skin Partial<SKIN> Table containing skin overrides. Missing values inherit from the Default skin.
 function derma.DefineSkin(name, description, skin) end
+
 
 ---Returns the [derma.Controls](https://wiki.facepunch.com/gmod/derma.Controls) table, a list of all derma controls registered with [derma.DefineControl](https://wiki.facepunch.com/gmod/derma.DefineControl).
 ---@realm client
@@ -51,6 +54,7 @@ function derma.GetControlList() end
 ---@return SKIN # The default skin table.
 function derma.GetDefaultSkin() end
 
+
 ---Returns the skin table of the skin with the supplied name.
 ---@realm client
 ---@realm menu
@@ -60,12 +64,14 @@ function derma.GetDefaultSkin() end
 ---@return SKIN? # The skin table.
 function derma.GetNamedSkin(name) end
 
+
 ---Returns a copy of the table containing every Derma skin.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/derma.GetSkinTable
 ---@return table<string, SKIN> # Table of every Derma skin.
 function derma.GetSkinTable() end
+
 
 ---Clears all cached panels so that they reassess which skin they should be using.
 ---@realm client
@@ -91,6 +97,7 @@ function derma.SkinChangeIndex() end
 ---@return any # The returned variable from the skin hook.
 function derma.SkinHook(type, name, panel, ...) end
 
+
 ---Returns a function to draw a specified texture of panels skin.
 ---
 --- These are usually generated via [GWEN.CreateTextureBorder](https://wiki.facepunch.com/gmod/GWEN.CreateTextureBorder) and similar.
@@ -109,3 +116,11 @@ function derma.SkinHook(type, name, panel, ...) end
 --- * number `h` - Height of the box.
 --- * Color `clr` - Optional color, default is white.
 function derma.SkinTexture(name, pnl, fallback) end
+
+
+---Every registered Derma skin, keyed by name. Filled by derma.DefineSkin; derma.GetSkinTable returns a copy.
+---@realm client
+---@realm menu
+---@source garrysmod/lua/derma/derma.lua
+---@type table<string, SKIN>
+derma.SkinList = {}

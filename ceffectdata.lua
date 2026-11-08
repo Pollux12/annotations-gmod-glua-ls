@@ -217,3 +217,4 @@ function CEffectData:SetStart(start) end
 ---@source https://wiki.facepunch.com/gmod/CEffectData:SetSurfaceProp
 ---@param surfaceProperties number The surface property index of the effect.
 function CEffectData:SetSurfaceProp(surfaceProperties) end
+

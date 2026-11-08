@@ -44,6 +44,7 @@ function DPanelList:CleanList() end
 ---@param remove? boolean Whether to actually delete the panels, not just hide them.
 function DPanelList:Clear(remove) end
 
+
 ---Enables/creates the vertical scroll bar so that the panel list can be scrolled through.
 ---@realm client
 ---@realm menu
@@ -107,6 +108,7 @@ function DPanelList:SetPadding(Offset) end
 ---@source https://wiki.facepunch.com/gmod/DPanelList:SetSpacing
 ---@param Distance number Distance between panels
 function DPanelList:SetSpacing(Distance) end
+
 
 ---Scrolls the panel list to center a child panel vertically.
 ---@realm client

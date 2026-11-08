@@ -15,14 +15,16 @@ local PropSelect = {}
 ---@param convars? table A list of convar names (as keys) and their values to set when the user selects this model. May be nil or non-table (validated internally).
 function PropSelect:AddModel(model, convars) end
 
+
 ---Adds a new model to the selection list.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/PropSelect:AddModelEx
 ---@param value string The "value" for this model, which is used to set the ContextBase:SetConVar.
 ---@param model string Model path, **including** `models/` and `.mdl`.
 ---@param skin number The skin number for this model. It will **not** be set to the convar, use the value argument to track skin-model combos.
----@return SpawnIcon # The created icon
+---@return SpawnIcon # The created model icon.
 function PropSelect:AddModelEx(value, model, skin) end
+
 
 ---Find and select a [SpawnIcon](https://wiki.facepunch.com/gmod/SpawnIcon) panel based on the input model path.
 ---@realm client
@@ -43,16 +45,18 @@ function PropSelect:FindModelByValue(mdl) end
 ---@hook OnRightClick
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/PropSelect:OnRightClick
----@param pnl Panel The Spawnicon that was clicked.
+---@param pnl SpawnIcon The Spawnicon that was clicked.
 function PropSelect:OnRightClick(pnl) end
+
 
 ---Called when the player selects a model.
 ---@hook OnSelect
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/PropSelect:OnSelect
----@param pnl Panel The Spawnicon that was clicked.
 ---@param model string Path of the selected model, or its "value".
-function PropSelect:OnSelect(pnl, model) end
+---@param pnl SpawnIcon The Spawnicon that was clicked.
+function PropSelect:OnSelect(model, pnl) end
+
 
 ---**INTERNAL**: Use [PropSelect:FindAndSelectButton](https://wiki.facepunch.com/gmod/PropSelect:FindAndSelectButton) instead.
 ---
@@ -62,3 +66,4 @@ function PropSelect:OnSelect(pnl, model) end
 ---@source https://wiki.facepunch.com/gmod/PropSelect:SelectModel
 ---@param icon SpawnIcon The spawnicon to select, retrieved via PropSelect:FindModelByValue.
 function PropSelect:SelectModel(icon) end
+

@@ -64,8 +64,9 @@ function DButton:SetImage(img) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DButton:SetMaterial
----@param img? IMaterial The material to use. If this is nil, the image background is removed.
+---@param img? IMaterial|string The material to use. If this is nil, the image background is removed.
 function DButton:SetMaterial(img) end
+
 
 ---A hook called from within DLabel's PANEL:ApplySchemeSettings to determine the color of the text on display.
 ---@realm client
@@ -73,3 +74,5 @@ function DButton:SetMaterial(img) end
 ---@source https://wiki.facepunch.com/gmod/DButton:UpdateColours
 ---@param skin SKIN The active Derma skin table.
 function DButton:UpdateColours(skin) end
+
+

@@ -8,3 +8,4 @@
 ---@source https://wiki.facepunch.com/gmod/DScrollBarGrip
 ---@class (partial) DScrollBarGrip : DPanel
 local DScrollBarGrip = {}
+

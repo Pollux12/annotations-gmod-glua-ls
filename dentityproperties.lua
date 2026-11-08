@@ -13,8 +13,8 @@ local DEntityProperties = {}
 --- Called internally by [DEntityProperties:RebuildControls](https://wiki.facepunch.com/gmod/DEntityProperties:RebuildControls).
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DEntityProperties:EditVariable
----@param varname string
----@param editdata table
+---@param varname string 
+---@param editdata table 
 function DEntityProperties:EditVariable(varname, editdata) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -44,3 +44,4 @@ function DEntityProperties:RebuildControls() end
 ---@source https://wiki.facepunch.com/gmod/DEntityProperties:SetEntity
 ---@param ent Entity The entity to edit
 function DEntityProperties:SetEntity(ent) end
+

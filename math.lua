@@ -124,10 +124,10 @@ function math.BinToInt(string) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/math.BSplinePoint
 ---@param fraction number A number in the range `[0,fractionMax]` which controls which location along the spline's length should be evaluated as the return value.
----@param points table A table of Vector that form the spline.
+---@param points table A table of Vector that form the spline.  
 ---
 --- There must be **at least** 4 points.
----@param fractionMax number The maximum value of the `fraction` argument.
+---@param fractionMax number The maximum value of the `fraction` argument.  
 ---
 --- The most common value for this is `1`.
 ---@return Vector # The point on the Bézier curve that corresponds to the given `fraction` argument.
@@ -139,11 +139,11 @@ function math.BSplinePoint(fraction, points, fractionMax) end
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/math.calcBSplineN
----@param i number
+---@param i number 
 ---@param k number Sending in a value < 1 will result in an infinite loop.
----@param t number
----@param tinc number
----@return number #
+---@param t number 
+---@param tinc number 
+---@return number # 
 function math.calcBSplineN(i, k, t, tinc) end
 
 ---Ceils or rounds a number up.
@@ -619,6 +619,15 @@ function math.log10(x) end
 ---@return number # The largest number.
 function math.max(...) end
 
+---@realm shared
+---@realm menu
+---@source garrysmod/lua/includes/extensions/math.lua
+---@param x number
+---@param ... number
+---@return number
+function math.Max(x, ...) end
+
+
 ---Returns the smallest value of all arguments.
 ---@realm shared
 ---@realm menu
@@ -626,6 +635,15 @@ function math.max(...) end
 ---@param ... number Numbers to get the smallest from.
 ---@return number # The smallest number.
 function math.min(...) end
+
+---@realm shared
+---@realm menu
+---@source garrysmod/lua/includes/extensions/math.lua
+---@param x number
+---@param ... number
+---@return number
+function math.Min(x, ...) end
+
 
 ---Returns the modulus of the specified values. Same as [math.fmod](https://wiki.facepunch.com/gmod/math.fmod).
 ---@realm shared
@@ -766,7 +784,7 @@ function math.Sign(value) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/math.sin
 ---@param number number Angle in radians
----@return number # Sine for given angle in the range (-1, 1)
+---@return number # Sine for given angle in the range (-1, 1) 
 function math.sin(number) end
 
 ---Returns the [hyperbolic sine](https://en.wikipedia.org/wiki/Hyperbolic_functions) of the given angle.
@@ -828,3 +846,8 @@ function math.TimeFraction(start, _end, current) end
 ---@param digits? number The amount of digits to keep after the point.
 ---@return number # The result.
 function math.Truncate(num, digits) end
+
+
+---@source garrysmod/lua/includes/extensions/math.lua
+---@type number
+math.tau = 2 * math.pi

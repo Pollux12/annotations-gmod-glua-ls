@@ -27,7 +27,9 @@ local DFrame = {}
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DFrame:Center
+---@[keeps_children]
 function DFrame:Center() end
+
 
 ---Hides or removes the DFrame, and calls [DFrame:OnClose](https://wiki.facepunch.com/gmod/DFrame:OnClose).
 ---
@@ -226,3 +228,4 @@ function DFrame:SetTitle(title) end
 ---@source https://wiki.facepunch.com/gmod/DFrame:ShowCloseButton
 ---@param show boolean `false` hides the control box; this is `true` by default.
 function DFrame:ShowCloseButton(show) end
+

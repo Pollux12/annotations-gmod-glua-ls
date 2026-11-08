@@ -1,5 +1,75 @@
 ---@meta
 
+---Constraint metadata copied onto the entity by constraint library creators with Entity:SetTable.
+--- Fields that differ between constraint kinds or accept omitted arguments are optional. Hydraulic and Muscle clear the internal slider's Type.
+---@class ConstraintEntity : Entity
+---@realm server
+---@source garrysmod/lua/includes/modules/constraint.lua
+---@field Type? string
+---@field Ent1 Entity
+---@field Ent2? Entity
+---@field Ent4? Entity
+---@field Bone1? number
+---@field Bone2? number
+---@field Bone4? number
+---@field Bone? number
+---@field Ang? Angle
+---@field angularlimit? number
+---@field LPos? Vector
+---@field LPos1? Vector
+---@field LPos2? Vector
+---@field LPos4? Vector
+---@field WPos2? Vector
+---@field WPos3? Vector
+---@field LocalAxis? Vector
+---@field forcelimit? number
+---@field torquelimit? number
+---@field nocollide? boolean|number
+---@field deleteonbreak? boolean|number
+---@field disableOnRemove? boolean
+---@field length? number
+---@field addlength? number
+---@field width? number
+---@field material? string
+---@field rigid? boolean
+---@field color? Color
+---@field constant? number
+---@field damping? number
+---@field rdamping? number
+---@field stretchonly? boolean|number
+---@field friction? number
+---@field xmin? number
+---@field ymin? number
+---@field zmin? number
+---@field xmax? number
+---@field ymax? number
+---@field zmax? number
+---@field xfric? number
+---@field yfric? number
+---@field zfric? number
+---@field onlyrotation? number
+---@field torque? number
+---@field forcetime? number
+---@field toggle? boolean|number
+---@field pl? Player
+---@field forcescale? number
+---@field direction? number
+---@field is_on? boolean
+---@field numpadkey_fwd? number
+---@field numpadkey_bwd? number
+---@field fwd_bind? number
+---@field bwd_bind? number
+---@field fwd_speed? number
+---@field bwd_speed? number
+---@field Length1? number
+---@field Length2? number
+---@field key? number
+---@field fixed? number
+---@field period? number
+---@field amplitude? number
+---@field starton? boolean
+local ConstraintEntity = {}
+
 ---@class ContentContainer : DScrollPanel
 ---@field IconList DTileLayout The tile layout panel that holds content icons, created in Init.
 ---@field m_pControllerPanel? Panel The controller panel (AccessorFunc-backed).
@@ -38,9 +108,50 @@ function CreationMenu:GetCreationTabs() end
 ---@realm client
 function CreationMenu:Populate() end
 
----@class CtrlColor : Panel
+---@class CtrlColor : DPanel
 ---@field Mixer DColorMixer The embedded color mixer panel.
 local CtrlColor = {}
+
+---Sets the label of the embedded color mixer.
+---@param text? string Set to non empty string to show the label and its text.
+function CtrlColor:SetLabel(text) end
+
+---Sets the ConVar the red channel of the embedded color mixer sets.
+---@param convar string The ConVar name for the red channel of the color.
+function CtrlColor:SetConVarR(convar) end
+
+---Sets the ConVar the green channel of the embedded color mixer sets.
+---@param convar string The ConVar name for the green channel of the color.
+function CtrlColor:SetConVarG(convar) end
+
+---Sets the ConVar the blue channel of the embedded color mixer sets.
+---@param convar string The ConVar name for the blue channel of the color.
+function CtrlColor:SetConVarB(convar) end
+
+---Sets the ConVar the alpha channel of the embedded color mixer sets.
+---@param convar string? The ConVar name for the alpha channel of the color.
+function CtrlColor:SetConVarA(convar) end
+
+---The ConVar the red channel of the embedded color mixer sets.
+---@return string # The ConVar name for the red channel of the color.
+function CtrlColor:GetConVarR() end
+
+---The ConVar the green channel of the embedded color mixer sets.
+---@return string # The ConVar name for the green channel of the color.
+function CtrlColor:GetConVarG() end
+
+---The ConVar the blue channel of the embedded color mixer sets.
+---@return string # The ConVar name for the blue channel of the color.
+function CtrlColor:GetConVarB() end
+
+---The ConVar the alpha channel of the embedded color mixer sets.
+---@return string # The ConVar name for the alpha channel of the color.
+function CtrlColor:GetConVarA() end
+
+--- The arrow button DComboBox creates in Init and paints through the skin.
+---@class DComboBoxDropButton : DPanel
+---@field ComboBox DComboBox The combo box that owns the button.
+local DComboBoxDropButton = {}
 
 --- The drag handle of a [DHorizontalDivider](https://wiki.facepunch.com/gmod/DHorizontalDivider).
 --- Created automatically by the divider and stored in its `m_DragBar` field.
@@ -48,11 +159,61 @@ local CtrlColor = {}
 ---@class DHorizontalDividerBar : DPanel
 local DHorizontalDividerBar = {}
 
+---@class DPropertiesCategory : Panel
+---@field Rows table<string, DPropertiesRow>
+local DPropertiesCategory = {}
+
+---@source garrysmod/lua/vgui/dproperties.lua
+---@overload fun(self: DPropertiesCategory, name: string, create: true): DPropertiesRow
+---@param name string
+---@param create? boolean
+---@return DPropertiesRow?
+function DPropertiesCategory:GetRow(name, create) end
+
+---@class DPropertiesRow : Panel
+---@field Label DLabel
+---@field Container Panel
+---@field Inner? DProperty_Generic
+local DPropertiesRow = {}
+
+---@source garrysmod/lua/vgui/dproperties.lua
+---@param rowType string
+---@param vars? table
+function DPropertiesRow:Setup(rowType, vars) end
+
+---@source garrysmod/lua/vgui/dproperties.lua
+---@param value any
+function DPropertiesRow:SetValue(value) end
+
+--- Data table `Entity:DTVar` returns for a registered data table variable.
+---@class DTVarData
+---@field index number The slot of the variable within its type.
+---@field name string The name the variable is accessed by.
+---@field SetFunc fun(ent: Entity, index: number, value: any) The `Entity:SetDT*` setter for the type.
+---@field GetFunc fun(ent: Entity, index: number, name?: string): any The `Entity:GetDT*` getter for the type.
+---@field typename string The type name the variable was registered with.
+---@field Notify (fun(ent: Entity, name: string, old: any, new: any))[] Callbacks run when the value changes.
+---@field element? string The vector or angle component the variable exposes, set by `Entity:NetworkVarElement`.
+local DTVarData = {}
+
 --- The drag handle of a [DVerticalDivider](https://wiki.facepunch.com/gmod/DVerticalDivider).
 --- Created automatically by the divider and stored in its `m_DragBar` field.
 ---@source garrysmod/lua/vgui/dverticaldivider.lua
 ---@class DVerticalDividerBar : DPanel
 local DVerticalDividerBar = {}
+
+--- Table [os.time](https://wiki.facepunch.com/gmod/os.time) builds a time from. `year`, `month` and `day` are required; the table [os.date](https://wiki.facepunch.com/gmod/os.date) returns is accepted as is.
+---@class DateDataInput
+---@field year number
+---@field month number
+---@field day number
+---@field hour? number
+---@field min? number
+---@field sec? number
+---@field isdst? boolean
+---@field wday? number
+---@field yday? number
+local DateDataInput = {}
 
 --- Animation object returned by Derma_Anim(). Drives a timed animation callback on a panel.
 ---@class DermaAnimation
@@ -134,6 +295,54 @@ local EngineEntities = {}
 ---@class (partial) URLLabel : Label
 local EnginePanels = {}
 
+---Built-in engine weapon classes shipped with Garry's Mod.
+---
+---These are C++ weapons, listed by `autorun/game_hl2.lua` for the spawn menu; they have no Lua SWEP definition.
+---@class weapon_357 : Weapon
+---@class weapon_ar2 : Weapon
+---@class weapon_bugbait : Weapon
+---@class weapon_crossbow : Weapon
+---@class weapon_crowbar : Weapon
+---@class weapon_frag : Weapon
+---@class weapon_physcannon : Weapon
+---@class weapon_physgun : Weapon
+---@class weapon_pistol : Weapon
+---@class weapon_rpg : Weapon
+---@class weapon_shotgun : Weapon
+---@class weapon_slam : Weapon
+---@class weapon_smg1 : Weapon
+---@class weapon_stunstick : Weapon
+local EngineWeapons = {}
+
+---The named controls the demo-to-video menu panel creates from `resource/ui/DemoToVideo.gwen`. See [Panel:LoadGWENFile](https://wiki.facepunch.com/gmod/Panel:LoadGWENFile).
+---@class GwenDemoToVideo
+---@field btnStart DButton
+---@field inCodec DComboBox
+---@field inBitRate DTextEntry
+---@field inFPS DTextEntry
+---@field inQuality DComboBox
+---@field inSize DComboBox
+---@field inFrameBlend DComboBox
+---@field inFBShutter DComboBox
+---@field inDepthOfField DComboBox
+---@field inDOFFocusSpeed DTextEntry
+---@field inDOFBlurSize DTextEntry
+---@field inViewSmooth DComboBox
+---@field inPosSmooth DComboBox
+---@field inDrawViewModel DCheckBoxLabel
+---@field inDrawHUD DCheckBoxLabel
+local GwenDemoToVideo = {}
+
+---@class MatSelectList : DPanelList
+---@field Items MatSelectMaterial[]
+local MatSelectList = {}
+
+---@class MatSelectMaterial : DImageButton
+---@field Value any
+---@field ConVars? table
+---@field AutoSize boolean
+local MatSelectMaterial = {}
+
 ---
 --- The **PLAYER** table is the structure used to define a custom player class
 --- via [player_manager.RegisterClass](https://wiki.facepunch.com/gmod/player_manager.RegisterClass).
@@ -179,6 +388,9 @@ PlayerClass = {}
 ---@field checkbox DCheckBox The optional enable/disable checkbox.
 ---@field cp ControlPanel? Lazily-created control panel for this post-process entry.
 local PostProcessIcon = {}
+
+---@class (partial) RopeMaterial : MatSelect
+local RopeMaterial = {}
 
 ---@meta
 
@@ -250,6 +462,7 @@ local PostProcessIcon = {}
 ---@field Properties SKINColoursProperties
 ---@field Category SKINColoursCategory
 ---@field TooltipText Color
+---@field [string] Color Colours a skin adds by name, read with derma.GetColor or SKIN.Colours.
 
 ---@class SKINTexScroller
 ---@field TrackV fun(x: number, y: number, w: number, h: number, col?: Color) Vertical scrollbar track texture.
@@ -367,32 +580,32 @@ local PostProcessIcon = {}
 ---@field tex SKINTex
 ---@field PaintPanel fun(self: SKIN, panel: Panel, w: number, h: number)
 ---@field PaintShadow fun(self: SKIN, panel: Panel, w: number, h: number)
----@field PaintFrame fun(self: SKIN, panel: Panel, w: number, h: number)
+---@field PaintFrame fun(self: SKIN, panel: DFrame, w: number, h: number)
 ---@field PaintButton fun(self: SKIN, panel: Panel, w: number, h: number)
 ---@field PaintTree fun(self: SKIN, panel: Panel, w: number, h: number)
----@field PaintCheckBox fun(self: SKIN, panel: Panel, w: number, h: number)
----@field PaintRadioButton fun(self: SKIN, panel: Panel, w: number, h: number)
----@field PaintExpandButton fun(self: SKIN, panel: Panel, w: number, h: number)
+---@field PaintCheckBox fun(self: SKIN, panel: DCheckBox, w: number, h: number)
+---@field PaintRadioButton fun(self: SKIN, panel: DCheckBox, w: number, h: number)
+---@field PaintExpandButton fun(self: SKIN, panel: DExpandButton, w: number, h: number)
 ---@field PaintTextEntry fun(self: SKIN, panel: Panel, w: number, h: number)
----@field PaintMenu fun(self: SKIN, panel: Panel, w: number, h: number)
+---@field PaintMenu fun(self: SKIN, panel: DMenu, w: number, h: number)
 ---@field PaintMenuSpacer fun(self: SKIN, panel: Panel, w: number, h: number)
----@field PaintMenuOption fun(self: SKIN, panel: Panel, w: number, h: number)
+---@field PaintMenuOption fun(self: SKIN, panel: DMenuOption, w: number, h: number)
 ---@field PaintMenuRightArrow fun(self: SKIN, panel: Panel, w: number, h: number)
----@field PaintPropertySheet fun(self: SKIN, panel: Panel, w: number, h: number)
----@field PaintTab fun(self: SKIN, panel: Panel, w: number, h: number)
----@field PaintActiveTab fun(self: SKIN, panel: Panel, w: number, h: number)
+---@field PaintPropertySheet fun(self: SKIN, panel: DPropertySheet, w: number, h: number)
+---@field PaintTab fun(self: SKIN, panel: DTab, w: number, h: number)
+---@field PaintActiveTab fun(self: SKIN, panel: DTab, w: number, h: number)
 ---@field PaintWindowCloseButton fun(self: SKIN, panel: Panel, w: number, h: number)
 ---@field PaintWindowMinimizeButton fun(self: SKIN, panel: Panel, w: number, h: number)
 ---@field PaintWindowMaximizeButton fun(self: SKIN, panel: Panel, w: number, h: number)
 ---@field PaintVScrollBar fun(self: SKIN, panel: Panel, w: number, h: number)
 ---@field PaintHScrollBar fun(self: SKIN, panel: Panel, w: number, h: number)
----@field PaintScrollBarGrip fun(self: SKIN, panel: Panel, w: number, h: number)
+---@field PaintScrollBarGrip fun(self: SKIN, panel: DScrollBarGrip, w: number, h: number)
 ---@field PaintButtonDown fun(self: SKIN, panel: Panel, w: number, h: number)
 ---@field PaintButtonUp fun(self: SKIN, panel: Panel, w: number, h: number)
 ---@field PaintButtonLeft fun(self: SKIN, panel: Panel, w: number, h: number)
 ---@field PaintButtonRight fun(self: SKIN, panel: Panel, w: number, h: number)
----@field PaintComboDownArrow fun(self: SKIN, panel: Panel, w: number, h: number)
----@field PaintComboBox fun(self: SKIN, panel: Panel, w: number, h: number)
+---@field PaintComboDownArrow fun(self: SKIN, panel: DComboBoxDropButton, w: number, h: number)
+---@field PaintComboBox fun(self: SKIN, panel: DComboBox, w: number, h: number)
 ---@field PaintListBox fun(self: SKIN, panel: Panel, w: number, h: number)
 ---@field PaintNumberUp fun(self: SKIN, panel: Panel, w: number, h: number)
 ---@field PaintNumberDown fun(self: SKIN, panel: Panel, w: number, h: number)
@@ -400,10 +613,10 @@ local PostProcessIcon = {}
 ---@field PaintTreeNodeButton fun(self: SKIN, panel: Panel, w: number, h: number)
 ---@field PaintSelection fun(self: SKIN, panel: Panel, w: number, h: number)
 ---@field PaintSliderKnob fun(self: SKIN, panel: Panel, w: number, h: number)
----@field PaintNumSlider fun(self: SKIN, panel: Panel, w: number, h: number)
----@field PaintProgress fun(self: SKIN, panel: Panel, w: number, h: number)
----@field PaintCollapsibleCategory fun(self: SKIN, panel: Panel, w: number, h: number)
----@field PaintCategoryList fun(self: SKIN, panel: Panel, w: number, h: number)
+---@field PaintNumSlider fun(self: SKIN, panel: DSlider, w: number, h: number)
+---@field PaintProgress fun(self: SKIN, panel: DProgress, w: number, h: number)
+---@field PaintCollapsibleCategory fun(self: SKIN, panel: DCollapsibleCategory, w: number, h: number)
+---@field PaintCategoryList fun(self: SKIN, panel: DCategoryList, w: number, h: number)
 ---@field PaintCategoryButton fun(self: SKIN, panel: Panel, w: number, h: number)
 ---@field PaintListViewLine fun(self: SKIN, panel: Panel, w: number, h: number)
 ---@field PaintListView fun(self: SKIN, panel: Panel, w: number, h: number)
@@ -724,8 +937,41 @@ SKIN.Colours.TooltipText = GWEN.TextureColor(4 + 8 * 26, 500)
 ---@field m_bHangOpen boolean Whether the spawn menu stays open (hang-open mode).
 ---@field CustomizableSpawnlistNode? DTree_Node Injected reference to the customizable spawnlist node (optional).
 ---@field SearchPropPanel? ContentContainer Injected reference to the search results content panel (optional).
----@field StartupTool? Panel The tool item panel to select and activate on first open (set by toolpanel.lua).
+---@field StartupTool? DButton The tool item button to select and activate on first open (set by toolpanel.lua).
 local SpawnMenu = {}
+
+---Opens the spawn menu.
+---@realm client
+function SpawnMenu:Open() end
+
+---Closes the spawn menu, or only ends hang-open mode when it is on.
+---@realm client
+function SpawnMenu:Close() end
+
+---Switches the creation menu to the tab with the given name.
+---@realm client
+---@param name string The tab name.
+function SpawnMenu:OpenCreationMenuTab(name) end
+
+---Returns the tool menu panel.
+---@realm client
+---@return ToolMenu
+function SpawnMenu:GetToolMenu() end
+
+---Returns the creation menu panel.
+---@realm client
+---@return CreationMenu
+function SpawnMenu:GetCreationMenu() end
+
+---Returns whether the spawn menu stays open (hang-open mode).
+---@realm client
+---@return boolean
+function SpawnMenu:GetHangOpen() end
+
+---Sets whether the spawn menu stays open (hang-open mode).
+---@realm client
+---@param hangOpen boolean
+function SpawnMenu:SetHangOpen(hangOpen) end
 
 ---@class ToolMenu : Panel
 local ToolMenu = {}
@@ -815,6 +1061,15 @@ local base_anim = {}
 ---@class base_brush : base_entity
 local base_brush = {}
 
+---Sandbox base for editor entities edited through the context menu's Edit Properties.
+---@source garrysmod/gamemodes/sandbox/entities/entities/base_edit.lua
+---@class base_edit : base_anim
+local base_edit = {}
+
+---Shows the model's forward arrow bodygroup.
+---@realm shared
+function base_edit:EnableForwardArrow() end
+
 ---Root scripted entity base shipped by the base gamemode.
 ---@source garrysmod/gamemodes/base/entities/entities/base_entity/shared.lua
 ---@class base_entity : Entity
@@ -865,6 +1120,139 @@ local base_nextbot = {}
 ---@class base_point : base_entity
 local base_point = {}
 
+---Sandbox sky editor entity; its data tables are a copy of `env_skypaint`'s.
+---@source garrysmod/gamemodes/sandbox/entities/entities/edit_sky.lua
+---@class edit_sky : base_edit
+local edit_sky = {}
+
+---@realm shared
+---@return Vector
+function edit_sky:GetTopColor() end
+
+---@realm shared
+---@param color Vector
+function edit_sky:SetTopColor(color) end
+
+---@realm shared
+---@return Vector
+function edit_sky:GetBottomColor() end
+
+---@realm shared
+---@param color Vector
+function edit_sky:SetBottomColor(color) end
+
+---@realm shared
+---@return number
+function edit_sky:GetFadeBias() end
+
+---@realm shared
+---@param bias number
+function edit_sky:SetFadeBias(bias) end
+
+---@realm shared
+---@return number
+function edit_sky:GetHDRScale() end
+
+---@realm shared
+---@param scale number
+function edit_sky:SetHDRScale(scale) end
+
+---@realm shared
+---@return number
+function edit_sky:GetSunSize() end
+
+---@realm shared
+---@param size number
+function edit_sky:SetSunSize(size) end
+
+---@realm shared
+---@return Vector
+function edit_sky:GetSunNormal() end
+
+---@realm shared
+---@param normal Vector
+function edit_sky:SetSunNormal(normal) end
+
+---@realm shared
+---@return Vector
+function edit_sky:GetSunColor() end
+
+---@realm shared
+---@param color Vector
+function edit_sky:SetSunColor(color) end
+
+---@realm shared
+---@return number
+function edit_sky:GetDuskScale() end
+
+---@realm shared
+---@param scale number
+function edit_sky:SetDuskScale(scale) end
+
+---@realm shared
+---@return number
+function edit_sky:GetDuskIntensity() end
+
+---@realm shared
+---@param intensity number
+function edit_sky:SetDuskIntensity(intensity) end
+
+---@realm shared
+---@return Vector
+function edit_sky:GetDuskColor() end
+
+---@realm shared
+---@param color Vector
+function edit_sky:SetDuskColor(color) end
+
+---@realm shared
+---@return boolean
+function edit_sky:GetDrawStars() end
+
+---@realm shared
+---@param draw boolean
+function edit_sky:SetDrawStars(draw) end
+
+---@realm shared
+---@return string
+function edit_sky:GetStarTexture() end
+
+---@realm shared
+---@param texture string
+function edit_sky:SetStarTexture(texture) end
+
+---@realm shared
+---@return number
+function edit_sky:GetStarLayers() end
+
+---@realm shared
+---@param layers number
+function edit_sky:SetStarLayers(layers) end
+
+---@realm shared
+---@return number
+function edit_sky:GetStarScale() end
+
+---@realm shared
+---@param scale number
+function edit_sky:SetStarScale(scale) end
+
+---@realm shared
+---@return number
+function edit_sky:GetStarFade() end
+
+---@realm shared
+---@param fade number
+function edit_sky:SetStarFade(fade) end
+
+---@realm shared
+---@return number
+function edit_sky:GetStarSpeed() end
+
+---@realm shared
+---@param speed number
+function edit_sky:SetStarSpeed(speed) end
+
 ---@class env_fire : Entity
 local env_fire = {}
 
@@ -874,8 +1262,151 @@ local env_fog_controller = {}
 ---@class env_projectedtexture : Entity
 local env_projectedtexture = {}
 
+---Sky painter point entity shipped by the base gamemode; its network vars drive the 2D skybox.
+---@source garrysmod/gamemodes/base/entities/entities/env_skypaint.lua
+---@class env_skypaint : base_point
+local env_skypaint = {}
+
+---@realm shared
+---@return Vector
+function env_skypaint:GetTopColor() end
+
+---@realm shared
+---@param color Vector
+function env_skypaint:SetTopColor(color) end
+
+---@realm shared
+---@return Vector
+function env_skypaint:GetBottomColor() end
+
+---@realm shared
+---@param color Vector
+function env_skypaint:SetBottomColor(color) end
+
+---@realm shared
+---@return number
+function env_skypaint:GetFadeBias() end
+
+---@realm shared
+---@param bias number
+function env_skypaint:SetFadeBias(bias) end
+
+---@realm shared
+---@return number
+function env_skypaint:GetHDRScale() end
+
+---@realm shared
+---@param scale number
+function env_skypaint:SetHDRScale(scale) end
+
+---@realm shared
+---@return number
+function env_skypaint:GetSunSize() end
+
+---@realm shared
+---@param size number
+function env_skypaint:SetSunSize(size) end
+
+---@realm shared
+---@return Vector
+function env_skypaint:GetSunNormal() end
+
+---@realm shared
+---@param normal Vector
+function env_skypaint:SetSunNormal(normal) end
+
+---@realm shared
+---@return Vector
+function env_skypaint:GetSunColor() end
+
+---@realm shared
+---@param color Vector
+function env_skypaint:SetSunColor(color) end
+
+---@realm shared
+---@return number
+function env_skypaint:GetDuskScale() end
+
+---@realm shared
+---@param scale number
+function env_skypaint:SetDuskScale(scale) end
+
+---@realm shared
+---@return number
+function env_skypaint:GetDuskIntensity() end
+
+---@realm shared
+---@param intensity number
+function env_skypaint:SetDuskIntensity(intensity) end
+
+---@realm shared
+---@return Vector
+function env_skypaint:GetDuskColor() end
+
+---@realm shared
+---@param color Vector
+function env_skypaint:SetDuskColor(color) end
+
+---@realm shared
+---@return boolean
+function env_skypaint:GetDrawStars() end
+
+---@realm shared
+---@param draw boolean
+function env_skypaint:SetDrawStars(draw) end
+
+---@realm shared
+---@return string
+function env_skypaint:GetStarTexture() end
+
+---@realm shared
+---@param texture string
+function env_skypaint:SetStarTexture(texture) end
+
+---@realm shared
+---@return number
+function env_skypaint:GetStarLayers() end
+
+---@realm shared
+---@param layers number
+function env_skypaint:SetStarLayers(layers) end
+
+---@realm shared
+---@return number
+function env_skypaint:GetStarScale() end
+
+---@realm shared
+---@param scale number
+function env_skypaint:SetStarScale(scale) end
+
+---@realm shared
+---@return number
+function env_skypaint:GetStarFade() end
+
+---@realm shared
+---@param fade number
+function env_skypaint:SetStarFade(fade) end
+
+---@realm shared
+---@return number
+function env_skypaint:GetStarSpeed() end
+
+---@realm shared
+---@param speed number
+function env_skypaint:SetStarSpeed(speed) end
+
 ---@class env_sun : Entity
 local env_sun = {}
+
+---The base gamemode's table, registered as baseclass `gamemode_base`.
+---@source garrysmod/gamemodes/base/gamemode/shared.lua
+---@class gamemode_base : GM
+local gamemode_base = {}
+
+---The Sandbox gamemode's table, registered as baseclass `gamemode_sandbox`.
+---@source garrysmod/gamemodes/sandbox/gamemode/shared.lua
+---@class gamemode_sandbox : SANDBOX, gamemode_base
+local gamemode_sandbox = {}
 
 ---@source garrysmod/gamemodes/sandbox/entities/entities/gmod_button.lua
 ---@class gmod_button : base_gmodentity
@@ -1235,11 +1766,16 @@ function gmod_winch_controller:SetDirection(n) end
 ---@return boolean
 function gmod_winch_controller:IsExpanded() end
 
----@class npc_manhack : Entity
+---@class npc_manhack : NPC
 local npc_manhack = {}
 
----@class npc_rollermine : Entity
+---@class npc_rollermine : NPC
 local npc_rollermine = {}
+
+---The default player class shipped by the base gamemode, which other player classes derive from.
+---@source garrysmod/gamemodes/base/gamemode/player_class/player_default.lua
+---@class player_default : PLAYER
+local player_default = {}
 
 ---@class prop_dynamic : Entity
 local prop_dynamic = {}
@@ -1247,11 +1783,51 @@ local prop_dynamic = {}
 ---@class prop_dynamic_override : Entity
 local prop_dynamic_override = {}
 
+---Effect prop shipped by the base gamemode: a small physics handle carrying the visible model.
+---@source garrysmod/gamemodes/base/entities/entities/prop_effect.lua
+---@class prop_effect : base_anim
+---@field AttachedEntity? Entity The `prop_dynamic` that renders the effect's model, parented to this entity. Set when the server spawns it; on the client, only once that child is found.
+local prop_effect = {}
+
 ---@class prop_physics : Entity
 local prop_physics = {}
 
 ---@class prop_ragdoll : Entity
 local prop_ragdoll = {}
 
+---@class prop_vehicle_airboat : Vehicle
+local prop_vehicle_airboat = {}
+
+---@class prop_vehicle_jeep : Vehicle
+local prop_vehicle_jeep = {}
+
+---@class prop_vehicle_jeep_old : Vehicle
+local prop_vehicle_jeep_old = {}
+
 ---@class prop_vehicle_prisoner_pod : Vehicle
 local prop_vehicle_prisoner_pod = {}
+
+---@source garrysmod/gamemodes/base/entities/weapons/weapon_base/shared.lua
+---@class weapon_base : Weapon
+---@field ActivityTranslate table<integer, integer>
+---@field ActivityTranslateAI table<integer, integer>
+local weapon_base = {}
+
+---@class widget_base : Entity
+local widget_base = {}
+
+---@source garrysmod/lua/entities/widget_base.lua
+---@param player Player
+---@param button number
+---@param movement CMoveData
+function widget_base:OnRelease(player, button, movement) end
+
+---@source garrysmod/lua/entities/widget_base.lua
+---@param player Player
+---@param movement CMoveData
+function widget_base:PressedThinkInternal(player, movement) end
+
+---@source garrysmod/lua/entities/widget_base.lua
+---@param entity Entity
+---@return boolean
+function widget_base:PressedShouldDraw(entity) end

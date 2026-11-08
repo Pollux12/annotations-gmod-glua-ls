@@ -49,6 +49,7 @@ function spawnmenu.AddContentType(name, constructor) end
 ---@param tooltip? string The tooltip to be shown for this tab.
 function spawnmenu.AddCreationTab(name, _function, material, order, tooltip) end
 
+
 ---Used to add addon spawnlists to the spawnmenu tree. This function should be called within [SANDBOX:PopulatePropMenu](https://wiki.facepunch.com/gmod/SANDBOX:PopulatePropMenu).
 ---
 --- Addon spawnlists will not save to disk if edited.
@@ -295,3 +296,4 @@ function spawnmenu.SwitchCreationTab(id) end
 ---@source https://wiki.facepunch.com/gmod/spawnmenu.SwitchToolTab
 ---@param id number The tab ID to open
 function spawnmenu.SwitchToolTab(id) end
+

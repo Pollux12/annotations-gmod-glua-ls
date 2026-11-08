@@ -9,3 +9,4 @@ ai_schedule = {}
 ---@param name string Name of the schedule.
 ---@return table # A table containing schedule information to be used with ENTITY:StartSchedule.
 function ai_schedule.New(name) end
+

@@ -30,14 +30,15 @@ HTML = {}
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/HTML:ConsoleMessage
 ---@param msg string The message to be logged (or Lua code to be executed; see above).
----@param file string The message source file, if any.
----@param lineNr number The line number in the file the message was output from.
----@param severity string The severity of the message. Possible values are:
+---@param file? string The message source file, if any.
+---@param lineNr? number The line number in the file the message was output from.
+---@param severity? string The severity of the message. Possible values are:
 --- * "log"
 --- * "warn"
 --- * "error"
 --- * "debug"
 function HTML:ConsoleMessage(msg, file, lineNr, severity) end
+
 
 ---Called when this panel begins loading a page.
 ---@hook OnBeginLoadingDocument
@@ -99,3 +100,4 @@ function HTML:OnDocumentReady(url) end
 ---@source https://wiki.facepunch.com/gmod/HTML:OnFinishLoadingDocument
 ---@param url string The URL of the current page.
 function HTML:OnFinishLoadingDocument(url) end
+

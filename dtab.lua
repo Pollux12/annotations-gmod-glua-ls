@@ -23,6 +23,7 @@ function DTab:GetPanel() end
 ---@return DPropertySheet # The property sheet owning this tab.
 function DTab:GetPropertySheet() end
 
+
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
 --- Returns the target height of this tab. Used internally by [DTab](https://wiki.facepunch.com/gmod/DTab)'s [PANEL:ApplySchemeSettings](https://wiki.facepunch.com/gmod/PANEL:ApplySchemeSettings).
@@ -53,8 +54,11 @@ function DTab:SetPanel(pnl) end
 ---@param pnl DPropertySheet The DPropertySheet to set for this tab.
 function DTab:SetPropertySheet(pnl) end
 
+
 ---@param label string The label shown for the tab.
 ---@param pnl DPropertySheet The parent sheet to attach this tab to.
 ---@param contents Panel The tab contents panel.
 ---@param icon string The icon path.
 function DTab:Setup(label, pnl, contents, icon) end
+
+

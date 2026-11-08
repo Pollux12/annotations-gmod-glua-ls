@@ -62,11 +62,6 @@ Tool = Tool or {}
 ---@return gmod_tool # The tool gun weapon.
 function Tool:GetWeapon() end
 
----Initializes a ghost entity from the given entity's model/pos/angles.
---- This is the plural-named alias called from SWEP:StartGhostEntities; behaviour is identical to Tool:StartGhostEntity.
----@param ent Entity The entity to copy ghost parameters from.
-function Tool:StartGhostEntities(ent) end
-
 ---@class TOOL : Tool
 TOOL = {}
 
@@ -76,16 +71,16 @@ TOOL.AddToMenu = true
 
 ---The tool menu category under which the tool should be listed.
 ---@type string?
-TOOL.Category = "New Category"
+TOOL.Category = 'New Category'
 
 ---The console command to execute upon being selected in the Q menu.
 ---@type string?
-TOOL.Command = "gmod_toolmode [tool]"
+TOOL.Command = 'gmod_toolmode [tool]'
 
 ---The name of the tool in the Q menu.
 --- Common practice is to set this to "#tool.[lua filename].name" to match the name displayed in the tool information box.
 ---@type string?
-TOOL.Name = "#[tool mode]"
+TOOL.Name = '#[tool mode]'
 
 ---A key-value ( convar name-default value ) table containing the client-side convars to create. All convars will be prefixed with the filename of the tool.
 --- You can later use Tool:GetClientNumber or Tool:GetClientInfo to retrieve these values.
@@ -154,6 +149,7 @@ function Tool:BuildConVarList() end
 ---@param ... any Any extra arguments passed via Tool:RebuildControlPanel are forwarded here.
 function TOOL.BuildCPanel(panel, ...) end
 
+
 ---**INTERNAL**: This is called automatically for most toolgun actions so you shouldn't need to use it.
 ---
 --- Checks all added objects to see if they're still valid, if not, clears the list of objects.
@@ -190,6 +186,7 @@ function Tool:CreateConVars() end
 ---@param skip? boolean True when the toolgun wrapper is switching tool modes internally.
 ---@return boolean? # Return true to allow switching away from the toolgun using lastinv command.
 function Tool:Deploy(skip) end
+
 
 ---Called when [WEAPON:DrawHUD](https://wiki.facepunch.com/gmod/WEAPON:DrawHUD) of the toolgun is called, only when the user has this tool selected.
 ---@hook DrawHUD
@@ -228,8 +225,9 @@ function Tool:GetBone(id) end
 ---@source https://wiki.facepunch.com/gmod/Tool:GetClientBool
 ---@param name string Name of the ConVar to retrieve. The function will automatically add the `mytoolfilename_` part to it.
 ---@param default? boolean The default value to return in case the lookup fails.
----@return number # The value of the requested ConVar. It will be true if the value if the convar is not 0, just like ConVar:GetBool
+---@return boolean # The value of the requested ConVar. It will be true if the value if the convar is not 0, just like ConVar:GetBool
 function Tool:GetClientBool(name, default) end
+
 
 ---Attempts to grab a clientside tool [ConVar](https://wiki.facepunch.com/gmod/ConVar) as a [string](https://wiki.facepunch.com/gmod/string).
 ---@realm shared
@@ -287,12 +285,12 @@ function Tool:GetNormal(id) end
 function Tool:GetOperation() end
 
 ---Returns the owner of this tool.
---- At runtime this is always a valid player when the tool is active;
---- this override removes spurious nil-return diagnostics.
+--- At runtime this is always a valid player when the tool is active.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Tool:GetOwner
 ---@return Player # The player using the tool. Always valid when called from tool callbacks.
 function Tool:GetOwner() end
+
 
 ---Retrieves an [PhysObj](https://wiki.facepunch.com/gmod/PhysObj) previously stored using [Tool:SetObject](https://wiki.facepunch.com/gmod/Tool:SetObject).
 --- See also [Tool:GetEnt](https://wiki.facepunch.com/gmod/Tool:GetEnt).
@@ -308,6 +306,7 @@ function Tool:GetPhys(id) end
 ---@param id? number The id of the object which was set in Tool:SetObject.
 ---@return Vector # Associated vector with given id. The vector is converted from Tool:GetLocalPos.
 function Tool:GetPos(id) end
+
 
 ---Attempts to grab a serverside tool [ConVar](https://wiki.facepunch.com/gmod/ConVar).
 --- This will not do anything on client, despite the function being defined shared.
@@ -330,14 +329,14 @@ function Tool:GetStage() end
 ---@deprecated Use Tool:GetWeapon instead.
 function Tool:GetSWEP() end
 
+
 ---Returns the Tool Gun (`gmod_tool`) Scripted Weapon.
---- At runtime this is always set after tool initialization; this override
---- removes the spurious nil-return diagnostic that the LS infers from
---- ToolObj:Create() initialising SWEP to nil.
+--- At runtime this is always set after tool initialization.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Tool:GetWeapon
 ---@return gmod_tool # The tool gun weapon. Always valid after Init.
 function Tool:GetWeapon() end
+
 
 ---Called when [WEAPON:Holster](https://wiki.facepunch.com/gmod/WEAPON:Holster) of the toolgun is called.
 ---@hook Holster
@@ -347,6 +346,7 @@ function Tool:GetWeapon() end
 ---@return boolean?
 function Tool:Holster(skip) end
 
+
 ---Called when the user left clicks with the tool.
 ---@hook LeftClick
 ---@realm shared
@@ -354,6 +354,7 @@ function Tool:Holster(skip) end
 ---@param tr TraceResult A trace from user's eyes to wherever they aim at. See Structures/TraceResult
 ---@return boolean # Return `true` to draw the tool gun beam and play fire animations, `false` otherwise.
 function Tool:LeftClick(tr) end
+
 
 ---Initializes the ghost entity with the given model. Removes any old ghost entity if called multiple times.
 ---
@@ -466,3 +467,4 @@ function Tool:UpdateData() end
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Tool:UpdateGhostEntity
 function Tool:UpdateGhostEntity() end
+

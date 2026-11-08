@@ -11,3 +11,4 @@ local CSEnt = {}
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/CSEnt:Remove
 function CSEnt:Remove() end
+

@@ -162,7 +162,7 @@ function Player:AddPlayerOption(name, timeout, vote_callback, draw_callback) end
 ---@param autokill? boolean If the animation should not loop. true = stops the animation, false = the animation keeps playing.
 function Player:AddVCDSequenceToGestureSlot(slot, sequenceId, cycle, autokill) end
 
----Checks if the player is alive.
+---Checks if the player is alive. 
 ---
 --- Player specific implementation of [Entity:Alive](https://wiki.facepunch.com/gmod/Entity:Alive), the value is synchronized to the client.
 ---@realm shared
@@ -254,6 +254,7 @@ function Player:ChatPrint(message) end
 ---@param limitName string The sandbox limit category.
 ---@return boolean
 function Player:CheckLimit(limitName) end
+
 
 ---Called when the player's class was changed from this class.
 ---@hook ClassChanged
@@ -462,7 +463,7 @@ function Player:ExitVehicle() end
 ---@hook FinishMove
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/PLAYER:FinishMove
----@param mv CMoveData
+---@param mv CMoveData 
 ---@return boolean # Return true to prevent default action
 function PLAYER:FinishMove(mv) end
 
@@ -598,12 +599,14 @@ function player.GetByID(connectionID) end
 ---@return Player|false # Player if one is found, `false` otherwise.
 function player.GetBySteamID(steamID) end
 
+
 ---Gets the player with the specified SteamID64.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/player.GetBySteamID64
 ---@param steamID64 string The Player:SteamID64 to find the player by.
 ---@return Player|false # Player if one is found, `false` otherwise.
 function player.GetBySteamID64(steamID64) end
+
 
 ---Gets the player with the specified uniqueID (not recommended way to identify players).
 ---
@@ -950,8 +953,9 @@ function Player:GetPreferredCarryAngles(carryEnt) end
 --- Having a pressed widget stops the player from firing their weapon to allow input to be passed onto the widget.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Player:GetPressedWidget
----@return Entity # The pressed widget.
+---@return widget_base|NULL # The pressed widget.
 function Player:GetPressedWidget() end
+
 
 ---Returns the weapon the player previously had equipped.
 ---@realm shared
@@ -961,7 +965,7 @@ function Player:GetPressedWidget() end
 --- This is not guaranteed to be a weapon entity so it should be checked with [Entity:IsWeapon](https://wiki.facepunch.com/gmod/Entity:IsWeapon) for safety.
 function Player:GetPreviousWeapon() end
 
----Returns players screen punch effect angle. See [Player:ViewPunch](https://wiki.facepunch.com/gmod/Player:ViewPunch) and [Player:SetViewPunchAngles](https://wiki.facepunch.com/gmod/Player:SetViewPunchAngles)
+---Returns players screen punch effect angle. See [Player:ViewPunch](https://wiki.facepunch.com/gmod/Player:ViewPunch) and [Player:SetViewPunchAngles](https://wiki.facepunch.com/gmod/Player:SetViewPunchAngles) 
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Player:GetPunchAngle
 ---@return Angle # The punch angle
@@ -1132,9 +1136,27 @@ function Player:GetWalkSpeed() end
 ---Returns the weapon for the specified class
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Player:GetWeapon
----@param className string Class name of weapon
----@return Weapon # The weapon for the specified class, or NULL ENTITY if the player does not have this weapon.
+---@alias KnownEngineWeaponClass
+---| "weapon_pistol"
+---| "weapon_357"
+---| "weapon_ar2"
+---| "weapon_crossbow"
+---| "weapon_crowbar"
+---| "weapon_frag"
+---| "weapon_physcannon"
+---| "weapon_physgun"
+---| "weapon_rpg"
+---| "weapon_shotgun"
+---| "weapon_smg1"
+---| "weapon_stunstick"
+---| "weapon_slam"
+---| "weapon_bugbait"
+---@overload fun(className: KnownEngineWeaponClass): Weapon|NULL
+---@generic T : Weapon
+---@param className `T` Class name of weapon
+---@return (instance) T|NULL # The weapon for the specified class, or NULL ENTITY if the player does not have this weapon.
 function Player:GetWeapon(className) end
+
 
 ---Returns a player's weapon color.
 ---
@@ -1267,6 +1289,7 @@ function Player:IsFullyAuthenticated() end
 ---@return boolean
 function Player:IsListenServerHost() end
 
+
 ---Returns whether or not the player is voice muted locally.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/Player:IsMuted
@@ -1369,6 +1392,7 @@ function Player:IsWorldClickingDisabled() end
 ---@return integer # The origin index (0).
 function player.Iterator() end
 
+
 ---Returns whether a key is down. This is not networked to other players, meaning only the local client can see the keys they are pressing.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Player:KeyDown
@@ -1384,6 +1408,7 @@ function Player:KeyDown(key) end
 function Player:KeyDownLast(key) end
 
 ---Gets whether a key was just pressed this tick.
+--- 		**NOTE**: This function will return false if a key press (such as +use) was consumed by an Entity.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Player:KeyPressed
 ---@param key number Corresponds to an Enums/IN. You can use bit.bor here (see example 2)
@@ -1627,6 +1652,17 @@ function Player:RemoveSuit() end
 ---@source https://wiki.facepunch.com/gmod/Player:ResetHull
 function Player:ResetHull() end
 
+---Runs given [console command](https://wiki.facepunch.com/gmod/Console_commands) on the player. This does not work on bots.
+---
+--- See [Global.RunConsoleCommand](https://wiki.facepunch.com/gmod/Global.RunConsoleCommand) for running console commands in the client realm instead.
+---
+--- **NOTE**: Some commands/convars are blocked from being run/changed using this function, usually to prevent harm/annoyance to clients. For a list of blocked commands, see [Blocked ConCommands](https://wiki.facepunch.com/gmod/Blocked_ConCommands).
+---@realm server
+---@source https://wiki.facepunch.com/gmod/Player:RunConsoleCommand
+---@param command string The console command to run on the player.
+---@param ... any The arguments. You must pass each argument as a separate string argument.
+function Player:RunConsoleCommand(command, ...) end
+
 ---Forces the player to say whatever the first argument is. Works on bots too.
 ---
 --- **NOTE**: This function ignores the default chat message cooldown
@@ -1672,7 +1708,7 @@ function Player:SelectWeapon(className) end
 ---@param delay number Delay in seconds before showing the hint
 function Player:SendHint(name, delay) end
 
----Executes a simple Lua string on the player.
+---Executes a simple Lua string on the player. 
 --- **NOTE**: If you need to use this function more than once consider using [net](https://wiki.facepunch.com/gmod/net) library. Send net message and make the entire code you want to execute in [net.Receive](https://wiki.facepunch.com/gmod/net.Receive) on client.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/Player:SendLua
@@ -1789,12 +1825,14 @@ function Player:SetDeaths(deathCount) end
 ---@param drivingMode number The driving mode index.
 function Player:SetDrivingEntity(drivingEntity, drivingMode) end
 
+
 ---Activates a given DSP (Digital Signal Processor) effect on all sounds that the player hears. This is equivalent to setting `dsp_player` convar on the player.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Player:SetDSP
 ---@param dspEffectId number The index of the DSP sound filter to apply.
 ---@param fastReset? boolean If set to true the sound filter will be removed faster.
 function Player:SetDSP(dspEffectId, fastReset) end
+
 
 ---Sets how quickly a player ducks.
 ---
@@ -1812,7 +1850,7 @@ function Player:SetDuckSpeed(duckSpeed) end
 ---@param angle Angle Angle to set the view to
 function Player:SetEyeAngles(angle) end
 
----Sets the color of a player's flashlight.
+---Sets the color of a player's flashlight. 
 --- Can be used on other players.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/Player:SetFlashlightColor
@@ -2069,6 +2107,7 @@ function Player:SetUserGroup(groupName) end
 ---@param viewEntity Entity|nil The entity to attach the player view to, or `nil` to clear it.
 function Player:SetViewEntity(viewEntity) end
 
+
 ---Sets the **desired** view offset which equals the difference between the players actual position and their view when standing.
 ---
 --- If you want to set **actual** view offset, use [Player:SetCurrentViewOffset](https://wiki.facepunch.com/gmod/Player:SetCurrentViewOffset)
@@ -2184,8 +2223,9 @@ function Player:Spectate(mode) end
 --- To get the applied spectated entity, use [Player:GetObserverTarget](https://wiki.facepunch.com/gmod/Player:GetObserverTarget).
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/Player:SpectateEntity
----@param entity Entity Entity to spectate.
+---@param entity Entity? Entity to spectate, or nil to clear the target.
 function Player:SpectateEntity(entity) end
+
 
 ---Makes a player spray their decal.
 ---@realm server
@@ -2286,7 +2326,7 @@ function Player:StopZooming() end
 ---@deprecated Alias of Player:RemoveAllAmmo
 function Player:StripAmmo() end
 
----Removes the specified weapon class from a certain player
+---Removes the specified weapon class from a certain player  
 --- 	**NOTE**: this function will call the [Entity:OnRemove](https://wiki.facepunch.com/gmod/Entity:OnRemove) but if you try use [Entity:GetOwner](https://wiki.facepunch.com/gmod/Entity:GetOwner) it will return nil
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/Player:StripWeapon
@@ -2427,3 +2467,4 @@ function Player:ViewPunchReset(tolerance) end
 ---@source https://wiki.facepunch.com/gmod/Player:VoiceVolume
 ---@return number # The voice volume.
 function Player:VoiceVolume() end
+

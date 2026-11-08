@@ -9,3 +9,4 @@ menu = {}
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/menu.RecordFrame
 function menu.RecordFrame() end
+

@@ -33,6 +33,7 @@ end
 ---@param pnl Panel The panel to add. It will be automatically parented.
 function DHorizontalScroller:AddPanel(pnl) end
 
+
 ---Returns the internal canvas panel where the content of [DHorizontalScroller](https://wiki.facepunch.com/gmod/DHorizontalScroller) are placed on.
 ---@realm client
 ---@realm menu
@@ -51,7 +52,7 @@ function DHorizontalScroller:GetOverlap() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DHorizontalScroller:GetShowDropTargets
----@return boolean #
+---@return boolean # 
 function DHorizontalScroller:GetShowDropTargets() end
 
 ---Same as [DDragBase:MakeDroppable](https://wiki.facepunch.com/gmod/DDragBase:MakeDroppable).
@@ -60,7 +61,7 @@ function DHorizontalScroller:GetShowDropTargets() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DHorizontalScroller:MakeDroppable
----@param name string
+---@param name string 
 ---@param allowCopy? boolean Whether to allow right click dragging to open a menu with copy option.
 function DHorizontalScroller:MakeDroppable(name, allowCopy) end
 
@@ -96,12 +97,13 @@ function DHorizontalScroller:SetScroll(scroll) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DHorizontalScroller:SetShowDropTargets
----@param newState boolean
+---@param newState boolean 
 function DHorizontalScroller:SetShowDropTargets(newState) end
 
 ---Same as [DDragBase:SetUseLiveDrag](https://wiki.facepunch.com/gmod/DDragBase:SetUseLiveDrag)
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DHorizontalScroller:SetUseLiveDrag
----@param newState boolean
+---@param newState boolean 
 function DHorizontalScroller:SetUseLiveDrag(newState) end
+

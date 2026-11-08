@@ -8,3 +8,4 @@
 ---@source https://wiki.facepunch.com/gmod/DTree_Node_Button
 ---@class (partial) DTree_Node_Button : DButton
 local DTree_Node_Button = {}
+

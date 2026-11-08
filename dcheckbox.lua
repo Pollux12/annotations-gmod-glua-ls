@@ -44,6 +44,8 @@ function DCheckBox:OnChange(bVal) end
 ---@param checked any Value to coerce into the checked state.
 function DCheckBox:SetChecked(checked) end
 
+
+
 ---Sets the checked state of the checkbox, and calls the checkbox's DCheckBox:OnChange and Panel:ConVarChanged methods.
 ---
 --- The value is coerced with tobool before the checked state is stored.
@@ -53,8 +55,11 @@ function DCheckBox:SetChecked(checked) end
 ---@param checked any Value to coerce into the checked state.
 function DCheckBox:SetValue(checked) end
 
+
+
 ---Toggles the checked state of the checkbox, and calls the checkbox's [DCheckBox:OnChange](https://wiki.facepunch.com/gmod/DCheckBox:OnChange) and [Panel:ConVarChanged](https://wiki.facepunch.com/gmod/Panel:ConVarChanged) methods. [DCheckBox:DoClick](https://wiki.facepunch.com/gmod/DCheckBox:DoClick) is an alias of this function.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DCheckBox:Toggle
 function DCheckBox:Toggle() end
+

@@ -8,7 +8,7 @@
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTextEntry
----@class DTextEntry : Panel
+---@class DTextEntry : TextEntry
 --- Text entry input history table, used for up/down arrow navigation.
 ---@field History table
 --- Current position in the history table (0 = none selected).
@@ -104,14 +104,14 @@ function DTextEntry:GetDisabled() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTextEntry:GetDrawBackground
----@return boolean #
+---@return boolean # 
 function DTextEntry:GetDrawBackground() end
 
 ---Returns the value set by [DTextEntry:SetDrawBorder](https://wiki.facepunch.com/gmod/DTextEntry:SetDrawBorder).
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTextEntry:GetDrawBorder
----@return boolean #
+---@return boolean # 
 function DTextEntry:GetDrawBorder() end
 
 ---Returns whether pressing Enter can cause the panel to lose focus. Note that a multiline DTextEntry cannot be escaped using the Enter key even when this function returns true.
@@ -174,7 +174,7 @@ function DTextEntry:GetPlaceholderColor() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTextEntry:GetPlaceholderText
----@return string #
+---@return string # 
 function DTextEntry:GetPlaceholderText() end
 
 ---Returns whether or not the panel accepts tab key.
@@ -195,7 +195,7 @@ function DTextEntry:GetTextColor() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTextEntry:GetUpdateOnType
----@return boolean #
+---@return boolean # 
 function DTextEntry:GetUpdateOnType() end
 
 ---Returns whether this DTextEntry is being edited or not. (i.e. has focus)
@@ -257,6 +257,7 @@ function DTextEntry:OnLoseFocus() end
 ---@param noMenuRemoval? boolean Determines whether to remove the autocomplete menu (false) or not (true).
 function DTextEntry:OnTextChanged(noMenuRemoval) end
 
+
 ---Called when the text changes of the [DTextEntry](https://wiki.facepunch.com/gmod/DTextEntry) are applied. (And set to the attached console variable, if one is given)
 ---
 --- See also [DTextEntry:OnChange](https://wiki.facepunch.com/gmod/DTextEntry:OnChange) for a function that is called on every text change, even if the console variable is not updated.
@@ -302,14 +303,14 @@ function DTextEntry:SetDisabled(disabled) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTextEntry:SetDrawBackground
----@param show boolean
+---@param show boolean 
 function DTextEntry:SetDrawBackground(show) end
 
 ---Does nothing.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTextEntry:SetDrawBorder
----@param bool boolean
+---@param bool boolean 
 function DTextEntry:SetDrawBorder(bool) end
 
 ---Disables Input on a DTextEntry. This differs from [DTextEntry:SetDisabled](https://wiki.facepunch.com/gmod/DTextEntry:SetDisabled) - SetEditable will not affect the appearance of the textbox.
@@ -376,7 +377,7 @@ function DTextEntry:SetPlaceholderColor(color) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTextEntry:SetPlaceholderText
----@param text? string
+---@param text? string 
 function DTextEntry:SetPlaceholderText(text) end
 
 ---Sets whether or not the panel accepts tab key.
@@ -398,7 +399,7 @@ function DTextEntry:SetTextColor(color) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTextEntry:SetUpdateOnType
----@param updateOnType boolean
+---@param updateOnType boolean 
 function DTextEntry:SetUpdateOnType(updateOnType) end
 
 ---Sets the text of the [DTextEntry](https://wiki.facepunch.com/gmod/DTextEntry) and calls [DTextEntry:OnValueChange](https://wiki.facepunch.com/gmod/DTextEntry:OnValueChange).
@@ -433,3 +434,4 @@ function DTextEntry:UpdateFromHistory() end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTextEntry:UpdateFromMenu
 function DTextEntry:UpdateFromMenu() end
+

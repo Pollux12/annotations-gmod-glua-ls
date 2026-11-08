@@ -31,7 +31,7 @@ function DColorCube:GetDefaultColor() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DColorCube:GetHue
----@return number #
+---@return number # 
 function DColorCube:GetHue() end
 
 ---An [Global.AccessorFunc](https://wiki.facepunch.com/gmod/Global.AccessorFunc) that returns the color cube's current set color.
@@ -82,7 +82,7 @@ function DColorCube:SetDefaultColor(Color) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DColorCube:SetHue
----@param hue number
+---@param hue number 
 function DColorCube:SetHue(hue) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -115,3 +115,4 @@ function DColorCube:TranslateValues(x, y) end
 ---@param x? number The x position to set color to/the percentage of saturation to remove from the color (ranges from 0.0 to 1.0).
 ---@param y? number The y position to set color to/the percentage of brightness or value to remove from the color (ranges from 0.0 to 1.0).
 function DColorCube:UpdateColor(x, y) end
+

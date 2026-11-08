@@ -34,3 +34,4 @@ function SpawnmenuContentPanel:EnableSearch(category, hookname) end
 ---@source https://wiki.facepunch.com/gmod/SpawnmenuContentPanel:SwitchPanel
 ---@param panel Panel Panel to switch to
 function SpawnmenuContentPanel:SwitchPanel(panel) end
+

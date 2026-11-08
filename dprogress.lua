@@ -20,3 +20,4 @@ function DProgress:GetFraction() end
 ---@source https://wiki.facepunch.com/gmod/DProgress:SetFraction
 ---@param fraction number Fraction of the progress bar. Range is 0 to 1 (0% to 100%).
 function DProgress:SetFraction(fraction) end
+

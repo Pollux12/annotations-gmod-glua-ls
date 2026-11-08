@@ -28,7 +28,7 @@ function CNavLadder:GetBottom() end
 ---Returns the bottom area of the [CNavLadder](https://wiki.facepunch.com/gmod/CNavLadder).
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/CNavLadder:GetBottomArea
----@return CNavArea #
+---@return CNavArea # 
 function CNavLadder:GetBottomArea() end
 
 ---Returns this [CNavLadder](https://wiki.facepunch.com/gmod/CNavLadder)s unique ID.
@@ -114,29 +114,30 @@ function CNavLadder:Remove() end
 ---Sets the bottom area of the [CNavLadder](https://wiki.facepunch.com/gmod/CNavLadder).
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/CNavLadder:SetBottomArea
----@param area CNavArea
+---@param area CNavArea 
 function CNavLadder:SetBottomArea(area) end
 
 ---Sets the top behind area of the [CNavLadder](https://wiki.facepunch.com/gmod/CNavLadder).
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/CNavLadder:SetTopBehindArea
----@param area CNavArea
+---@param area CNavArea 
 function CNavLadder:SetTopBehindArea(area) end
 
 ---Sets the top forward area of the [CNavLadder](https://wiki.facepunch.com/gmod/CNavLadder).
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/CNavLadder:SetTopForwardArea
----@param area CNavArea
+---@param area CNavArea 
 function CNavLadder:SetTopForwardArea(area) end
 
 ---Sets the top left area of the [CNavLadder](https://wiki.facepunch.com/gmod/CNavLadder).
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/CNavLadder:SetTopLeftArea
----@param area CNavArea
+---@param area CNavArea 
 function CNavLadder:SetTopLeftArea(area) end
 
 ---Sets the top right area of the [CNavLadder](https://wiki.facepunch.com/gmod/CNavLadder).
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/CNavLadder:SetTopRightArea
----@param area CNavArea
+---@param area CNavArea 
 function CNavLadder:SetTopRightArea(area) end
+

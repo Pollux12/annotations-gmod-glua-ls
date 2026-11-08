@@ -5,3 +5,4 @@
 ---@source https://wiki.facepunch.com/gmod/AvatarImage
 ---@class (partial) AvatarImage : Panel
 local AvatarImage = {}
+

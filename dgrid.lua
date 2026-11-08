@@ -71,7 +71,7 @@ function DGrid:SetCols(cols) end
 ---@param colWidth number The width of each column.
 function DGrid:SetColWide(colWidth) end
 
----Sets the height of each row.
+---Sets the height of each row. 
 ---
 --- The cell panels (grid items) will not be resized or centered.
 ---@realm client
@@ -87,3 +87,4 @@ function DGrid:SetRowHeight(rowHeight) end
 ---@param key string A key in the panel from DGrid:GetItems. The key's value must be numeric.
 ---@param desc? boolean True for descending order, false for ascending.
 function DGrid:SortByMember(key, desc) end
+

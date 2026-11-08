@@ -19,3 +19,4 @@ function DKillIcon:GetName() end
 ---@source https://wiki.facepunch.com/gmod/DKillIcon:SetName
 ---@param iconName string The name of the killicon to be displayed.
 function DKillIcon:SetName(iconName) end
+

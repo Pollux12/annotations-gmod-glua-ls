@@ -21,9 +21,10 @@ local WorkshopFileBase = {}
 ---@param perpage number How many results per page should be returned.
 ---@param extratags table additional tags to filter the results.
 ---@param searchText string text that needs to be in the addon title. Use an empty string for none
----@param filter? number The filter for the results. (`enabledonly`, `disabledonly`)
+---@param filter? string The filter for the results. (`enabledonly`, `disabledonly`)
 ---@param sort? string How it should be sorted. If set to `nil`, it will fallback to `timeadded`. (`title`, `size`, `updated`)
 function WorkshopFileBase:Fetch(type, offset, perpage, extratags, searchText, filter, sort) end
+
 
 ---Fetches all subscriptions for the set namespace and passes the result to [WorkshopFileBase:FillFileInfo](https://wiki.facepunch.com/gmod/WorkshopFileBase:FillFileInfo).
 ---@realm shared
@@ -34,9 +35,10 @@ function WorkshopFileBase:Fetch(type, offset, perpage, extratags, searchText, fi
 ---@param tags table additional tags to filter the results.
 ---@param searchText string text that needs to be in the addon title. Use an empty string for none
 ---@param isUGC? boolean if true it will use engine.GetUserContent instead of engine.GetAddons
----@param filter? number The filter for the results. (`enabledonly`, `disabledonly`)
+---@param filter? string The filter for the results. (`enabledonly`, `disabledonly`)
 ---@param sort? string How it should be sorted. If set to `nil`, it will fallback to `timeadded`. (`title`, `size`, `updated`)
 function WorkshopFileBase:FetchSubscribed(offset, perpage, tags, searchText, isUGC, filter, sort) end
+
 
 ---Updates the set HTML panel with the newly fetched results
 ---@realm shared
@@ -65,6 +67,27 @@ function WorkshopFileBase:Publish(filename, image) end
 --- Function argument(s):
 --- * string `name` - The retrieved name
 function WorkshopFileBase:RetrieveUserName(steamid, callback) end
+
+
+---Fetches local files for the workshop helper's namespace.
+---@realm client
+---@realm menu
+---@source garrysmod/lua/includes/util/workshop_files.lua
+---@param offset number
+---@param perpage number
+function WorkshopFileBase:FetchLocal(offset, perpage) end
+
+---Publishes a file through the namespace's workshop handler.
+---@realm menu
+---@source garrysmod/lua/menu/menu_save.lua
+---@param filename string
+---@param imagename string
+---@param name string
+---@param description string
+---@param chosenTag string
+---@param other table
+---@return string? error
+function WorkshopFileBase:FinishPublish(filename, imagename, name, description, chosenTag, other) end
 
 ---@class (partial) WorkshopFileInfoEntry
 ---@field downloaded number The amount of bytes downloaded.
@@ -108,12 +131,14 @@ function WorkshopFileBase:FillFileInfo(results, isUGC) end
 ws_dupe = {}
 
 ---Downloads and arms a subscribed dupe from the workshop.
+---@realm client
 ---@realm menu
 ---@source https://github.com/Facepunch/garrysmod/blob/master/garrysmod/gamemodes/sandbox/gamemode/spawnmenu/creationmenu/content/contenttypes/dupes.lua#L52
 ---@param wsid string|number The workshop item ID.
 function ws_dupe:DownloadAndArm(wsid) end
 
 ---Arms a local dupe file for placement.
+---@realm client
 ---@realm menu
 ---@source https://github.com/Facepunch/garrysmod/blob/master/garrysmod/gamemodes/sandbox/gamemode/spawnmenu/creationmenu/content/contenttypes/dupes.lua#L46
 ---@param filename string The dupe file path.

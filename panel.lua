@@ -85,6 +85,7 @@ PANEL = Panel
 ---@return (instance) T # The created panel.
 function Panel:Add(className) end
 
+
 ---This function does nothing.
 ---@realm client
 ---@realm menu
@@ -127,12 +128,13 @@ function Panel:AlignTop(offset) end
 ---@param alpha number The alpha value (0-255) to approach.
 ---@param duration number The time in seconds it should take to reach the alpha.
 ---@param delay? number The delay before the animation starts.
----@param callback? fun(animData: table, targetPanel: Panel) The function to be called once the animation finishes.
+---@param callback? fun(animData: table, targetPanel: self) The function to be called once the animation finishes. 
 ---
 --- Function argument(s):
 --- * table `animData` - The Structures/AnimationData that was used.
 --- * Panel `targetPanel` - The panel object that was animated.
 function Panel:AlphaTo(alpha, duration, delay, callback) end
+
 
 ---Called every frame unless the panel is not visible ([Panel:IsVisible](https://wiki.facepunch.com/gmod/Panel:IsVisible)). Similar to [PANEL:Think](https://wiki.facepunch.com/gmod/PANEL:Think), but can be disabled by [Panel:SetAnimationEnabled](https://wiki.facepunch.com/gmod/Panel:SetAnimationEnabled) as explained below.
 ---
@@ -193,7 +195,7 @@ function Panel:ApplyGWEN(GWENTable) end
 ---@source https://wiki.facepunch.com/gmod/PANEL:ApplySchemeSettings
 function Panel:ApplySchemeSettings() end
 
----Centers the panel on its parent.
+---Centers the panel on its parent. 
 ---
 --- See [Panel:CenterHorizontal](https://wiki.facepunch.com/gmod/Panel:CenterHorizontal) and [Panel:CenterVertical](https://wiki.facepunch.com/gmod/Panel:CenterVertical) for more specialized functions.
 ---
@@ -205,7 +207,9 @@ function Panel:ApplySchemeSettings() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:Center
+---@[keeps_children]
 function Panel:Center() end
+
 
 ---Centers the panel horizontally with specified fraction.
 ---
@@ -246,7 +250,7 @@ function Panel:ChildrenSize() end
 ---@source https://wiki.facepunch.com/gmod/Panel:Clear
 function Panel:Clear() end
 
----Fades panels color to specified one.
+---Fades panels color to specified one. 
 ---        **NOTE**: The panel must have `GetColor` and `SetColor` functions for `ColorTo` to work.
 ---@realm client
 ---@realm menu
@@ -254,19 +258,22 @@ function Panel:Clear() end
 ---@param color Color The color to fade to
 ---@param length number Length of the animation
 ---@param delay? number Delay before start fading
----@param callback? fun(animData: AnimationData, targetPanel: Panel) Function to execute when finished
+---@param callback? fun(animData: table, targetPanel: self) Function to execute when finished
 ---
 --- Function argument(s):
 --- * table{AnimationData} `animData` - The Structures/AnimationData that was used.
 --- * Panel `targetPanel` - The panel object that was animated.
 function Panel:ColorTo(color, length, delay, callback) end
 
+
 ---Updates a panel object's associated console variable. This must first be set up with [Global.Derma_Install_Convar_Functions](https://wiki.facepunch.com/gmod/Global.Derma_Install_Convar_Functions), and have a ConVar set using [Panel:SetConVar](https://wiki.facepunch.com/gmod/Panel:SetConVar).
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:ConVarChanged
----@param newValue string The new value to set the associated console variable to.
+---@param newValue string|number The new value to set the associated console variable to, run through `tostring`.
+---@[replaceable]
 function Panel:ConVarChanged(newValue) end
+
 
 ---A think hook for [Panel](https://wiki.facepunch.com/gmod/Panel)s using ConVars as a value. Call it in the Think hook. Sets the panel's value should the convar change.
 ---
@@ -564,9 +571,11 @@ function Panel:Exec(cmd) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:Find
+---@[call_arg("gmod.gwen", "control_name")]
 ---@param panelName string The name of the panel that should be found.
 ---@return Panel # foundPanel
 function Panel:Find(panelName) end
+
 
 ---Focuses the next panel in the focus queue.
 ---@realm client
@@ -585,11 +594,13 @@ function Panel:FocusPrevious() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/PANEL:GenerateExample
+---@[call_arg("gmod.vgui_panel", "own_class")]
 ---@param class string The classname of the panel to generate example for. This will be the class name of your panel.
----@param dpropertysheet Panel A DPropertySheet to add your example to. See examples below.
----@param width number Width of the property sheet?
----@param height number Width of the property sheet?
+---@param dpropertysheet DPropertySheet A DPropertySheet to add your example to. See examples below.
+---@param width number Width of the property sheet.
+---@param height number Height of the property sheet.
 function Panel:GenerateExample(class, dpropertysheet, width, height) end
+
 
 ---Returns the alpha multiplier for this panel.
 ---@realm client
@@ -720,11 +731,13 @@ function Panel:GetContentSize() end
 ---@return string|nil # The value of the stored cookie, the default value, or nil if neither exists.
 function Panel:GetCookie(cookieName, default) end
 
+
+
 ---Gets the name the panel uses to store cookies. This is set with [Panel:SetCookieName](https://wiki.facepunch.com/gmod/Panel:SetCookieName).
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:GetCookieName
----@return string # The name the panel uses when reading or writing cookies. The format used is as follows:
+---@return string # The name the panel uses when reading or writing cookies. The format used is as follows: 
 --- ```
 --- panelCookieName.individualCookieName
 --- ```
@@ -738,6 +751,8 @@ function Panel:GetCookieName() end
 ---@param default? number The default value to return if the cookie does not exist.
 ---@return number|nil # The numeric cookie value, the default value, or nil if neither exists.
 function Panel:GetCookieNumber(cookieName, default) end
+
+
 
 ---Returns a dock enum for the panel's current docking type.
 ---@realm client
@@ -859,7 +874,7 @@ function Panel:GetScrollStartIndexes() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:GetSelectedChildren
----@return Panel[] # A table of any child objects that are selected, including tables for children of the child objects (These tables may also contain table members, as the method is recursive).
+---@return Panel[] # A table of any child objects that are selected, including tables for children of the child objects (These tables may also contain table members, as the method is recursive). 
 function Panel:GetSelectedChildren() end
 
 ---Returns the currently selected range of text.
@@ -897,6 +912,7 @@ function Panel:GetSize() end
 ---@source https://wiki.facepunch.com/gmod/Panel:GetSkin
 ---@return SKIN # The derma skin table currently being used by this object.
 function Panel:GetSkin() end
+
 
 ---Returns the internal Lua table of the panel.
 ---@realm client
@@ -1167,7 +1183,7 @@ function Panel:HasHierarchicalFocus() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:HasParent
----@param parentPanel Panel
+---@param parentPanel Panel 
 ---@return boolean # True if the panel is contained within parentPanel.
 function Panel:HasParent(parentPanel) end
 
@@ -1349,7 +1365,7 @@ function Panel:IsMultiline() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:IsOurChild
----@param childPanel Panel
+---@param childPanel Panel 
 ---@return boolean # True if the panel contains childPanel.
 function Panel:IsOurChild(childPanel) end
 
@@ -1452,14 +1468,18 @@ function Panel:LoadCookies() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:LoadGWENFile
+---@[call_arg("gmod.gwen", "resource")]
 ---@param filename string The file to open. The path is relative to garrysmod/garrysmod/.
+---@[call_arg("gmod.gwen", "search_path")]
 ---@param path? string The path used to look up the file.
 ---
 --- * "GAME" Structured like base folder (garrysmod/), searches all the mounted content (main folder, addons, mounted games etc)
 --- * "LUA" or "lsv" - All Lua folders (lua/) including gamesmodes and addons
 --- * "DATA" Data folder (garrysmod/data)
 --- * "MOD" Strictly the game folder (garrysmod/), ignores mounting.
+---@[gwen_resource("resource/ui/DemoToVideo.gwen", "GwenDemoToVideo")]
 function Panel:LoadGWENFile(filename, path) end
+
 
 ---Loads controls for the panel from a JSON string.
 ---@realm client
@@ -1513,7 +1533,9 @@ function Panel:LocalToScreen(posX, posY) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:MakePopup
+---@[keeps_children]
 function Panel:MakePopup() end
+
 
 ---Allows the panel to receive mouse input even if the mouse cursor is outside the bounds of the panel.
 ---@realm client
@@ -1547,12 +1569,13 @@ function Panel:MoveBelow(panel, offset) end
 ---@param time number The time (in seconds) in which to perform the animation.
 ---@param delay? number The delay (in seconds) before the animation begins.
 ---@param ease? number The easing of the start and/or end speed of the animation. See Panel:NewAnimation for how this works.
----@param callback? fun(animData: table, targetPanel: Panel) The function to be called once the animation is complete.
+---@param callback? fun(animData: table, targetPanel: self) The function to be called once the animation is complete. 
 ---
 --- Function argument(s):
 --- * table `animData` - The Structures/AnimationData that was used.
 --- * Panel `targetPanel` - The panel object that was animated.
 function Panel:MoveBy(moveX, moveY, time, delay, ease, callback) end
+
 
 ---Places the panel left to the passed panel with the specified offset.
 ---@realm client
@@ -1580,12 +1603,13 @@ function Panel:MoveRightOf(panel, offset) end
 ---@param time number The time to perform the animation within.
 ---@param delay? number The delay before the animation starts.
 ---@param ease? number The easing of the start and/or end speed of the animation. See Panel:NewAnimation for how this works.
----@param callback? fun(animData: table, targetPanel: Panel) The function to be called once the animation finishes.
+---@param callback? fun(animData: table, targetPanel: self) The function to be called once the animation finishes.
 ---
 --- Function argument(s):
 --- * table `animData` - The Structures/AnimationData that was used.
 --- * Panel `targetPanel` - The panel object that was animated.
 function Panel:MoveTo(posX, posY, time, delay, ease, callback) end
+
 
 ---Moves this panel object in front of the specified sibling (child of the same parent) in the render order, and shuffles up the Z-positions of siblings now behind.
 ---@realm client
@@ -1637,31 +1661,32 @@ function Panel:MoveToFront() end
 --- * Positive values between 0 and 1 ease out; values closer to 0 increase the curve's gradient (less linear).
 --- * A value of 0 will break the animation and should be avoided.
 --- * Any value less than zero will ease in/out; the value has no effect on the gradient.
----@param callback? fun(animData: table, targetPanel: Panel) The function to be called when the animation ends.
+---@param callback? fun(animData: table, targetPanel: self) The function to be called when the animation ends.
 ---
 --- Function argument(s):
 --- * table `animData` - The Structures/AnimationData that was used.
 --- * Panel `targetPanel` - The panel object that was animated.
----@return AnimationData # Partially filled Structures/AnimationData with the following members:
+---@return AnimationData<self> # Partially filled Structures/AnimationData with the following members: 
 --- * number **EndTime** - Equal to `length` and `delay` arguments added together, plus either the Global.SysTime if there is no other animation queued or the end time of the last animation in the queue.
 --- * number **StartTime** - Equal to the `delay` argument, plus either the Global.SysTime if there is no other animation queued or the end time of the last animation in the queue.
 --- * number **Ease** - Equal to the `ease` argument.
 --- * function **OnEnd** - Equal to the `callback` argument.
 function Panel:NewAnimation(length, delay, ease, callback) end
 
+
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:NewObject
----@param objectName string
+---@param objectName string 
 function Panel:NewObject(objectName) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:NewObjectCallback
----@param objectName string
----@param callbackName string
+---@param objectName string 
+---@param callbackName string 
 function Panel:NewObjectCallback(objectName, callbackName) end
 
 ---Sets whether this panel's drawings should be clipped within the parent panel's bounds.
@@ -1745,7 +1770,9 @@ function Panel:OnDeactivate() end
 ---@source https://wiki.facepunch.com/gmod/PANEL:OnDrop
 ---@param target Panel The panel being dropped onto.
 ---@return Panel # The panel to drop instead of us. By default you should return self.
+---@[replaceable]
 function Panel:OnDrop(target) end
+
 
 ---Called whenever the panel gained or lost focus.
 ---
@@ -1886,7 +1913,7 @@ function Panel:OnVScroll(offset) end
 --- * `chrome://credits/`
 function Panel:OpenURL(URL) end
 
----Called whenever the panel should be drawn.
+---Called whenever the panel should be drawn. 
 ---
 --- This hook will not run if the panel is completely off the screen, and will still run if any parts of the panel are still on screen.
 ---
@@ -1929,8 +1956,9 @@ function Panel:PaintManual(unclamp) end
 ---@source https://wiki.facepunch.com/gmod/PANEL:PaintOver
 ---@param width number The panels current width.
 ---@param height number The panels current height.
----@return boolean # Should we disable default PaintOver rendering? This is useful in case with Derma panels that use Derma hooks.
+---@return boolean? # Should we disable default PaintOver rendering? This is useful in case with Derma panels that use Derma hooks.
 function Panel:PaintOver(width, height) end
+
 
 ---Parents the panel to the HUD.
 --- Makes it invisible on the escape-menu and disables controls.
@@ -2047,6 +2075,7 @@ function Panel:RebuildSpawnIconEx(data) end
 ---@param menu? table<any, string> A table of commands to display as a menu if drag'n'drop was performed with a right click.
 function Panel:Receiver(name, func, menu) end
 
+
 ---Refreshes the HTML panel's current page.
 ---@realm client
 ---@realm menu
@@ -2139,6 +2168,7 @@ function Panel:SelectAllOnFocus() end
 ---@deprecated Duplicate of Panel:SelectAll.
 function Panel:SelectAllText(resetCursorPos) end
 
+
 ---Deselects all items in a panel object. For text-based objects, this will deselect all text.
 ---
 --- **NOTE**: Only works on [RichText](https://wiki.facepunch.com/gmod/RichText) and [TextEntry](https://wiki.facepunch.com/gmod/TextEntry) and their derived panels by default (such as [DTextEntry](https://wiki.facepunch.com/gmod/DTextEntry)), and on any panel that manually reimplemented this method.
@@ -2168,7 +2198,9 @@ function Panel:SetAllowNonAsciiCharacters(allowed) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:SetAlpha
 ---@param alpha number The alpha value in the range of 0-255.
+---@[keeps_children]
 function Panel:SetAlpha(alpha) end
+
 
 ---Enables or disables animations for the panel object by overriding the [PANEL:AnimationThink](https://wiki.facepunch.com/gmod/PANEL:AnimationThink) hook to nil and back.
 ---@realm client
@@ -2265,6 +2297,8 @@ function Panel:SetConVar(convar) end
 ---@param value? string|number|boolean The value to store, or nil to clear the value.
 function Panel:SetCookie(cookieName, value) end
 
+
+
 ---Sets the panel's cookie name. Calls [PANEL:LoadCookies](https://wiki.facepunch.com/gmod/PANEL:LoadCookies) if defined.
 ---@realm client
 ---@realm menu
@@ -2294,7 +2328,9 @@ function Panel:SetCookieName(name) end
 --- * [blank](https://wiki.facepunch.com/gmod/Cursors#:~:text=blank)
 ---
 --- Set to anything else to set it to "none", the default fallback. Do note that a value of "none" does not, as one might assume, result in no cursor being drawn - hiding the cursor requires a value of "blank" instead.
+---@[keeps_children]
 function Panel:SetCursor(cursor) end
+
 
 ---Sets the drag parent.
 ---
@@ -2338,7 +2374,7 @@ function Panel:SetDrawLanguageIDAtLeft(left) end
 ---@param drawOnTop? boolean Whether or not to draw the panel in front of all others.
 function Panel:SetDrawOnTop(drawOnTop) end
 
----Sets the target area for dropping when an object is being dragged around this panel using the [dragndrop](https://wiki.facepunch.com/gmod/dragndrop).
+---Sets the target area for dropping when an object is being dragged around this panel using the [dragndrop](https://wiki.facepunch.com/gmod/dragndrop). 
 ---
 --- This draws a target box of the specified size and position, until [Panel:DragHoverEnd](https://wiki.facepunch.com/gmod/Panel:DragHoverEnd) is called. It uses [Panel:DrawDragHover](https://wiki.facepunch.com/gmod/Panel:DrawDragHover) to draw this area.
 ---@realm client
@@ -2411,7 +2447,7 @@ function Panel:SetFGColorEx(r, g, b, a) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:SetFocusTopLevel
----@param state boolean
+---@param state boolean 
 function Panel:SetFocusTopLevel(state) end
 
 ---Sets the font used to render this panel's text. This works for [Label](https://wiki.facepunch.com/gmod/Label), [TextEntry](https://wiki.facepunch.com/gmod/TextEntry) and [RichText](https://wiki.facepunch.com/gmod/RichText), but it's a better idea to use their local `SetFont` ([DTextEntry:SetFont](https://wiki.facepunch.com/gmod/DTextEntry:SetFont), [DLabel:SetFont](https://wiki.facepunch.com/gmod/DLabel:SetFont)) methods when available.
@@ -2503,7 +2539,9 @@ function Panel:SetModel(ModelPath, skin, bodygroups) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:SetMouseInputEnabled
 ---@param mouseInput boolean Whenever to enable or disable mouse input.
+---@[keeps_children]
 function Panel:SetMouseInputEnabled(mouseInput) end
+
 
 ---Enables or disables the multi-line functionality of [TextEntry](https://wiki.facepunch.com/gmod/TextEntry) panel and its derivatives.
 ---@realm client
@@ -2522,7 +2560,7 @@ function Panel:SetName(name) end
 ---Set to true to open links in an external browser. This only functions on the `x86-64` beta.
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:SetOpenLinksExternally
----@param openExternally boolean
+---@param openExternally boolean 
 function Panel:SetOpenLinksExternally(openExternally) end
 
 ---Sets whether the default background of the panel should be drawn or not. It's color is usually set by [Panel:SetBGColor](https://wiki.facepunch.com/gmod/Panel:SetBGColor).
@@ -2554,6 +2592,7 @@ function Panel:SetPaintedManually(paintedManually) end
 ---@[call_arg("gmod.vgui_panel", "parent")]
 ---@param parent? Panel The new parent of the panel, or nil to detach it.
 function Panel:SetParent(parent) end
+
 
 ---Used by [AvatarImage](https://wiki.facepunch.com/gmod/AvatarImage) to load an avatar for given player.
 ---@realm client
@@ -2611,6 +2650,7 @@ function Panel:SetSelected(selected) end
 ---@param set boolean|Panel Whether to enable selection, or an existing selection canvas value.
 function Panel:SetSelectionCanvas(set) end
 
+
 ---Sets the size of the panel.
 ---
 --- Calls [PANEL:OnSizeChanged](https://wiki.facepunch.com/gmod/PANEL:OnSizeChanged) and marks this panel for layout ([Panel:InvalidateLayout](https://wiki.facepunch.com/gmod/Panel:InvalidateLayout)).
@@ -2634,6 +2674,7 @@ function Panel:SetSize(width, height) end
 ---@param skinName string The name of the skin to use. The default derma skin is `Default`.
 function Panel:SetSkin(skinName) end
 
+
 ---Sets the `.png` image to be displayed on a  [SpawnIcon](https://wiki.facepunch.com/gmod/SpawnIcon) or the panel it is based on - [ModelImage](https://wiki.facepunch.com/gmod/ModelImage).
 ---
 --- Only `.png` images can be used with this function.
@@ -2655,7 +2696,7 @@ function Panel:SetSteamID(steamid, size) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:SetTabPosition
----@param position number
+---@param position number 
 function Panel:SetTabPosition(position) end
 
 ---Sets height of a panel. An alias of [Panel:SetHeight](https://wiki.facepunch.com/gmod/Panel:SetHeight).
@@ -2789,7 +2830,9 @@ function Panel:SetVerticalScrollbarEnabled(display) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:SetVisible
 ---@param visible boolean The visibility of the panel.
+---@[keeps_children]
 function Panel:SetVisible(visible) end
+
 
 ---Sets width of a panel. An alias of [Panel:SetWidth](https://wiki.facepunch.com/gmod/Panel:SetWidth).
 ---@realm client
@@ -2852,9 +2895,11 @@ function Panel:SetY(y) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Panel:SetZPos
----@param zIndex number The z position of the panel.
+---@param zIndex number The z position of the panel. 
 --- Can't be lower than -32768 or higher than 32767.
+---@[keeps_children]
 function Panel:SetZPos(zIndex) end
+
 
 ---Makes a panel visible.
 ---@realm client
@@ -2871,13 +2916,14 @@ function Panel:Show() end
 ---@param time number The time to perform the animation within.
 ---@param delay? number The delay before the animation starts.
 ---@param ease? number Easing of the start and/or end speed of the animation. See Panel:NewAnimation for how this works.
----@param callback? fun(animData: table, targetPanel: Panel) The function to be called once the animation finishes.
+---@param callback? fun(animData: table, targetPanel: self) The function to be called once the animation finishes.
 ---
 --- Function argument(s):
 --- * table `animData` - The Structures/AnimationData that was used.
 --- * Panel `targetPanel` - The panel object that was animated.
----@return AnimationData # The animation data.
+---@return AnimationData<self> # The animation data.
 function Panel:SizeTo(sizeW, sizeH, time, delay, ease, callback) end
+
 
 ---Resizes the panel to fit the bounds of its children.
 ---
@@ -3039,6 +3085,7 @@ function Panel:UpdateHTMLTexture() end
 ---@return boolean # Whether the panel is valid or not, true being it is, false being it isn't.
 ---@deprecated Use Panel:IsValid instead.
 function Panel:Valid() end
+
 
 ---Called by VGUI when this panel should lay out its children.
 ---@hook PerformLayout

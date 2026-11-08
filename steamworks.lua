@@ -50,6 +50,7 @@ function steamworks.DownloadUGC(workshopID, resultCallback) end
 --- * table `data` - The data about the item, if the request succeeded, `nil` otherwise. See Structures/UGCFileInfo.
 function steamworks.FileInfo(workshopItemID, resultCallback) end
 
+
 ---Retrieves a customized list of Steam Workshop addons.
 ---@realm shared
 ---@realm menu
@@ -202,6 +203,7 @@ function steamworks.Vote(workshopItemID, upOrDown) end
 ---@deprecated Use data steamworks.FileInfo instead.
 function steamworks.VoteInfo(workshopItemID, resultCallback) end
 
+
 ---Retrieves local file/user data for a Steam Workshop addon.
 ---@realm client
 ---@realm menu
@@ -221,3 +223,9 @@ local SteamworksFileUserInfo = {}
 ---@realm menu
 ---@return string[] # A list of workshop item IDs.
 function steamworks.GetDownloadedItems() end
+
+---Sets or clears the local player's favorite mark on a Steam Workshop item.
+---@realm menu
+---@param workshopItemID string The ID of the Steam Workshop item.
+---@param favorite boolean Whether the item should be favorited.
+function steamworks.SetFavorite(workshopItemID, favorite) end

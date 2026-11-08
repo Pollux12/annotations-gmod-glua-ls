@@ -22,24 +22,7 @@ construct = {}
 ---@param aVel? Angle Angular velocity to set on spawn.
 ---@param frozen? boolean Freeze the magnet on start.
 ---@return Entity # The magnet.
-function construct.Magnet(
-	ply,
-	pos,
-	ang,
-	model,
-	material,
-	key,
-	maxObjects,
-	strength,
-	nopull,
-	allowrot,
-	startOn,
-	toggle,
-	vel,
-	aVel,
-	frozen
-)
-end
+function construct.Magnet(ply, pos, ang, model, material, key, maxObjects, strength, nopull, allowrot, startOn, toggle, vel, aVel, frozen) end
 
 ---Sets props physical properties.
 ---@realm server
@@ -50,3 +33,5 @@ end
 ---@param physObj PhysObj? The physics object to apply the properties to.
 ---@param data PhysProperties The table containing properties to apply. See Structures/PhysProperties.
 function construct.SetPhysProp(ply, ent, physObjID, physObj, data) end
+
+

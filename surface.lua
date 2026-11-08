@@ -116,6 +116,24 @@ function surface.DrawText(text, forceAdditive) end
 ---@param height number The integer height of the rectangle.
 function surface.DrawTexturedRect(x, y, width, height) end
 
+---Draws a textured rectangle with a repeated or partial texture.
+---
+--- This is identical to [surface.DrawTexturedRectUV](https://wiki.facepunch.com/gmod/surface.DrawTexturedRectUV), but does not suffer from internal UV adjustments made by the engine. It is a separate function to prevent issues with existing content that manually adjusts for the internal UV adjustments.
+---
+--- For all intents and purposes, this function should be used over its predecessor.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/surface.DrawTexturedRectRawUV
+---@param x number The X integer coordinate.
+---@param y number The Y integer coordinate.
+---@param width number The integer width of the rectangle.
+---@param height number The integer height of the rectangle.
+---@param startU number The U texture mapping of the rectangle origin.
+---@param startV number The V texture mapping of the rectangle origin.
+---@param endU number The U texture mapping of the rectangle end.
+---@param endV number The V texture mapping of the rectangle end.
+function surface.DrawTexturedRectRawUV(x, y, width, height, startU, startV, endU, endV) end
+
 ---Draw a textured rotated rectangle with the given position and dimensions and angle on the screen, using the current active texture.
 ---
 --- See also [surface.DrawTexturedRectUV](https://wiki.facepunch.com/gmod/surface.DrawTexturedRectUV) and [surface.DrawTexturedRect](https://wiki.facepunch.com/gmod/surface.DrawTexturedRect).
@@ -384,3 +402,4 @@ function surface.SetTextPos(x, y) end
 ---@source https://wiki.facepunch.com/gmod/surface.SetTexture
 ---@param textureID number The ID of the texture to draw with returned by surface.GetTextureID.
 function surface.SetTexture(textureID) end
+

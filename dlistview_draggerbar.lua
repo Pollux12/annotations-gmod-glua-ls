@@ -6,3 +6,4 @@
 ---@source https://wiki.facepunch.com/gmod/DListView_DraggerBar
 ---@class (partial) DListView_DraggerBar : DButton
 local DListView_DraggerBar = {}
+

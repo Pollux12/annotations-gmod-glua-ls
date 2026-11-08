@@ -5,7 +5,7 @@
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DCheckBoxLabel
----@class DCheckBoxLabel : Panel
+---@class DCheckBoxLabel : DPanel
 ---@field Button DCheckBox
 ---@field Label DLabel
 local DCheckBoxLabel = {}
@@ -45,6 +45,8 @@ function DCheckBoxLabel:SetBright(bright) end
 ---@source https://wiki.facepunch.com/gmod/DCheckBoxLabel:SetChecked
 ---@param checked any Value forwarded to DCheckBox:SetChecked.
 function DCheckBoxLabel:SetChecked(checked) end
+
+
 
 ---Sets the console variable to be set when the checked state of the [DCheckBoxLabel](https://wiki.facepunch.com/gmod/DCheckBoxLabel) changes.
 ---@realm client
@@ -88,6 +90,8 @@ function DCheckBoxLabel:SetTextColor(color) end
 ---@param checked any Value forwarded to DCheckBox:SetValue.
 function DCheckBoxLabel:SetValue(checked) end
 
+
+
 ---Sizes the panel to the size of the internal DLabel and DButton
 ---@realm client
 ---@realm menu
@@ -99,3 +103,4 @@ function DCheckBoxLabel:SizeToContents() end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DCheckBoxLabel:Toggle
 function DCheckBoxLabel:Toggle() end
+

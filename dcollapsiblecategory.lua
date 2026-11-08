@@ -25,9 +25,9 @@ function DCollapsibleCategory:Add(name) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DCollapsibleCategory:AnimSlide
----@param anim table
----@param delta number
----@param data table
+---@param anim table 
+---@param delta number 
+---@param data table 
 function DCollapsibleCategory:AnimSlide(anim, delta, data) end
 
 ---Forces the category to open or collapse
@@ -83,7 +83,7 @@ function DCollapsibleCategory:GetList() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DCollapsibleCategory:GetPadding
----@return number #
+---@return number # 
 function DCollapsibleCategory:GetPadding() end
 
 ---An [Global.AccessorFunc](https://wiki.facepunch.com/gmod/Global.AccessorFunc) that returns whether or not the background should be painted.
@@ -97,7 +97,7 @@ function DCollapsibleCategory:GetPaintBackground() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DCollapsibleCategory:GetStartHeight
----@return number #
+---@return number # 
 function DCollapsibleCategory:GetStartHeight() end
 
 ---Called by [DCollapsibleCategory:Toggle](https://wiki.facepunch.com/gmod/DCollapsibleCategory:Toggle). This function does nothing by itself, as you're supposed to overwrite it.
@@ -168,21 +168,21 @@ function DCollapsibleCategory:SetList(pnl) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DCollapsibleCategory:SetPadding
----@param padding number
+---@param padding number 
 function DCollapsibleCategory:SetPadding(padding) end
 
 ---Sets whether or not the background should be painted.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DCollapsibleCategory:SetPaintBackground
----@param paint boolean
+---@param paint boolean 
 function DCollapsibleCategory:SetPaintBackground(paint) end
 
 ---Does nothing.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DCollapsibleCategory:SetStartHeight
----@param height number
+---@param height number 
 function DCollapsibleCategory:SetStartHeight(height) end
 
 ---Toggles the expanded state of the [DCollapsibleCategory](https://wiki.facepunch.com/gmod/DCollapsibleCategory).
@@ -200,3 +200,4 @@ function DCollapsibleCategory:Toggle() end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DCollapsibleCategory:UpdateAltLines
 function DCollapsibleCategory:UpdateAltLines() end
+

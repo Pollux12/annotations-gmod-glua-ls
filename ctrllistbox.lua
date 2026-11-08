@@ -7,3 +7,4 @@
 ---@source https://wiki.facepunch.com/gmod/CtrlListBox
 ---@class (partial) CtrlListBox : DComboBox
 local CtrlListBox = {}
+

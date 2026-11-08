@@ -17,3 +17,4 @@ local DModelSelectMulti = {}
 ---@param dontSort boolean Do not sort the list. (by the `Model` member)
 ---@param dontCallListConVars boolean If set, only the `convar` from the 2nd argument will be set, not individual convars from the models list.
 function DModelSelectMulti:AddModelList(name, models, convar, dontSort, dontCallListConVars) end
+

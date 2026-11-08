@@ -178,8 +178,8 @@ function CLuaLocomotion:Jump(act) end
 ---Makes the bot jump across a gap. The bot must be on ground ([Entity:IsOnGround](https://wiki.facepunch.com/gmod/Entity:IsOnGround)) and its model must have `ACT_JUMP` activity.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/CLuaLocomotion:JumpAcrossGap
----@param landingGoal Vector
----@param landingForward Vector
+---@param landingGoal Vector 
+---@param landingForward Vector 
 function CLuaLocomotion:JumpAcrossGap(landingGoal, landingForward) end
 
 ---Sets the acceleration speed
@@ -255,5 +255,6 @@ function CLuaLocomotion:SetStepHeight(height) end
 ---Sets the current movement velocity
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/CLuaLocomotion:SetVelocity
----@param velocity Vector
+---@param velocity Vector 
 function CLuaLocomotion:SetVelocity(velocity) end
+

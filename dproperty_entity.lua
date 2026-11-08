@@ -7,3 +7,4 @@
 ---@source https://wiki.facepunch.com/gmod/DProperty_Entity
 ---@class (partial) DProperty_Entity : DProperty_Generic
 local DProperty_Entity = {}
+

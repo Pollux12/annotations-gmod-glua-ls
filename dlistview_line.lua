@@ -7,6 +7,7 @@
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DListView_Line
 ---@class (partial) DListView_Line : Panel
+---@field Columns (DListViewLabel|Panel)[] The cell panels by column index: a DListViewLabel, or the panel passed to DListView_Line:SetColumnText.
 local DListView_Line = {}
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -106,6 +107,7 @@ function DListView_Line:SetAltLine(alt) end
 ---@return DLabel? label The DLabel in which the text was set when `value` is a string.
 function DListView_Line:SetColumnText(column, value) end
 
+
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
 --- Sets the ID of this line, used internally by [DListView:AddLine](https://wiki.facepunch.com/gmod/DListView:AddLine).
@@ -149,3 +151,5 @@ function DListView_Line:SetSortValue(column, data) end
 ---@param value string|Panel Column text, or a panel to parent into the column.
 ---@return DLabel? label The DLabel in which the text was set when `value` is a string.
 function DListView_Line:SetValue(column, value) end
+
+

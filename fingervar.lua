@@ -7,3 +7,4 @@
 ---@source https://wiki.facepunch.com/gmod/FingerVar
 ---@class (partial) FingerVar : Panel
 local FingerVar = {}
+

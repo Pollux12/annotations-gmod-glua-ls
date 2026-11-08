@@ -123,6 +123,7 @@ function DModelPanel:RunAnimation() end
 ---@param color Color|Vector
 function DModelPanel:SetAmbientLight(color) end
 
+
 ---Sets whether or not to animate the entity when the default [DModelPanel:LayoutEntity](https://wiki.facepunch.com/gmod/DModelPanel:LayoutEntity) is called.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DModelPanel:SetAnimated
@@ -197,3 +198,4 @@ function DModelPanel:SetModel(model) end
 ---@source https://wiki.facepunch.com/gmod/DModelPanel:StartScene
 ---@param path string The path to the scene file. (.vcd)
 function DModelPanel:StartScene(path) end
+

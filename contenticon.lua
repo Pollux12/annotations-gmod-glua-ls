@@ -81,6 +81,7 @@ function ContentIcon:SetNPCWeapon(weapons) end
 ---@param name string Internal "name" to be used when user left clicks the icon.
 function ContentIcon:SetSpawnName(name) end
 
+
 ---Returns the spawnmenu tile layout that owns this content icon.
 ---@realm client
 ---@return DTileLayout

@@ -6,3 +6,4 @@
 ---@deprecated You should use DFrame instead.
 ---@class (partial) Frame : Panel
 local Frame = {}
+

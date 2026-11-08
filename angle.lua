@@ -46,7 +46,7 @@ Metamethod | Second Operand | Description
 ---@operator unm: Angle
 local Angle = {}
 
----Adds the values of the argument angle to the orignal angle.
+---Adds the values of the argument angle to the orignal angle. 
 ---
 --- This functions the same as angle1 + angle2 without creating a new angle object, skipping object construction and garbage collection.
 ---@realm shared
@@ -75,7 +75,7 @@ function Angle:Forward() end
 ---@source https://wiki.facepunch.com/gmod/Angle:IsEqualTol
 ---@param compare Angle The angle to compare to.
 ---@param tolerance number The tolerance range for each component.
----@return boolean # Are each of the the angle components equal or not within given tolerance.
+---@return boolean # Are each of the the angle components equal or not within given tolerance. 
 function Angle:IsEqualTol(compare, tolerance) end
 
 ---Returns whether the pitch, yaw and roll are 0 or not.
@@ -183,3 +183,4 @@ function Angle:Up() end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Angle:Zero
 function Angle:Zero() end
+

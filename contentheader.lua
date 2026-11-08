@@ -14,11 +14,13 @@ local ContentHeader = {}
 ---@source https://wiki.facepunch.com/gmod/ContentHeader:OpenMenu
 function ContentHeader:OpenMenu() end
 
----
+
+---	
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/ContentHeader:ToTable
----@param bigtable table
+---@param bigtable table 
 function ContentHeader:ToTable(bigtable) end
+
 
 ---Returns the spawnmenu tile layout that owns this content header.
 ---@realm client

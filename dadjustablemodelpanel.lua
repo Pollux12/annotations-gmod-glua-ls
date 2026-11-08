@@ -55,3 +55,4 @@ function DAdjustableModelPanel:SetFirstPerson(enable) end
 ---@source https://wiki.facepunch.com/gmod/DAdjustableModelPanel:SetMovementScale
 ---@param number number The movement scale, where `1` is normal, `2` is double, etc.
 function DAdjustableModelPanel:SetMovementScale(number) end
+

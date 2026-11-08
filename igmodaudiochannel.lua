@@ -315,3 +315,4 @@ function IGModAudioChannel:SetVolume(volume) end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/IGModAudioChannel:Stop
 function IGModAudioChannel:Stop() end
+

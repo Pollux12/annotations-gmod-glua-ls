@@ -15,6 +15,7 @@ dragndrop = {}
 ---@param my? number The local to the panel mouse cursor Y position when the click happened.
 function dragndrop.CallReceiverFunction(bDoDrop, command, mx, my) end
 
+
 ---Clears all the internal drag'n'drop variables.
 ---@realm client
 ---@realm menu
@@ -87,6 +88,7 @@ function dragndrop.Think() end
 ---@source https://wiki.facepunch.com/gmod/dragndrop.UpdateReceiver
 function dragndrop.UpdateReceiver() end
 
+
 ---Current local mouse X position tracked by dragndrop while dispatching receivers.
 ---@type number
 dragndrop.m_MouseLocalX = nil
@@ -94,3 +96,7 @@ dragndrop.m_MouseLocalX = nil
 ---Current local mouse Y position tracked by dragndrop while dispatching receivers.
 ---@type number
 dragndrop.m_MouseLocalY = nil
+
+---@source garrysmod/lua/includes/extensions/client/panel/dragdrop.lua
+---@type { Name: string, Func: fun(receiver: Panel, panels: Panel[], drop: boolean, command: any, x: number, y: number) }?
+dragndrop.m_ReceiverSlot = nil

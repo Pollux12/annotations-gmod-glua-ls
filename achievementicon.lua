@@ -7,3 +7,4 @@
 ---@source https://wiki.facepunch.com/gmod/AchievementIcon
 ---@class (partial) AchievementIcon : Panel
 local AchievementIcon = {}
+

@@ -6,3 +6,4 @@
 ---@source https://wiki.facepunch.com/gmod/DListViewLabel
 ---@class (partial) DListViewLabel : DLabel
 local DListViewLabel = {}
+

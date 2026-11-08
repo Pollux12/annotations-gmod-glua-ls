@@ -7,3 +7,4 @@
 ---@source https://wiki.facepunch.com/gmod/ModelImage
 ---@class (partial) ModelImage
 local ModelImage = {}
+

@@ -3,9 +3,8 @@
 --- This is a list of all methods only available for vehicles. It is also possible to call [Entity](https://wiki.facepunch.com/gmod/Entity) functions on vehicles.
 ---@source https://wiki.facepunch.com/gmod/Vehicle
 ---@class (partial) Vehicle : Entity
+---@field VehicleName? string
 local Vehicle = {}
----@class (partial) VEHICLE : Vehicle
-VEHICLE = Vehicle
 
 ---Returns the remaining boosting time left.
 ---@realm server
@@ -47,6 +46,7 @@ function Vehicle:GetCameraDistance() end
 ---@source https://wiki.facepunch.com/gmod/Vehicle:GetDriver
 ---@return Player|NULL driver The driver of the vehicle.
 function Vehicle:GetDriver() end
+
 
 ---Returns the current speed of the vehicle in Half-Life Hammer Units (in/s). Same as [Entity:GetVelocity](https://wiki.facepunch.com/gmod/Entity:GetVelocity) + [Vector:Length](https://wiki.facepunch.com/gmod/Vector:Length).
 ---@realm server
@@ -331,3 +331,4 @@ function Vehicle:SetWheelFriction(wheel, friction) end
 ---@source https://wiki.facepunch.com/gmod/Vehicle:StartEngine
 ---@param start boolean True to start, false to stop.
 function Vehicle:StartEngine(start) end
+

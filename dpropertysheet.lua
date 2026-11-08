@@ -6,6 +6,7 @@
 ---@source https://wiki.facepunch.com/gmod/DPropertySheet
 --- A tab oriented control where you can create multiple tabs with items within. Used mainly for organization.
 ---@class DPropertySheet : Panel
+---@field m_pActiveTab? DTab
 ---@field tabScroller DHorizontalScroller The internal horizontal scroller that manages tab positioning.
 ---@field animFade DermaAnimation The fade animation used when switching tabs, created in Init via Derma_Anim.
 ---@field Items DPropertySheetSheet[] The list of tabs added to this sheet.
@@ -29,17 +30,19 @@ local DPropertySheet = {}
 ---@return DPropertySheetSheet? sheet The created sheet record, or nil if the panel is invalid.
 function DPropertySheet:AddSheet(name, pnl, icon, noStretchX, noStretchY, tooltip) end
 
+
 ---Removes tab and/or panel from the parent DPropertySheet.
 --- **NOTE**: In case you close the active tab, it will be reset to the last item available in the list.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DPropertySheet:CloseTab
----@param tab Panel The DTab of the sheet from DPropertySheet.
+---@param tab DTab The DTab of the sheet from DPropertySheet.
 ---
 --- See DPropertySheet:GetItems.
 ---@param removePanel boolean Set to true to remove the associated panel object as well.
 ---@return Panel # The panel of the tab.
 function DPropertySheet:CloseTab(tab, removePanel) end
+
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
@@ -47,9 +50,9 @@ function DPropertySheet:CloseTab(tab, removePanel) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DPropertySheet:CrossFade
----@param anim table
----@param delta number
----@param data table
+---@param anim table 
+---@param delta number 
+---@param data table 
 function DPropertySheet:CrossFade(anim, delta, data) end
 
 ---@realm client
@@ -57,6 +60,7 @@ function DPropertySheet:CrossFade(anim, delta, data) end
 ---@source https://wiki.facepunch.com/gmod/DPropertySheet:GetActiveTab
 ---@return DTab? # The active [DTab](https://wiki.facepunch.com/gmod/DTab), or nil if no active tab is set.
 function DPropertySheet:GetActiveTab() end
+
 
 ---Returns the amount of time (in seconds) it takes to fade between tabs.
 ---
@@ -73,6 +77,7 @@ function DPropertySheet:GetFadeTime() end
 ---@return DPropertySheetSheet[] # All tab entries on this property sheet.
 function DPropertySheet:GetItems() end
 
+
 ---Gets the padding from the parent panel to child panels.
 ---@realm client
 ---@realm menu
@@ -84,7 +89,7 @@ function DPropertySheet:GetPadding() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DPropertySheet:GetShowIcons
----@return boolean #
+---@return boolean # 
 function DPropertySheet:GetShowIcons() end
 
 ---Called when a player switches the tabs.
@@ -94,15 +99,17 @@ function DPropertySheet:GetShowIcons() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DPropertySheet:OnActiveTabChanged
----@param old Panel The previously active DTab
----@param new Panel The newly active DTab
+---@param old DTab? The previously active DTab
+---@param new DTab? The newly active DTab
 function DPropertySheet:OnActiveTabChanged(old, new) end
+
 
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DPropertySheet:SetActiveTab
 ---@param tab DTab The tab to make active.
 function DPropertySheet:SetActiveTab(tab) end
+
 
 ---Sets the amount of time (in seconds) it takes to fade between tabs.
 ---@realm client
@@ -122,7 +129,7 @@ function DPropertySheet:SetPadding(padding) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DPropertySheet:SetShowIcons
----@param show boolean
+---@param show boolean 
 function DPropertySheet:SetShowIcons(show) end
 
 ---Creates a close button on the right side of the [DPropertySheet](https://wiki.facepunch.com/gmod/DPropertySheet) that will run the given callback function when pressed.
@@ -144,3 +151,4 @@ function DPropertySheet:SizeToContentWidth() end
 ---@source https://wiki.facepunch.com/gmod/DPropertySheet:SwitchToName
 ---@param name string Case sensitive name of the tab.
 function DPropertySheet:SwitchToName(name) end
+

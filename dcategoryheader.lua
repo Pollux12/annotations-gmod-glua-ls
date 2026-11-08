@@ -8,3 +8,4 @@
 ---@source https://wiki.facepunch.com/gmod/DCategoryHeader
 ---@class (partial) DCategoryHeader : DButton
 local DCategoryHeader = {}
+

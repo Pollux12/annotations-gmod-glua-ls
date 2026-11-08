@@ -8,3 +8,4 @@
 ---@source https://wiki.facepunch.com/gmod/RadioButton
 ---@class (partial) RadioButton : Panel
 local RadioButton = {}
+

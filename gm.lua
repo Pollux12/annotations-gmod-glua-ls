@@ -7,6 +7,9 @@
 ---@source https://wiki.facepunch.com/gmod/GM_Hooks
 ---@source garrysmod/gamemodes/base/gamemode/shared.lua
 ---@source garrysmod/gamemodes/sandbox/gamemode/shared.lua
+---@source garrysmod/gamemodes/base/gamemode/cl_hudpickup.lua
+---@source garrysmod/gamemodes/base/gamemode/cl_pickteam.lua
+---@source garrysmod/gamemodes/base/gamemode/player.lua
 ---@class GM
 ---@field Name string Gamemode display name.
 ---@field Author string Gamemode author.
@@ -15,6 +18,16 @@
 ---@field TeamBased boolean Whether the gamemode uses teams.
 ---@field IsSandboxDerived? boolean True for Sandbox and Sandbox-derived gamemodes.
 ---@field SendDeathNotice fun(self: GM, attacker: Entity|string|nil, inflictor: string, victim: Entity|string, flags: number) Sends a death notice to clients.
+---@field PickupHistory table[] Client: the pickup notices the HUD is drawing.
+---@field PickupHistoryLast number Client: when the last pickup notice was added.
+---@field PickupHistoryTop number Client: the screen height pickup notices are drawn from.
+---@field PickupHistoryWide number Client: the width of a pickup notice.
+---@field PickupHistoryCorner number Client: texture ID of a pickup notice's rounded corner.
+---@field ShowScoreboard? boolean Client: whether the scoreboard is shown.
+---@field TeamSelectFrame? DFrame Client: the open team selection menu.
+---@field SpawnPoints? Entity[] Server: the spawn points found on the map.
+---@field LastSpawnPoint? Entity|number Server: the spawn point last used, or 0 once the spawn points are gathered.
+---@field HasMasterSpawnPoints? boolean Server: whether the map has master spawn points.
 ---The name of the gamemode folder, automatically set.
 ---@field FolderName string
 ---The name of the gamemode folder prepended with "gamemodes/" (such as "gamemodes/sandbox"), automatically set.
@@ -27,7 +40,7 @@
 ---
 --- [Global.DeriveGamemode](https://wiki.facepunch.com/gmod/Global.DeriveGamemode) modifies the main gamemode's BaseClass, which is shared with parent gamemodes. Because of this, in parent gamemodes the BaseClass can be incorrect, so for instance you need to use `self.BaseClass.BaseClass` in the 1st parent instead
 ---@field BaseClass table
----Set by GMod - The folder name of the derived gamemode (always `GM.BaseClass.FolderName` unless the `BaseClass` is the `base` gamemode)
+---Set by GMod - The folder name of the derived gamemode (always `GM.BaseClass.FolderName` unless the `BaseClass` is the `base` gamemode)   
 --- Will be `nil` if it's not derived from any gamemode / uses the `base` gamemode
 ---@field DerivedFrom string
 
@@ -95,6 +108,8 @@ function GM:AdjustMouseSensitivity(defaultSensitivity, localFOV, defaultFOV) end
 ---
 --- See [GM:GravGunPickupAllowed](https://wiki.facepunch.com/gmod/GM:GravGunPickupAllowed) for the Gravity Gun pickup variant.
 --- See [GM:PhysgunPickup](https://wiki.facepunch.com/gmod/GM:PhysgunPickup) for the Physics Gun pickup variant.
+---
+--- **NOTE**: If this function passes while the Player is holding a Weapon, its [Weapon:Holster](https://wiki.facepunch.com/gmod/Weapon:Holster) function will be called next, if such exists.
 ---@hook AllowPlayerPickup
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/GM:AllowPlayerPickup
@@ -243,7 +258,7 @@ function GM:CanProperty(ply, property, ent) end
 ---@return boolean # Return false to disallow the undo.
 function GM:CanUndo(ply, undo) end
 
----Called each frame to record demos to video using [IVideoWriter](https://wiki.facepunch.com/gmod/IVideoWriter).
+---Called each frame to record demos to video using [IVideoWriter](https://wiki.facepunch.com/gmod/IVideoWriter). 
 ---
 --- **NOTE**: This hook is called every frame regardless of whether or not a demo is being recorded
 ---@hook CaptureVideo
@@ -288,6 +303,7 @@ function GM:ChatTextChanged(text) end
 ---@return boolean allow
 ---@return string? reason
 function GM:CheckPassword(steamID64, ipAddress, svPassword, clPassword, name) end
+
 
 ---Called when a player's sign on state changes.
 --- You cannot get a valid player object from the userID at any point during this hook.
@@ -956,7 +972,7 @@ function GM:MenuStart() end
 ---@param ply Player Player in question
 function GM:MouthMoveAnimation(ply) end
 
----The Move hook is called for you to manipulate the player's MoveData.
+---The Move hook is called for you to manipulate the player's MoveData. 
 ---
 --- You shouldn't adjust the player's position in any way in the move hook. This is because due to prediction errors, the netcode might run the move hook multiple times as packets arrive late. Therefore you should only adjust the movedata construct in this hook.
 ---
@@ -1050,7 +1066,7 @@ function GM:OnCleanup(name) end
 ---@hook OnClientLuaError
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/GM:OnClientLuaError
----@param error string The error that occurred. As well as the path and line of the error. Example:
+---@param error string The error that occurred. As well as the path and line of the error. Example:  
 --- `addons/test/lua/autorun/client/test_error.lua:4: 'then' expected near ''`
 ---@param ply Player The player whose client caused the error.
 ---@param stack table The Lua error stack trace
@@ -1269,12 +1285,13 @@ function GM:OnPlayerChat(ply, text, teamChat, isDead) end
 ---@hook OnPlayerHitGround
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/GM:OnPlayerHitGround
----@param player Entity Player
+---@param player Player Player
 ---@param inWater boolean Did the player land in water?
 ---@param onFloater boolean Did the player land on an object floating in the water?
 ---@param speed number The speed at which the player hit the ground
 ---@return boolean # Return true to suppress default action
 function GM:OnPlayerHitGround(player, inWater, onFloater, speed) end
+
 
 ---Called when a player jumps.
 ---@hook OnPlayerJump
@@ -1791,7 +1808,7 @@ function GM:PlayerInitialSpawn(player, transition) end
 ---@param team number The team to put player into
 function GM:PlayerJoinTeam(ply, team) end
 
----Called when a player leaves a vehicle for any reason, including [Player:ExitVehicle](https://wiki.facepunch.com/gmod/Player:ExitVehicle).
+---Called when a player leaves a vehicle for any reason, including [Player:ExitVehicle](https://wiki.facepunch.com/gmod/Player:ExitVehicle). 
 ---
 --- See [GM:PlayerEnteredVehicle](https://wiki.facepunch.com/gmod/GM:PlayerEnteredVehicle) for the opposite hook.
 ---
@@ -1812,7 +1829,7 @@ function GM:PlayerLeaveVehicle(ply, veh) end
 ---@param ply Player Player to give weapons to.
 function GM:PlayerLoadout(ply) end
 
----Called when a player tries to switch noclip mode.
+---Called when a player tries to switch noclip mode. 
 ---
 --- [MOVETYPE_NOCLIP](https://wiki.facepunch.com/gmod/Enums/MOVETYPE#MOVETYPE_NOCLIP) can be used to determine if a player is currently in noclip mode.
 ---@hook PlayerNoClip
@@ -2059,8 +2076,9 @@ function GM:PlayerUse(ply, ent) end
 ---@hook PopulateMenuBar
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/GM:PopulateMenuBar
----@param menubar Panel The DMenuBar itself.
+---@param menubar DMenuBar The DMenuBar itself.
 function GM:PopulateMenuBar(menubar) end
+
 
 ---Called right after the map has cleaned up (usually because [game.CleanUpMap](https://wiki.facepunch.com/gmod/game.CleanUpMap) was called)
 ---
@@ -2528,6 +2546,7 @@ function GM:SetPlayerSpeed(ply, walkSpeed, runSpeed) end
 function GM:SetupMove(ply, mv, cmd) end
 
 ---Allows you to add extra positions to the player's [PVS (Potential Visibility Set)](https://developer.valvesoftware.com/wiki/PVS "PVS - Valve Developer Community"). This is the place to call [Global.AddOriginToPVS](https://wiki.facepunch.com/gmod/Global.AddOriginToPVS).
+--- **WARNING**: This hook is called every tick for each player! Ensure that your code is performant!
 ---@hook SetupPlayerVisibility
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/GM:SetupPlayerVisibility
@@ -2884,6 +2903,7 @@ function GM:WorkshopSubscriptionsMessage(message) end
 ---@param num number Amount of subscribed addons that have info retrieved.
 ---@param max number Total amount of subscribed addons that need their info retrieved.
 function GM:WorkshopSubscriptionsProgress(num, max) end
+
 
 ---Displays a notification through the current gamemode.
 ---@realm client

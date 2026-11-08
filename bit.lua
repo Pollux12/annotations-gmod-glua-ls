@@ -110,3 +110,4 @@ function bit.tobit(value) end
 ---@param characters? number Maximum number of characters, if set. The absolute maximum is 8.
 ---@return string # The hexadecimal representation, such as "00000001".
 function bit.tohex(value, characters) end
+

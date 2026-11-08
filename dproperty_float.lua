@@ -14,3 +14,5 @@ local DProperty_Float = {}
 ---@source https://wiki.facepunch.com/gmod/DProperty_Float:GetDecimals
 ---@return number # The amount of digits after the decimal point.
 function DProperty_Float:GetDecimals() end
+
+

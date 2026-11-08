@@ -38,7 +38,7 @@ function presets.GetTable(groupname) end
 --- Used internally to ask the player if they want to override an already existing preset.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/presets.OverwritePresetPrompt
----@param callback function
+---@param callback function 
 function presets.OverwritePresetPrompt(callback) end
 
 ---Removes a preset entry from a preset group.
@@ -55,3 +55,4 @@ function presets.Remove(groupname, name) end
 ---@param oldname string Old preset name
 ---@param newname string New preset name
 function presets.Rename(groupname, oldname, newname) end
+

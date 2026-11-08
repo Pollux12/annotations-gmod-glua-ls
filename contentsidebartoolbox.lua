@@ -8,3 +8,4 @@
 ---@source https://wiki.facepunch.com/gmod/ContentSidebarToolbox
 ---@class (partial) ContentSidebarToolbox : DDrawer
 local ContentSidebarToolbox = {}
+

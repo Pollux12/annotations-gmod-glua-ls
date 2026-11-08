@@ -24,9 +24,10 @@ SIMPLE_USE = 3
 
 ---@enum _USE : number
 ---| CONTINUOUS_USE # Fire a [USE_ON](https://wiki.facepunch.com/gmod/Enums/USE) signal every tick as long as the player holds their use key and aims at the target.
----| ONOFF_USE # Fires a [USE_ON](https://wiki.facepunch.com/gmod/Enums/USE) signal when starting to use an entity, and a [USE_OFF](https://wiki.facepunch.com/gmod/Enums/USE) signal when letting go.  **WARNING**: There is no guarantee to receive both ON and OFF signals. A signal will only be sent when pushing or letting go of the use key while actually aiming at the entity, so an ON signal might not be followed by an OFF signal if the player is aiming somewhere else when releasing the key, and similarly, an OFF signal may not be preceded by an ON signal if the player started aiming at the entity only after pressing the key.  Therefore, this method of input is unreliable and should not be used.
+---| ONOFF_USE # Fires a [USE_ON](https://wiki.facepunch.com/gmod/Enums/USE) signal when starting to use an entity, and a [USE_OFF](https://wiki.facepunch.com/gmod/Enums/USE) signal when letting go.  **WARNING**: There is no guarantee to receive both ON and OFF signals. A signal will only be sent when pushing or letting go of the use key while actually aiming at the entity, so an ON signal might not be followed by an OFF signal if the player is aiming somewhere else when releasing the key, and similarly, an OFF signal may not be preceded by an ON signal if the player started aiming at the entity only after pressing the key.  Therefore, this method of input is unreliable and should not be used. 
 ---| DIRECTIONAL_USE # Like a wheel turning.
 ---| SIMPLE_USE # Fire a [USE_ON](https://wiki.facepunch.com/gmod/Enums/USE) signal only once when player presses their use key while aiming at the target.
+
 
 --- Enumerations used by functions like [Weapon:SendWeaponAnim](https://wiki.facepunch.com/gmod/Weapon:SendWeaponAnim) & [Entity:SelectWeightedSequence](https://wiki.facepunch.com/gmod/Entity:SelectWeightedSequence).
 ---
@@ -4830,6 +4831,7 @@ LAST_SHARED_ACTIVITY = 2045
 ---| ACT_GMOD_SHOWOFF_DUCK_02
 ---| LAST_SHARED_ACTIVITY # The last shared activity number. IDs after this are "private" activities registered at runtime, and will have random IDs associated with specific ACTivities.
 
+
 --- Used by [NPC:MoveClimbExec](https://wiki.facepunch.com/gmod/NPC:MoveClimbExec), [NPC:MoveJumpExec](https://wiki.facepunch.com/gmod/NPC:MoveJumpExec) and [NPC:MoveJumpStop](https://wiki.facepunch.com/gmod/NPC:MoveJumpStop).
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/Enums/AIMR
@@ -4860,6 +4862,7 @@ AIMR_CHANGE_TYPE = 1
 ---| AIMR_OK # Move op was ok.
 ---| AIMR_CHANGE_TYPE # Locomotion method has changed.
 
+
 --- Used by [game.AddAmmoType](https://wiki.facepunch.com/gmod/game.AddAmmoType)'s input structure - the [Structures/AmmoData](https://wiki.facepunch.com/gmod/Structures/AmmoData).
 ---
 --- **WARNING**: These enumerations do not exist in game and are listed here only for reference
@@ -4868,6 +4871,7 @@ AIMR_CHANGE_TYPE = 1
 --- * `AMMO_FORCE_DROP_IF_CARRIED` = `1`
 --- * `AMMO_INTERPRET_PLRDAMAGE_AS_DAMAGE_TO_PLAYER` = `2`
 ---@alias AMMO 1 | 2 | number
+
 
 --- The analog axis to get the value of via [input.GetAnalogValue](https://wiki.facepunch.com/gmod/input.GetAnalogValue).
 ---@realm client
@@ -4910,9 +4914,10 @@ ANALOG_JOY_V = 9
 ---| ANALOG_JOY_X # Joystick X axis, usually bound to movement strafing.  Left thumbstick sideways movement, negative values is left, positive right.
 ---| ANALOG_JOY_Y # Joystick Y axis, usually bound to movement forward/backward.  Left thumbstick up/down movement, negative values is forwards, positive backwards.
 ---| ANALOG_JOY_Z
----| ANALOG_JOY_R #  Joystick R axis, usually bound to looking up and down.  Right thumbstick up/down movement, negative values is upwards, positive downwards.
+---| ANALOG_JOY_R #  Joystick R axis, usually bound to looking up and down.  Right thumbstick up/down movement, negative values is upwards, positive downwards. 
 ---| ANALOG_JOY_U #  Joystick U axis, usually bound to looking left and right.  Right thumbstick sideways  movement, negative values is left, positive right.
 ---| ANALOG_JOY_V
+
 
 --- These enums are used by [render.OverrideBlend](https://wiki.facepunch.com/gmod/render.OverrideBlend) to determine what the Source and Destination color and alpha channel values for a given pixel will be multiplied by before they are sent to the [Blend Function](https://wiki.facepunch.com/gmod/Enums/BLENDFUNC) to calculate the pixel's final color during draw operations.
 ---
@@ -5001,17 +5006,18 @@ BLEND_SRC_COLOR = 9
 BLEND_ONE_MINUS_SRC_COLOR = 10
 
 ---@enum BLEND : number
----| BLEND_ZERO #  			The Multiplier will be `r=0`, `g=0`, `b=0`, `a=0`  			This is useful for removing the Source or Destination from the final pixel color.
----| BLEND_ONE #  			The Multiplier will be `r=1`, `g=1`, `b=1`, `a=1`  			This is useful for keeping the Source or Destination as their starting values.
----| BLEND_DST_COLOR #  			The Multiplier will be the same as the Destination color and alpha.
----| BLEND_ONE_MINUS_DST_COLOR #  			Each color and alpha channel value of the Destination is subtracted from `1`.  			**Example:**   			If your Destination channels are: `r=1`, `g=0.25`, `b=0.1`, `a=1`   			They will be modified by: `r=1-1`, `g=1-0.25`, `b=1-0.1`, `a=1-1`   			The final Multiplier value will be: `r=0`, `g=0.75`, `b=0.9`, `a=0`
----| BLEND_SRC_ALPHA #  			All color and alpha channels will be the same as the Source alpha value.    			**Example:**   			If your Source channels are: `r=0.1`, `g=0`, `b=1`, `a=0.5`   			The final Multiplier value will be: `r=0.5`, `g=0.5`, `b=0.5`, `a=0.5`
----| BLEND_ONE_MINUS_SRC_ALPHA #  			All color and alpha channels will be set to the Source alpha value subtracted from `1`.  			**Example:**   			If your Source channels are: `r=0`, `g=0.23`, `b=1`, `a=0.6`   			The alpha channel will be modified by `a=1-0.6`   			The final Multiplier value will be: `r=0.4`, `g=0.4`, `b=0.4`, `a=0.4`
----| BLEND_DST_ALPHA #  			All color and alpha channels will be set to the the Destination alpha value.  			**Example:**   			If your Destination channels are: `r=0.1`, `g=0`, `b=1`, `a=0.5`   			The final Multiplier value will be: `r=0.5`, `g=0.5`, `b=0.5`, `a=0.5`
----| BLEND_ONE_MINUS_DST_ALPHA #  			All color and alpha channels will be set to the Destination alpha value subtracted from `1`.  			**Example:**   			If your Destination channels are: `r=0`, `g=0.23`, `b=1`, `a=0.6`   			The alpha channel will be modified by `a=1-0.6`   			The final Multiplier value will be: `r=0.4`, `g=0.4`, `b=0.4`, `a=0.4`
----| BLEND_SRC_ALPHA_SATURATE #  			First, the Source alpha is compared against the Destination alpha value subtracted from `1` and the smaller of the two is kept.  			Then, the Source color channels are multiplied by the value from the first step.  			The Source alpha channel is multiplied by `1`.  			**Example:**   			If your Source channels are: `r=1`, `g=0.25`, `b=0.1`, `a=0.6`   			and your Destination channels are: `r=0`, `g=1`, `b=0.5`, `a=0.75`  			The Destination alpha value subtracted from `1` is calculated: `1-0.75` = `0.25`   			The Source alpha `0.6` is compared to the subtracted Destination alpha `0.25` and the smaller of the two is kept (`0.25`)  			The color channels of the Source are multiplied by the smaller value: `r=1*0.25`, `g=0.25*0.25`, `b=0.1*0.25`  			The final Multiplier value will be `r=0.25`, `g=0.0625`, `b=0.025`, `a=0.6`
----| BLEND_SRC_COLOR #  			The Multiplier will be the same as the Source color and alpha.
----| BLEND_ONE_MINUS_SRC_COLOR #  			Each color and alpha channel value of the Source is subtracted from `1`.  			**Example:**   			If your Source channels are: `r=1`, `g=0.25`, `b=0.1`, `a=1`   			They will be modified by: `r=1-1`, `g=1-0.25`, `b=1-0.1`, `a=1-1`   			The final Multiplier value will be: `r=0`, `g=0.75`, `b=0.9`, `a=0`
+---| BLEND_ZERO #  			The Multiplier will be `r=0`, `g=0`, `b=0`, `a=0`  			This is useful for removing the Source or Destination from the final pixel color. 		
+---| BLEND_ONE #  			The Multiplier will be `r=1`, `g=1`, `b=1`, `a=1`  			This is useful for keeping the Source or Destination as their starting values. 		
+---| BLEND_DST_COLOR #  			The Multiplier will be the same as the Destination color and alpha. 		
+---| BLEND_ONE_MINUS_DST_COLOR #  			Each color and alpha channel value of the Destination is subtracted from `1`.  			**Example:**   			If your Destination channels are: `r=1`, `g=0.25`, `b=0.1`, `a=1`   			They will be modified by: `r=1-1`, `g=1-0.25`, `b=1-0.1`, `a=1-1`   			The final Multiplier value will be: `r=0`, `g=0.75`, `b=0.9`, `a=0` 		
+---| BLEND_SRC_ALPHA #  			All color and alpha channels will be the same as the Source alpha value.    			**Example:**   			If your Source channels are: `r=0.1`, `g=0`, `b=1`, `a=0.5`   			The final Multiplier value will be: `r=0.5`, `g=0.5`, `b=0.5`, `a=0.5` 		
+---| BLEND_ONE_MINUS_SRC_ALPHA #  			All color and alpha channels will be set to the Source alpha value subtracted from `1`.  			**Example:**   			If your Source channels are: `r=0`, `g=0.23`, `b=1`, `a=0.6`   			The alpha channel will be modified by `a=1-0.6`   			The final Multiplier value will be: `r=0.4`, `g=0.4`, `b=0.4`, `a=0.4` 		
+---| BLEND_DST_ALPHA #  			All color and alpha channels will be set to the the Destination alpha value.  			**Example:**   			If your Destination channels are: `r=0.1`, `g=0`, `b=1`, `a=0.5`   			The final Multiplier value will be: `r=0.5`, `g=0.5`, `b=0.5`, `a=0.5` 		
+---| BLEND_ONE_MINUS_DST_ALPHA #  			All color and alpha channels will be set to the Destination alpha value subtracted from `1`.  			**Example:**   			If your Destination channels are: `r=0`, `g=0.23`, `b=1`, `a=0.6`   			The alpha channel will be modified by `a=1-0.6`   			The final Multiplier value will be: `r=0.4`, `g=0.4`, `b=0.4`, `a=0.4` 		
+---| BLEND_SRC_ALPHA_SATURATE #  			First, the Source alpha is compared against the Destination alpha value subtracted from `1` and the smaller of the two is kept.  			Then, the Source color channels are multiplied by the value from the first step.  			The Source alpha channel is multiplied by `1`.  			**Example:**   			If your Source channels are: `r=1`, `g=0.25`, `b=0.1`, `a=0.6`   			and your Destination channels are: `r=0`, `g=1`, `b=0.5`, `a=0.75`  			The Destination alpha value subtracted from `1` is calculated: `1-0.75` = `0.25`   			The Source alpha `0.6` is compared to the subtracted Destination alpha `0.25` and the smaller of the two is kept (`0.25`)  			The color channels of the Source are multiplied by the smaller value: `r=1*0.25`, `g=0.25*0.25`, `b=0.1*0.25`  			The final Multiplier value will be `r=0.25`, `g=0.0625`, `b=0.025`, `a=0.6` 		
+---| BLEND_SRC_COLOR #  			The Multiplier will be the same as the Source color and alpha. 		
+---| BLEND_ONE_MINUS_SRC_COLOR #  			Each color and alpha channel value of the Source is subtracted from `1`.  			**Example:**   			If your Source channels are: `r=1`, `g=0.25`, `b=0.1`, `a=1`   			They will be modified by: `r=1-1`, `g=1-0.25`, `b=1-0.1`, `a=1-1`   			The final Multiplier value will be: `r=0`, `g=0.75`, `b=0.9`, `a=0` 		
+
 
 --- These enums are used by [render.OverrideBlend](https://wiki.facepunch.com/gmod/render.OverrideBlend) to combine the Source and Destination color and alpha into a final pixel color after they have been multiplied by their corresponding [Blend Multiplier](https://wiki.facepunch.com/gmod/Enums/BLEND).
 ---
@@ -5058,11 +5064,12 @@ BLENDFUNC_MIN = 3
 BLENDFUNC_MAX = 4
 
 ---@enum BLENDFUNC : number
----| BLENDFUNC_ADD #  			**Source + Destination**   			Adds each channel of the Source with the same channel of the Destination.  			**Example:**   			Using the Source channels: `r=0.0`, `g=0.25`, `b=0.1`, `a=0.9`   			With Destination channels: `r=0.25`, `g=0.25`, `b=1.0`, `a=0.0`   			The final pixel channels are: `r=0.25`, `g=0.5`, `b=1.0`, `a=0.9`
----| BLENDFUNC_SUBTRACT #  			**Source - Destination**   			Subtracts each channel of the Destination from the same channel of the Source.  			**Example:**   			Using the Source channels: `r=0.0`, `g=0.25`, `b=1.0`, `a=0.9`   			With Destination channels: `r=0.25`, `g=0.1`, `b=0.4`, `a=0.0`   			The final pixel channels are: `r=0.0`, `g=0.0`, `b=0.6`, `a=0.9`
----| BLENDFUNC_REVERSE_SUBTRACT #  			**Destination - Source**   			Subtracts each channel of the Source from the same channel of the Destination.  			**Example:**   			Using the Source channels: `r=0.0`, `g=0.25`, `b=1.0`, `a=0.9`   			With Destination channels: `r=0.25`, `g=0.1`, `b=0.4`, `a=0.0`   			The final pixel channels are: `r=0.0`, `g=0.75`, `b=0.0`, `a=0.0`
----| BLENDFUNC_MIN #  			**Min(Source, Destination**   			All of the Source channels are added together and compared to all of the Destination channels added together and the smaller of the two is used as the final pixel color.
----| BLENDFUNC_MAX #  			**Max(Source, Destination**   			All of the Source channels are added together and compared to all of the Destination channels added together and the larger of the two is used as the final pixel color.
+---| BLENDFUNC_ADD #  			**Source + Destination**   			Adds each channel of the Source with the same channel of the Destination.  			**Example:**   			Using the Source channels: `r=0.0`, `g=0.25`, `b=0.1`, `a=0.9`   			With Destination channels: `r=0.25`, `g=0.25`, `b=1.0`, `a=0.0`   			The final pixel channels are: `r=0.25`, `g=0.5`, `b=1.0`, `a=0.9` 			  		
+---| BLENDFUNC_SUBTRACT #  			**Source - Destination**   			Subtracts each channel of the Destination from the same channel of the Source.  			**Example:**   			Using the Source channels: `r=0.0`, `g=0.25`, `b=1.0`, `a=0.9`   			With Destination channels: `r=0.25`, `g=0.1`, `b=0.4`, `a=0.0`   			The final pixel channels are: `r=0.0`, `g=0.0`, `b=0.6`, `a=0.9` 		
+---| BLENDFUNC_REVERSE_SUBTRACT #  			**Destination - Source**   			Subtracts each channel of the Source from the same channel of the Destination.  			**Example:**   			Using the Source channels: `r=0.0`, `g=0.25`, `b=1.0`, `a=0.9`   			With Destination channels: `r=0.25`, `g=0.1`, `b=0.4`, `a=0.0`   			The final pixel channels are: `r=0.0`, `g=0.75`, `b=0.0`, `a=0.0` 		
+---| BLENDFUNC_MIN #  			**Min(Source, Destination**   			All of the Source channels are added together and compared to all of the Destination channels added together and the smaller of the two is used as the final pixel color. 		
+---| BLENDFUNC_MAX #  			**Max(Source, Destination**   			All of the Source channels are added together and compared to all of the Destination channels added together and the larger of the two is used as the final pixel color. 		
+
 
 --- Enumerations used by [Entity:GetBloodColor](https://wiki.facepunch.com/gmod/Entity:GetBloodColor) and [Entity:SetBloodColor](https://wiki.facepunch.com/gmod/Entity:SetBloodColor).
 ---@realm shared
@@ -5101,6 +5108,7 @@ BLOOD_COLOR_ANTLION_WORKER = 6
 ---| BLOOD_COLOR_ANTLION # Yellow blood
 ---| BLOOD_COLOR_ZOMBIE # Green-red blood
 ---| BLOOD_COLOR_ANTLION_WORKER # Bright green blood
+
 
 --- Used by [Entity:BoneHasFlag](https://wiki.facepunch.com/gmod/Entity:BoneHasFlag).
 ---@realm shared
@@ -5187,6 +5195,7 @@ BONE_USED_MASK = 524032
 ---| BONE_USED_BY_ANYTHING # Is this bone used by anything?  ( If any BONE_USED_BY_* flags are true )
 ---| BONE_USED_MASK
 
+
 --- Enumerations used by [Entity:SetSurroundingBoundsType](https://wiki.facepunch.com/gmod/Entity:SetSurroundingBoundsType).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Enums/BOUNDS
@@ -5200,6 +5209,7 @@ BOUNDS_HITBOXES = 2
 ---@enum BOUNDS : number
 ---| BOUNDS_COLLISION # Sets the bounds in relation to the entity's collision bounds.
 ---| BOUNDS_HITBOXES # Sets the bounds to fit all hitboxes of the entity's model.
+
 
 --- Enumerations used by [render.SetModelLighting](https://wiki.facepunch.com/gmod/render.SetModelLighting).
 ---@realm shared
@@ -5232,6 +5242,7 @@ BOX_BOTTOM = 5
 ---| BOX_TOP # Place the light to the top
 ---| BOX_BOTTOM # Place the light to the bottom
 
+
 --- Encompasses the range of [Enums/KEY](https://wiki.facepunch.com/gmod/Enums/KEY), [Enums/MOUSE](https://wiki.facepunch.com/gmod/Enums/MOUSE) and [Enums/JOYSTICK](https://wiki.facepunch.com/gmod/Enums/JOYSTICK), all of which can be used by:
 --- * [input.IsButtonDown](https://wiki.facepunch.com/gmod/input.IsButtonDown)
 --- * [input.LookupKeyBinding](https://wiki.facepunch.com/gmod/input.LookupKeyBinding)
@@ -5256,6 +5267,7 @@ BUTTON_CODE_COUNT = 172
 ---| BUTTON_CODE_NONE
 ---| BUTTON_CODE_LAST
 ---| BUTTON_CODE_COUNT
+
 
 --- Enumerations used by [NPC:CapabilitiesAdd](https://wiki.facepunch.com/gmod/NPC:CapabilitiesAdd), [WEAPON:GetCapabilities](https://wiki.facepunch.com/gmod/WEAPON:GetCapabilities) and [NPC:CapabilitiesGet](https://wiki.facepunch.com/gmod/NPC:CapabilitiesGet). Serverside only.
 ---@realm server
@@ -5369,6 +5381,7 @@ CAP_NO_HIT_SQUADMATES = 1073741824
 ---| CAP_AIM_GUN # Use arms to aim gun, not just body
 ---| CAP_NO_HIT_SQUADMATES
 
+
 --- Enumerations used by [Global.EmitSound](https://wiki.facepunch.com/gmod/Global.EmitSound) and [sound.Add](https://wiki.facepunch.com/gmod/sound.Add).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Enums/CHAN
@@ -5420,6 +5433,7 @@ CHAN_USER_BASE = 136
 ---| CHAN_VOICE2 # TF2s Announcer dialogue channel
 ---| CHAN_VOICE_BASE # Channels 8-135 (128 channels) are allocated for player voice chat **This channel allows same sounds files to play multiple times without cutting out.**
 ---| CHAN_USER_BASE # Channels from this and onwards are allocated to game code
+
 
 --- Enumerations used by [NPC:Classify](https://wiki.facepunch.com/gmod/NPC:Classify).
 ---@realm server
@@ -5627,43 +5641,44 @@ CLASS_ALIEN_BIOWEAPON = 35
 CLASS_PORTAL_TURRET = 36
 
 ---@enum CLASS : number
----| CLASS_NONE #  			None - default class for entities.
----| CLASS_PLAYER #  			Players
----| CLASS_PLAYER_ALLY #  			HL2 - **Allies**   			- `monster_barney`   			- `npc_citizen`   			- `npc_manhack` ( Hacked )   			- `npc_turret_floor` ( Friendly )
----| CLASS_PLAYER_ALLY_VITAL #  			HL2 - **Vital Allies**   			- `npc_magnusson`   			- `npc_gman`   			- `npc_fisherman`   			- `npc_eli`   			- `npc_barney`   			- `npc_kleiner`   			- `npc_mossman`   			- `npc_alyx`   			- `npc_monk`   			- `npc_dog`   			- `npc_vortigaunt` at the end of EP2 (controlled by `MakeGameEndAlly` input)
----| CLASS_ANTLION #  			HL2 - **Antlions**   			- `npc_antlion`   			- `npc_antlionguard`   			- `npc_antlionguard`
----| CLASS_BARNACLE #  			HL2 - **Barnacles**   			- `npc_barnacle`
----| CLASS_BULLSEYE #  			HL2 - **Bullseyes**   			- `npc_bullseye`
----| CLASS_CITIZEN_PASSIVE #  			HL2 - **Passive / Non-Rebel Citizens**   			- `npc_citizen` in the beginning of HL2.
----| CLASS_CITIZEN_REBEL #  			HL2 -  Unused
----| CLASS_COMBINE #  			HL2 - **Combine Troops**   			- `npc_combine`   			- `npc_advisor`   			- `apc_missile`   			- `npc_apcdriver`   			- `npc_turret_floor` ( Hostile )   			- `npc_rollermine` ( Hostile )   			- `npc_turret_ground` ( Active )   			- `npc_turret_ceiling` ( Active )   			- `npc_strider` ( Active - Not being carried by the gunship )
----| CLASS_COMBINE_GUNSHIP #  			HL2 - **Combine Aircrafts**   			- `npc_combinegunship`   			- `npc_combinedropship` 			- `npc_helicopter`
----| CLASS_CONSCRIPT #  			HL2 -  Unused
----| CLASS_HEADCRAB #  			HL2 - **Headcrabs**   			- `npc_headcrab` ( Visible )
----| CLASS_MANHACK #  			HL2 - **Manhacks**   			- `npc_manhack` ( Hostile - Not held by the gravity gun )
----| CLASS_METROPOLICE #  			HL2 - **Metro Police**   			- `npc_metropolice`   			- `npc_vehicledriver`
----| CLASS_MILITARY #  			HL2 - **Combine Military Objects**   			- `func_guntarget`   			- `npc_spotlight`   			- `npc_combine_camera` ( Active )
----| CLASS_SCANNER #  			HL2 - **Combine Scanners**   			- `npc_cscanner`   			- `npc_clawscanner`
----| CLASS_STALKER #  			HL2 - **Stalkers**   			- `npc_stalker`
----| CLASS_VORTIGAUNT #  			HL2 - **Vortigaunts**   			- `npc_vortigaunt` before the end of EP2 ( Controlled by `MakeGameEndAlly` input )
----| CLASS_ZOMBIE #  			HL2 - **Zombies**   			- `npc_zombie` ( Unslumped )   			- `npc_poisonzombie`   			- `npc_fastzombie`   			- `npc_fastzombie_torso`   			- `npc_zombine`
----| CLASS_PROTOSNIPER #  			HL2 - **Snipers**   			- `npc_sniper`   			- `proto_sniper`
----| CLASS_MISSILE #  			HL2 - **Missiles**   			- `rpg_missile`   			- `apc_missile`   			- `grenade_pathfollower`
----| CLASS_FLARE #  			HL2 - **Flares**   			- `env_flare`
----| CLASS_EARTH_FAUNA #  			HL2 - **Animals**   			- `npc_crow`   			- `npc_seagull`   			- `npc_pigeon`
----| CLASS_HACKED_ROLLERMINE #  			HL2 - **Friendly Rollermines**   			- `npc_rollermine` ( Hacked )
----| CLASS_COMBINE_HUNTER #  			HL2 - **Hunters**   			- `npc_hunter`
----| CLASS_MACHINE #  			HL:S - **Turrets**   			- `monster_turret`   			- `monster_miniturret`   			- `monster_sentry`
----| CLASS_HUMAN_PASSIVE #  			HL:S - **Friendly Humans**   			- `monster_scientist`
----| CLASS_HUMAN_MILITARY #  			HL:S - **Human Military**   			- `monster_human_grunt`   			- `monster_apache`
----| CLASS_ALIEN_MILITARY #  			HL:S - **Alien Military**   			- `monster_alien_controller`   			- `monster_vortigaunt`   			- `monster_alien_grunt`   			- `monster_nihilanth`   			- `monster_snark` if it has an enemy of class  `CLASS_PLAYER` , `CLASS_HUMAN_PASSIVE` or `CLASS_HUMAN_MILITARY`
----| CLASS_ALIEN_MONSTER #  			HL:S - **Monsters**   			- `monster_tentacle`   			- `monster_barnacle`   			- `monster_zombie`   			- `monster_gargantua`   			- `monster_houndeye`   			- `monster_ichthyosaur`   			- `monster_bigmomma`
----| CLASS_ALIEN_PREY #  			HL:S - **Headcrabs**   			- `monster_headcrab`
----| CLASS_ALIEN_PREDATOR #  			HL:S - **Alien Predators**   			- `monster_bullsquid`   			- `xen_tree`   			- `xen_hull`
----| CLASS_INSECT #  			HL:S - **Insects**   			- `montser_roach`   			- `monster_leech`
----| CLASS_PLAYER_BIOWEAPON #  			HL:S - **Player Bioweapons**   			- `hornet` fired by a player
----| CLASS_ALIEN_BIOWEAPON #  			HL:S - **Enemy Bioweapons**   			- `hornet` fired by anyone but a player   			- `monster_snark` with no enemy or an enemy without the class  `CLASS_PLAYER` , `CLASS_HUMAN_PASSIVE` or `CLASS_HUMAN_MILITARY`
----| CLASS_PORTAL_TURRET #  Portal - **Portal rocket and normal turrets, and the camera** * `npc_portal_turret_floor` * `npc_rocket_turret` * `npc_security_camera`
+---| CLASS_NONE #  			None - default class for entities. 		
+---| CLASS_PLAYER #  			Players 		
+---| CLASS_PLAYER_ALLY #  			HL2 - **Allies**   			- `monster_barney`   			- `npc_citizen`   			- `npc_manhack` ( Hacked )   			- `npc_turret_floor` ( Friendly ) 		
+---| CLASS_PLAYER_ALLY_VITAL #  			HL2 - **Vital Allies**   			- `npc_magnusson`   			- `npc_gman`   			- `npc_fisherman`   			- `npc_eli`   			- `npc_barney`   			- `npc_kleiner`   			- `npc_mossman`   			- `npc_alyx`   			- `npc_monk`   			- `npc_dog`   			- `npc_vortigaunt` at the end of EP2 (controlled by `MakeGameEndAlly` input) 		
+---| CLASS_ANTLION #  			HL2 - **Antlions**   			- `npc_antlion`   			- `npc_antlionguard`   			- `npc_antlionguard` 		
+---| CLASS_BARNACLE #  			HL2 - **Barnacles**   			- `npc_barnacle` 		
+---| CLASS_BULLSEYE #  			HL2 - **Bullseyes**   			- `npc_bullseye` 		
+---| CLASS_CITIZEN_PASSIVE #  			HL2 - **Passive / Non-Rebel Citizens**   			- `npc_citizen` in the beginning of HL2. 		
+---| CLASS_CITIZEN_REBEL #  			HL2 -  Unused  		
+---| CLASS_COMBINE #  			HL2 - **Combine Troops**   			- `npc_combine`   			- `npc_advisor`   			- `apc_missile`   			- `npc_apcdriver`   			- `npc_turret_floor` ( Hostile )   			- `npc_rollermine` ( Hostile )   			- `npc_turret_ground` ( Active )   			- `npc_turret_ceiling` ( Active )   			- `npc_strider` ( Active - Not being carried by the gunship ) 		
+---| CLASS_COMBINE_GUNSHIP #  			HL2 - **Combine Aircrafts**   			- `npc_combinegunship`   			- `npc_combinedropship` 			- `npc_helicopter` 		
+---| CLASS_CONSCRIPT #  			HL2 -  Unused  		
+---| CLASS_HEADCRAB #  			HL2 - **Headcrabs**   			- `npc_headcrab` ( Visible ) 		
+---| CLASS_MANHACK #  			HL2 - **Manhacks**   			- `npc_manhack` ( Hostile - Not held by the gravity gun ) 		
+---| CLASS_METROPOLICE #  			HL2 - **Metro Police**   			- `npc_metropolice`   			- `npc_vehicledriver` 		
+---| CLASS_MILITARY #  			HL2 - **Combine Military Objects**   			- `func_guntarget`   			- `npc_spotlight`   			- `npc_combine_camera` ( Active ) 		
+---| CLASS_SCANNER #  			HL2 - **Combine Scanners**   			- `npc_cscanner`   			- `npc_clawscanner` 		
+---| CLASS_STALKER #  			HL2 - **Stalkers**   			- `npc_stalker` 		
+---| CLASS_VORTIGAUNT #  			HL2 - **Vortigaunts**   			- `npc_vortigaunt` before the end of EP2 ( Controlled by `MakeGameEndAlly` input ) 		
+---| CLASS_ZOMBIE #  			HL2 - **Zombies**   			- `npc_zombie` ( Unslumped )   			- `npc_poisonzombie`   			- `npc_fastzombie`   			- `npc_fastzombie_torso`   			- `npc_zombine` 		
+---| CLASS_PROTOSNIPER #  			HL2 - **Snipers**   			- `npc_sniper`   			- `proto_sniper` 		
+---| CLASS_MISSILE #  			HL2 - **Missiles**   			- `rpg_missile`   			- `apc_missile`   			- `grenade_pathfollower` 		
+---| CLASS_FLARE #  			HL2 - **Flares**   			- `env_flare` 		
+---| CLASS_EARTH_FAUNA #  			HL2 - **Animals**   			- `npc_crow`   			- `npc_seagull`   			- `npc_pigeon` 		
+---| CLASS_HACKED_ROLLERMINE #  			HL2 - **Friendly Rollermines**   			- `npc_rollermine` ( Hacked )  		
+---| CLASS_COMBINE_HUNTER #  			HL2 - **Hunters**   			- `npc_hunter` 		
+---| CLASS_MACHINE #  			HL:S - **Turrets**   			- `monster_turret`   			- `monster_miniturret`   			- `monster_sentry` 		
+---| CLASS_HUMAN_PASSIVE #  			HL:S - **Friendly Humans**   			- `monster_scientist` 		
+---| CLASS_HUMAN_MILITARY #  			HL:S - **Human Military**   			- `monster_human_grunt`   			- `monster_apache` 		
+---| CLASS_ALIEN_MILITARY #  			HL:S - **Alien Military**   			- `monster_alien_controller`   			- `monster_vortigaunt`   			- `monster_alien_grunt`   			- `monster_nihilanth`   			- `monster_snark` if it has an enemy of class  `CLASS_PLAYER` , `CLASS_HUMAN_PASSIVE` or `CLASS_HUMAN_MILITARY` 		
+---| CLASS_ALIEN_MONSTER #  			HL:S - **Monsters**   			- `monster_tentacle`   			- `monster_barnacle`   			- `monster_zombie`   			- `monster_gargantua`   			- `monster_houndeye`   			- `monster_ichthyosaur`   			- `monster_bigmomma` 		
+---| CLASS_ALIEN_PREY #  			HL:S - **Headcrabs**   			- `monster_headcrab` 		
+---| CLASS_ALIEN_PREDATOR #  			HL:S - **Alien Predators**   			- `monster_bullsquid`   			- `xen_tree`   			- `xen_hull` 		
+---| CLASS_INSECT #  			HL:S - **Insects**   			- `montser_roach`   			- `monster_leech` 		
+---| CLASS_PLAYER_BIOWEAPON #  			HL:S - **Player Bioweapons**   			- `hornet` fired by a player 		
+---| CLASS_ALIEN_BIOWEAPON #  			HL:S - **Enemy Bioweapons**   			- `hornet` fired by anyone but a player   			- `monster_snark` with no enemy or an enemy without the class  `CLASS_PLAYER` , `CLASS_HUMAN_PASSIVE` or `CLASS_HUMAN_MILITARY` 		
+---| CLASS_PORTAL_TURRET #  Portal - **Portal rocket and normal turrets, and the camera** * `npc_portal_turret_floor` * `npc_rocket_turret` * `npc_security_camera` 
+
 
 --- Enumerations used by [Entity:SetCollisionGroup](https://wiki.facepunch.com/gmod/Entity:SetCollisionGroup), [Entity:GetCollisionGroup](https://wiki.facepunch.com/gmod/Entity:GetCollisionGroup) and [Traces](https://wiki.facepunch.com/gmod/Structures/Trace#collisiongroup).
 ---@realm shared
@@ -5763,6 +5778,7 @@ COLLISION_GROUP_HL2_SPIT = 22
 ---| LAST_SHARED_COLLISION_GROUP # Amount of COLLISION_GROUP_ enumerations
 ---| COLLISION_GROUP_HL2_SPIT # Half-Life 2 exclusive collision group, acts similarly to `COLLISION_GROUP_PROJECTILE` but is also ignored by player movement.
 
+
 --- Enumerations for NPC conditions, used by [NPC:SetCondition](https://wiki.facepunch.com/gmod/NPC:SetCondition). Serverside only.
 ---
 --- **NOTE**: Unlike other Enums `COND` is a table that contains all the enums.
@@ -5773,80 +5789,80 @@ COLLISION_GROUP_HL2_SPIT = 22
 ---@source https://wiki.facepunch.com/gmod/Enums/COND
 ---@enum COND
 COND = {
-	BEHIND_ENEMY = 29,
-	BETTER_WEAPON_AVAILABLE = 46,
-	CAN_MELEE_ATTACK1 = 23,
-	CAN_MELEE_ATTACK2 = 24,
-	CAN_RANGE_ATTACK1 = 21,
-	CAN_RANGE_ATTACK2 = 22,
-	ENEMY_DEAD = 30,
-	ENEMY_FACING_ME = 28,
-	ENEMY_OCCLUDED = 13,
-	ENEMY_TOO_FAR = 27,
-	ENEMY_UNREACHABLE = 31,
-	ENEMY_WENT_NULL = 12,
-	FLOATING_OFF_GROUND = 61,
-	GIVE_WAY = 48,
-	HAVE_ENEMY_LOS = 15,
-	HAVE_TARGET_LOS = 16,
-	HEALTH_ITEM_AVAILABLE = 47,
-	HEAR_BUGBAIT = 52,
-	HEAR_BULLET_IMPACT = 56,
-	HEAR_COMBAT = 53,
-	HEAR_DANGER = 50,
-	HEAR_MOVE_AWAY = 58,
-	HEAR_PHYSICS_DANGER = 57,
-	HEAR_PLAYER = 55,
-	HEAR_SPOOKY = 59,
-	HEAR_THUMPER = 51,
-	HEAR_WORLD = 54,
-	HEAVY_DAMAGE = 18,
-	IDLE_INTERRUPT = 2,
-	IN_PVS = 1,
-	LIGHT_DAMAGE = 17,
-	LOST_ENEMY = 11,
-	LOST_PLAYER = 33,
-	LOW_PRIMARY_AMMO = 3,
-	MOBBED_BY_ENEMIES = 62,
-	NEW_ENEMY = 26,
-	NO_CUSTOM_INTERRUPTS = 70,
-	NO_HEAR_DANGER = 60,
-	NO_PRIMARY_AMMO = 4,
-	NO_SECONDARY_AMMO = 5,
-	NO_WEAPON = 6,
-	--- No additional conditions are being played
-	NONE = 0,
-	NOT_FACING_ATTACK = 40,
-	--- Freezes NPC movement
-	NPC_FREEZE = 67,
-	--- Unfreezes NPC movement
-	NPC_UNFREEZE = 68,
-	PHYSICS_DAMAGE = 19,
-	PLAYER_ADDED_TO_SQUAD = 64,
-	PLAYER_PUSHING = 66,
-	PLAYER_REMOVED_FROM_SQUAD = 65,
-	PROVOKED = 25,
-	RECEIVED_ORDERS = 63,
-	REPEATED_DAMAGE = 20,
-	SCHEDULE_DONE = 36,
-	SEE_DISLIKE = 9,
-	SEE_ENEMY = 10,
-	SEE_FEAR = 8,
-	SEE_HATE = 7,
-	SEE_NEMESIS = 34,
-	SEE_PLAYER = 32,
-	SMELL = 37,
-	TALKER_RESPOND_TO_QUESTION = 69,
-	TARGET_OCCLUDED = 14,
-	TASK_FAILED = 35,
-	TOO_CLOSE_TO_ATTACK = 38,
-	TOO_FAR_TO_ATTACK = 39,
-	WAY_CLEAR = 49,
-	WEAPON_BLOCKED_BY_FRIEND = 42,
-	WEAPON_HAS_LOS = 41,
-	WEAPON_PLAYER_IN_SPREAD = 43,
-	WEAPON_PLAYER_NEAR_TARGET = 44,
-	WEAPON_SIGHT_OCCLUDED = 45,
+  BEHIND_ENEMY = 29,
+  BETTER_WEAPON_AVAILABLE = 46,
+  CAN_MELEE_ATTACK1 = 23,
+  CAN_MELEE_ATTACK2 = 24,
+  CAN_RANGE_ATTACK1 = 21,
+  CAN_RANGE_ATTACK2 = 22,
+  ENEMY_DEAD = 30,
+  ENEMY_FACING_ME = 28,
+  ENEMY_OCCLUDED = 13,
+  ENEMY_TOO_FAR = 27,
+  ENEMY_UNREACHABLE = 31,
+  ENEMY_WENT_NULL = 12,
+  FLOATING_OFF_GROUND = 61,
+  GIVE_WAY = 48,
+  HAVE_ENEMY_LOS = 15,
+  HAVE_TARGET_LOS = 16,
+  HEALTH_ITEM_AVAILABLE = 47,
+  HEAR_BUGBAIT = 52,
+  HEAR_BULLET_IMPACT = 56,
+  HEAR_COMBAT = 53,
+  HEAR_DANGER = 50,
+  HEAR_MOVE_AWAY = 58,
+  HEAR_PHYSICS_DANGER = 57,
+  HEAR_PLAYER = 55,
+  HEAR_SPOOKY = 59,
+  HEAR_THUMPER = 51,
+  HEAR_WORLD = 54,
+  HEAVY_DAMAGE = 18,
+  IDLE_INTERRUPT = 2,
+  IN_PVS = 1,
+  LIGHT_DAMAGE = 17,
+  LOST_ENEMY = 11,
+  LOST_PLAYER = 33,
+  LOW_PRIMARY_AMMO = 3,
+  MOBBED_BY_ENEMIES = 62,
+  NEW_ENEMY = 26,
+  NO_CUSTOM_INTERRUPTS = 70,
+  NO_HEAR_DANGER = 60,
+  NO_PRIMARY_AMMO = 4,
+  NO_SECONDARY_AMMO = 5,
+  NO_WEAPON = 6,
+  --- No additional conditions are being played
+  NONE = 0,
+  NOT_FACING_ATTACK = 40,
+  --- Freezes NPC movement
+  NPC_FREEZE = 67,
+  --- Unfreezes NPC movement
+  NPC_UNFREEZE = 68,
+  PHYSICS_DAMAGE = 19,
+  PLAYER_ADDED_TO_SQUAD = 64,
+  PLAYER_PUSHING = 66,
+  PLAYER_REMOVED_FROM_SQUAD = 65,
+  PROVOKED = 25,
+  RECEIVED_ORDERS = 63,
+  REPEATED_DAMAGE = 20,
+  SCHEDULE_DONE = 36,
+  SEE_DISLIKE = 9,
+  SEE_ENEMY = 10,
+  SEE_FEAR = 8,
+  SEE_HATE = 7,
+  SEE_NEMESIS = 34,
+  SEE_PLAYER = 32,
+  SMELL = 37,
+  TALKER_RESPOND_TO_QUESTION = 69,
+  TARGET_OCCLUDED = 14,
+  TASK_FAILED = 35,
+  TOO_CLOSE_TO_ATTACK = 38,
+  TOO_FAR_TO_ATTACK = 39,
+  WAY_CLEAR = 49,
+  WEAPON_BLOCKED_BY_FRIEND = 42,
+  WEAPON_HAS_LOS = 41,
+  WEAPON_PLAYER_IN_SPREAD = 43,
+  WEAPON_PLAYER_NEAR_TARGET = 44,
+  WEAPON_SIGHT_OCCLUDED = 45,
 }
 
 --- Alignment of a panel's contents, laid out like the keys of a number pad.
@@ -5866,6 +5882,7 @@ COND = {
 --- * `TOP_CENTER` = `8`
 --- * `TOP_RIGHT` = `9`
 ---@alias ContentAlignment 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | number
+
 
 --- Enumerations used by [util.PointContents](https://wiki.facepunch.com/gmod/util.PointContents) and [PhysObj:SetContents](https://wiki.facepunch.com/gmod/PhysObj:SetContents) as tracer masks, and by [ENT.PhysicsSolidMask](https://wiki.facepunch.com/gmod/Structures/ENT#PhysicsSolidMask) for collision masking.
 ---@realm shared
@@ -5979,7 +5996,7 @@ ALL_VISIBLE_CONTENTS = 255
 ---| CONTENTS_CURRENT_90
 ---| CONTENTS_CURRENT_DOWN
 ---| CONTENTS_CURRENT_UP
----| CONTENTS_DEBRIS #  	Includes, among other things, client-side ragdolls and prop gibs
+---| CONTENTS_DEBRIS #  	Includes, among other things, client-side ragdolls and prop gibs 
 ---| CONTENTS_DETAIL
 ---| CONTENTS_HITBOX # Hitbox
 ---| CONTENTS_LADDER # Ladder
@@ -5988,6 +6005,7 @@ ALL_VISIBLE_CONTENTS = 255
 ---| CONTENTS_TRANSLUCENT # Hits world but not skybox
 ---| LAST_VISIBLE_CONTENTS # Last visible contents enumeration
 ---| ALL_VISIBLE_CONTENTS # Sum of all the visible contents enumerations
+
 
 --- Enumerations used by [Global.GetRenderTargetEx](https://wiki.facepunch.com/gmod/Global.GetRenderTargetEx). Clientside only.
 ---@realm client
@@ -6006,6 +6024,7 @@ CREATERENDERTARGETFLAGS_UNFILTERABLE_OK = 4
 ---| CREATERENDERTARGETFLAGS_HDR # Makes this render target an HDR render target if the current system supports HDR.
 ---| CREATERENDERTARGETFLAGS_AUTOMIPMAP # Does nothing.
 ---| CREATERENDERTARGETFLAGS_UNFILTERABLE_OK # Does nothing
+
 
 --- Citizen type, a KeyValue for npc_citizen( citizentype ), serverside only.
 ---@realm server
@@ -6033,6 +6052,7 @@ CT_UNIQUE = 4
 ---| CT_REBEL # Rebel
 ---| CT_UNIQUE # Odessa?
 
+
 --- Enumerations used by [NPC:Disposition](https://wiki.facepunch.com/gmod/NPC:Disposition), [NPC:AddEntityRelationship](https://wiki.facepunch.com/gmod/NPC:AddEntityRelationship) and [ENTITY:GetRelationship](https://wiki.facepunch.com/gmod/ENTITY:GetRelationship).
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/Enums/D
@@ -6059,6 +6079,7 @@ D_NU = 4
 ---| D_LI # Like
 ---| D_NU # Neutral
 
+
 --- Enumerations used internally by death notice system.
 ---
 --- This enumeration is a bit field/bitflag, which means that you can combine multiple death flags using the [bit](https://wiki.facepunch.com/gmod/bit) library. You can use [bit.band](https://wiki.facepunch.com/gmod/bit.band) to test if a specific death flag is set.
@@ -6074,6 +6095,7 @@ DEATH_NOTICE_FRIENDLY_ATTACKER = 2
 ---@enum DEATH_NOTICE : number
 ---| DEATH_NOTICE_FRIENDLY_VICTIM # Was the victim friendly?
 ---| DEATH_NOTICE_FRIENDLY_ATTACKER # Was the attacker friendly?
+
 
 --- Displacement surface flags, used by the [Structures/TraceResult](https://wiki.facepunch.com/gmod/Structures/TraceResult).
 ---@realm shared
@@ -6095,6 +6117,7 @@ DISPSURF_SURFPROP2 = 16
 ---| DISPSURF_BUILDABLE
 ---| DISPSURF_SURFPROP1
 ---| DISPSURF_SURFPROP2
+
 
 --- Enumerations used by [CTakeDamageInfo:GetDamageType](https://wiki.facepunch.com/gmod/CTakeDamageInfo:GetDamageType), [CTakeDamageInfo:SetDamageType](https://wiki.facepunch.com/gmod/CTakeDamageInfo:SetDamageType) and [CTakeDamageInfo:IsDamageType](https://wiki.facepunch.com/gmod/CTakeDamageInfo:IsDamageType).
 ---
@@ -6236,6 +6259,7 @@ DMG_MISSILEDEFENSE = 2147483648
 ---| DMG_SNIPER # Damage from SniperRound/SniperPenetratedRound ammo types
 ---| DMG_MISSILEDEFENSE # Damage from npc_missiledefense, npc_combinegunship, or monster_mortar
 
+
 --- Enumerations used by [Panel:Dock](https://wiki.facepunch.com/gmod/Panel:Dock).
 --- **NOTE**: These enumerations doesn't have DOCK_ prefix, this is an exception from all other enumerations.
 ---@realm client
@@ -6268,6 +6292,7 @@ BOTTOM = 5
 ---| TOP # Dock to the top
 ---| BOTTOM # Dock to the bottom
 
+
 --- Internal globals for SimpleDoF.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/Enums/DOF
@@ -6279,6 +6304,7 @@ DOF_SPACING = 512
 ---@enum DOF : number
 ---| DOF_OFFSET
 ---| DOF_SPACING
+
 
 --- Enumerations used by [Entity:AddEffects](https://wiki.facepunch.com/gmod/Entity:AddEffects),  [Entity:RemoveEffects](https://wiki.facepunch.com/gmod/Entity:RemoveEffects) and  [Entity:IsEffectActive](https://wiki.facepunch.com/gmod/Entity:IsEffectActive).
 ---@realm shared
@@ -6335,6 +6361,7 @@ EF_NOFLASHLIGHT = 8192
 ---| EF_PARENT_ANIMATES # Always assume that the parent entity is animating.
 ---| EF_FOLLOWBONE # Internal flag that is set by [Entity:FollowBone](https://wiki.facepunch.com/gmod/Entity:FollowBone).
 ---| EF_NOFLASHLIGHT # GMod-specific. Makes the entity not accept being lit by projected textures, including the player's flashlight.
+
 
 --- Enumerations used by [Entity:AddEFlags](https://wiki.facepunch.com/gmod/Entity:AddEFlags), [Entity:RemoveEFlags](https://wiki.facepunch.com/gmod/Entity:RemoveEFlags) and [Entity:IsEFlagSet](https://wiki.facepunch.com/gmod/Entity:IsEFlagSet).
 ---@realm shared
@@ -6438,7 +6465,7 @@ EFL_NO_PHYSCANNON_INTERACTION = 1073741824
 EFL_NO_DAMAGE_FORCES = -2147483648
 
 ---@enum EFL : number
----| EFL_KILLME # This entity is marked for death -- This allows the game to actually delete ents at a safe time. **WARNING**: You should never set this flag manually.
+---| EFL_KILLME # This entity is marked for death -- This allows the game to actually delete ents at a safe time. **WARNING**: You should never set this flag manually. 
 ---| EFL_DORMANT # Entity is dormant, no updates to client
 ---| EFL_NOCLIP_ACTIVE # Lets us know when the noclip command is active
 ---| EFL_SETTING_UP_BONES # Set while a model is setting up its bones
@@ -6470,6 +6497,7 @@ EFL_NO_DAMAGE_FORCES = -2147483648
 ---| EFL_NO_WATER_VELOCITY_CHANGE # Don't adjust this entity's velocity when transitioning into water
 ---| EFL_NO_PHYSCANNON_INTERACTION # Physcannon can't pick these up or punt them
 ---| EFL_NO_DAMAGE_FORCES # Doesn't accept forces from physics damage
+
 
 --- Enumerations used by [Global.AddConsoleCommand](https://wiki.facepunch.com/gmod/Global.AddConsoleCommand), [concommand.Add](https://wiki.facepunch.com/gmod/concommand.Add), [Global.CreateClientConVar](https://wiki.facepunch.com/gmod/Global.CreateClientConVar) and [Global.CreateConVar](https://wiki.facepunch.com/gmod/Global.CreateConVar).
 ---@realm shared
@@ -6610,6 +6638,7 @@ FCVAR_USERINFO = 512
 ---| FCVAR_UNREGISTERED # If this is set, the convar will become anonymous and won't show up in the `find` results.
 ---| FCVAR_USERINFO # For clientside commands, sends the value to the server  Reported as "user" by `cvarlist`
 
+
 --- Enumerations used by [IGModAudioChannel:FFT](https://wiki.facepunch.com/gmod/IGModAudioChannel:FFT). Clientside only.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/Enums/FFT
@@ -6647,6 +6676,7 @@ FFT_32768 = 7
 ---| FFT_8192 # 4096 levels
 ---| FFT_16384 # 8192 levels
 ---| FFT_32768 # 16384 levels
+
 
 --- Enumerations used by [Entity:AddFlags](https://wiki.facepunch.com/gmod/Entity:AddFlags), [Entity:RemoveFlags](https://wiki.facepunch.com/gmod/Entity:RemoveFlags) and [Entity:IsFlagSet](https://wiki.facepunch.com/gmod/Entity:IsFlagSet).
 ---@realm shared
@@ -6783,6 +6813,7 @@ FL_UNBLOCKABLE_BY_PLAYER = -2147483648
 ---| FL_TRANSRAGDOLL # This entity is about to become a ragdoll
 ---| FL_UNBLOCKABLE_BY_PLAYER # This moving door can't be blocked by the player
 
+
 --- Enumerations used by [Global.AccessorFunc](https://wiki.facepunch.com/gmod/Global.AccessorFunc).
 ---@realm shared
 ---@realm menu
@@ -6813,6 +6844,7 @@ FORCE_VECTOR = 6
 ---| FORCE_ANGLE # Forces the function to take [Angle](https://wiki.facepunch.com/gmod/Angle)s only
 ---| FORCE_COLOR # Forces the function to take [Color](https://wiki.facepunch.com/gmod/Color)s only
 ---| FORCE_VECTOR # Forces the function to take [Vector](https://wiki.facepunch.com/gmod/Vector)s only
+
 
 --- Used by [file.AsyncRead](https://wiki.facepunch.com/gmod/file.AsyncRead).
 ---@realm shared
@@ -6863,6 +6895,7 @@ FSASYNC_STATUS_UNSERVICED = 4
 ---| FSASYNC_STATUS_ABORTED
 ---| FSASYNC_STATUS_UNSERVICED
 
+
 --- Enumerations used by [Entity:SetSolidFlags](https://wiki.facepunch.com/gmod/Entity:SetSolidFlags) and [Entity:GetSolidFlags](https://wiki.facepunch.com/gmod/Entity:GetSolidFlags).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Enums/FSOLID
@@ -6912,6 +6945,7 @@ FSOLID_MAX_BITS = 10
 ---| FSOLID_ROOT_PARENT_ALIGNED # Collisions are defined in root parent's local coordinate space
 ---| FSOLID_TRIGGER_TOUCH_DEBRIS # This trigger will touch debris objects
 ---| FSOLID_MAX_BITS # The amount of bits needed to store the all the flags in a variable/sent over network.
+
 
 --- Enumerations used by [PhysObj:AddGameFlag](https://wiki.facepunch.com/gmod/PhysObj:AddGameFlag), [PhysObj:HasGameFlag](https://wiki.facepunch.com/gmod/PhysObj:HasGameFlag) and [PhysObj:ClearGameFlag](https://wiki.facepunch.com/gmod/PhysObj:ClearGameFlag).
 ---@realm shared
@@ -6971,6 +7005,7 @@ FVPHYSICS_WAS_THROWN = 256
 ---| FVPHYSICS_PLAYER_HELD # Set when the player is holding this [PhysObj](https://wiki.facepunch.com/gmod/PhysObj) with the Physics Gun, Gravity Gun or +use pickup.
 ---| FVPHYSICS_WAS_THROWN # This object was thrown by the Gravity Gun , stuns Antlion guards, Hunters, and squashes Antlion grubs.
 
+
 --- Enumerations used by [Player:AddVCDSequenceToGestureSlot](https://wiki.facepunch.com/gmod/Player:AddVCDSequenceToGestureSlot), [Player:AnimResetGestureSlot](https://wiki.facepunch.com/gmod/Player:AnimResetGestureSlot) and [Player:AnimRestartGesture](https://wiki.facepunch.com/gmod/Player:AnimRestartGesture). Gesture slots reserve the layer IDs corresponding to these enumerations, and the gesture validity can be checked with [Entity:IsValidLayer](https://wiki.facepunch.com/gmod/Entity:IsValidLayer).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Enums/GESTURE_SLOT
@@ -7003,6 +7038,7 @@ GESTURE_SLOT_CUSTOM = 6
 ---| GESTURE_SLOT_VCD
 ---| GESTURE_SLOT_CUSTOM # Slot for custom gestures
 
+
 --- Enumerations used by [game.SetGlobalState](https://wiki.facepunch.com/gmod/game.SetGlobalState) and [game.GetGlobalState](https://wiki.facepunch.com/gmod/game.GetGlobalState).
 ---
 --- Serverside only.
@@ -7022,6 +7058,7 @@ GLOBAL_DEAD = 2
 ---| GLOBAL_OFF # Initial state, the global state is off.
 ---| GLOBAL_ON # The global state is enabled.
 ---| GLOBAL_DEAD # The global state is dead and is no longer active. It will be cleared.
+
 
 --- Enumerations used by [IGModAudioChannel:GetState](https://wiki.facepunch.com/gmod/IGModAudioChannel:GetState). Clientside only.
 ---@realm client
@@ -7045,6 +7082,7 @@ GMOD_CHANNEL_STALLED = 3
 ---| GMOD_CHANNEL_PAUSED # The channel is paused
 ---| GMOD_CHANNEL_STALLED # The channel is buffering
 
+
 --- Used by [NPC:GetCurGoalType](https://wiki.facepunch.com/gmod/NPC:GetCurGoalType).
 ---
 --- **WARNING**: These enumerations do not exist in game and are listed here only for reference
@@ -7060,6 +7098,7 @@ GMOD_CHANNEL_STALLED = 3
 --- * `GOALTYPE_COVER` = `7`
 --- * `GOALTYPE_INVALID` = `8`
 ---@alias GOALTYPE 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | number
+
 
 --- Enumerations used by [GM:ScalePlayerDamage](https://wiki.facepunch.com/gmod/GM:ScalePlayerDamage) and [GM:ScaleNPCDamage](https://wiki.facepunch.com/gmod/GM:ScaleNPCDamage) and returned by [Player:LastHitGroup](https://wiki.facepunch.com/gmod/Player:LastHitGroup).
 ---@realm shared
@@ -7110,6 +7149,7 @@ HITGROUP_GEAR = 10
 ---| HITGROUP_RIGHTLEG # Right leg
 ---| HITGROUP_GEAR # Gear. Supposed to be belt area.  This hitgroup is not present on default player models.  Alerts NPC, but doesn't do damage or bleed (1/100th damage)
 
+
 --- Enumerations used by [Player:PrintMessage](https://wiki.facepunch.com/gmod/Player:PrintMessage) and [Global.PrintMessage](https://wiki.facepunch.com/gmod/Global.PrintMessage).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Enums/HUD
@@ -7131,6 +7171,7 @@ HUD_PRINTCENTER = 4
 ---| HUD_PRINTCONSOLE # Console
 ---| HUD_PRINTTALK # Chat, also prints to console
 ---| HUD_PRINTCENTER # Center of the screen, nothing on client
+
 
 --- Enumerations used by [NPC:SetHullType](https://wiki.facepunch.com/gmod/NPC:SetHullType) and  [NPC:GetHullType](https://wiki.facepunch.com/gmod/NPC:GetHullType). Serverside only.
 ---@realm server
@@ -7169,6 +7210,7 @@ HULL_MEDIUM_TALL = 9
 ---| HULL_LARGE_CENTERED
 ---| HULL_MEDIUM_TALL
 
+
 --- Enumerations used by [Global.GetRenderTargetEx](https://wiki.facepunch.com/gmod/Global.GetRenderTargetEx) to determine the byte format of each pixel in the [Render Target](https://wiki.facepunch.com/gmod/render_rendertargets).
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/Enums/IMAGE_FORMAT
@@ -7205,15 +7247,16 @@ IMAGE_FORMAT_RGBA16161616F = 24
 
 ---@enum IMAGE_FORMAT : number
 ---| IMAGE_FORMAT_DEFAULT
----| IMAGE_FORMAT_RGBA8888 #  			Red, Green, Blue, Alpha, 8 bit per pixel.
----| IMAGE_FORMAT_ABGR8888 #  			Probably legacy format. Alpha, Red, Green, Blue, 8 bit per pixel.
----| IMAGE_FORMAT_RGB888 #  			Legacy format. Red, Green, Blue, 8 bit per pixel. `D3DFMT_R8G8B8` is invalid for most modern video cards. Thats why `IMAGE_FORMAT_RGB888` and `IMAGE_FORMAT_BGR888` is legacy formats. It have fallback to `IMAGE_FORMAT_BGRX8888`. `X` means «any».
----| IMAGE_FORMAT_BGR888 #  			Legacy format. Blue, Green, Red order, 8 bit per pixel.
----| IMAGE_FORMAT_RGB565 #  			Red, Green, Blue, 5 bit per pixel for Red and Blue channels, 6 bits for Green. Effectively uses less video memory.
----| IMAGE_FORMAT_ARGB8888 #  			`IMAGE_FORMAT_RGBA8888` with different byte order. Legacy format.
----| IMAGE_FORMAT_BGRA8888 #  			`IMAGE_FORMAT_RGBA8888` with different byte order. Legacy format.
----| IMAGE_FORMAT_RGBA16161616 #  			RGBA, but 16 bits per pixel. Was meant to be used for "Integer mode" for HDR.
----| IMAGE_FORMAT_RGBA16161616F #  			RGBA, but floating point 16 bits per pixel. Is used for "Float mode" HDR.
+---| IMAGE_FORMAT_RGBA8888 #  			Red, Green, Blue, Alpha, 8 bit per pixel. 		
+---| IMAGE_FORMAT_ABGR8888 #  			Probably legacy format. Alpha, Red, Green, Blue, 8 bit per pixel. 		
+---| IMAGE_FORMAT_RGB888 #  			Legacy format. Red, Green, Blue, 8 bit per pixel. `D3DFMT_R8G8B8` is invalid for most modern video cards. Thats why `IMAGE_FORMAT_RGB888` and `IMAGE_FORMAT_BGR888` is legacy formats. It have fallback to `IMAGE_FORMAT_BGRX8888`. `X` means «any». 		
+---| IMAGE_FORMAT_BGR888 #  			Legacy format. Blue, Green, Red order, 8 bit per pixel. 		
+---| IMAGE_FORMAT_RGB565 #  			Red, Green, Blue, 5 bit per pixel for Red and Blue channels, 6 bits for Green. Effectively uses less video memory. 		
+---| IMAGE_FORMAT_ARGB8888 #  			`IMAGE_FORMAT_RGBA8888` with different byte order. Legacy format. 		
+---| IMAGE_FORMAT_BGRA8888 #  			`IMAGE_FORMAT_RGBA8888` with different byte order. Legacy format. 		
+---| IMAGE_FORMAT_RGBA16161616 #  			RGBA, but 16 bits per pixel. Was meant to be used for "Integer mode" for HDR. 		
+---| IMAGE_FORMAT_RGBA16161616F #  			RGBA, but floating point 16 bits per pixel. Is used for "Float mode" HDR. 		
+
 
 --- Unlike [Enums/BUTTON_CODE](https://wiki.facepunch.com/gmod/Enums/BUTTON_CODE), these enums are abstracted to allow the user to bind actions to any key they might prefer.
 ---
@@ -7344,6 +7387,7 @@ IN_GRENADE2 = 16777216
 ---| IN_GRENADE1 # `+grenade1` bound key, effectively unused by default.
 ---| IN_GRENADE2 # `+grenade2` bound key, effectively unused by default.
 
+
 --- Enumerations used by [input.IsButtonDown](https://wiki.facepunch.com/gmod/input.IsButtonDown).
 ---
 --- It's also part of the [Enums/BUTTON_CODE](https://wiki.facepunch.com/gmod/Enums/BUTTON_CODE).
@@ -7379,6 +7423,7 @@ JOYSTICK_LAST = 161
 ---| JOYSTICK_FIRST_AXIS_BUTTON # Joystick axis buttons are in this range, but don't have individual enum names.
 ---| JOYSTICK_LAST_AXIS_BUTTON
 ---| JOYSTICK_LAST
+
 
 --- Enumerations used by:
 --- * [input.IsKeyDown](https://wiki.facepunch.com/gmod/input.IsKeyDown)
@@ -7795,7 +7840,7 @@ KEY_XSTICK2_UP = 159
 ---| KEY_F5
 ---| KEY_F6
 ---| KEY_F7
----| KEY_F8 # **WARNING**: By default, it serves as bind "load quick", which loads the save by forcing the player to exit the server.
+---| KEY_F8 # **WARNING**: By default, it serves as bind "load quick", which loads the save by forcing the player to exit the server. 
 ---| KEY_F9
 ---| KEY_F10
 ---| KEY_F11
@@ -7829,6 +7874,7 @@ KEY_XSTICK2_UP = 159
 ---| KEY_XSTICK2_LEFT
 ---| KEY_XSTICK2_DOWN
 ---| KEY_XSTICK2_UP
+
 
 --- Used by [Entity:SetRenderFX](https://wiki.facepunch.com/gmod/Entity:SetRenderFX) and returned by [Entity:GetRenderFX](https://wiki.facepunch.com/gmod/Entity:GetRenderFX).
 ---
@@ -7939,6 +7985,7 @@ kRenderFxPulseFastWider = 24
 ---| kRenderFxRagdoll # Is ragdoll, can be set to force an entity to create a clientside ragdoll.
 ---| kRenderFxPulseFastWider # Quickly pulses the entitys transparency, from 0 to 255.
 
+
 --- Enumerations used as trace masks in [Structures/Trace](https://wiki.facepunch.com/gmod/Structures/Trace) and [Structures/HullTrace](https://wiki.facepunch.com/gmod/Structures/HullTrace). These enumerations are simply combinations of [Enums/CONTENTS](https://wiki.facepunch.com/gmod/Enums/CONTENTS).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Enums/MASK
@@ -8028,6 +8075,7 @@ MASK_WATER = 16432
 ---| MASK_VISIBLE # Anything that blocks line of sight for players
 ---| MASK_VISIBLE_AND_NPCS # Anything that blocks line of sight for players, including NPCs
 ---| MASK_WATER # Anything that has water-like physics
+
 
 --- Enumerations used in [Structures/TraceResult](https://wiki.facepunch.com/gmod/Structures/TraceResult) and [Structures/SurfacePropertyData](https://wiki.facepunch.com/gmod/Structures/SurfacePropertyData), and by [Entity:GetMaterialType](https://wiki.facepunch.com/gmod/Entity:GetMaterialType).
 ---
@@ -8139,6 +8187,7 @@ MAT_WARPSHIELD = 90
 ---| MAT_GLASS # Glass
 ---| MAT_WARPSHIELD # "wierd-looking jello effect for advisor shield."
 
+
 --- Enumerations used by [mesh.Begin](https://wiki.facepunch.com/gmod/mesh.Begin) to control what type of vertex information it should expect. Clientside only.
 ---
 --- For more information, see the [Mesh Primitives](https://wiki.facepunch.com/gmod/mesh_primitives) reference page.
@@ -8204,14 +8253,15 @@ MATERIAL_POLYGON = 6
 MATERIAL_QUADS = 7
 
 ---@enum MATERIAL : number
----| MATERIAL_POINTS #  			**WARNING**: The primitive type `MATERIAL_POINTS` does not currently work and will not produce any visual effect if used.   			For more information, see [Point Primitives](https://wiki.facepunch.com/gmod/mesh_primitives#points)
----| MATERIAL_LINES #  			Creates line using 2 vertices.    			The `primitiveCount` argument of [mesh.Begin](https://wiki.facepunch.com/gmod/mesh.Begin) should be the total number of line multiply by 2 that the Mesh will contain.   E.g. `(vertexCount * 2)`  			For more information, see [Line Primitives](https://wiki.facepunch.com/gmod/mesh_primitives#lines)
----| MATERIAL_TRIANGLES #  			Creates triangles from groupings of 3 vertices.    			The `primitiveCount` argument of [mesh.Begin](https://wiki.facepunch.com/gmod/mesh.Begin) should be the total number of triangles that the Mesh will contain.   E.g. `(vertexCount / 3)`  			For more information, see [Triangle Primitives](https://wiki.facepunch.com/gmod/mesh_primitives#triangles)
----| MATERIAL_TRIANGLE_STRIP #  			Creates a set of triangles that each share two vertices with the previous triangle in the sequence.  			The `primitiveCount` argument of [mesh.Begin](https://wiki.facepunch.com/gmod/mesh.Begin) should be the total number of triangles that the Mesh will contain.   			E.g. `(vertexCount - 2)`  			For more information, see [Triangle Strip Primitives](https://wiki.facepunch.com/gmod/mesh_primitives#trianglestrips)
----| MATERIAL_LINE_STRIP #  			Creates a set of lines that all share a single vertex and each share a vertex with the previous lines.  			The `primitiveCount` argument of [mesh.Begin](https://wiki.facepunch.com/gmod/mesh.Begin) should be the total number of line connection that the Mesh will contain.   			E.g. `(vertexCount)`  			For more information, see [Line Strip Primitives](https://wiki.facepunch.com/gmod/mesh_primitives#linestrips)
----| MATERIAL_LINE_LOOP #  			Exactly like MATERIAL_LINE_STRIP do, but the first and the last vertex will always be connected together.  			For more information, see [Line Loop Primitives](https://wiki.facepunch.com/gmod/mesh_primitives#lineloops)
----| MATERIAL_POLYGON #  			Creates a set of triangles that all share a single vertex and each share a vertex with the previous triangle.  			The `primitiveCount` argument of [mesh.Begin](https://wiki.facepunch.com/gmod/mesh.Begin) should be the total number of vertices that the Mesh will contain.   			E.g. `(vertexCount)`  			For more information, see [Polygon Primitives](https://wiki.facepunch.com/gmod/mesh_primitives#polygons)
----| MATERIAL_QUADS #  			Creates pairs of triangles that share two vertices.  			The `primitiveCount` argument of [mesh.Begin](https://wiki.facepunch.com/gmod/mesh.Begin) should be the total number of quads that the Mesh will contain.   			E.g. `(vertexCount / 4)`  			For more information, see [Quad Primitives](https://wiki.facepunch.com/gmod/mesh_primitives#quads)
+---| MATERIAL_POINTS #  			**WARNING**: The primitive type `MATERIAL_POINTS` does not currently work and will not produce any visual effect if used.   			For more information, see [Point Primitives](https://wiki.facepunch.com/gmod/mesh_primitives#points) 		
+---| MATERIAL_LINES #  			Creates line using 2 vertices.    			The `primitiveCount` argument of [mesh.Begin](https://wiki.facepunch.com/gmod/mesh.Begin) should be the total number of line multiply by 2 that the Mesh will contain.   E.g. `(vertexCount * 2)`  			For more information, see [Line Primitives](https://wiki.facepunch.com/gmod/mesh_primitives#lines) 		
+---| MATERIAL_TRIANGLES #  			Creates triangles from groupings of 3 vertices.    			The `primitiveCount` argument of [mesh.Begin](https://wiki.facepunch.com/gmod/mesh.Begin) should be the total number of triangles that the Mesh will contain.   E.g. `(vertexCount / 3)`  			For more information, see [Triangle Primitives](https://wiki.facepunch.com/gmod/mesh_primitives#triangles) 		
+---| MATERIAL_TRIANGLE_STRIP #  			Creates a set of triangles that each share two vertices with the previous triangle in the sequence.  			The `primitiveCount` argument of [mesh.Begin](https://wiki.facepunch.com/gmod/mesh.Begin) should be the total number of triangles that the Mesh will contain.   			E.g. `(vertexCount - 2)`  			For more information, see [Triangle Strip Primitives](https://wiki.facepunch.com/gmod/mesh_primitives#trianglestrips) 		
+---| MATERIAL_LINE_STRIP #  			Creates a set of lines that all share a single vertex and each share a vertex with the previous lines.  			The `primitiveCount` argument of [mesh.Begin](https://wiki.facepunch.com/gmod/mesh.Begin) should be the total number of line connection that the Mesh will contain.   			E.g. `(vertexCount)`  			For more information, see [Line Strip Primitives](https://wiki.facepunch.com/gmod/mesh_primitives#linestrips) 		
+---| MATERIAL_LINE_LOOP #  			Exactly like MATERIAL_LINE_STRIP do, but the first and the last vertex will always be connected together.  			For more information, see [Line Loop Primitives](https://wiki.facepunch.com/gmod/mesh_primitives#lineloops) 		
+---| MATERIAL_POLYGON #  			Creates a set of triangles that all share a single vertex and each share a vertex with the previous triangle.  			The `primitiveCount` argument of [mesh.Begin](https://wiki.facepunch.com/gmod/mesh.Begin) should be the total number of vertices that the Mesh will contain.   			E.g. `(vertexCount)`  			For more information, see [Polygon Primitives](https://wiki.facepunch.com/gmod/mesh_primitives#polygons) 		
+---| MATERIAL_QUADS #  			Creates pairs of triangles that share two vertices.  			The `primitiveCount` argument of [mesh.Begin](https://wiki.facepunch.com/gmod/mesh.Begin) should be the total number of quads that the Mesh will contain.   			E.g. `(vertexCount / 4)`  			For more information, see [Quad Primitives](https://wiki.facepunch.com/gmod/mesh_primitives#quads) 		
+
 
 --- Enumerations used by [render.CullMode](https://wiki.facepunch.com/gmod/render.CullMode). Clientside only.
 ---@realm client
@@ -8231,6 +8281,7 @@ MATERIAL_CULLMODE_NONE = 2
 ---| MATERIAL_CULLMODE_CW # Cull back faces with clockwise vertices.
 ---| MATERIAL_CULLMODE_NONE # Do not cull back faces at all.
 
+
 --- Enumerations used by [render.GetFogMode](https://wiki.facepunch.com/gmod/render.GetFogMode) and [render.FogMode](https://wiki.facepunch.com/gmod/render.FogMode). Clientside only.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/Enums/MATERIAL_FOG
@@ -8248,6 +8299,7 @@ MATERIAL_FOG_LINEAR_BELOW_FOG_Z = 2
 ---| MATERIAL_FOG_NONE # No fog
 ---| MATERIAL_FOG_LINEAR # Linear fog
 ---| MATERIAL_FOG_LINEAR_BELOW_FOG_Z # For use in conjunction with [render.SetFogZ](https://wiki.facepunch.com/gmod/render.SetFogZ). Does not work if start distance is bigger than end distance. Ignores density setting. Seems to be broken? Used for underwater fog by the engine.
+
 
 --- Enumerations used by [render.SetLocalModelLights](https://wiki.facepunch.com/gmod/render.SetLocalModelLights). Clientside only.
 ---@realm client
@@ -8270,6 +8322,7 @@ MATERIAL_LIGHT_SPOT = 3
 ---| MATERIAL_LIGHT_POINT # Point light
 ---| MATERIAL_LIGHT_DIRECTIONAL # Directional light
 ---| MATERIAL_LIGHT_SPOT # Spot light
+
 
 --- Enumerations used by [Global.GetRenderTargetEx](https://wiki.facepunch.com/gmod/Global.GetRenderTargetEx). Clientside only.
 --- 	**WARNING**: When Anti Aliasing is enabled then `MATERIAL_RT_DEPTH_SHARED` and `MATERIAL_RT_DEPTH_SEPARATE` will always create a new depth-stencil buffer because Render Targets do not have Anti Aliasing.
@@ -8296,6 +8349,7 @@ MATERIAL_RT_DEPTH_ONLY = 3
 ---| MATERIAL_RT_DEPTH_SEPARATE # Create a depth-stencil buffer.Use the created depth-stencil buffer if used as render target 0.
 ---| MATERIAL_RT_DEPTH_NONE # Do not create a depth-stencil buffer.Disable depth and stencil buffer usage if used as render target 0.
 ---| MATERIAL_RT_DEPTH_ONLY # Create a depth-stencil buffer.Use the created depth-stencil buffer if used as render target 0.  Creates a color texture despite the name. Seems to behave the same as MATERIAL_RT_DEPTH_SEPARATE.
+
 
 --- Enumerations used by:
 --- * [input.IsMouseDown](https://wiki.facepunch.com/gmod/input.IsMouseDown)
@@ -8358,6 +8412,7 @@ MOUSE_COUNT = 7
 ---| MOUSE_LAST # Last mouse button
 ---| MOUSE_COUNT # Mouse button count
 
+
 --- Enumerations used by [Entity:SetMoveCollide](https://wiki.facepunch.com/gmod/Entity:SetMoveCollide) and [Entity:GetMoveCollide](https://wiki.facepunch.com/gmod/Entity:GetMoveCollide).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Enums/MOVECOLLIDE
@@ -8383,6 +8438,7 @@ MOVECOLLIDE_COUNT = 4
 ---| MOVECOLLIDE_FLY_CUSTOM # [ENTITY:ResolveCustomFlyCollision](https://wiki.facepunch.com/gmod/ENTITY:ResolveCustomFlyCollision) will modify the velocity however it likes
 ---| MOVECOLLIDE_FLY_SLIDE # Entity slides along surfaces (no bounce) - applies friciton (adjusts velocity)
 ---| MOVECOLLIDE_COUNT # Number of different movecollides
+
 
 --- Enumerations used by [Entity:SetMoveType](https://wiki.facepunch.com/gmod/Entity:SetMoveType) and [Entity:GetMoveType](https://wiki.facepunch.com/gmod/Entity:GetMoveType).
 ---@realm shared
@@ -8448,11 +8504,12 @@ MOVETYPE_CUSTOM = 11
 ---| MOVETYPE_FLY # Fly, no gravity
 ---| MOVETYPE_FLYGRAVITY # Fly, with gravity
 ---| MOVETYPE_VPHYSICS # Physics movetype
----| MOVETYPE_PUSH #  	Doesn't collide with the world, but does push and crush entities.   	This is what is used by the engine for elevators, trains, doors, moving water, etc.  	In order to work properly, the entity needs to have specific Save Values/Internal Variables set which tell it how long it should be moving for. 	 	**Note:** This same process can be done for both position and angle.  	1. You'll need to [Get an existing Save Value](https://wiki.facepunch.com/gmod/Entity:GetInternalVariable) called `ltime`   	2. Calculate how long (in seconds) the entity will be moving before it reaches its destination.   	As a simple example, this can be done via `duration = distance / speed`   	3. [Set the Save Value](https://wiki.facepunch.com/gmod/Entity:SetSaveValue) for `m_flMoveDoneTime` to the value you retrieved for `ltime` plus the duration calculated in step 2.   	Put more simply: `m_flMoveDoneTime = ltime + duration`   	4. Set the entity's velocity to move it to the destination at the speed used in step 2.  	Once the duration of the move has elapsed, the entity will stop moving.  If you have done your calculations correctly, it should stop exactly at the desired destination.  	**NOTE**: MOVETYPE_PUSH entities only move during [Entity:Think](https://wiki.facepunch.com/gmod/Entity:Think) so if you want smooth movement, you need to set [Entity:NextThink](https://wiki.facepunch.com/gmod/Entity:NextThink) to [Global.CurTime](https://wiki.facepunch.com/gmod/Global.CurTime), which instructs the entity to execute [Entity:Think](https://wiki.facepunch.com/gmod/Entity:Think) as quickly as possible.
+---| MOVETYPE_PUSH #  	Doesn't collide with the world, but does push and crush entities.   	This is what is used by the engine for elevators, trains, doors, moving water, etc.  	In order to work properly, the entity needs to have specific Save Values/Internal Variables set which tell it how long it should be moving for. 	 	**Note:** This same process can be done for both position and angle.  	1. You'll need to [Get an existing Save Value](https://wiki.facepunch.com/gmod/Entity:GetInternalVariable) called `ltime`   	2. Calculate how long (in seconds) the entity will be moving before it reaches its destination.   	As a simple example, this can be done via `duration = distance / speed`   	3. [Set the Save Value](https://wiki.facepunch.com/gmod/Entity:SetSaveValue) for `m_flMoveDoneTime` to the value you retrieved for `ltime` plus the duration calculated in step 2.   	Put more simply: `m_flMoveDoneTime = ltime + duration`   	4. Set the entity's velocity to move it to the destination at the speed used in step 2.  	Once the duration of the move has elapsed, the entity will stop moving.  If you have done your calculations correctly, it should stop exactly at the desired destination.  	**NOTE**: MOVETYPE_PUSH entities only move during [Entity:Think](https://wiki.facepunch.com/gmod/Entity:Think) so if you want smooth movement, you need to set [Entity:NextThink](https://wiki.facepunch.com/gmod/Entity:NextThink) to [Global.CurTime](https://wiki.facepunch.com/gmod/Global.CurTime), which instructs the entity to execute [Entity:Think](https://wiki.facepunch.com/gmod/Entity:Think) as quickly as possible.   
 ---| MOVETYPE_NOCLIP # Noclip
 ---| MOVETYPE_LADDER # For players, when moving on a ladder
 ---| MOVETYPE_OBSERVER # Spectator movetype. DO **NOT** use this to make player spectate
 ---| MOVETYPE_CUSTOM # Custom movetype, can be applied to the player to prevent the default movement code from running, while still calling the related hooks
+
 
 --- Used by [NPC:SetNavType](https://wiki.facepunch.com/gmod/NPC:SetNavType) and [NPC:GetNavType](https://wiki.facepunch.com/gmod/NPC:GetNavType).
 ---@realm server
@@ -8479,6 +8536,7 @@ NAV_CLIMB = 3
 ---| NAV_JUMP # jump/leap
 ---| NAV_FLY # can fly, move all around
 ---| NAV_CLIMB # climb ladders
+
 
 --- Enumerations used by [CNavArea:GetAttributes](https://wiki.facepunch.com/gmod/CNavArea:GetAttributes) and [CNavArea:HasAttributes](https://wiki.facepunch.com/gmod/CNavArea:HasAttributes).
 ---@realm server
@@ -8574,6 +8632,7 @@ NAV_MESH_NAV_BLOCKER = -2147483648
 ---| NAV_MESH_HAS_ELEVATOR # Area is in an elevator's path
 ---| NAV_MESH_NAV_BLOCKER # Whether the area is blocked by a `func_nav_blocker` entity and is impassible.
 
+
 --- Enumerations used by [CNavArea](https://wiki.facepunch.com/gmod/CNavArea) methods.
 --- These Enums correspond to each corner of a [CNavArea](https://wiki.facepunch.com/gmod/CNavArea)
 ---
@@ -8587,6 +8646,7 @@ NAV_MESH_NAV_BLOCKER = -2147483648
 --- * `NUM_CORNERS` = `4`
 ---@alias NavCorner 0 | 1 | 2 | 3 | 4 | number
 
+
 --- Enumerations used by [CNavArea](https://wiki.facepunch.com/gmod/CNavArea) methods.
 --- These Enums correspond to each side of a [CNavArea](https://wiki.facepunch.com/gmod/CNavArea)
 ---
@@ -8598,6 +8658,7 @@ NAV_MESH_NAV_BLOCKER = -2147483648
 --- * `SOUTH` = `2`
 --- * `WEST` = `3`
 ---@alias NavDir 0 | 1 | 2 | 3 | number
+
 
 --- Enumerations used by [CNavArea:GetParentHow](https://wiki.facepunch.com/gmod/CNavArea:GetParentHow).
 ---
@@ -8614,6 +8675,7 @@ NAV_MESH_NAV_BLOCKER = -2147483648
 --- * `GO_ELEVATOR_UP` = `7`
 --- * `GO_ELEVATOR_DOWN` = `8`
 ---@alias NavTraverseType 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | number
+
 
 --- Enumerations used by [notification.AddLegacy](https://wiki.facepunch.com/gmod/notification.AddLegacy). Clientside only.
 ---@realm client
@@ -8641,6 +8703,7 @@ NOTIFY_CLEANUP = 4
 ---| NOTIFY_UNDO #  Undo notification
 ---| NOTIFY_HINT #  Hint notification
 ---| NOTIFY_CLEANUP #  Cleanup notification
+
 
 --- Enumerations used by [NPC:SetNPCState](https://wiki.facepunch.com/gmod/NPC:SetNPCState). Serverside only.
 ---@realm server
@@ -8684,6 +8747,7 @@ NPC_STATE_DEAD = 7
 ---| NPC_STATE_PRONE # NPC is prone to death
 ---| NPC_STATE_DEAD # NPC is dead
 
+
 --- Various count enums.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/Enums/NUM
@@ -8697,6 +8761,7 @@ NUM_HULLS = 10
 ---@enum NUM : number
 ---| NUM_AI_CLASSES # Amount of [Enums/CLASS](https://wiki.facepunch.com/gmod/Enums/CLASS). Used by [Global.Add_NPC_Class](https://wiki.facepunch.com/gmod/Global.Add_NPC_Class).
 ---| NUM_HULLS # Amount of [Enums/HULL](https://wiki.facepunch.com/gmod/Enums/HULL).
+
 
 --- Enumerations used by [Player:SetObserverMode](https://wiki.facepunch.com/gmod/Player:SetObserverMode), [Player:GetObserverMode](https://wiki.facepunch.com/gmod/Player:GetObserverMode) and [Player:Spectate](https://wiki.facepunch.com/gmod/Player:Spectate).
 ---@realm shared
@@ -8732,6 +8797,7 @@ OBS_MODE_ROAMING = 6
 ---| OBS_MODE_CHASE # Chase cam, 3rd person cam, free rotation around the spectated target
 ---| OBS_MODE_ROAMING # Free roam/noclip-alike. Does not work from [GM:PlayerDeath](https://wiki.facepunch.com/gmod/GM:PlayerDeath)
 
+
 --- Enumerations used by [Global.ParticleEffectAttach](https://wiki.facepunch.com/gmod/Global.ParticleEffectAttach).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Enums/PATTACH
@@ -8761,6 +8827,7 @@ PATTACH_WORLDORIGIN = 5
 ---| PATTACH_POINT # Particle attaches to passed to [Global.ParticleEffectAttach](https://wiki.facepunch.com/gmod/Global.ParticleEffectAttach) attachment id, but does not follow the entity
 ---| PATTACH_POINT_FOLLOW # Particle attaches to passed to [Global.ParticleEffectAttach](https://wiki.facepunch.com/gmod/Global.ParticleEffectAttach) attachment id and follows the entity
 ---| PATTACH_WORLDORIGIN # Particle spawns in the beginning of coordinates ( Vector( 0, 0, 0 ) ), used for control points that don't attach to an entity
+
 
 --- Enumerations used by [Entity:SetAnimation](https://wiki.facepunch.com/gmod/Entity:SetAnimation)
 ---@realm shared
@@ -8799,6 +8866,7 @@ PLAYER_LEAVE_AIMING = 9
 ---| PLAYER_RELOAD # Player reload according to current hold type, used in SWEPs
 ---| PLAYER_START_AIMING
 ---| PLAYER_LEAVE_AIMING
+
 
 --- Used by [GM:DoAnimationEvent](https://wiki.facepunch.com/gmod/GM:DoAnimationEvent) and [Player:DoCustomAnimEvent](https://wiki.facepunch.com/gmod/Player:DoCustomAnimEvent).
 ---@realm shared
@@ -8893,6 +8961,7 @@ PLAYERANIMEVENT_CANCEL_RELOAD = 23
 ---| PLAYERANIMEVENT_CUSTOM_GESTURE_SEQUENCE # Play sequence in gesture slot
 ---| PLAYERANIMEVENT_CANCEL_RELOAD # Cancel reload animation
 
+
 ---Enumerations used by `ClientsideModel`, `ENT.RenderGroup`, and `Entity:GetRenderGroup`.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Enums/RENDERGROUP
@@ -8932,6 +9001,7 @@ RENDERGROUP_OTHER = 13
 ---| 11 # RENDERGROUP_VIEWMODEL_TRANSLUCENT
 ---| 12 # RENDERGROUP_OPAQUE_BRUSH
 ---| 13 # RENDERGROUP_OTHER
+
 
 --- Enumerations used by [Entity:SetRenderMode](https://wiki.facepunch.com/gmod/Entity:SetRenderMode) and [Entity:GetRenderMode](https://wiki.facepunch.com/gmod/Entity:GetRenderMode).
 ---@realm shared
@@ -8992,6 +9062,7 @@ RENDERMODE_NONE = 10
 ---| RENDERMODE_WORLDGLOW # Functions similarly to Glow, with the exception that the size of the sprite is relative to the world rather than the screen.  The GlowProxySize keyvalue affects this Render Mode on sprites.
 ---| RENDERMODE_NONE # The entity is still being drawn and networked albeit invisible, therefore not making this Render Mode ideal for performance reasons.  To completely avoid drawing and networking an entity, see EF_NODRAW.
 
+
 --- Enumerations used by [Global.GetRenderTargetEx](https://wiki.facepunch.com/gmod/Global.GetRenderTargetEx). Clientside only.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/Enums/RT_SIZE
@@ -9037,6 +9108,7 @@ RT_SIZE_LITERAL_PICMIP = 9
 ---| RT_SIZE_REPLAY_SCREENSHOT # Rounded down to power of 2, essentially
 ---| RT_SIZE_LITERAL # Use the size passed in. Don't clamp it to the frame buffer size. Really.
 ---| RT_SIZE_LITERAL_PICMIP # Use the size passed in, don't clamp to the frame buffer size, but do apply picmip restrictions.
+
 
 --- Enumerations for NPC schedules, used by [ENTITY:StartEngineSchedule](https://wiki.facepunch.com/gmod/ENTITY:StartEngineSchedule), [ENTITY:TranslateSchedule](https://wiki.facepunch.com/gmod/ENTITY:TranslateSchedule) and [NPC:SetSchedule](https://wiki.facepunch.com/gmod/NPC:SetSchedule). Serverside only.
 ---@realm server
@@ -9368,23 +9440,24 @@ SCHED_WAKE_ANGRY = 4
 ---| SCHED_WAIT_FOR_SPEAK_FINISH
 ---| SCHED_WAKE_ANGRY # Spot an enemy and go from an idle state to combat state.
 
+
 --- Bitflags used by [Player:ScreenFade](https://wiki.facepunch.com/gmod/Player:ScreenFade).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Enums/SCREENFADE
 ---@enum SCREENFADE
 SCREENFADE = {
-	--- Instant fade in, slowly fade out (based on fade time given) after the hold time has passed
-	IN = 1,
-	--- Slowly fade in (based on fade time given), hold time passes, instantly disappear
-	OUT = 2,
-	--- Instead of blending multiple active screen fades, modulate them. (TODO: What does this mean?) Internally this flag switches what material will be used to render the screen fade. Practically it forces the color to black.
-	MODULATE = 4,
-	--- Never disappear. Does nothing by itself, as if no flags were given.
-	STAYOUT = 8,
-	--- Used to purge all currently active screen fade effects, meant to be used in conjunction with flags above as a "priority effect".
-	---
-	--- Does nothing by itself, acts as if no flags were given
-	PURGE = 16,
+  --- Instant fade in, slowly fade out (based on fade time given) after the hold time has passed
+  IN = 1,
+  --- Slowly fade in (based on fade time given), hold time passes, instantly disappear
+  OUT = 2,
+  --- Instead of blending multiple active screen fades, modulate them. (TODO: What does this mean?) Internally this flag switches what material will be used to render the screen fade. Practically it forces the color to black.
+  MODULATE = 4,
+  --- Never disappear. Does nothing by itself, as if no flags were given.
+  STAYOUT = 8,
+  --- Used to purge all currently active screen fade effects, meant to be used in conjunction with flags above as a "priority effect".
+  ---
+  --- Does nothing by itself, acts as if no flags were given
+  PURGE = 16,
 }
 
 --- Enumerations used by Kinect SDK bindings.
@@ -9392,26 +9465,26 @@ SCREENFADE = {
 ---@source https://wiki.facepunch.com/gmod/Enums/SENSORBONE
 ---@enum SENSORBONE
 SENSORBONE = {
-	SHOULDER_RIGHT = 8,
-	SHOULDER_LEFT = 4,
-	HIP = 0,
-	ELBOW_RIGHT = 9,
-	KNEE_RIGHT = 17,
-	WRIST_RIGHT = 10,
-	ANKLE_LEFT = 14,
-	FOOT_LEFT = 15,
-	WRIST_LEFT = 6,
-	FOOT_RIGHT = 19,
-	HAND_RIGHT = 11,
-	SHOULDER = 2,
-	HIP_LEFT = 12,
-	HIP_RIGHT = 16,
-	HAND_LEFT = 7,
-	ANKLE_RIGHT = 18,
-	SPINE = 1,
-	ELBOW_LEFT = 5,
-	KNEE_LEFT = 13,
-	HEAD = 3,
+  SHOULDER_RIGHT = 8,
+  SHOULDER_LEFT = 4,
+  HIP = 0,
+  ELBOW_RIGHT = 9,
+  KNEE_RIGHT = 17,
+  WRIST_RIGHT = 10,
+  ANKLE_LEFT = 14,
+  FOOT_LEFT = 15,
+  WRIST_LEFT = 6,
+  FOOT_RIGHT = 19,
+  HAND_RIGHT = 11,
+  SHOULDER = 2,
+  HIP_LEFT = 12,
+  HIP_RIGHT = 16,
+  HAND_LEFT = 7,
+  ANKLE_RIGHT = 18,
+  SPINE = 1,
+  ELBOW_LEFT = 5,
+  KNEE_LEFT = 13,
+  HEAD = 3,
 }
 
 --- Enumerations describing certain spawnflags. Everything except for SF_PHYS* and SF_WEAPON* is serverside only.
@@ -9543,7 +9616,7 @@ SF_WEAPON_NO_PHYSCANNON_PUNT = 4
 ---| SF_FLOOR_TURRET_CITIZEN # Makes the floor turret friendly
 ---| SF_NPC_ALTCOLLISION # Do Alternate collision for this NPC (player avoidance)
 ---| SF_NPC_ALWAYSTHINK # [Think outside PVS](https://developer.valvesoftware.com/wiki/NPC_Sensing)
----| SF_NPC_DROP_HEALTHKIT # NPC Drops health kit when it dies. Also works on player.
+---| SF_NPC_DROP_HEALTHKIT # NPC Drops health kit when it dies. Also works on player. 
 ---| SF_NPC_FADE_CORPSE # Fade Corpse
 ---| SF_NPC_FALL_TO_GROUND # If not set, means *teleport* to ground
 ---| SF_NPC_GAG # No IDLE sounds until angry
@@ -9565,6 +9638,7 @@ SF_WEAPON_NO_PHYSCANNON_PUNT = 4
 ---| SF_WEAPON_START_CONSTRAINED # If set before [Entity:Spawn](https://wiki.facepunch.com/gmod/Entity:Spawn), the weapon will be constrained and will not simply fall to the ground.
 ---| SF_WEAPON_NO_PLAYER_PICKUP # Player is NOT allowed to pick this up.
 ---| SF_WEAPON_NO_PHYSCANNON_PUNT # Physgun is NOT allowed to pick this up.
+
 
 --- Used by [GM:ClientSignOnStateChanged](https://wiki.facepunch.com/gmod/GM:ClientSignOnStateChanged).
 ---@realm shared
@@ -9596,6 +9670,7 @@ SIGNONSTATE_CHANGELEVEL = 7
 ---| SIGNONSTATE_FULL
 ---| SIGNONSTATE_CHANGELEVEL
 
+
 --- Enumerations used by [ENTITY:PhysicsSimulate](https://wiki.facepunch.com/gmod/ENTITY:PhysicsSimulate).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Enums/SIM
@@ -9621,6 +9696,7 @@ SIM_GLOBAL_FORCE = 4
 ---| SIM_LOCAL_FORCE # Vectors in local coordinate system
 ---| SIM_GLOBAL_ACCELERATION # Vectors in world coordinate system
 ---| SIM_GLOBAL_FORCE # Vectors in world coordinate system
+
 
 --- Sound flags used by [Global.EmitSound](https://wiki.facepunch.com/gmod/Global.EmitSound) and [Entity:EmitSound](https://wiki.facepunch.com/gmod/Entity:EmitSound).
 ---@realm shared
@@ -9671,6 +9747,7 @@ SND_DO_NOT_OVERWRITE_EXISTING_ON_CHANNEL = 1024
 ---| SND_IGNORE_PHONEMES # If the sound has any associated phoneme (character lip-sync) data, ignore it.
 ---| SND_IGNORE_NAME # Used to change all sounds (e.g. with SND_CHANGE_VOL) emitted by an entity, regardless of scriptname.
 ---| SND_DO_NOT_OVERWRITE_EXISTING_ON_CHANNEL # Unused/legacy; does nothing.
+
 
 --- The sound's attenuation, or how fast it drops away. Enumerations used by [Global.EmitSound](https://wiki.facepunch.com/gmod/Global.EmitSound) and [Entity:EmitSound](https://wiki.facepunch.com/gmod/Entity:EmitSound). Information taken from [soundflags.h in Source SDK 2013](https://github.com/ValveSoftware/source-sdk-2013/blob/0d8dceea4310fde5706b3ce1c70609d72a38efdf/sp/src/public/soundflags.h#L53)
 ---
@@ -9796,6 +9873,7 @@ SNDLVL_180dB = 180
 ---| SNDLVL_150dB
 ---| SNDLVL_180dB # Rocket launching
 
+
 --- For use with [Entity:PhysicsInit](https://wiki.facepunch.com/gmod/Entity:PhysicsInit), [Entity:SetSolid](https://wiki.facepunch.com/gmod/Entity:SetSolid) and [Entity:GetSolid](https://wiki.facepunch.com/gmod/Entity:GetSolid).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Enums/SOLID
@@ -9824,13 +9902,14 @@ SOLID_CUSTOM = 5
 SOLID_VPHYSICS = 6
 
 ---@enum SOLID : number
----| SOLID_NONE # Does not collide with anything. **NOTE**: No physics object will be created when using this with [Entity:PhysicsInit](https://wiki.facepunch.com/gmod/Entity:PhysicsInit).
+---| SOLID_NONE # Does not collide with anything. **NOTE**: No physics object will be created when using this with [Entity:PhysicsInit](https://wiki.facepunch.com/gmod/Entity:PhysicsInit). 
 ---| SOLID_BSP # The entity has a brush model defined by the map. Does not collide with other SOLID_BSP entities.
 ---| SOLID_BBOX # Uses the entity's axis-aligned bounding box for collisions.
 ---| SOLID_OBB # Uses the entity's object-aligned bounding box for collisions.
----| SOLID_OBB_YAW # Same as SOLID_OBB but restricts orientation to the Z-axis. **NOTE**: Seems to be broken.
+---| SOLID_OBB_YAW # Same as SOLID_OBB but restricts orientation to the Z-axis. **NOTE**: Seems to be broken. 
 ---| SOLID_CUSTOM # Always call the entity's `ICollideable::TestCollision` method for traces regardless of the presence of `FSOLID_CUSTOMRAYTEST` or `FSOLID_CUSTOMBOXTEST`. This will only be called back to Lua as [ENTITY:TestCollision](https://wiki.facepunch.com/gmod/ENTITY:TestCollision) for `"anim"` type SENTs.
 ---| SOLID_VPHYSICS # Uses the [PhysObj](https://wiki.facepunch.com/gmod/PhysObj)ects of the entity.
+
 
 --- Enumerations used by [sound.EmitHint](https://wiki.facepunch.com/gmod/sound.EmitHint).
 ---@realm server
@@ -9939,6 +10018,7 @@ SOUND_CONTEXT_PLAYER_VEHICLE = 536870912
 ---| SOUND_CONTEXT_ALLIES_ONLY # Only player allies can hear this sound.
 ---| SOUND_CONTEXT_PLAYER_VEHICLE # HACK: need this because we're not treating the SOUND_xxx values as true bit values! See switch in OnListened.
 
+
 --- ### `STENCIL_NEVER`, `STENCIL_LESS`, `STENCIL_EQUAL`, `STENCIL_LESSEQUAL`, `STENCIL_GREATER`, `STENCIL_NOTEQUAL`, `STENCIL_GREATEREQUAL`, `STENCIL_ALWAYS`
 ---
 --- Enumerations for use with [render.SetStencilCompareFunction](https://wiki.facepunch.com/gmod/render.SetStencilCompareFunction).
@@ -10035,6 +10115,7 @@ STENCIL_DECR = 8
 ---| STENCIL_INCR # Increments the value in the stencil buffer by 1, wrapping around on overflow.
 ---| STENCIL_DECR # Decrements the value in the stencil buffer by 1, wrapping around on overflow.
 
+
 --- Enumerations for use with [render.SetStencilCompareFunction](https://wiki.facepunch.com/gmod/render.SetStencilCompareFunction).
 ---
 --- The comparison is between the reference value set by [render.SetStencilReferenceValue](https://wiki.facepunch.com/gmod/render.SetStencilReferenceValue), and the value of each pixel in the stencil buffer.
@@ -10080,6 +10161,7 @@ STENCILCOMPARISONFUNCTION_ALWAYS = 8
 ---| STENCILCOMPARISONFUNCTION_GREATEREQUAL # Passes where the reference value is greater than or equal to the stencil value.
 ---| STENCILCOMPARISONFUNCTION_ALWAYS # Always passes.
 
+
 --- Enumerations for use with [render.SetStencilPassOperation](https://wiki.facepunch.com/gmod/render.SetStencilPassOperation), [render.SetStencilFailOperation](https://wiki.facepunch.com/gmod/render.SetStencilFailOperation) and [render.SetStencilZFailOperation](https://wiki.facepunch.com/gmod/render.SetStencilZFailOperation). Clientside only.
 --- **NOTE**: These enumerations are also mirrored as [Enums/STENCIL](https://wiki.facepunch.com/gmod/Enums/STENCIL).
 ---
@@ -10121,6 +10203,7 @@ STENCILOPERATION_DECR = 8
 ---| STENCILOPERATION_INCR # Increments the value in the stencil buffer by 1, wrapping around on overflow.
 ---| STENCILOPERATION_DECR # Decrements the value in the stencil buffer by 1, wrapping around on overflow.
 
+
 --- Enumerations used in [GM:PlayerStepSoundTime](https://wiki.facepunch.com/gmod/GM:PlayerStepSoundTime) hook.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Enums/STEPSOUNDTIME
@@ -10142,6 +10225,7 @@ STEPSOUNDTIME_WATER_FOOT = 3
 ---| STEPSOUNDTIME_ON_LADDER # Step on ladder
 ---| STEPSOUNDTIME_WATER_KNEE # Step in water, with water reaching knee
 ---| STEPSOUNDTIME_WATER_FOOT # Step in water, with water reaching foot
+
 
 --- Used by:
 --- * [Entity:DrawModel](https://wiki.facepunch.com/gmod/Entity:DrawModel)
@@ -10215,6 +10299,7 @@ STUDIO_SKIP_DECALS = 268435456
 ---| STUDIO_SKIP_FLEXES # Do not update/apply flexes. ([Entity:SetFlexWeight](https://wiki.facepunch.com/gmod/Entity:SetFlexWeight))
 ---| STUDIO_SKIP_DECALS # Do not render decals.
 
+
 --- Surface flags, used by the [Structures/TraceResult](https://wiki.facepunch.com/gmod/Structures/TraceResult).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Enums/SURF
@@ -10285,6 +10370,7 @@ SURF_HITBOX = 32768
 ---| SURF_NOCHOP # Don't subdivide patches on this surface
 ---| SURF_HITBOX # This surface is part of an entity's hitbox
 
+
 --- Used by [NPC:GetTaskStatus](https://wiki.facepunch.com/gmod/NPC:GetTaskStatus) and [NPC:SetTaskStatus](https://wiki.facepunch.com/gmod/NPC:SetTaskStatus).
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/Enums/TASKSTATUS
@@ -10311,6 +10397,7 @@ TASKSTATUS_COMPLETE = 4
 ---| TASKSTATUS_RUN_TASK # Just running task.
 ---| TASKSTATUS_COMPLETE # Completed, get next task.
 
+
 --- Default defined teams in Garry's Mod. This does not include any custom teams created in custom gamemodes. Enumerations to use with [Player:Team](https://wiki.facepunch.com/gmod/Player:Team)
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Enums/TEAM
@@ -10329,6 +10416,7 @@ TEAM_SPECTATOR = 1002
 ---| TEAM_UNASSIGNED # Unassigned team ID, set right after player connected
 ---| TEAM_SPECTATOR # Spectator team ID
 
+
 --- Enumerations used by [render.PushFilterMin](https://wiki.facepunch.com/gmod/render.PushFilterMin) and [render.PushFilterMag](https://wiki.facepunch.com/gmod/render.PushFilterMag).
 ---
 --- See [this](https://msdn.microsoft.com/en-us/library/windows/desktop/bb172615(v=vs.85).aspx) and [this page](https://en.wikipedia.org/wiki/Texture_filtering) for more information on texture filtering.
@@ -10337,14 +10425,14 @@ TEAM_SPECTATOR = 1002
 ---@source https://wiki.facepunch.com/gmod/Enums/TEXFILTER
 ---@enum TEXFILTER
 TEXFILTER = {
-	--- Disables any filter override.
-	NONE = 0,
-	--- Point sampling, no interpolation.
-	POINT = 1,
-	--- Basic interpolation between 2 samples.
-	LINEAR = 2,
-	--- Highest quality filter. Most useful for textures on 3D geometry.
-	ANISOTROPIC = 3,
+  --- Disables any filter override.
+  NONE = 0,
+  --- Point sampling, no interpolation.
+  POINT = 1,
+  --- Basic interpolation between 2 samples.
+  LINEAR = 2,
+  --- Highest quality filter. Most useful for textures on 3D geometry.
+  ANISOTROPIC = 3,
 }
 
 --- Enumerations used by [draw.SimpleText](https://wiki.facepunch.com/gmod/draw.SimpleText), [draw.DrawText](https://wiki.facepunch.com/gmod/draw.DrawText) and in [Structures/TextData](https://wiki.facepunch.com/gmod/Structures/TextData).
@@ -10373,6 +10461,7 @@ TEXT_ALIGN_BOTTOM = 4
 ---| TEXT_ALIGN_TOP # Align the text on the top
 ---| TEXT_ALIGN_BOTTOM # Align the text on the bottom
 
+
 --- Used by [util.FilterText](https://wiki.facepunch.com/gmod/util.FilterText).
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/Enums/TEXT_FILTER
@@ -10394,6 +10483,7 @@ TEXT_FILTER_NAME = 3
 ---| TEXT_FILTER_GAME_CONTENT # Game content, only legally required filtering is performed.
 ---| TEXT_FILTER_CHAT # Chat from another player.
 ---| TEXT_FILTER_NAME # Character or item name.
+
 
 --- Bit flags used by [Global.GetRenderTargetEx](https://wiki.facepunch.com/gmod/Global.GetRenderTargetEx). Information taken from [VTF (Valve Texture Format) - Texture flags](https://developer.valvesoftware.com/wiki/Valve_Texture_Format#Texture_flags)
 ---
@@ -10434,6 +10524,7 @@ TEXT_FILTER_NAME = 3
 --- * `TEXTUREFLAGS_STREAMABLE_FINE` = `2147483648`
 ---@alias TEXTUREFLAGS 1 | 2 | 4 | 8 | 16 | 32 | 64 | 128 | 256 | 512 | 1024 | 2048 | 4096 | 8192 | 16384 | 32768 | 65536 | 131072 | 262144 | 524288 | 1048576 | 2097152 | 4194304 | 8388608 | 16777216 | 33554432 | 67108864 | 134217728 | 268435456 | 536870912 | 1073741824 | 2147483648 | number
 
+
 --- Enumerations used by [Structures/AmmoData](https://wiki.facepunch.com/gmod/Structures/AmmoData).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Enums/TRACER
@@ -10460,6 +10551,7 @@ TRACER_LINE_AND_WHIZ = 4
 ---| TRACER_BEAM # Unused.
 ---| TRACER_LINE_AND_WHIZ # Generates tracer and makes whizzing noises if the bullet flies past the player being shot at
 
+
 --- Enumerations used in [ENTITY:UpdateTransmitState](https://wiki.facepunch.com/gmod/ENTITY:UpdateTransmitState) hook.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Enums/TRANSMIT
@@ -10477,6 +10569,7 @@ TRANSMIT_PVS = 2
 ---| TRANSMIT_ALWAYS # Always transmit the entity
 ---| TRANSMIT_NEVER # Never transmit the entity, default for point entities
 ---| TRANSMIT_PVS # Transmit when entity is in players [PVS (Potential Visibility Set)](https://developer.valvesoftware.com/wiki/PVS "PVS - Valve Developer Community")
+
 
 --- Enumerations used by [net.ReadType](https://wiki.facepunch.com/gmod/net.ReadType) and returned by [Global.TypeID](https://wiki.facepunch.com/gmod/Global.TypeID)
 ---@realm shared
@@ -10679,7 +10772,8 @@ TYPE_COLOR = 255
 ---| TYPE_PHYSCOLLIDE # [PhysCollide](https://wiki.facepunch.com/gmod/PhysCollide)
 ---| TYPE_SURFACEINFO # [SurfaceInfo](https://wiki.facepunch.com/gmod/SurfaceInfo)
 ---| TYPE_COUNT # Amount of TYPE_* enums
----| TYPE_COLOR # Metatable of a [Color](https://wiki.facepunch.com/gmod/Color).  **NOTE**: This doesn't actually represent a unique type returned by [Global.TypeID](https://wiki.facepunch.com/gmod/Global.TypeID), but instead is a hack for networking colors with [net.WriteType](https://wiki.facepunch.com/gmod/net.WriteType).
+---| TYPE_COLOR # Metatable of a [Color](https://wiki.facepunch.com/gmod/Color).  **NOTE**: This doesn't actually represent a unique type returned by [Global.TypeID](https://wiki.facepunch.com/gmod/Global.TypeID), but instead is a hack for networking colors with [net.WriteType](https://wiki.facepunch.com/gmod/net.WriteType). 
+
 
 --- Enumerations used by [ENTITY:Use](https://wiki.facepunch.com/gmod/ENTITY:Use).
 ---
@@ -10700,6 +10794,7 @@ USE_TOGGLE = 3
 ---| USE_ON
 ---| USE_SET
 ---| USE_TOGGLE
+
 
 --- Enumerations used by [render.RenderView](https://wiki.facepunch.com/gmod/render.RenderView) inside of [Structures/ViewData](https://wiki.facepunch.com/gmod/Structures/ViewData).
 ---@realm client
@@ -10743,6 +10838,7 @@ VIEW_SSAO = 8
 ---| VIEW_SHADOW_DEPTH_TEXTURE # Internally used for [Global.ProjectedTexture](https://wiki.facepunch.com/gmod/Global.ProjectedTexture) and flashlight.
 ---| VIEW_SSAO # For SSAO depth. Can be accessed via [render.GetResolvedFullFrameDepth](https://wiki.facepunch.com/gmod/render.GetResolvedFullFrameDepth).
 
+
 --- Enumerations used by [NPC:SetCurrentWeaponProficiency](https://wiki.facepunch.com/gmod/NPC:SetCurrentWeaponProficiency) and
 --- [NPC:GetCurrentWeaponProficiency](https://wiki.facepunch.com/gmod/NPC:GetCurrentWeaponProficiency).
 ---@realm shared
@@ -10769,3 +10865,5 @@ WEAPON_PROFICIENCY_PERFECT = 4
 ---| WEAPON_PROFICIENCY_GOOD # The NPC will sometimes miss their shots.
 ---| WEAPON_PROFICIENCY_VERY_GOOD # The NPC will rarely miss their shots.
 ---| WEAPON_PROFICIENCY_PERFECT # The NPC will almost never miss their shots.
+
+

@@ -53,3 +53,4 @@ function DPanelSelect:OnActivePanelChanged(oldPnl, newPnl) end
 ---@source https://wiki.facepunch.com/gmod/DPanelSelect:SelectPanel
 ---@param pnl Panel Panel to select. It should've been added previously via DPanelSelect:AddPanel.
 function DPanelSelect:SelectPanel(pnl) end
+

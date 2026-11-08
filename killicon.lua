@@ -75,3 +75,4 @@ function killicon.GetSize(name, dontEqualizeHeight) end
 ---@param alpha? number Alpha/transparency value ( 0 - 255 ) of the icon.
 ---@param dontEqualizeHeight? number Do not rescale the icon to match the default kill icon font.
 function killicon.Render(x, y, name, alpha, dontEqualizeHeight) end
+

@@ -41,3 +41,4 @@ function ImageCheckBox:SetChecked(bOn) end
 ---@source https://wiki.facepunch.com/gmod/ImageCheckBox:SetMaterial
 ---@param mat string The file path of the material to set (relative to "garrysmod/materials/").
 function ImageCheckBox:SetMaterial(mat) end
+

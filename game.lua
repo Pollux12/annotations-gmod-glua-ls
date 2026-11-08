@@ -129,14 +129,14 @@ function game.GetAmmoName(id) end
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/game.GetAmmoNPCDamage
 ---@param id number Ammo ID to retrieve the damage info of. Starts from 1.
----@return number #
+---@return number # 
 function game.GetAmmoNPCDamage(id) end
 
 ---Returns the damage given ammo type should do to players.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/game.GetAmmoPlayerDamage
 ---@param id number Ammo ID to retrieve the damage info of. Starts from 1.
----@return number #
+---@return number # 
 function game.GetAmmoPlayerDamage(id) end
 
 ---Returns a list of all ammo types currently registered.
@@ -150,7 +150,7 @@ function game.GetAmmoTypes() end
 --- See [Global States](https://wiki.facepunch.com/gmod/Global_States) for more information.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/game.GetGlobalCounter
----@param name string The name of the Global State to set.
+---@param name string The name of the Global State to set. 
 ---
 --- If the Global State by that name does not exist, it will be created.
 ---
@@ -163,7 +163,7 @@ function game.GetGlobalCounter(name) end
 --- See [Global States](https://wiki.facepunch.com/gmod/Global_States) for more information.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/game.GetGlobalState
----@param name string The name of the Global State to retrieve the state of.
+---@param name string The name of the Global State to retrieve the state of. 
 ---
 --- If the Global State by that name does not exist, **GLOBAL_DEAD** will be returned.
 ---
@@ -208,8 +208,8 @@ function game.GetMapNext() end
 --- Map revision is the amount of times the map file was saved in Hammer at the time of the map being compiled. This is useful to detect when a map has changed.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/game.GetMapVersion
----@return number # Revision of the currently loaded map.
----@return number # BSP version.
+---@return number # Revision of the currently loaded map. 
+---@return number # BSP version. 
 function game.GetMapVersion() end
 
 ---Returns the difficulty level of the game.
@@ -310,7 +310,7 @@ function game.RemoveRagdolls() end
 --- See [Global States](https://wiki.facepunch.com/gmod/Global_States) for more information.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/game.SetGlobalCounter
----@param name string The name of the Global State to set.
+---@param name string The name of the Global State to set. 
 ---
 --- If the Global State by that name does not exist, it will be created.
 ---
@@ -323,7 +323,7 @@ function game.SetGlobalCounter(name, count) end
 --- See [Global States](https://wiki.facepunch.com/gmod/Global_States) for more information.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/game.SetGlobalState
----@param name string The name of the Global State to set.
+---@param name string The name of the Global State to set. 
 ---
 --- If the Global State by that name does not exist, it will be created.
 ---
@@ -367,3 +367,4 @@ function game.SinglePlayer() end
 ---@source https://wiki.facepunch.com/gmod/game.StartSpot
 ---@return string # The name of the entity that should be used as start position.
 function game.StartSpot() end
+

@@ -4,7 +4,7 @@
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DNumPad
 ---@deprecated You should use DBinder instead.
----@class DNumPad : Panel
+---@class DNumPad : DPanel
 --- Table of DButton panels for each keypad button (0-15).
 ---@field Buttons table<integer, DButton>
 --- The currently selected button panel.
@@ -18,3 +18,4 @@
 --- Whether keys stay selected when pressed (sticky keys mode).
 ---@field m_bStickyKeys boolean
 local DNumPad = {}
+

@@ -33,3 +33,4 @@ function ContextBase:SetConVar(cvar) end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/ContextBase:TestForChanges
 function ContextBase:TestForChanges() end
+

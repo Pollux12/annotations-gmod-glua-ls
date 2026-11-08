@@ -28,3 +28,4 @@ function markup.Escape(text) end
 ---@param maxWidth? number The max width of the output.
 ---@return MarkupObject # The parsed markup object ready to be drawn via MarkupObject:Draw.
 function markup.Parse(markup, maxWidth) end
+

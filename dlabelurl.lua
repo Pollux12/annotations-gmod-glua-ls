@@ -73,3 +73,4 @@ function DLabelURL:SetTextStyleColor(color) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DLabelURL:UpdateFGColor
 function DLabelURL:UpdateFGColor() end
+

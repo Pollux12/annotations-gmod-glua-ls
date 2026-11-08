@@ -59,29 +59,9 @@ function constraint.AddConstraintTableNoDelete(ent1, constrt, ent2, ent3, ent4) 
 ---@param zFric? number Rotational friction in the Z axis local to the constraint.
 ---@param onlyRotation? number Only limit rotation, free movement.
 ---@param noCollide? number Whether the entities should be no-collided.
----@return Entity # A [phys_ragdollconstraint](https://developer.valvesoftware.com/wiki/Phys_ragdollconstraint) entity. Will return `false` if the constraint could not be created.
-function constraint.AdvBallsocket(
-	ent1,
-	ent2,
-	bone1,
-	bone2,
-	localPos1,
-	localPos2,
-	forceLimit,
-	torqueLimit,
-	xMin,
-	yMin,
-	zMin,
-	xMax,
-	yMax,
-	zMax,
-	xFric,
-	yFric,
-	zFric,
-	onlyRotation,
-	noCollide
-)
-end
+---@return ConstraintEntity|false # A [phys_ragdollconstraint](https://developer.valvesoftware.com/wiki/Phys_ragdollconstraint) entity. Will return `false` if the constraint could not be created.
+function constraint.AdvBallsocket(ent1, ent2, bone1, bone2, localPos1, localPos2, forceLimit, torqueLimit, xMin, yMin, zMin, xMax, yMax, zMax, xFric, yFric, zFric, onlyRotation, noCollide) end
+
 
 ---Creates an axis constraint.
 ---@realm server
@@ -102,22 +82,9 @@ end
 ---@param noCollide? number Whether the entities should be no-collided.
 ---@param localAxis? Vector If you include the LocalAxis then LPos2 will not be used in the final constraint. However, LPos2 is still a required argument.
 ---@param dontAddTable? boolean Whether or not to add the constraint info on the entity table. See constraint.AddConstraintTable.
----@return Entity # The created constraint. ([phys_hinge](https://developer.valvesoftware.com/wiki/Phys_hinge)) Will return `false` if the constraint could not be created.
-function constraint.Axis(
-	ent1,
-	ent2,
-	bone1,
-	bone2,
-	localPos1,
-	localPos2,
-	forceLimit,
-	torqueLimit,
-	friction,
-	noCollide,
-	localAxis,
-	dontAddTable
-)
-end
+---@return ConstraintEntity|false # The created constraint. ([phys_hinge](https://developer.valvesoftware.com/wiki/Phys_hinge)) Will return `false` if the constraint could not be created.
+function constraint.Axis(ent1, ent2, bone1, bone2, localPos1, localPos2, forceLimit, torqueLimit, friction, noCollide, localAxis, dontAddTable) end
+
 
 ---Creates a ballsocket joint. See See [constraint.AdvBallsocket](https://wiki.facepunch.com/gmod/constraint.AdvBallsocket) if you also wish to limit rotation angles in some way.
 ---@realm server
@@ -134,8 +101,9 @@ end
 ---@param forceLimit? number Amount of force until it breaks (0 = unbreakable).
 ---@param torqueLimit? number Amount of torque (rotational force) until it breaks (0 = unbreakable).
 ---@param nocollide? number Whether the constrained entities should collided with each other or not.
----@return Entity # The created constraint. ([phys_ballsocket](https://developer.valvesoftware.com/wiki/Phys_ballsocket)) Will return `false` if the constraint could not be created.
+---@return ConstraintEntity|false # The created constraint. ([phys_ballsocket](https://developer.valvesoftware.com/wiki/Phys_ballsocket)) Will return `false` if the constraint could not be created.
 function constraint.Ballsocket(ent1, ent2, bone1, bone2, localPos, forceLimit, torqueLimit, nocollide) end
+
 
 ---Basic checks to make sure that the specified entity and bone are valid. Returns false if we should not be constraining the entity.
 ---@realm server
@@ -164,20 +132,7 @@ function constraint.CanConstrain(ent, bone) end
 --- See Entity:TranslateBoneToPhysBone.
 ---@param keyValues? table Any additional key/values to be set on the rope.
 ---@return Entity # The created rope ([keyframe_rope](https://developer.valvesoftware.com/wiki/Keyframe_rope)), or `nil` or failure.
-function constraint.CreateKeyframeRope(
-	pos,
-	width,
-	material,
-	constraint,
-	ent1,
-	localPos1,
-	bone1,
-	ent2,
-	localPos2,
-	bone2,
-	keyValues
-)
-end
+function constraint.CreateKeyframeRope(pos, width, material, constraint, ent1, localPos1, bone1, ent2, localPos2, bone2, keyValues) end
 
 ---Creates an invisible, non-moveable anchor point in the world to which things can be attached.
 --- 	**NOTE**: The entity used internally by this function (`gmod_anchor`) only exists in Sandbox derived gamemodes, meaning this function will only work in these gamemodes.
@@ -210,24 +165,10 @@ function constraint.CreateStaticAnchorPoint(pos) end
 ---@param width number Width of rope.
 ---@param stretchOnly? boolean|number Apply physics forces only on stretch.
 ---@param color? Color The color of the rope. See Color.
----@return Entity|false|nil # The created constraint. ([phys_spring](https://developer.valvesoftware.com/wiki/Phys_spring)) Returns `false` for invalid inputs and `nil` when no spring is created.
+---@return ConstraintEntity|false|nil # The created constraint. ([phys_spring](https://developer.valvesoftware.com/wiki/Phys_spring)) Returns `false` for invalid inputs and `nil` when no spring is created.
 ---@return Entity? # The created rope. ([keyframe_rope](https://developer.valvesoftware.com/wiki/Keyframe_rope)) Returns `nil` if no rope was created.
-function constraint.Elastic(
-	ent1,
-	ent2,
-	bone1,
-	bone2,
-	localPos1,
-	localPos2,
-	constant,
-	damping,
-	relDamping,
-	material,
-	width,
-	stretchOnly,
-	color
-)
-end
+function constraint.Elastic(ent1, ent2, bone1, bone2, localPos1, localPos2, constant, damping, relDamping, material, width, stretchOnly, color) end
+
 
 ---Returns the constraint of a specified type between two entities, if it exists
 ---@realm server
@@ -371,29 +312,12 @@ function constraint.HasConstraints(ent) end
 ---@param material string The material of the rope.
 ---@param toggle boolean Toggle behavior flag.
 ---@param color Color The color of the rope. See Color.
----@return Entity|false|nil # The created spring constraint. Returns `false` for invalid inputs.
+---@return ConstraintEntity|false|nil # The created spring constraint. Returns `false` for invalid inputs.
 ---@return Entity? # The created rope entity (`keyframe_rope`). Returns `nil` if no rope was created.
 ---@return gmod_winch_controller? # The created winch controller.
----@return Entity? # The created slider constraint if `fixed` is 1.
-function constraint.Hydraulic(
-	pl,
-	ent1,
-	ent2,
-	bone1,
-	bone2,
-	localPos1,
-	localPos2,
-	lengthMin,
-	lengthMax,
-	width,
-	key,
-	fixed,
-	speed,
-	material,
-	toggle,
-	color
-)
-end
+---@return ConstraintEntity? # The created slider constraint if `fixed` is 1.
+function constraint.Hydraulic(pl, ent1, ent2, bone1, bone2, localPos1, localPos2, lengthMin, lengthMax, width, key, fixed, speed, material, toggle, color) end
+
 
 ---Creates a keep upright constraint.
 ---@realm server
@@ -402,8 +326,9 @@ end
 ---@param ang Angle The angle defined as "upright".
 ---@param bone number The bone of the entity to constrain (0 for boneless).
 ---@param angularLimit number Basically, the strength of the constraint. Must be above 0.
----@return Entity # The created constraint, if any or false if the constraint failed to set.
+---@return ConstraintEntity|false|nil # The created constraint, if any or false if the constraint failed to set.
 function constraint.Keepupright(ent, ang, bone, angularLimit) end
+
 
 ---Creates a motor constraint, a player controllable [constraint.Axis](https://wiki.facepunch.com/gmod/constraint.Axis).
 ---@realm server
@@ -429,28 +354,10 @@ function constraint.Keepupright(ent, ang, bone, angularLimit) end
 ---@param key_bwd? number The key binding for "backwards", corresponding to an Enums/KEY.
 ---@param direction? number Either `1` or `-1` signifying which direction the motor should spin.
 ---@param localAxis? Vector Overrides axis of rotation?
----@return Entity|false # The created constraint. ([phys_torque](https://developer.valvesoftware.com/wiki/Phys_torque)) Will return `false` if the constraint could not be created.
----@return Entity? # The created axis constraint. ([phys_hinge](https://developer.valvesoftware.com/wiki/Phys_hinge)) Will return `nil` if the constraint could not be created.
-function constraint.Motor(
-	ent1,
-	ent2,
-	bone1,
-	bone2,
-	localPos1,
-	localPos2,
-	friction,
-	torque,
-	forcetime,
-	nocollide,
-	toggle,
-	player,
-	forcelimit,
-	key_fwd,
-	key_bwd,
-	direction,
-	localAxis
-)
-end
+---@return ConstraintEntity|false # The created constraint. ([phys_torque](https://developer.valvesoftware.com/wiki/Phys_torque)) Will return `false` if the constraint could not be created.
+---@return ConstraintEntity? # The created axis constraint. ([phys_hinge](https://developer.valvesoftware.com/wiki/Phys_hinge)) Will return `nil` if the constraint could not be created.
+function constraint.Motor(ent1, ent2, bone1, bone2, localPos1, localPos2, friction, torque, forcetime, nocollide, toggle, player, forcelimit, key_fwd, key_bwd, direction, localAxis) end
+
 
 ---Creates a Muscle constraint.
 ---@realm server
@@ -472,30 +379,12 @@ end
 ---@param starton boolean Whether the muscle starts relaxed or active.
 ---@param material string The material of the rope.
 ---@param color Color The color of the rope. See Color.
----@return Entity|false|nil # The created spring constraint. Returns `false` for invalid inputs.
+---@return ConstraintEntity|false # The created spring constraint. Returns `false` for invalid inputs.
 ---@return Entity? # The created rope entity (`keyframe_rope`). Returns `nil` if no rope was created.
 ---@return gmod_winch_controller? # The created winch controller.
----@return Entity? # The created slider constraint if `fixed` is 1.
-function constraint.Muscle(
-	pl,
-	ent1,
-	ent2,
-	bone1,
-	bone2,
-	localPos1,
-	localPos2,
-	length1,
-	length2,
-	width,
-	key,
-	fixed,
-	period,
-	amplitude,
-	starton,
-	material,
-	color
-)
-end
+---@return ConstraintEntity? # The created slider constraint if `fixed` is 1.
+function constraint.Muscle(pl, ent1, ent2, bone1, bone2, localPos1, localPos2, length1, length2, width, key, fixed, period, amplitude, starton, material, color) end
+
 
 ---Creates an no-collide "constraint". Disables collision between two entities.
 --- **NOTE**: Does not work with players.
@@ -510,8 +399,9 @@ end
 ---
 --- See Entity:TranslateBoneToPhysBone.
 ---@param disableOnRemove? boolean If set, the nocollide will be reversed if the constraint is removed.
----@return Entity # The created constraint. ([logic_collision_pair](https://developer.valvesoftware.com/wiki/Logic_collision_pair)) Will return `false` if the constraint could not be created.
+---@return ConstraintEntity|false|nil # The created constraint. ([logic_collision_pair](https://developer.valvesoftware.com/wiki/Logic_collision_pair)) Will return `false` if the constraint could not be created.
 function constraint.NoCollide(ent1, ent2, bone1, bone2, disableOnRemove) end
+
 
 ---Creates a pulley constraint.
 ---
@@ -543,26 +433,12 @@ function constraint.NoCollide(ent1, ent2, bone1, bone2, disableOnRemove) end
 ---@param width number Width of the rope. If below or at `0`, visual rope segments will not be created.
 ---@param material? string Material of the rope. If unset, will be solid black.
 ---@param color? Color The color of the rope.
----@return Entity # The created constraint. ([phys_pulleyconstraint](https://developer.valvesoftware.com/wiki/Phys_pulleyconstraint)) Will return `false` if the constraint could not be created.
----@return Entity # The first rope segment. ([keyframe_rope](https://developer.valvesoftware.com/wiki/Keyframe_rope)) Will return `nil` if the constraint or this rope segment could not be created.
----@return Entity # The second rope segment. ([keyframe_rope](https://developer.valvesoftware.com/wiki/Keyframe_rope)) Will return `nil` if the constraint or this rope segment could not be created.
----@return Entity # The third rope segment. ([keyframe_rope](https://developer.valvesoftware.com/wiki/Keyframe_rope)) Will return `nil` if the constraint or this rope segment could not be created.
-function constraint.Pulley(
-	ent1,
-	ent4,
-	bone1,
-	bone4,
-	localPos1,
-	localPos4,
-	worldPos2,
-	worldPos3,
-	forceLimit,
-	rigid,
-	width,
-	material,
-	color
-)
-end
+---@return ConstraintEntity|false # The created constraint. ([phys_pulleyconstraint](https://developer.valvesoftware.com/wiki/Phys_pulleyconstraint)) Will return `false` if the constraint could not be created.
+---@return Entity? # The first rope segment. ([keyframe_rope](https://developer.valvesoftware.com/wiki/Keyframe_rope)) Will return `nil` if the constraint or this rope segment could not be created.
+---@return Entity? # The second rope segment. ([keyframe_rope](https://developer.valvesoftware.com/wiki/Keyframe_rope)) Will return `nil` if the constraint or this rope segment could not be created.
+---@return Entity? # The third rope segment. ([keyframe_rope](https://developer.valvesoftware.com/wiki/Keyframe_rope)) Will return `nil` if the constraint or this rope segment could not be created.
+function constraint.Pulley(ent1, ent4, bone1, bone4, localPos1, localPos4, worldPos2, worldPos3, forceLimit, rigid, width, material, color) end
+
 
 ---Attempts to remove all constraints associated with an entity.
 ---@realm server
@@ -601,26 +477,12 @@ function constraint.RemoveConstraints(ent, type) end
 ---@param material? string Material of the rope. If unset, will be solid black.
 ---@param rigid? boolean Whether the constraint is rigid.
 ---@param color? Color The color of the rope.
----@return Entity # The constraint entity ([phys_lengthconstraint](https://developer.valvesoftware.com/wiki/Phys_lengthconstraint)).
+---@return ConstraintEntity|false|nil # The constraint entity ([phys_lengthconstraint](https://developer.valvesoftware.com/wiki/Phys_lengthconstraint)).
 ---
 --- Will be a `keyframe_rope` if you are roping to the same bone on the same entity. Will return `false` if the constraint could not be created.
----@return Entity # The rope entity. Will return `nil` if `constraint` return value is a [keyframe_rope](https://developer.valvesoftware.com/wiki/Keyframe_rope) or if the constraint could not be created.
-function constraint.Rope(
-	ent1,
-	ent2,
-	bone1,
-	bone2,
-	localPos1,
-	localPos2,
-	length,
-	addLength,
-	forceLimit,
-	width,
-	material,
-	rigid,
-	color
-)
-end
+---@return Entity? # The rope entity. Will return `nil` if `constraint` return value is a [keyframe_rope](https://developer.valvesoftware.com/wiki/Keyframe_rope) or if the constraint could not be created.
+function constraint.Rope(ent1, ent2, bone1, bone2, localPos1, localPos2, length, addLength, forceLimit, width, material, rigid, color) end
+
 
 ---Creates a slider constraint. A slider is like a rope, but allows the constrained object to move only in 1 direction.
 ---@realm server
@@ -638,9 +500,10 @@ end
 ---@param width number The width of the rope.
 ---@param material? string The material of the rope. If unset, will be solid black.
 ---@param color? Color The color of the rope. See Color.
----@return Entity # The created constraint entity. ([phys_slideconstraint](https://developer.valvesoftware.com/wiki/Phys_slideconstraint)) Will return `false` if the constraint could not be created.
----@return Entity # The created rope. ([keyframe_rope](https://developer.valvesoftware.com/wiki/Keyframe_rope)) Will return `nil` if the constraint or the rope could not be created.
+---@return ConstraintEntity|false|nil # The created constraint entity. ([phys_slideconstraint](https://developer.valvesoftware.com/wiki/Phys_slideconstraint)) Will return `false` if the constraint could not be created.
+---@return Entity? # The created rope. ([keyframe_rope](https://developer.valvesoftware.com/wiki/Keyframe_rope)) Will return `nil` if the constraint or the rope could not be created.
 function constraint.Slider(ent1, ent2, bone1, bone2, localPos1, localPos2, width, material, color) end
+
 
 ---Creates a weld constraint.
 ---@realm server
@@ -654,8 +517,9 @@ function constraint.Slider(ent1, ent2, bone1, bone2, localPos1, localPos2, width
 ---@param forceLimit? number The amount of force appliable to the constraint before it will break (0 is never).
 ---@param noCollide? boolean|number Should `ent1` be nocollided to `ent2` via this constraint.
 ---@param deleteEnt1OnBreak? boolean|number If true, when `ent2` is removed, `ent1` will also be removed.
----@return Entity|false # The created constraint entity, or false if the constraint failed. ([phys_constraint](https://developer.valvesoftware.com/wiki/Phys_constraint))
+---@return ConstraintEntity|false # The created constraint entity, or false if the constraint failed. ([phys_constraint](https://developer.valvesoftware.com/wiki/Phys_constraint))
 function constraint.Weld(ent1, ent2, bone1, bone2, forceLimit, noCollide, deleteEnt1OnBreak) end
+
 
 ---Creates a Winch constraint.
 ---@realm server
@@ -675,24 +539,9 @@ function constraint.Weld(ent1, ent2, bone1, bone2, forceLimit, noCollide, delete
 ---@param material string The material of the rope.
 ---@param toggle boolean Toggle behavior flag.
 ---@param color Color The color of the rope. See Color.
----@return Entity|false|nil # The created spring constraint. Returns `false` for invalid inputs.
+---@return ConstraintEntity|false|nil # The created spring constraint. Returns `false` for invalid inputs.
 ---@return Entity? # The created rope entity (`keyframe_rope`). Returns `nil` if no rope was created.
 ---@return gmod_winch_controller? # The created winch controller.
-function constraint.Winch(
-	pl,
-	ent1,
-	ent2,
-	bone1,
-	bone2,
-	localPos1,
-	localPos2,
-	width,
-	fwd_bind,
-	bwd_bind,
-	fwd_speed,
-	bwd_speed,
-	material,
-	toggle,
-	color
-)
-end
+function constraint.Winch(pl, ent1, ent2, bone1, bone2, localPos1, localPos2, width, fwd_bind, bwd_bind, fwd_speed, bwd_speed, material, toggle, color) end
+
+

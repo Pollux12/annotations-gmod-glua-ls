@@ -92,6 +92,7 @@ function debug.gethook(thread) end
 ---@nodiscard
 function debug.getinfo(f, what) end
 
+
 ---Returns the name and value of a local variable at a stack level or in a function.
 ---
 ---The thread argument is optional. An out-of-range stack level or local index returns nil.
@@ -107,6 +108,7 @@ function debug.getinfo(f, what) end
 ---@nodiscard
 function debug.getlocal(thread, level, index) end
 
+
 ---Returns the metatable of an object. This function ignores the metatable's __metatable field.
 ---@deprecated
 ---@realm shared
@@ -116,6 +118,7 @@ function debug.getlocal(thread, level, index) end
 ---@param object T The value to get the metatable of.
 ---@return (definition) T # The metatable of the value.
 function debug.getmetatable(object) end
+
 
 ---Returns the internal Lua registry table.
 ---
@@ -138,7 +141,7 @@ function debug.getregistry() end
 ---@return any # Value of the upvalue.
 function debug.getupvalue(func, index) end
 
----Sets the environment of the passed object.
+---Sets the environment of the passed object.  
 ---
 --- Unlike [Global.setfenv](https://wiki.facepunch.com/gmod/Global.setfenv), this also works on **any** userdata, allowing you to save data stored to it which can be accessed using [debug.getfenv](https://wiki.facepunch.com/gmod/debug.getfenv).
 --- Userdata seem to intentionally support this & setting/changing it does not affect anything (though unused by gmod / Entities and such don't this)
@@ -163,6 +166,7 @@ function debug.setfenv(object, env) end
 ---@param count? number
 function debug.sethook(thread, hook, mask, count) end
 
+
 ---This function was removed due to security concerns.
 ---
 --- Sets a local variable's value.
@@ -170,7 +174,7 @@ function debug.sethook(thread, hook, mask, count) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/debug.setlocal
 ---@param thread? thread The thread.
----@param level number The level above the thread.
+---@param level number The level above the thread.  
 ---
 --- 0 is the function that was called (most always this function)'s arguments.
 ---
@@ -241,8 +245,9 @@ function debug.upvalueid(func, index) end
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/debug.upvaluejoin
----@param func1 function
+---@param func1 function 
 ---@param upvalueIndex1 number The index of the upvalue in `func1`.
----@param func2 function
+---@param func2 function 
 ---@param upvalueIndex2 number The index of the upvalue in `func2`.
 function debug.upvaluejoin(func1, upvalueIndex1, func2, upvalueIndex2) end
+

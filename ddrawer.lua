@@ -52,3 +52,4 @@ function DDrawer:SetOpenTime(value) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DDrawer:Toggle
 function DDrawer:Toggle() end
+

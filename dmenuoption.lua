@@ -34,7 +34,7 @@ function DMenuOption:GetChecked() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DMenuOption:GetIsCheckable
----@return boolean #
+---@return boolean # 
 function DMenuOption:GetIsCheckable() end
 
 ---Returns which [DMenu](https://wiki.facepunch.com/gmod/DMenu) this option belongs.
@@ -107,3 +107,4 @@ function DMenuOption:SetSubMenu(menu) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DMenuOption:ToggleCheck
 function DMenuOption:ToggleCheck() end
+

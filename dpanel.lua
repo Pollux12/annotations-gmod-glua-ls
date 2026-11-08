@@ -54,7 +54,7 @@ function DPanel:GetPaintBackground() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DPanel:GetTabbingDisabled
----@return boolean #
+---@return boolean # 
 function DPanel:GetTabbingDisabled() end
 
 ---Sets the background color of the panel.
@@ -102,7 +102,7 @@ function DPanel:SetPaintBackground(paint) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DPanel:SetTabbingDisabled
----@param draw boolean
+---@param draw boolean 
 function DPanel:SetTabbingDisabled(draw) end
 
 ---Does nothing.
@@ -110,3 +110,4 @@ function DPanel:SetTabbingDisabled(draw) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DPanel:UpdateColours
 function DPanel:UpdateColours() end
+

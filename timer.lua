@@ -33,6 +33,7 @@ function timer.Check() end
 ---@param func function Function called when timer has finished the countdown.
 function timer.Create(identifier, delay, repetitions, func) end
 
+
 ---Stops and destroys the given timer. Alias of [timer.Remove](https://wiki.facepunch.com/gmod/timer.Remove).
 ---@realm shared
 ---@realm menu
@@ -96,6 +97,7 @@ function timer.RepsLeft(identifier) end
 ---@param func function Function called when timer has finished the countdown.
 function timer.Simple(delay, func) end
 
+
 ---Restarts the given timer.
 ---
 --- **WARNING**: Timers won't advance while the client is timing out from the server.
@@ -135,3 +137,4 @@ function timer.Toggle(identifier) end
 ---@source https://wiki.facepunch.com/gmod/timer.UnPause
 ---@param identifier any Identifier of the timer.
 function timer.UnPause(identifier) end
+

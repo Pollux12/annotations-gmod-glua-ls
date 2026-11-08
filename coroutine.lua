@@ -11,7 +11,7 @@ coroutine = {}
 ---@return thread # The created coroutine.
 function coroutine.create(func) end
 
----Returns whether the running coroutine can yield.
+---Returns whether the running coroutine can yield.  
 --- A running coroutine is yieldable if it is not in the main thread, and it is not inside a non-yieldable C function.
 --- **NOTE**: This is only available on the x86-64 versions, because of the difference in the LuaJIT version. [See here](https://wiki.facepunch.com/gmod/jit.version)
 ---@realm shared
@@ -45,7 +45,7 @@ function coroutine.running() end
 ---@return string # The coroutine's status.
 function coroutine.status(coroutine) end
 
----Repeatedly yields the coroutine for the given duration before continuing.
+---Repeatedly yields the coroutine for the given duration before continuing. 
 ---
 --- Only works inside a coroutine. Only useful in nextbot coroutine think function.
 ---
@@ -62,7 +62,7 @@ function coroutine.wait(duration) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/coroutine.wrap
 ---@param coroutine function Coroutine to resume.
----@return function #
+---@return function # 
 function coroutine.wrap(coroutine) end
 
 ---Pauses the active coroutine and passes all additional variables to the call of [coroutine.resume](https://wiki.facepunch.com/gmod/coroutine.resume) that resumed the coroutine last time, and returns all additional variables that were passed to the previous call of resume.
@@ -72,3 +72,4 @@ function coroutine.wrap(coroutine) end
 ---@param ... any Arguments to be returned by the last call of coroutine.resume.
 ---@return any ... # Arguments that were set previously by coroutine.resume.
 function coroutine.yield(...) end
+

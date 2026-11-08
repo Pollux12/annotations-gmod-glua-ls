@@ -45,3 +45,4 @@ function MarkupObject:GetWidth() end
 ---@return number # The computed width.
 ---@return number # The computed height.
 function MarkupObject:Size() end
+

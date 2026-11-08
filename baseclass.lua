@@ -24,6 +24,7 @@ baseclass = {}
 ---@return (definition) `T` # The base class's meta table.
 function baseclass.Get(name) end
 
+
 ---Add a new base class that can be derived by others. This is done automatically for:
 --- * [panels](https://wiki.facepunch.com/gmod/vgui.Register)
 --- * [drive modes](https://wiki.facepunch.com/gmod/drive.Register)
@@ -38,3 +39,4 @@ function baseclass.Get(name) end
 ---@param name string The name of this base class. Must be completely unique.
 ---@param tab table The base class.
 function baseclass.Set(name, tab) end
+

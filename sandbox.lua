@@ -16,46 +16,6 @@
 ---@class (partial) SANDBOX : GM
 local SANDBOX = {}
 
----@hook PopulateContent
----@realm client
----@param pnlContent SpawnmenuContentPanel
----@param tree DTree
----@param node DTree_Node
-function SANDBOX:PopulateContent(pnlContent, tree, node) end
-
----@hook PopulateEntities
----@realm client
----@param pnlContent SpawnmenuContentPanel
----@param tree DTree
----@param node DTree_Node
-function SANDBOX:PopulateEntities(pnlContent, tree, node) end
-
----@hook PopulateNPCs
----@realm client
----@param pnlContent SpawnmenuContentPanel
----@param tree DTree
----@param node DTree_Node
-function SANDBOX:PopulateNPCs(pnlContent, tree, node) end
-
----@hook PopulateVehicles
----@realm client
----@param pnlContent SpawnmenuContentPanel
----@param tree DTree
----@param node DTree_Node
-function SANDBOX:PopulateVehicles(pnlContent, tree, node) end
-
----@hook PopulateWeapons
----@realm client
----@param pnlContent SpawnmenuContentPanel
----@param tree DTree
----@param node DTree_Node
-function SANDBOX:PopulateWeapons(pnlContent, tree, node) end
-
----@hook SpawnlistOpenGenericMenu
----@realm client
----@param canvas DDragBase
-function SANDBOX:SpawnlistOpenGenericMenu(canvas) end
-
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
 --- This hook is used to add default categories to spawnmenu tool tabs.
@@ -390,30 +350,33 @@ function SANDBOX:PlayerSpawnVehicle(ply, model, name, table) end
 ---@hook PopulateContent
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/SANDBOX:PopulateContent
----@param pnlContent Panel The SpawnmenuContentPanel
----@param tree Panel The ContentNavBar tree from the SpawnmenuContentPanel
----@param node Panel The old Spawnlists
+---@param pnlContent SpawnmenuContentPanel The SpawnmenuContentPanel
+---@param tree DTree The ContentNavBar tree from the SpawnmenuContentPanel
+---@param node DTree_Node The old Spawnlists
 function SANDBOX:PopulateContent(pnlContent, tree, node) end
+
 
 ---Called by the spawnmenu when the Entities tab is generated
 --- 	**WARNING**: Creating an error in this Hook will result in a completely broken Entites Tab
 ---@hook PopulateEntities
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/SANDBOX:PopulateEntities
----@param pnlContent Panel The SpawnmenuContentPanel
----@param tree Panel The ContentNavBar tree from the SpawnmenuContentPanel
----@param node Panel The old Spawnlists
+---@param pnlContent SpawnmenuContentPanel The SpawnmenuContentPanel
+---@param tree DTree The ContentNavBar tree from the SpawnmenuContentPanel
+---@param node DTree_Node The old Spawnlists
 function SANDBOX:PopulateEntities(pnlContent, tree, node) end
+
 
 ---Called by the spawnmenu when the NPCs tab is generated
 --- 	**WARNING**: Creating an error in this Hook will result in a completely broken NPCs Tab
 ---@hook PopulateNPCs
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/SANDBOX:PopulateNPCs
----@param pnlContent Panel The SpawnmenuContentPanel
----@param tree Panel The ContentNavBar tree from the SpawnmenuContentPanel
----@param node Panel The old Spawnlists
+---@param pnlContent SpawnmenuContentPanel The SpawnmenuContentPanel
+---@param tree DTree The ContentNavBar tree from the SpawnmenuContentPanel
+---@param node DTree_Node The old Spawnlists
 function SANDBOX:PopulateNPCs(pnlContent, tree, node) end
+
 
 ---This hook makes the engine load the spawnlist text files.
 --- It calls [spawnmenu.PopulateFromEngineTextFiles](https://wiki.facepunch.com/gmod/spawnmenu.PopulateFromEngineTextFiles) by default.
@@ -433,20 +396,22 @@ function SANDBOX:PopulateToolMenu() end
 ---@hook PopulateVehicles
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/SANDBOX:PopulateVehicles
----@param pnlContent Panel The SpawnmenuContentPanel
----@param tree Panel The ContentNavBar tree from the SpawnmenuContentPanel
----@param node Panel The old Spawnlists
+---@param pnlContent SpawnmenuContentPanel The SpawnmenuContentPanel
+---@param tree DTree The ContentNavBar tree from the SpawnmenuContentPanel
+---@param node DTree_Node The old Spawnlists
 function SANDBOX:PopulateVehicles(pnlContent, tree, node) end
+
 
 ---Called by the spawnmenu when the Weapons tab is generated
 --- 	**WARNING**: Creating an error in this Hook will result in a completely broken Weapons Tab
 ---@hook PopulateWeapons
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/SANDBOX:PopulateWeapons
----@param pnlContent Panel The SpawnmenuContentPanel
----@param tree Panel The ContentNavBar tree from the SpawnmenuContentPanel
----@param node Panel The old Spawnlists
+---@param pnlContent SpawnmenuContentPanel The SpawnmenuContentPanel
+---@param tree DTree The ContentNavBar tree from the SpawnmenuContentPanel
+---@param node DTree_Node The old Spawnlists
 function SANDBOX:PopulateWeapons(pnlContent, tree, node) end
+
 
 ---Called right after the Lua Loaded tool menus are reloaded. This is a good place to set up any [ControlPanel](https://wiki.facepunch.com/gmod/ControlPanel)s.
 ---@hook PostReloadToolsMenu
@@ -481,8 +446,9 @@ function SANDBOX:SpawnlistContentChanged() end
 ---@hook SpawnlistOpenGenericMenu
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/SANDBOX:SpawnlistOpenGenericMenu
----@param canvas Panel The canvas that has the selection. (Panel:GetSelectionCanvas)
+---@param canvas DDragBase The canvas that has the selection. (Panel:GetSelectionCanvas)
 function SANDBOX:SpawnlistOpenGenericMenu(canvas) end
+
 
 ---If false is returned then the spawn menu is never created. This saves load times if your mod doesn't actually use the spawn menu for any reason.
 ---@hook SpawnMenuEnabled
@@ -529,3 +495,56 @@ function SANDBOX:SpawnMenuOpen() end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/SANDBOX:SpawnMenuOpened
 function SANDBOX:SpawnMenuOpened() end
+
+
+---Queues the named hint to be shown after a delay, once per session.
+---@realm client
+---@source https://github.com/Facepunch/garrysmod/blob/master/garrysmod/gamemodes/sandbox/gamemode/cl_hints.lua#L42
+---@param name string The hint name, used to look up the `Hint_<name>` phrase.
+---@param delay number Seconds to wait before showing the hint.
+function SANDBOX:AddHint(name, delay) end
+
+---Adds an option to the "Main" tool tab.
+---@deprecated Use spawnmenu.AddToolMenuOption instead.
+---@realm client
+---@source https://github.com/Facepunch/garrysmod/blob/master/garrysmod/gamemodes/sandbox/gamemode/cl_spawnmenu.lua#L71
+---@param category string The internal name of the category to add into.
+---@param itemname string Unique internal identifier of the new option.
+---@param text string The nice name of the option.
+---@param command? string Console command to execute when the option is selected.
+---@param controls? string Config name for older tool settings files.
+---@param cpanelfunction? fun(pnl: ControlPanel) A function to build the context panel.
+function SANDBOX:AddSTOOL(category, itemname, text, command, controls, cpanelfunction) end
+
+---Returns the tool menu tab with the given name.
+---@deprecated Use spawnmenu.GetToolMenu instead.
+---@realm client
+---@source https://github.com/Facepunch/garrysmod/blob/master/garrysmod/gamemodes/sandbox/gamemode/cl_spawnmenu.lua#L64
+---@param name string The internal name of the tool tab.
+---@return table # The categories and items of the tab, as spawnmenu.GetToolMenu returns.
+function SANDBOX:GetSpawnmenuTools(name) end
+
+---Notifies the local player that they hit the named sandbox limit. The server calls it through Player:LimitHit.
+---@hook LimitHit
+---@realm client
+---@source https://github.com/Facepunch/garrysmod/blob/master/garrysmod/gamemodes/sandbox/gamemode/cl_init.lua#L32
+---@param name string The sandbox limit category, such as `props`.
+function SANDBOX:LimitHit(name) end
+
+---Called when the spawn menu is closed.
+---@hook SpawnMenuClosed
+---@realm client
+---@source https://github.com/Facepunch/garrysmod/blob/master/garrysmod/gamemodes/sandbox/gamemode/spawnmenu/spawnmenu.lua#L264
+function SANDBOX:SpawnMenuClosed() end
+
+---Removes the named hint from the queue before it is shown.
+---@realm client
+---@source https://github.com/Facepunch/garrysmod/blob/master/garrysmod/gamemodes/sandbox/gamemode/cl_hints.lua#L54
+---@param name string The hint name passed to SANDBOX:AddHint.
+function SANDBOX:SuppressHint(name) end
+
+---Notifies the local player that a number of their objects were unfrozen.
+---@realm client
+---@source https://github.com/Facepunch/garrysmod/blob/master/garrysmod/gamemodes/sandbox/gamemode/cl_init.lua#L92
+---@param num number How many objects were unfrozen.
+function SANDBOX:UnfrozeObjects(num) end

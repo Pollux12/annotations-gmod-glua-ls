@@ -37,6 +37,7 @@ function Schedule:EngTask(taskname, taskdata) end
 ---@return Task task
 function Schedule:GetTask(num) end
 
+
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---  Initialises the Schedule. Called by [ai_schedule.New](https://wiki.facepunch.com/gmod/ai_schedule.New) when the Schedule is created.
 ---@realm server
@@ -49,3 +50,4 @@ function Schedule:Init(debugName) end
 ---@source https://wiki.facepunch.com/gmod/Schedule:NumTasks
 ---@return number # The number of tasks in this schedule.
 function Schedule:NumTasks() end
+

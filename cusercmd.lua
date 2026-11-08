@@ -211,3 +211,4 @@ function CUserCmd:SetViewAngles(viewAngle) end
 ---@source https://wiki.facepunch.com/gmod/CUserCmd:TickCount
 ---@return number # The amount of ticks passed since joining the server.
 function CUserCmd:TickCount() end
+

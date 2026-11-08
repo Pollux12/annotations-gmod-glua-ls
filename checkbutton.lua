@@ -9,3 +9,4 @@
 ---@deprecated Use DCheckBoxLabel instead.
 ---@class (partial) CheckButton
 local CheckButton = {}
+

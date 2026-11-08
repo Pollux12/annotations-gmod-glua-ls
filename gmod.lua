@@ -10,3 +10,4 @@ gmod = {}
 ---@source https://wiki.facepunch.com/gmod/gmod.GetGamemode
 ---@return GM # The `GAMEMODE` table.
 function gmod.GetGamemode() end
+

@@ -25,14 +25,14 @@ function DColorCombo:GetColor() end
 --- More of a internal method, it technically should only ever work (i.e. return true) inside [DColorCombo:OnValueChanged](https://wiki.facepunch.com/gmod/DColorCombo:OnValueChanged).
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DColorCombo:IsEditing
----@return boolean #
+---@return boolean # 
 function DColorCombo:IsEditing() end
 
 ---Called when the value (color) of this panel was changed. For override
 ---@hook OnValueChanged
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DColorCombo:OnValueChanged
----@param newcol Color
+---@param newcol Color 
 function DColorCombo:OnValueChanged(newcol) end
 
 ---An [Global.AccessorFunc](https://wiki.facepunch.com/gmod/Global.AccessorFunc) that returns the color of this panel. See also [DColorCombo:GetColor](https://wiki.facepunch.com/gmod/DColorCombo:GetColor)
@@ -40,3 +40,4 @@ function DColorCombo:OnValueChanged(newcol) end
 ---@source https://wiki.facepunch.com/gmod/DColorCombo:SetColor
 ---@param clr Color A Color.
 function DColorCombo:SetColor(clr) end
+

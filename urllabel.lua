@@ -7,3 +7,4 @@
 ---@source https://wiki.facepunch.com/gmod/URLLabel
 ---@class (partial) URLLabel
 local URLLabel = {}
+

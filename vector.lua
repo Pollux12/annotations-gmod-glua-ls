@@ -346,3 +346,4 @@ function Vector:WithinAABox(boxStart, boxEnd) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Vector:Zero
 function Vector:Zero() end
+

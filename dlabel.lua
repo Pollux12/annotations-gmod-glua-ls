@@ -84,7 +84,7 @@ function DLabel:GetAutoStretchVertical() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DLabel:GetBright
----@return boolean #
+---@return boolean # 
 function DLabel:GetBright() end
 
 ---Returns the actual color of the text.
@@ -102,7 +102,7 @@ function DLabel:GetColor() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DLabel:GetDark
----@return boolean #
+---@return boolean # 
 function DLabel:GetDark() end
 
 ---Gets the disabled state of the [DLabel](https://wiki.facepunch.com/gmod/DLabel). This is set with [DLabel:SetDisabled](https://wiki.facepunch.com/gmod/DLabel:SetDisabled).
@@ -143,7 +143,7 @@ function DLabel:GetFont() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DLabel:GetHighlight
----@return boolean #
+---@return boolean # 
 function DLabel:GetHighlight() end
 
 ---Used internally by [DComboBox](https://wiki.facepunch.com/gmod/DComboBox).
@@ -340,7 +340,7 @@ function DLabel:SetIsToggle(allowToggle) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DLabel:SetPaintBackground
----@param paint boolean
+---@param paint boolean 
 function DLabel:SetPaintBackground(paint) end
 
 ---Sets the text color of the [DLabel](https://wiki.facepunch.com/gmod/DLabel). This will take precedence over [DLabel:SetTextStyleColor](https://wiki.facepunch.com/gmod/DLabel:SetTextStyleColor).
@@ -383,6 +383,7 @@ function DLabel:Toggle() end
 ---@param skin SKIN The active Derma skin table.
 function DLabel:UpdateColours(skin) end
 
+
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
 --- Called internally to update the color of the text.
@@ -390,3 +391,4 @@ function DLabel:UpdateColours(skin) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DLabel:UpdateFGColor
 function DLabel:UpdateFGColor() end
+

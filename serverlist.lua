@@ -16,13 +16,13 @@ function serverlist.AddCurrentServerToFavorites(addOrRemove) end
 ---@param address string Server Address. **IP:Port like "127.0.0.1:27015"**
 function serverlist.AddServerToFavorites(address) end
 
----Returns true if the current server address is in their favorites.
+---Returns true if the current server address is in their favorites. 
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/serverlist.IsCurrentServerFavorite
 ---@return boolean # true if the current server is in their favorites
 function serverlist.IsCurrentServerFavorite() end
 
----Returns true if the given server address is in their favorites.
+---Returns true if the given server address is in their favorites. 
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/serverlist.IsServerFavorite
 ---@param address string Server Address. **IP:Port like "127.0.0.1:27015"**
@@ -63,3 +63,4 @@ function serverlist.Query(data) end
 ---@source https://wiki.facepunch.com/gmod/serverlist.RemoveServerFromFavorites
 ---@param address string Server Address. **IP:Port like "127.0.0.1:27015"**
 function serverlist.RemoveServerFromFavorites(address) end
+

@@ -14,6 +14,7 @@ hook = {}
 ---@param func function The function to be called, arguments given to it depend on the identifier used.
 function hook.Add(eventName, identifier, func) end
 
+
 ---Calls a hook and returns the first non-nil value returned by hook listeners.
 ---@realm shared
 ---@realm menu
@@ -25,6 +26,7 @@ function hook.Add(eventName, identifier, func) end
 ---@param ... any Arguments to pass to the hook.
 ---@return any
 function hook.Call(eventName, gamemodeTable, ...) end
+
 
 ---Returns a list of all the hooks registered with [hook.Add](https://wiki.facepunch.com/gmod/hook.Add).
 ---@realm shared
@@ -42,6 +44,7 @@ function hook.GetTable() end
 ---@param identifier any The unique identifier previously used with hook.Add.
 function hook.Remove(eventName, identifier) end
 
+
 ---Calls a hook without explicitly passing a gamemode table.
 ---@realm shared
 ---@realm menu
@@ -51,3 +54,5 @@ function hook.Remove(eventName, identifier) end
 ---@param ... any Arguments to pass to the hook.
 ---@return any
 function hook.Run(eventName, ...) end
+
+

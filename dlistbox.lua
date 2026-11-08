@@ -61,3 +61,18 @@ function DListBox:SetMultiple(multiple) end
 ---@source https://wiki.facepunch.com/gmod/DListBox:SetSelectedItems
 ---@param items table The items to select. A list of DListBoxItem.
 function DListBox:SetSelectedItems(items) end
+
+
+---Adds a labelled item to the list box.
+---@realm client
+---@source garrysmod/lua/vgui/dlistbox.lua
+---@param label string
+---@return DListBoxItem
+function DListBox:AddItem(label) end
+
+---Called when a list box item is selected.
+---@hook OnSelect
+---@realm client
+---@source garrysmod/lua/vgui/dlistbox.lua
+---@param item DListBoxItem
+function DListBox:OnSelect(item) end

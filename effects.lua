@@ -84,3 +84,4 @@ function effects.Register(effect_table, name) end
 --- This affects the default sound, as well as the distance from which the sound can be heard compared to the closest point on the tracer line to the Player:GetShootPos.
 ---@param soundOverride? string If set, this sound will be played instead of the default sound.
 function effects.TracerSound(start, endpos, tracerType, soundOverride) end
+

@@ -113,3 +113,4 @@ function achievements.SpawnedRagdoll() end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/achievements.SpawnMenuOpen
 function achievements.SpawnMenuOpen() end
+

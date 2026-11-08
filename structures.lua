@@ -82,7 +82,10 @@ local AngPos = {}
 --- Table used by panel animation methods, primarily [Panel:AnimationThinkInternal](https://wiki.facepunch.com/gmod/Panel:AnimationThinkInternal), and returned by [Panel:NewAnimation](https://wiki.facepunch.com/gmod/Panel:NewAnimation).
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/Structures/AnimationData
----@class (partial) AnimationData
+--- Table used by panel animation methods, primarily [Panel:AnimationThinkInternal](https://wiki.facepunch.com/gmod/Panel:AnimationThinkInternal), and returned by [Panel:NewAnimation](https://wiki.facepunch.com/gmod/Panel:NewAnimation).
+---@realm client
+---@source https://wiki.facepunch.com/gmod/Structures/AnimationData
+---@class (partial) AnimationData<T: Panel>
 ---The system time value returned by Global.SysTime when the animation starts/will start.
 ---@field StartTime number
 ---The system time value returned by Global.SysTime when the animation ends/will end.
@@ -96,7 +99,7 @@ local AngPos = {}
 --- Function argument(s):
 --- * table `animData` - This structure.
 --- * Panel `tgtPanel` - The panel the animation was run on.
----@field OnEnd fun(animData: table, tgtPanel: Panel)
+---@field OnEnd fun(animData: table, tgtPanel: T)
 ---The `think` function called every frame that will animate the panel object. This varies based on the animation. You can create a custom function for this if you aren't using the stock panel methods.
 ---
 --- Function argument(s):
@@ -104,7 +107,7 @@ local AngPos = {}
 --- * Panel `tgtPanel` - The panel the animation is being run on.
 ---
 --- The progress fraction of the animation, between 0 and 1. The change rate of this number will not be linear if you are easing.
----@field Think fun(animData: table, tgtPanel: Panel)
+---@field Think fun(animData: table, tgtPanel: T, fraction: number)
 ---The target position, or target translation of the panel object. Used by Panel:MoveTo and Panel:MoveBy respectively.
 ---@field Pos Vector
 ---The position of the panel object when the animation started. Used by Panel:MoveTo and Panel:MoveBy.
@@ -170,14 +173,14 @@ local BalloonData = {}
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Structures/BodyGroupData
 ---@class (partial) BodyGroupData
----The Body Group's ID.
+---The Body Group's ID.  
 --- Body Group IDs start at `0`.
 ---@field id number
 ---The name of the Body Group.
 ---@field name string
 ---The number of Sub Models in this Body Group, and the length of the `submodels` table.
 ---@field num number
----A table of the names of the Sub Models within this Body Group.
+---A table of the names of the Sub Models within this Body Group.  
 --- Sub Model IDs start at `0`.
 ---@field submodels string[]
 
@@ -293,7 +296,7 @@ local BoneWeight = {}
 --- * boolean damage - `false` to not do any damage.
 ---
 --- Default: `nil`
----@field Callback? fun(attacker: Entity, tr: table, dmgInfo: CTakeDamageInfo):(ret0: table)
+---@field Callback? fun(attacker: Entity, tr: table, dmgInfo: CTakeDamageInfo):(ret0: table?)
 ---The damage dealt by the bullet.
 ---
 --- If set to `0`, it means the damage should be calculated from the ammo type's ConVars if  the ammo type has `AMMO_INTERPRET_PLRDAMAGE_AS_DAMAGE_TO_PLAYER` flag set.
@@ -322,11 +325,10 @@ local BoneWeight = {}
 --- Default: `1`
 ---@field Tracer number=1
 ---The ammunition name.
---- See Default Ammo Types.
 ---
 --- Default: `<empty string>`
 ---@field AmmoType string=""
----The tracer name. See Default Effects.
+---The tracer name. You can find a list of default effects Default_Effects.
 ---
 --- Default: `nil`
 ---@field TracerName? string
@@ -806,6 +808,7 @@ ENT = {}
 ---@field BoneManip? table Bone manipulation data.
 ---@field MapCreationID? number The entity's MapCreationID, only exists for entities that were created by the map.
 ---@field WorkshopID? number Deprecated, always 0. See Entity:GetWorkshopID.
+---@field [string] any Fields from the entity's own table, which duplicator.CopyEntTable merges into the copy.
 local EntityCopyData = {}
 
 --- The table structure used for bullets that have already been fired.
@@ -1037,7 +1040,7 @@ local HTTPRequest = {}
 --- Table used by [util.TraceHull](https://wiki.facepunch.com/gmod/util.TraceHull).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Structures/HullTrace
----@class HullTrace
+---@class HullTrace : Trace
 local HullTrace = {}
 
 ---The start position of the trace
@@ -1199,12 +1202,12 @@ local MatProxyData = {}
 ---@field binormal Vector
 ---The position of the vertex in local space.
 ---@field pos Vector
----The horizontal coordinate of a position on the texture of the triangle that this vertex is a part of.
+---The horizontal coordinate of a position on the texture of the triangle that this vertex is a part of.  
 --- This controls which part of the texture is drawn at this vertex.
 ---
 --- In the range `0` (the texture's left edge) to `1` (the texture's right edge)
 ---@field u number
----The vertical coordinate of a position on the texture of the triangle that this vertex is a part of.
+---The vertical coordinate of a position on the texture of the triangle that this vertex is a part of.  
 --- This controls which part of the texture is drawn at this vertex.
 ---
 --- In the range `0` (the texture's top edge) to `1` (the texture's bottom edge)
@@ -1240,7 +1243,7 @@ local MeshVertex = {}
 ---
 --- This data can be parsed into a Lua table via util.KeyValuesToTablePreserveOrder
 ---@field KeyValues string
----Valve key-value formatted info about the model (`$keyvalues` command in the `.qc` of the model), if present.
+---Valve key-value formatted info about the model (`$keyvalues` command in the `.qc` of the model), if present. 
 ---
 --- Can describe things like health of a prop, flammability, etc.
 ---@field ModelKeyValues string
@@ -1793,7 +1796,7 @@ local RenderCamData = {}
 ---Height of the capture
 ---@field h number
 ---The quality of the capture. Affects jpeg only.
----@field quality number
+---@field quality? number
 ---Set to false to capture an image with alpha channel set to fully opaque. Affects any format with alpha channel support, so not `jpg`.
 ---
 --- Default: `true`
@@ -1941,12 +1944,12 @@ SoundData.sound = nil
 SoundData.name = nil
 
 ---The sound channel to play in. See Enums/CHAN
----@type CHAN
-SoundData.channel = nil
+---@type CHAN?
+SoundData.channel = CHAN_AUTO
 
 ---The soundlevel of the sound in dB. See Enums/SNDLVL. This will affect how far the sound can be heard.
----@type SNDLVL
-SoundData.level = nil
+---@type SNDLVL?
+SoundData.level = SNDLVL_NORM
 
 ---The volume of the sound as a decimal between `0` and `1`. Can be a table of two numbers, a minimum and a maximum value.
 ---
@@ -2327,23 +2330,14 @@ SWEP = {}
 
 local TeamData = {}
 
---- Override: make `text` and `pos` optional so that incrementally-built
---- TextData tables (e.g. in gmod_tool SWEP DrawHUD) do not produce
---- missing-fields / param-type-mismatch diagnostics.
---- The real draw.Text / draw.TextShadow functions do require these values
---- to be set before calling, but they are set on the same local table
---- before each call, not at construction time.
+---Structure used for [draw.Text](https://wiki.facepunch.com/gmod/draw.Text).
 ---@class (partial) TextData
 ---Text to be drawn.
----@field text? string
+---@field text? any
 ---This holds the X and Y coordinates. Key value 1 is x, key value 2 is y.
 ---@field pos? table
 
---- Override: make all TextureData fields optional so that incrementally-built
---- TextureData tables (e.g. in gmod_tool SWEP DrawHUD) do not produce
---- missing-fields diagnostics.
---- The real draw.TexturedQuad function does require these values to be set
---- before calling, but they are set on the same local table before each call.
+---Structure used for [draw.TexturedQuad](https://wiki.facepunch.com/gmod/draw.TexturedQuad).
 ---@class (partial) TextureData
 ---surface.GetTextureID number of the texture to be drawn.
 ---@field texture? number
@@ -2944,3 +2938,4 @@ local ViewData = {}
 ---@field offcenter table
 
 local ViewSetup = {}
+

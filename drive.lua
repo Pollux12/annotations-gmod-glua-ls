@@ -70,6 +70,7 @@ function drive.FinishMove(ply, mv) end
 ---@return DriveMethod?
 function drive.GetMethod(ply) end
 
+
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
 --- The move is executed here.
@@ -119,3 +120,4 @@ function drive.Start(ply, ent) end
 ---@param cmd CUserCmd The user command.
 ---@return boolean # True if succeeded.
 function drive.StartMove(ply, mv, cmd) end
+

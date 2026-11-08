@@ -26,11 +26,11 @@ function DPanelOverlay:GetType() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DPanelOverlay:PaintDifferentColours
----@param cola table
----@param colb table
----@param colc table
----@param cold table
----@param size number
+---@param cola table 
+---@param colb table 
+---@param colc table 
+---@param cold table 
+---@param size number 
 function DPanelOverlay:PaintDifferentColours(cola, colb, colc, cold, size) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -38,7 +38,7 @@ function DPanelOverlay:PaintDifferentColours(cola, colb, colc, cold, size) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DPanelOverlay:PaintInnerCorners
----@param size number
+---@param size number 
 function DPanelOverlay:PaintInnerCorners(size) end
 
 ---Sets the border color of the [DPanelOverlay](https://wiki.facepunch.com/gmod/DPanelOverlay).
@@ -59,3 +59,4 @@ function DPanelOverlay:SetColor(color) end
 --- * 2 - 4px corners of given type
 --- * 3 - 2 top? corners of hardcoded color, 2 other corners of given color
 function DPanelOverlay:SetType(type) end
+

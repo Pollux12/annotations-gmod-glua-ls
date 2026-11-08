@@ -26,3 +26,4 @@ function DBubbleContainer:OpenForPos(x, y, w, h) end
 ---@source https://wiki.facepunch.com/gmod/DBubbleContainer:SetBackgroundColor
 ---@param color Color The New Color
 function DBubbleContainer:SetBackgroundColor(color) end
+

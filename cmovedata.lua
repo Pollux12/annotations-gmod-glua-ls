@@ -58,19 +58,19 @@ function CMoveData:GetConstraintWidth() end
 ---Returns an internal player movement variable `m_outWishVel`.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/CMoveData:GetFinalIdealVelocity
----@return Vector #
+---@return Vector # 
 function CMoveData:GetFinalIdealVelocity() end
 
 ---Returns an internal player movement variable `m_outJumpVel`.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/CMoveData:GetFinalJumpVelocity
----@return Vector #
+---@return Vector # 
 function CMoveData:GetFinalJumpVelocity() end
 
 ---Returns an internal player movement variable `m_outStepHeight`.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/CMoveData:GetFinalStepHeight
----@return number #
+---@return number # 
 function CMoveData:GetFinalStepHeight() end
 
 ---Returns the players forward speed.
@@ -229,19 +229,19 @@ function CMoveData:SetConstraintWidth(number) end
 ---Sets an internal player movement variable `m_outWishVel`.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/CMoveData:SetFinalIdealVelocity
----@param idealVel Vector
+---@param idealVel Vector 
 function CMoveData:SetFinalIdealVelocity(idealVel) end
 
 ---Sets an internal player movement variable `m_outJumpVel`.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/CMoveData:SetFinalJumpVelocity
----@param jumpVel Vector
+---@param jumpVel Vector 
 function CMoveData:SetFinalJumpVelocity(jumpVel) end
 
 ---Sets an internal player movement variable `m_outStepHeight`.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/CMoveData:SetFinalStepHeight
----@param stepHeight number
+---@param stepHeight number 
 function CMoveData:SetFinalStepHeight(stepHeight) end
 
 ---Sets players forward speed.
@@ -320,3 +320,4 @@ function CMoveData:SetUpSpeed(speed) end
 ---@source https://wiki.facepunch.com/gmod/CMoveData:SetVelocity
 ---@param velocity Vector The velocity to set
 function CMoveData:SetVelocity(velocity) end
+

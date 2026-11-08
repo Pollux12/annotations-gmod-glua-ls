@@ -7,3 +7,4 @@
 ---@source https://wiki.facepunch.com/gmod/DProperty_Int
 ---@class (partial) DProperty_Int : DProperty_Float
 local DProperty_Int = {}
+

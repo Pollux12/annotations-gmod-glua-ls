@@ -96,13 +96,13 @@ function DTileLayout:GetMinHeight() end
 ---Returns the X axis spacing between 2 elements set by [DTileLayout:SetSpaceX](https://wiki.facepunch.com/gmod/DTileLayout:SetSpaceX).
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DTileLayout:GetSpaceX
----@return number #
+---@return number # 
 function DTileLayout:GetSpaceX() end
 
 ---Returns the Y axis spacing between 2 elements set by [DTileLayout:SetSpaceY](https://wiki.facepunch.com/gmod/DTileLayout:SetSpaceY).
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DTileLayout:GetSpaceY
----@return number #
+---@return number # 
 function DTileLayout:GetSpaceY() end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -142,7 +142,7 @@ function DTileLayout:SetBaseSize(size) end
 ---Sets the spacing between the border/edge of the [DTileLayout](https://wiki.facepunch.com/gmod/DTileLayout) and all the elements inside.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DTileLayout:SetBorder
----@param border number
+---@param border number 
 function DTileLayout:SetBorder(border) end
 
 ---Determines the minimum height the DTileLayout will resize to. This is useful if child panels will be added/removed often.
@@ -171,3 +171,4 @@ function DTileLayout:SetSpaceY(spaceY) end
 ---@param y number The y coordinate of the tile.
 ---@param state any The new state of the tile, normally `1` or `nil`.
 function DTileLayout:SetTile(x, y, state) end
+

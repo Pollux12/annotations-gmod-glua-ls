@@ -50,6 +50,7 @@ function DForm:CheckBox(label, convar) end
 ---@return DLabel # The created DLabel
 function DForm:ComboBox(title, convar) end
 
+
 ---Adds a [DLabel](https://wiki.facepunch.com/gmod/DLabel) onto the [DForm](https://wiki.facepunch.com/gmod/DForm). Unlike [DForm:Help](https://wiki.facepunch.com/gmod/DForm:Help), this is indented and is colored blue, depending on the derma skin.
 ---@realm client
 ---@realm menu
@@ -62,14 +63,14 @@ function DForm:ControlHelp(help) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DForm:GetAutoSize
----@return boolean #
+---@return boolean # 
 function DForm:GetAutoSize() end
 
 ---An [Global.AccessorFunc](https://wiki.facepunch.com/gmod/Global.AccessorFunc) that does nothing.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DForm:GetSpacing
----@return number #
+---@return number # 
 function DForm:GetSpacing() end
 
 ---Adds a [DLabel](https://wiki.facepunch.com/gmod/DLabel) onto the [DForm](https://wiki.facepunch.com/gmod/DForm) as a helper
@@ -108,12 +109,13 @@ function DForm:NumberWang(label, convar, min, max, decimals) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DForm:NumSlider
 ---@param label string A short label for the slider.
----@param convar string The [console variable](https://wiki.facepunch.com/gmod/ConVars) to change when the slider is changed
+---@param convar string? The [console variable](https://wiki.facepunch.com/gmod/ConVars) to change when the slider is changed
 ---@param min number The minimum value of the slider
 ---@param max number The maximum value of the slider
 ---@param decimals? number The number of decimals to allow for the slider value.
 ---@return DNumSlider # The created DNumSlider.
 function DForm:NumSlider(label, convar, min, max, decimals) end
+
 
 ---Creates a [DPanelSelect](https://wiki.facepunch.com/gmod/DPanelSelect) and docks it to the top of the DForm.
 ---@realm client
@@ -150,7 +152,7 @@ function DForm:Rebuild() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DForm:SetAutoSize
----@param boolean boolean
+---@param boolean boolean 
 function DForm:SetAutoSize(boolean) end
 
 ---Sets the title (header) name of the DForm. This is `Label` until set.
@@ -165,7 +167,7 @@ function DForm:SetName(name) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DForm:SetSpacing
----@param number number
+---@param number number 
 function DForm:SetSpacing(number) end
 
 ---Adds a [DTextEntry](https://wiki.facepunch.com/gmod/DTextEntry) to a [DForm](https://wiki.facepunch.com/gmod/DForm)
@@ -176,3 +178,5 @@ function DForm:SetSpacing(number) end
 ---@return DTextEntry # The created DTextEntry
 ---@return DLabel # The label created for the text entry.
 function DForm:TextEntry(label, convar) end
+
+

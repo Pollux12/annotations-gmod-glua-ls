@@ -6,6 +6,7 @@
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/SpawnIcon
 ---@class (partial) SpawnIcon : DButton
+---@field Icon ModelImage The model image child created in Init.
 local SpawnIcon = {}
 
 ---Returns the icon name/path stored by the spawn icon.
@@ -13,7 +14,7 @@ local SpawnIcon = {}
 ---@return string # The icon name.
 function SpawnIcon:GetIconName() end
 
----Returns the currently active [Sub Model IDs](https://wiki.facepunch.com/gmod/Structures/BodyGroupData#submodels) for each Body Group of the spawn icon.
+---Returns the currently active [Sub Model IDs](https://wiki.facepunch.com/gmod/Structures/BodyGroupData#submodels) for each Body Group of the spawn icon.  
 ---
 --- This is set by [SpawnIcon:SetBodyGroup](https://wiki.facepunch.com/gmod/SpawnIcon:SetBodyGroup).
 ---@realm client
@@ -45,9 +46,9 @@ function SpawnIcon:OpenMenu() end
 --- Use [Panel:SetModel](https://wiki.facepunch.com/gmod/Panel:SetModel) instead.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/SpawnIcon:SetBodyGroup
----@param bodyGroupId number The Body Group ID to set the active Sub Model ID for.
+---@param bodyGroupId number The Body Group ID to set the active Sub Model ID for.  
 --- Body Group IDs start at `0`.
----@param activeSubModelId number The Sub Model ID to set as active.
+---@param activeSubModelId number The Sub Model ID to set as active.  
 --- Sub Model IDs start at `0`.
 function SpawnIcon:SetBodyGroup(bodyGroupId, activeSubModelId) end
 
@@ -66,3 +67,11 @@ function SpawnIcon:SetModelName(mdl) end
 ---@source https://wiki.facepunch.com/gmod/SpawnIcon:SetSkinID
 ---@param skin number Skin ID to set
 function SpawnIcon:SetSkinID(skin) end
+
+
+---Adds resize options that call the callback with the selected width and height.
+---@realm client
+---@param menu DMenu
+---@param callback fun(width: number, height: number)
+---@param label? string
+function SpawnIcon:InternalAddResizeMenu(menu, callback, label) end

@@ -88,3 +88,4 @@ function DScrollPanel:SetCanvas(canvas) end
 ---@source https://wiki.facepunch.com/gmod/DScrollPanel:SetPadding
 ---@param padding number The padding of the DScrollPanel.
 function DScrollPanel:SetPadding(padding) end
+

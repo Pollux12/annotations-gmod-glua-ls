@@ -16,6 +16,7 @@ local DCategoryList = {}
 ---@return (instance) DCollapsibleCategory # The created DCollapsibleCategory.
 function DCategoryList:Add(categoryName) end
 
+
 ---Adds an element to the list.
 ---@realm client
 ---@realm menu
@@ -28,3 +29,4 @@ function DCategoryList:AddItem(element) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DCategoryList:UnselectAll
 function DCategoryList:UnselectAll() end
+

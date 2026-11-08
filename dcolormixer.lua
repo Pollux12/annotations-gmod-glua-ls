@@ -36,7 +36,7 @@ function DColorMixer:ConVarThink() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DColorMixer:DoConVarThink
----@param cvar string
+---@param cvar string 
 function DColorMixer:DoConVarThink(cvar) end
 
 ---An [Global.AccessorFunc](https://wiki.facepunch.com/gmod/Global.AccessorFunc) that returns true if alpha bar is shown, false if not.
@@ -238,7 +238,7 @@ function DColorMixer:SetWangs(show) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DColorMixer:UpdateColor
----@param clr Color
+---@param clr Color 
 function DColorMixer:UpdateColor(clr) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -272,3 +272,4 @@ function DColorMixer:UpdateDefaultColor() end
 ---@source https://wiki.facepunch.com/gmod/DColorMixer:ValueChanged
 ---@param col Color The new color. See Color
 function DColorMixer:ValueChanged(col) end
+

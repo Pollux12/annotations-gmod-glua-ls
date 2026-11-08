@@ -47,3 +47,4 @@ function DRGBPicker:OnChange(col) end
 ---@source https://wiki.facepunch.com/gmod/DRGBPicker:SetRGB
 ---@param color Color The color to set, see Color.
 function DRGBPicker:SetRGB(color) end
+

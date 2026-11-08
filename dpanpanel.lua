@@ -27,8 +27,8 @@ function DPanPanel:GetCanvas() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DPanPanel:OnScroll
----@param x number
----@param y number
+---@param x number 
+---@param y number 
 function DPanPanel:OnScroll(x, y) end
 
 ---Scroll to a specific child panel.
@@ -46,3 +46,4 @@ function DPanPanel:ScrollToChild(pnl) end
 ---@source https://wiki.facepunch.com/gmod/DPanPanel:SetCanvas
 ---@param pnl Panel The canvas panel.
 function DPanPanel:SetCanvas(pnl) end
+

@@ -11,3 +11,4 @@
 ---@source https://wiki.facepunch.com/gmod/RichText
 ---@class (partial) RichText : Panel
 local RichText = {}
+

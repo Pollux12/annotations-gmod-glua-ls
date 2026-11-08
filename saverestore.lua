@@ -119,3 +119,4 @@ function saverestore.WriteTable(table, save) end
 --- It can be one of the following types: number, boolean, string, Entity, Angle, Vector or table.
 ---@param save ISave The save object to write the variable to.
 function saverestore.WriteVar(value, save) end
+

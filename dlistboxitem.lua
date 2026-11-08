@@ -26,3 +26,4 @@ function DListBoxItem:Select(onlyMe) end
 ---@source https://wiki.facepunch.com/gmod/DListBoxItem:SetMother
 ---@param parent Panel The "mother" panel to set.
 function DListBoxItem:SetMother(parent) end
+

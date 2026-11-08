@@ -40,7 +40,7 @@ function render.BlurRenderTarget(rendertarget, blurx, blury, passes) end
 ---This function overrides the brush material for next render operations. It can be used with [Entity:DrawModel](https://wiki.facepunch.com/gmod/Entity:DrawModel).
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/render.BrushMaterialOverride
----@param mat? IMaterial
+---@param mat? IMaterial 
 function render.BrushMaterialOverride(mat) end
 
 ---Captures a part of the current render target and returns the data as a binary string in the given format.
@@ -57,7 +57,7 @@ function render.BrushMaterialOverride(mat) end
 ---@return string # The binary_string.
 function render.Capture(captureData) end
 
----Dumps the current render target and allows the pixels to be accessed by [render.ReadPixel](https://wiki.facepunch.com/gmod/render.ReadPixel).
+---Dumps the current render target and allows the pixels to be accessed by [render.ReadPixel](https://wiki.facepunch.com/gmod/render.ReadPixel). 
 ---
 --- Capturing outside a render hook will return an image filled with `0 0 0 255`.
 ---
@@ -89,13 +89,13 @@ function render.Clear(r, g, b, a, clearDepth, clearStencil) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/render.ClearBuffersObeyStencil
----@param red number The red Color Channel value for each pixel that is cleared.
+---@param red number The red Color Channel value for each pixel that is cleared.  
 --- Must be an integer value in the range 0-255 (`byte`).
----@param green number The green Color Channel value for each pixel that is cleared.
+---@param green number The green Color Channel value for each pixel that is cleared.  
 --- Must be an integer value in the range 0-255 (`byte`).
----@param blue number The blue Color Channel value for each pixel that is cleared.
+---@param blue number The blue Color Channel value for each pixel that is cleared.  
 --- Must be an integer value in the range 0-255 (`byte`).
----@param alpha number The alpha (translucency) Color Channel value for each pixel that is cleared.
+---@param alpha number The alpha (translucency) Color Channel value for each pixel that is cleared.  
 --- Must be an integer value in the range 0-255 (`byte`).
 ---@param clearDepth boolean If true, reset the Depth Buffer values.
 function render.ClearBuffersObeyStencil(red, green, blue, alpha, clearDepth) end
@@ -116,6 +116,7 @@ function render.ClearDepth(clearStencil) end
 ---@param color Color The color.
 function render.ClearRenderTarget(texture, color) end
 
+
 ---Sets the Stencil Buffer value to `0` for all pixels in the currently active [Render Target](https://wiki.facepunch.com/gmod/render_rendertargets).
 ---
 --- For more detailed information on the Stencil system, including usage examples, see the [Stencils Render Reference](https://wiki.facepunch.com/gmod/render_stencils) page.
@@ -134,9 +135,9 @@ function render.ClearStencil() end
 ---@source https://wiki.facepunch.com/gmod/render.ClearStencilBufferRectangle
 ---@param startX number The X coordinate of the top left corner of the rectangle to be cleared.
 ---@param startY number The Y coordinate of the top left corner of the rectangle to be cleared.
----@param endX number The X coordinate of the bottom right corner of the rectangle to be cleared.
+---@param endX number The X coordinate of the bottom right corner of the rectangle to be cleared.  
 --- **Note:** Unlike some other rectangle-based functions, this is **not** the width of the rectangle.
----@param endY number The Y coordinate of the bottom right corner of the rectangle to be cleared.
+---@param endY number The Y coordinate of the bottom right corner of the rectangle to be cleared.  
 --- **Note:** Unlike some other rectangle-based functions, this is **not** the height of the rectangle.
 ---@param stencilBufferValue number The Stencil Buffer value that all pixels within the rectangle will be set to.
 function render.ClearStencilBufferRectangle(startX, startY, endX, endY, stencilBufferValue) end
@@ -332,9 +333,9 @@ function render.DrawWireframeBox(position, angle, mins, maxs, color, writeZ) end
 ---@source https://wiki.facepunch.com/gmod/render.DrawWireframeSphere
 ---@param position Vector Position of the sphere.
 ---@param radius number The size of the sphere.
----@param longitudeSteps number The amount of longitude steps.
+---@param longitudeSteps number The amount of longitude steps. 
 --- The larger this number is, the smoother the sphere is.
----@param latitudeSteps number The amount of latitude steps.
+---@param latitudeSteps number The amount of latitude steps. 
 --- The larger this number is, the smoother the sphere is.
 ---@param color? Color The color of the wireframe.
 ---@param writeZ? boolean Whether or not to consider the Z buffer. If false, the wireframe will be drawn over everything currently drawn. If true, it will be drawn with depth considered, as if it were a regular object in 3D space.
@@ -674,14 +675,14 @@ function render.MaxTextureWidth() end
 ---@param ent? CSEnt If provided, this entity will be reused instead of creating a new one with Global.ClientsideModel. Note that the ent's model, position and angles will be changed, and Entity:SetNoDraw will be set to true.
 function render.Model(settings, ent) end
 
----Forces all future draw operations to use a specific [IMaterial](https://wiki.facepunch.com/gmod/IMaterial).
+---Forces all future draw operations to use a specific [IMaterial](https://wiki.facepunch.com/gmod/IMaterial).  
 ---
 --- Because this is independent of a specific [Entity](https://wiki.facepunch.com/gmod/Entity), it can be used to change materials on static models that are part of maps.
 ---
 --- **WARNING**: In certain scenarios such as during entity's shadow pass, using this function can cause unexpected side effects. See example on [render.MaterialOverride](https://wiki.facepunch.com/gmod/render.MaterialOverride) about dealing with this.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/render.ModelMaterialOverride
----@param material? IMaterial The IMaterial that will be used for all upcoming draw operations, or `nil` to stop overriding.
+---@param material? IMaterial The IMaterial that will be used for all upcoming draw operations, or `nil` to stop overriding. 
 function render.ModelMaterialOverride(material) end
 
 ---Overrides the write behaviour of all next rendering operations towards the alpha channel of the current render target.
@@ -709,11 +710,11 @@ function render.OverrideAlphaWriteEnable(enable, shouldWrite) end
 ---@overload fun(enabled: boolean, sourceColorMultiplier: BLEND, destinationColorMultiplier: BLEND, colorBlendingFunction: BLENDFUNC, sourceAlphaMultiplier?: BLEND, destinationAlphaMultiplier?: BLEND, alphaBlendingFunction?: BLENDFUNC)
 ---@overload fun(enabled: boolean)
 ---@param enabled boolean Set to `true` to enable Blend Overrides.
----@param sourceMultiplier BLEND This determines which value each affected pixel's **Source color and alpha** will be multiplied by before they are sent to the Blending Function.
+---@param sourceMultiplier BLEND This determines which value each affected pixel's **Source color and alpha** will be multiplied by before they are sent to the Blending Function.  
 --- One of the Enums/BLEND enums.
----@param destinationMultiplier BLEND This determines which value each affected pixel's **Destination color and alpha** will be multiplied by before they are sent to the Blending Function.
+---@param destinationMultiplier BLEND This determines which value each affected pixel's **Destination color and alpha** will be multiplied by before they are sent to the Blending Function.  
 --- One of the Enums/BLEND enums.
----@param blendingFunction BLENDFUNC After the Source and Destination color and alpha have been multiplied against their corresponding multipliers, they are passed to the Blending Function which combines them into the final color and alpha for the pixel.
+---@param blendingFunction BLENDFUNC After the Source and Destination color and alpha have been multiplied against their corresponding multipliers, they are passed to the Blending Function which combines them into the final color and alpha for the pixel.  
 --- One of the Enums/BLENDFUNC enums.
 function render.OverrideBlend(enabled, sourceMultiplier, destinationMultiplier, blendingFunction) end
 
@@ -727,9 +728,9 @@ function render.OverrideBlend(enabled, sourceMultiplier, destinationMultiplier, 
 ---@source https://wiki.facepunch.com/gmod/render.OverrideBlendFunc
 ---@param enabled boolean true to enable, false to disable. No other arguments are required when disabling.
 ---@param srcBlend number The source color blend function Enums/BLEND. Determines how a rendered texture's final color should be calculated.
----@param destBlend number
+---@param destBlend number 
 ---@param srcBlendAlpha? number The source alpha blend function Enums/BLEND. Determines how a rendered texture's final alpha should be calculated.
----@param destBlendAlpha? number
+---@param destBlendAlpha? number 
 ---@deprecated Use render.OverrideBlend instead.
 function render.OverrideBlendFunc(enabled, srcBlend, destBlend, srcBlendAlpha, destBlendAlpha) end
 
@@ -763,7 +764,7 @@ function render.PerformFullScreenStencilOperation() end
 ---@source https://wiki.facepunch.com/gmod/render.PopCustomClipPlane
 function render.PopCustomClipPlane() end
 
----Pops (Removes) the texture filter most recently pushed (Added) onto the magnification texture filter stack.
+---Pops (Removes) the texture filter most recently pushed (Added) onto the magnification texture filter stack.  
 ---
 --- This function should only be called *after* a magnification filter has been pushed via [render.PushFilterMag](https://wiki.facepunch.com/gmod/render.PushFilterMag).
 ---
@@ -773,7 +774,7 @@ function render.PopCustomClipPlane() end
 ---@source https://wiki.facepunch.com/gmod/render.PopFilterMag
 function render.PopFilterMag() end
 
----Pops (Removes) the texture filter most recently pushed (Added) onto the minification texture filter stack.
+---Pops (Removes) the texture filter most recently pushed (Added) onto the minification texture filter stack.  
 ---
 --- This function should only be called *after* a minification filter has been pushed via [render.PushFilterMin()](https://wiki.facepunch.com/gmod/render.PushFilterMin).
 ---
@@ -805,7 +806,7 @@ function render.PopRenderTarget() end
 ---@param distance number The distance of the plane from the world origin. You can use Vector:Dot between the normal and any point on the plane to find this.
 function render.PushCustomClipPlane(normal, distance) end
 
----Pushes (Adds) a texture filter onto the magnification texture filter stack.
+---Pushes (Adds) a texture filter onto the magnification texture filter stack.  
 --- This will modify how textures are stretched to sizes larger than their native resolution for upcoming rendering and drawing operations.
 --- For a version of this same function that modifies filtering for texture sizes smaller than their native resolution, see [render.PushFilterMin](https://wiki.facepunch.com/gmod/render.PushFilterMin)
 ---
@@ -820,7 +821,7 @@ function render.PushCustomClipPlane(normal, distance) end
 ---@param texFilterType number The texture filter to use. For available options, see Enums/TEXFILTER.
 function render.PushFilterMag(texFilterType) end
 
----Pushes (Adds) a texture filter onto the minification texture filter stack.
+---Pushes (Adds) a texture filter onto the minification texture filter stack.  
 --- This will modify how textures are compressed to a lower resolution than their native resolution for upcoming rendering and drawing operations.
 --- For a version of this same function that modifies filtering for texture sizes larger than their native resolution, see [render.PushFilterMag()](https://wiki.facepunch.com/gmod/render.PushFilterMag)
 ---
@@ -851,7 +852,7 @@ function render.PushFlashlightMode(enable) end
 --- **NOTE**: If the render target is bigger than the screen, rendering done with the surface library will be clipped to the screen bounds unless you call [Global.DisableClipping](https://wiki.facepunch.com/gmod/Global.DisableClipping)
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/render.PushRenderTarget
----@param texture? ITexture The new render target to be used.
+---@param texture? ITexture The new render target to be used.  
 --- Can be set to `nil` to push the main game frame buffer.
 ---@param x? number X origin of the viewport.
 ---@param y? number Y origin of the viewport.
@@ -938,7 +939,7 @@ function render.SetAmbientLight(r, g, b) end
 --- **NOTE**: If a material has the [$alphatest](https://developer.valvesoftware.com/wiki/$alphatest) flag enabled then this function might not behave as expected because alpha will be binary, this has a default cutoff of `0.7`.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/render.SetBlend
----@param blending number The alpha (transparency) for upcoming draw operations.
+---@param blending number The alpha (transparency) for upcoming draw operations.  
 --- A value in the range `(0-1)` where `0` is fully transparent, `0.5` is 50% visible, and `1` is fully opaque.
 function render.SetBlend(blending) end
 
@@ -1122,7 +1123,7 @@ function render.SetShadowDistance(shadowDistance) end
 ---@param disable boolean `true` to disable shadows, `false` to enable.
 function render.SetShadowsDisabled(disable) end
 
----Sets the Compare Function that all pixels affected by a draw operation will have their Stencil Buffer value tested against.
+---Sets the Compare Function that all pixels affected by a draw operation will have their Stencil Buffer value tested against.  
 ---
 --- When not set to a static value like NEVER or ALWAYS, the Stencil Buffer value corresponding to each affected pixel will be compared against the current [Reference Value](https://wiki.facepunch.com/gmod/render.SetStencilReferenceValue).
 ---
@@ -1153,7 +1154,7 @@ function render.SetStencilCompareFunction(compareFunction) end
 ---@param newState boolean The new state.
 function render.SetStencilEnable(newState) end
 
----Sets the [Stencil Operation](https://wiki.facepunch.com/gmod/Enums/STENCILOPERATION) that will be performed on the Stencil Buffer values of pixels affected by draw operations if the [Compare Function](https://wiki.facepunch.com/gmod/render.SetStencilCompareFunction) did **not** [Pass](https://wiki.facepunch.com/gmod/render.SetStencilPassOperation) the pixel.
+---Sets the [Stencil Operation](https://wiki.facepunch.com/gmod/Enums/STENCILOPERATION) that will be performed on the Stencil Buffer values of pixels affected by draw operations if the [Compare Function](https://wiki.facepunch.com/gmod/render.SetStencilCompareFunction) did **not** [Pass](https://wiki.facepunch.com/gmod/render.SetStencilPassOperation) the pixel.  
 ---
 --- For more detailed information on the Stencil system, including usage examples, see the [Stencils Render Reference](https://wiki.facepunch.com/gmod/render_stencils) page.
 ---@realm client
@@ -1162,7 +1163,7 @@ function render.SetStencilEnable(newState) end
 ---@param failOperation STENCILOPERATION The Stencil Operation to be performed if the Compare Function does not Pass a pixel.
 function render.SetStencilFailOperation(failOperation) end
 
----Sets the [Stencil Operation](https://wiki.facepunch.com/gmod/Enums/STENCILOPERATION) that will be performed on the Stencil Buffer values of pixels affected by draw operations if the [Compare Function](https://wiki.facepunch.com/gmod/render.SetStencilCompareFunction) Passes the pixel.
+---Sets the [Stencil Operation](https://wiki.facepunch.com/gmod/Enums/STENCILOPERATION) that will be performed on the Stencil Buffer values of pixels affected by draw operations if the [Compare Function](https://wiki.facepunch.com/gmod/render.SetStencilCompareFunction) Passes the pixel.  
 ---
 --- For more detailed information on the Stencil system, including usage examples, see the [Stencils Render Reference](https://wiki.facepunch.com/gmod/render_stencils) page.
 ---@realm client
@@ -1177,7 +1178,7 @@ function render.SetStencilPassOperation(passOperation) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/render.SetStencilReferenceValue
----@param referenceValue number The value that the Compare function and the pass, fail, and z-fail operations will use.
+---@param referenceValue number The value that the Compare function and the pass, fail, and z-fail operations will use.  
 --- This is an 8-bit (`byte`) unsigned integer value in the range [`0-255`].
 function render.SetStencilReferenceValue(referenceValue) end
 
@@ -1191,7 +1192,7 @@ function render.SetStencilReferenceValue(referenceValue) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/render.SetStencilTestMask
----@param bitMask number The 8-bit (`byte`) mask.
+---@param bitMask number The 8-bit (`byte`) mask.  
 --- Set to `255` to make no change to read Stencil Buffer values.
 function render.SetStencilTestMask(bitMask) end
 
@@ -1205,7 +1206,7 @@ function render.SetStencilTestMask(bitMask) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/render.SetStencilWriteMask
----@param bitMask number The 8-bit (`byte`) mask.
+---@param bitMask number The 8-bit (`byte`) mask.  
 --- Set to `255` to make no change to written Stencil Buffer values.
 function render.SetStencilWriteMask(bitMask) end
 
@@ -1244,7 +1245,7 @@ function render.SetViewPort(x, y, w, h) end
 ---Sets the internal parameter **INT_RENDERPARM_WRITE_DEPTH_TO_DESTALPHA**.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/render.SetWriteDepthToDestAlpha
----@param enable boolean
+---@param enable boolean 
 function render.SetWriteDepthToDestAlpha(enable) end
 
 ---Swaps the frame buffers/cycles the frame. In other words, this updates the screen.
@@ -1290,7 +1291,7 @@ function render.SupportsPixelShaders_2_0() end
 ---@return boolean # Whether Vertex Shaders 2.0 are supported or not.
 function render.SupportsVertexShaders_2_0() end
 
----Allows suppressing model lighting for any upcoming model render operation.
+---Allows suppressing model lighting for any upcoming model render operation.  
 --- Lighting then can be manually set up via various functions such as [render.SetModelLighting](https://wiki.facepunch.com/gmod/render.SetModelLighting).
 ---
 --- This does not affect [IMesh](https://wiki.facepunch.com/gmod/IMesh)es.
@@ -1331,5 +1332,6 @@ function render.UpdateScreenEffectTexture(textureIndex) end
 ---This function overrides all map materials for one frame.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/render.WorldMaterialOverride
----@param mat? IMaterial
+---@param mat? IMaterial 
 function render.WorldMaterialOverride(mat) end
+

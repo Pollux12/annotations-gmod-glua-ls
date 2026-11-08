@@ -73,6 +73,7 @@ function string.char(...) end
 ---@return string # The commafied string
 function string.Comma(value, separator) end
 
+
 ---Returns the binary bytecode of the given function.
 ---
 --- **NOTE**: This does not work with functions created in C/C++. An error will be thrown if it is
@@ -107,6 +108,7 @@ function string.EndsWith(str, _end) end
 ---@param withpattern? boolean Set this to true if your separator is a Patterns.
 ---@return std.Split<Sep, Str> # Exploded string as a numerical sequential table.
 function string.Explode(separator, str, withpattern) end
+
 
 ---Attempts to find the specified substring in a string.
 ---
@@ -155,12 +157,13 @@ function string.format(format, ...) end
 ---@realm menu
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/string.FormattedTime
----@overload fun(seconds: number): FormattedTime
----@overload fun(seconds: number, format: nil): FormattedTime
+---@overload fun(seconds?: number): FormattedTime
+---@overload fun(seconds: number?, format: nil): FormattedTime
 ---@param seconds? number Number of seconds to format.
----@param format? string The format string. If this is omitted, a FormattedTime table is returned instead.
----@return string|FormattedTime # The formatted time string, or a FormattedTime table when no format is supplied.
+---@param format string The format string. If this is omitted, a FormattedTime table is returned instead.
+---@return string # The formatted time string, or a FormattedTime table when no format is supplied.
 function string.FormattedTime(seconds, format) end
+
 
 ---Creates a string from a Color variable.
 ---@realm shared
@@ -240,7 +243,7 @@ function string.gmatch(data, pattern) end
 ---@source https://wiki.facepunch.com/gmod/string.gsub
 ---@param string string String which should be modified.
 ---@param pattern string The pattern that defines what should be matched and eventually be replaced.
----@param replacement string|table|fun(...: string): string In case of a string the matched sequence will be replaced with it.
+---@param replacement string|table|fun(...: string): string|number|nil|false In case of a string the matched sequence will be replaced with it.
 ---
 --- In case of a table, the matched sequence will be used as key and the table will tested for the key, if a value exists it will be used as replacement.
 ---
@@ -249,6 +252,7 @@ function string.gmatch(data, pattern) end
 ---@return string # replaceResult
 ---@return number # replaceCount
 function string.gsub(string, pattern, replacement, maxReplaces) end
+
 
 ---Joins the values of a table together to form a string.
 ---
@@ -408,6 +412,7 @@ function string.SetChar(InputString, Index, ReplacementChar) end
 ---@return std.Split<Sep, Str> # Split table
 function string.Split(Inputstring, Separator) end
 
+
 ---Returns whether or not the first string starts with the second.
 ---@realm shared
 ---@realm menu
@@ -458,7 +463,7 @@ function string.sub(string, StartPos, EndPos) end
 ---
 ---
 --- If the input string is malformed but contains a correctly formatted substring within it, that valid substring will be used which may produce unexpected results.
----@return Color # The output Color
+---@return Color # The output Color  
 ---
 --- If the input string is improperly formatted, this will be `Color( 255, 255, 255, 255 )`
 function string.ToColor(colorString) end
@@ -524,3 +529,4 @@ function string.TrimRight(str, char) end
 ---@param str string The string to convert.
 ---@return string # A string representing the value of a string converted to upper-case.
 function string.upper(str) end
+

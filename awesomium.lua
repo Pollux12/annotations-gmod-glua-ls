@@ -8,3 +8,4 @@
 ---@deprecated You should be using HTML panel, which this is an alias of.
 ---@class (partial) Awesomium : Panel
 local Awesomium = {}
+

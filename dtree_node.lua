@@ -38,7 +38,7 @@ function DTree_Node:GetChildNode(num) end
 ---@param path string The path to search in. See File Search Paths
 ---@param showFiles? boolean Should files be added as nodes (true) or folders only (false)
 ---@param wildcard? string The wildcard to use when searching for files.
----@param bDontForceExpandable? boolean
+---@param bDontForceExpandable? boolean 
 ---@return DTree_Node # The created DTree_Node
 function DTree_Node:AddFolder(name, folder, path, showFiles, wildcard, bDontForceExpandable) end
 
@@ -50,6 +50,7 @@ function DTree_Node:AddFolder(name, folder, path, showFiles, wildcard, bDontForc
 ---@param icon? string The icon shown next to the node.
 ---@return DTree_Node # The created node.
 function DTree_Node:AddNode(name, icon) end
+
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
@@ -71,12 +72,14 @@ function DTree_Node:AddPanel(pnl) end
 ---@param data table User data passed to the animation.
 function DTree_Node:AnimSlide(anim, delta, data) end
 
+
 ---Called when a child node is expanded or collapsed to propagate this event to parent nodes to update layout.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:ChildExpanded
 ---@param expanded? boolean
 function DTree_Node:ChildExpanded(expanded) end
+
 
 ---Cleans up the internal table of items (sub-nodes) of this node from invalid panels or sub-nodes that were moved from this node to another.
 ---
@@ -104,6 +107,7 @@ function DTree_Node:Copy() end
 ---@outparam self.ChildNodes DListLayout
 function DTree_Node:CreateChildNodes() end
 
+
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
 --- Called automatically to update the status of [DTree_Node:GetLastChild](https://wiki.facepunch.com/gmod/DTree_Node:GetLastChild) on children of this node.
@@ -119,11 +123,13 @@ function DTree_Node:DoChildrenOrder() end
 ---@return boolean # Return true to handle the click.
 function DTree_Node:DoClick() end
 
+
 ---@realm client
 ---@realm menu
 ---@source garrysmod/lua/vgui/dtree_node.lua
 ---@return boolean # Return true to handle the right-click.
 function DTree_Node:DoRightClick() end
+
 
 ---Expands or collapses this node, as well as ALL child nodes of this node.
 ---
@@ -195,14 +201,14 @@ function DTree_Node:GetChildNodes() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:GetDirty
----@return boolean #
+---@return boolean # 
 function DTree_Node:GetDirty() end
 
 ---Returns whether the double clock to collapse/expand functionality is enabled on this node.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:GetDoubleClickToOpen
----@return boolean #
+---@return boolean # 
 function DTree_Node:GetDoubleClickToOpen() end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -211,7 +217,7 @@ function DTree_Node:GetDoubleClickToOpen() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:GetDraggableName
----@return string #
+---@return string # 
 function DTree_Node:GetDraggableName() end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -220,7 +226,7 @@ function DTree_Node:GetDraggableName() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:GetDrawLines
----@return boolean #
+---@return boolean # 
 function DTree_Node:GetDrawLines() end
 
 ---Returns whether the node is expanded or not.
@@ -234,7 +240,7 @@ function DTree_Node:GetExpanded() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:GetFileName
----@return string #
+---@return string # 
 function DTree_Node:GetFileName() end
 
 ---Returns the folder path to search in, set by [DTree_Node:MakeFolder](https://wiki.facepunch.com/gmod/DTree_Node:MakeFolder).
@@ -250,7 +256,7 @@ function DTree_Node:GetFolder() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:GetForceShowExpander
----@return boolean #
+---@return boolean # 
 function DTree_Node:GetForceShowExpander() end
 
 ---Returns whether the expand button (little + button) should be shown or hidden.
@@ -307,7 +313,7 @@ function DTree_Node:GetNeedsChildSearch() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:GetNeedsPopulating
----@return boolean #
+---@return boolean # 
 function DTree_Node:GetNeedsPopulating() end
 
 ---Returns the parent [DTree_Node](https://wiki.facepunch.com/gmod/DTree_Node). Note that [Panel:GetParent](https://wiki.facepunch.com/gmod/Panel:GetParent) will not be the same!
@@ -335,11 +341,12 @@ function DTree_Node:GetPathID() end
 ---@return DTree # The root DTree.
 function DTree_Node:GetRoot() end
 
+
 ---Returns whether or not nodes for files should/will be added when populating the node from filesystem.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:GetShowFiles
----@return boolean #
+---@return boolean # 
 function DTree_Node:GetShowFiles() end
 
 ---Returns the wildcard set by [DTree_Node:MakeFolder](https://wiki.facepunch.com/gmod/DTree_Node:MakeFolder).
@@ -353,10 +360,11 @@ function DTree_Node:GetWildCard() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:Insert
----@param node Panel The DTree_Node to insert.
----@param nodeNextTo Panel The node to insert the node above before or after.
+---@param node DTree_Node The DTree_Node to insert.
+---@param nodeNextTo DTree_Node The node to insert the node above before or after.
 ---@param before boolean true to insert before, false to insert after.
 function DTree_Node:Insert(node, nodeNextTo, before) end
+
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
@@ -365,8 +373,9 @@ function DTree_Node:Insert(node, nodeNextTo, before) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:InsertNode
----@param node Panel Has to be DTree_Node
+---@param node DTree_Node Has to be DTree_Node
 function DTree_Node:InsertNode(node) end
+
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
@@ -376,8 +385,9 @@ function DTree_Node:InsertNode(node) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:InstallDraggable
----@param node Panel The DTree_Node.
+---@param node DTree_Node The DTree_Node.
 function DTree_Node:InstallDraggable(node) end
+
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
@@ -444,11 +454,13 @@ function DTree_Node:MoveToTop() end
 ---@source garrysmod/lua/vgui/dtree_node.lua
 function DTree_Node:OnModified() end
 
+
 ---@realm client
 ---@realm menu
 ---@source garrysmod/lua/vgui/dtree_node.lua
 ---@param node Panel The panel added to this node.
 function DTree_Node:OnNodeAdded(node) end
+
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
@@ -461,6 +473,7 @@ function DTree_Node:OnNodeAdded(node) end
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:OnNodeSelected
 ---@param node DTree_Node
 function DTree_Node:OnNodeSelected(node) end
+
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
@@ -487,11 +500,12 @@ function DTree_Node:PopulateChildren() end
 ---@param expand? boolean Expand self once population process is finished.
 function DTree_Node:PopulateChildrenAndSelf(expand) end
 
+
 ---Appears to have no effect on the [DTree_Node](https://wiki.facepunch.com/gmod/DTree_Node).
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:SetDirty
----@param dirty boolean
+---@param dirty boolean 
 function DTree_Node:SetDirty(dirty) end
 
 ---Sets whether double clicking the node should expand/collapse it or not.
@@ -507,7 +521,7 @@ function DTree_Node:SetDoubleClickToOpen(enable) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:SetDraggableName
----@param name string
+---@param name string 
 function DTree_Node:SetDraggableName(name) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -516,7 +530,7 @@ function DTree_Node:SetDraggableName(name) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:SetDrawLines
----@param draw boolean
+---@param draw boolean 
 function DTree_Node:SetDrawLines(draw) end
 
 ---Expands or collapses this node.
@@ -533,7 +547,7 @@ function DTree_Node:SetExpanded(expand, surpressAnimation) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:SetFileName
----@param filename string
+---@param filename string 
 function DTree_Node:SetFileName(filename) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -544,14 +558,14 @@ function DTree_Node:SetFileName(filename) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:SetFolder
----@param folder string
+---@param folder string 
 function DTree_Node:SetFolder(folder) end
 
 ---Sets whether or not the expand/collapse button (+/- button) should be shown on this node regardless of whether it has sub-elements or not.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:SetForceShowExpander
----@param forceShow boolean
+---@param forceShow boolean 
 function DTree_Node:SetForceShowExpander(forceShow) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -560,7 +574,7 @@ function DTree_Node:SetForceShowExpander(forceShow) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:SetHideExpander
----@param hide boolean
+---@param hide boolean 
 function DTree_Node:SetHideExpander(hide) end
 
 ---Sets the material for the icon of the [DTree_Node](https://wiki.facepunch.com/gmod/DTree_Node).
@@ -576,7 +590,7 @@ function DTree_Node:SetIcon(path) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:SetLastChild
----@param last boolean
+---@param last boolean 
 function DTree_Node:SetLastChild(last) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -647,13 +661,14 @@ function DTree_Node:SetSelected(selected) end
 ---@param showFiles? boolean
 function DTree_Node:SetShowFiles(showFiles) end
 
+
 ---**INTERNAL**: Called internally from [DTree_Node:Copy](https://wiki.facepunch.com/gmod/DTree_Node:Copy).
 ---
 --- Currently does nothing, not implemented.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:SetupCopy
----@param Panel Panel
+---@param Panel Panel 
 function DTree_Node:SetupCopy(Panel) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -665,11 +680,14 @@ function DTree_Node:SetupCopy(Panel) end
 ---@param wildcard? string The wildcard to set.
 function DTree_Node:SetWildCard(wildcard) end
 
+
 ---Returns whether or not the [DTree](https://wiki.facepunch.com/gmod/DTree) this node is in has icons enabled.
 ---
 --- See [DTree:ShowIcons](https://wiki.facepunch.com/gmod/DTree:ShowIcons) for more info.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DTree_Node:ShowIcons
----@return number # Whether the icons are shown or not
+---@return boolean # Whether the icons are shown or not
 function DTree_Node:ShowIcons() end
+
+

@@ -24,8 +24,9 @@ function DNumSlider:GetDecimals() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DNumSlider:GetDefaultValue
----@return number # The default value of the slider
+---@return number|string|nil # The default value of the slider
 function DNumSlider:GetDefaultValue() end
+
 
 ---Returns the maximum value of the slider
 ---@realm client
@@ -96,7 +97,7 @@ function DNumSlider:SetConVar(cvar) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DNumSlider:SetDark
----@param dark boolean
+---@param dark boolean 
 function DNumSlider:SetDark(dark) end
 
 ---Sets the desired amount of numbers after the decimal point.
@@ -113,8 +114,9 @@ function DNumSlider:SetDecimals(decimals) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DNumSlider:SetDefaultValue
----@param default number The new default value of the slider to set
+---@param default number|string The new default value of the slider to set
 function DNumSlider:SetDefaultValue(default) end
+
 
 ---Sets the maximum value for the slider.
 ---@realm client
@@ -142,16 +144,17 @@ function DNumSlider:SetMinMax(min, max) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DNumSlider:SetValue
----@param val number The value to set.
+---@param val number|string The value to set.
 function DNumSlider:SetValue(val) end
+
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DNumSlider:TranslateSliderValues
----@param x number
----@param y number
----@return number #
+---@param x number 
+---@param y number 
+---@return number # 
 ---@return number # The second passed argument.
 function DNumSlider:TranslateSliderValues(x, y) end
 
@@ -171,3 +174,4 @@ function DNumSlider:UpdateNotches() end
 ---@source https://wiki.facepunch.com/gmod/DNumSlider:ValueChanged
 ---@param value number The value the slider has been changed to.
 function DNumSlider:ValueChanged(value) end
+

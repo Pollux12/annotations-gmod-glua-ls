@@ -32,6 +32,7 @@ function DMenu:AddCVar(strText, convar, on, off, funcFunction) end
 ---@return (instance) DMenuOption #Returns the created DMenuOption panel.
 function DMenu:AddOption(name, func) end
 
+
 ---Adds a panel to the DMenu as if it were an option.
 ---
 --- This invokes DScrollPanel:AddItem and will not create a new panel if a class name is passed, unlike Panel:Add.
@@ -42,12 +43,14 @@ function DMenu:AddOption(name, func) end
 ---@param pnl T The panel that you want to add.
 function DMenu:AddPanel(pnl) end
 
+
 ---Adds a spacer to the DMenu.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DMenu:AddSpacer
 ---@return (instance) DPanel #The created spacer panel.
 function DMenu:AddSpacer() end
+
 
 ---Add a sub menu to the DMenu
 ---@realm client
@@ -58,6 +61,7 @@ function DMenu:AddSpacer() end
 ---@return (instance) DMenu #The created sub DMenu
 ---@return (instance) DMenuOption #The created DMenuOption
 function DMenu:AddSubMenu(Name, func) end
+
 
 ---Returns the number of child elements of [DMenu](https://wiki.facepunch.com/gmod/DMenu)'s [DScrollPanel:GetCanvas](https://wiki.facepunch.com/gmod/DScrollPanel:GetCanvas).
 ---@realm client
@@ -99,14 +103,14 @@ function DMenu:GetChild(childIndex) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DMenu:GetDeleteSelf
----@return boolean #
+---@return boolean # 
 function DMenu:GetDeleteSelf() end
 
 ---Returns the value set by [DMenu:SetDrawBorder](https://wiki.facepunch.com/gmod/DMenu:SetDrawBorder).
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DMenu:GetDrawBorder
----@return boolean #
+---@return boolean # 
 function DMenu:GetDrawBorder() end
 
 ---Returns whether the [DMenu](https://wiki.facepunch.com/gmod/DMenu) should draw the icon column with a different color or not.
@@ -172,9 +176,10 @@ function DMenu:Open(x, y, skipanimation, ownerpanel) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DMenu:OpenSubMenu
----@param item Panel The DMenuOption to open the submenu at
----@param menu? Panel The submenu to open. If set to nil, the function just closes existing submenus.
+---@param item DMenuOption The DMenuOption to open the submenu at
+---@param menu? DMenu The submenu to open. If set to nil, the function just closes existing submenus.
 function DMenu:OpenSubMenu(item, menu) end
+
 
 ---Called when a option has been selected
 ---@realm client
@@ -206,7 +211,7 @@ function DMenu:SetDeleteSelf(newState) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DMenu:SetDrawBorder
----@param bool boolean
+---@param bool boolean 
 function DMenu:SetDrawBorder(bool) end
 
 ---Sets whether the [DMenu](https://wiki.facepunch.com/gmod/DMenu) should draw the icon column with a different color.
@@ -238,3 +243,5 @@ function DMenu:SetMinimumWidth(minWidth) end
 ---@source https://wiki.facepunch.com/gmod/DMenu:SetOpenSubMenu
 ---@param item? Panel The menu to store.
 function DMenu:SetOpenSubMenu(item) end
+
+

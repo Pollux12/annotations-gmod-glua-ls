@@ -19,3 +19,4 @@ function Label:SetFont(fontName) end
 ---@source https://wiki.facepunch.com/gmod/DLabel:SetTextColor
 ---@param color Color The text color.
 function Label:SetTextColor(color) end
+

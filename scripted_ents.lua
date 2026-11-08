@@ -20,6 +20,7 @@ function scripted_ents.Alias(alias, classname) end
 ---@return (definition) `T`? # entTable, or nil if no scripted entity is registered with that class name.
 function scripted_ents.Get(classname) end
 
+
 ---Returns a copy of the list of all ENT tables registered.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/scripted_ents.GetList
@@ -39,6 +40,7 @@ function scripted_ents.GetList() end
 ---@return std.RawGet<T, K> # The member or nil if failed
 function scripted_ents.GetMember(classname, name) end
 
+
 ---Returns a list of all ENT tables which contain ENT.Spawnable
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/scripted_ents.GetSpawnable
@@ -53,6 +55,7 @@ function scripted_ents.GetSpawnable() end
 ---@param classname string
 ---@return ScriptedEntityStored? stored
 function scripted_ents.GetStored(classname) end
+
 
 ---Returns the 'type' of a class, this will one of the following: 'anim', 'ai', 'brush', 'point'.
 ---@realm shared
@@ -85,6 +88,10 @@ function scripted_ents.OnLoaded() end
 ---The input is a registration table. Garry's Mod fills and inherits fields such as `ClassName`, `BaseClass`, and base-provided `Type` later during scripted entity registration and lookup.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/scripted_ents.Register
+---@[call_arg("gmod.scripted_class", "entity_table")]
 ---@param ENT table The ENT table to register.
+---@[call_arg("gmod.scripted_class", "define")]
 ---@param classname string The classname to register.
 function scripted_ents.Register(ENT, classname) end
+
+

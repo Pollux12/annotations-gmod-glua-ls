@@ -30,3 +30,4 @@ function halo.Render(entry) end
 ---@source https://wiki.facepunch.com/gmod/halo.RenderedEntity
 ---@return Entity # If set, the currently rendered entity by the halo library.
 function halo.RenderedEntity() end
+

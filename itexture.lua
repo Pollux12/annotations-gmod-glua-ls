@@ -81,3 +81,4 @@ function ITexture:IsErrorTexture() end
 ---@source https://wiki.facepunch.com/gmod/ITexture:Width
 ---@return number # width
 function ITexture:Width() end
+

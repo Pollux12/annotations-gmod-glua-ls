@@ -47,3 +47,4 @@ function DShape:SetColor(clr) end
 ---@source https://wiki.facepunch.com/gmod/DShape:SetType
 ---@param type string The render type of the DShape. Only rectangles (`Rect`) work currently. If you don't define a type immediately, the PANEL:Paint method will generate errors until you do.
 function DShape:SetType(type) end
+

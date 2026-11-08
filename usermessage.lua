@@ -36,3 +36,4 @@ function usermessage.Hook(name, callback, ...) end
 ---@param name string The message name.
 ---@param msg bf_read The message.
 function usermessage.IncomingMessage(name, msg) end
+

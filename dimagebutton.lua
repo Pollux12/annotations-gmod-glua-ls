@@ -42,7 +42,7 @@ function DImageButton:GetImage() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DImageButton:GetStretchToFit
----@return boolean #
+---@return boolean # 
 function DImageButton:GetStretchToFit() end
 
 ---Sets the color of the image. Equivalent of [DImage:SetImageColor](https://wiki.facepunch.com/gmod/DImage:SetImageColor)
@@ -63,8 +63,8 @@ function DImageButton:SetDepressImage(enable) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DImageButton:SetIcon
----@param strImage string
----@param strBackup? string
+---@param strImage string 
+---@param strBackup? string 
 function DImageButton:SetIcon(strImage, strBackup) end
 
 ---Sets the "image" of the [DImageButton](https://wiki.facepunch.com/gmod/DImageButton). Equivalent of [DImage:SetImage](https://wiki.facepunch.com/gmod/DImage:SetImage).
@@ -95,8 +95,9 @@ function DImageButton:SetKeepAspect(keep) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DImageButton:SetMaterial
----@param mat IMaterial The material to set
+---@param mat IMaterial|string|nil The material to set
 function DImageButton:SetMaterial(mat) end
+
 
 ---Sets the image from a material path shown when viewed as material.
 ---@realm client
@@ -106,6 +107,7 @@ function DImageButton:SetMaterial(mat) end
 ---@param backup? string Optional fallback material path.
 function DImageButton:SetOnViewMaterial(mat, backup) end
 
+
 ---Sets whether the image inside the [DImageButton](https://wiki.facepunch.com/gmod/DImageButton) should be stretched to fill the entire size of the button, without preserving aspect ratio.
 ---
 --- If set to false, the image will not be resized at all.
@@ -114,3 +116,4 @@ function DImageButton:SetOnViewMaterial(mat, backup) end
 ---@source https://wiki.facepunch.com/gmod/DImageButton:SetStretchToFit
 ---@param stretch boolean True to stretch, false to not to stretch
 function DImageButton:SetStretchToFit(stretch) end
+

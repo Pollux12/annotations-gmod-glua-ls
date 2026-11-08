@@ -31,7 +31,7 @@ function undo.AddEntity(ent) end
 ---Adds a function to call when the current undo block is undone. Note that if an undo has a function, the player will always be notified when this undo is performed, even if the entity it is meant to undo no longer exists.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/undo.AddFunction
----@param func fun(undo: table, ...: any):(result: boolean?) The function to call.
+---@param func fun(undo: table, ...: any):(result: boolean?) The function to call. 
 ---
 --- Function argument(s):
 --- * table `undo` - See Structures/Undo.
@@ -105,3 +105,4 @@ function undo.SetPlayer(ply) end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/undo.SetupUI
 function undo.SetupUI() end
+

@@ -5,3 +5,4 @@
 ---@source https://wiki.facepunch.com/gmod/EditablePanel
 ---@class (partial) EditablePanel : Panel
 local EditablePanel = {}
+

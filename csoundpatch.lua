@@ -88,7 +88,7 @@ function CSoundPatch:PlayEx(volume, pitch) end
 --- Similar to [Player:SetDSP](https://wiki.facepunch.com/gmod/Player:SetDSP) but for individual sounds.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/CSoundPatch:SetDSP
----@param dspEffectId number The numerical ID for the DSP effect to be enabled on the sound.
+---@param dspEffectId number The numerical ID for the DSP effect to be enabled on the sound.  
 ---
 --- For a list of the available IDs and their meaning, see DSP_Presets.
 function CSoundPatch:SetDSP(dspEffectId) end
@@ -103,3 +103,4 @@ function CSoundPatch:SetSoundLevel(level) end
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/CSoundPatch:Stop
 function CSoundPatch:Stop() end
+

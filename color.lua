@@ -284,3 +284,4 @@ function Color:ToVector() end
 ---@return number # Blue
 ---@return number # Alpha
 function Color:Unpack() end
+

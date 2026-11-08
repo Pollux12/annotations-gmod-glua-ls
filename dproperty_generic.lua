@@ -33,3 +33,5 @@ function DProperty_Generic:Setup(data) end
 ---@param newVal any The new value.
 ---@param force? boolean Force an update.
 function DProperty_Generic:ValueChanged(newVal, force) end
+
+

@@ -97,3 +97,4 @@ function DVScrollBar:SetScroll(scroll) end
 ---@param barSize number The size of the panel that holds the canvas, basically size of "1 page".
 ---@param canvasSize number The total size of the canvas, this typically is the bigger number.
 function DVScrollBar:SetUp(barSize, canvasSize) end
+

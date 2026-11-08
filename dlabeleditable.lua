@@ -35,3 +35,4 @@ function DLabelEditable:OnLabelTextChanged(txt) end
 ---@source https://wiki.facepunch.com/gmod/DLabelEditable:SetAutoStretch
 ---@param stretch boolean Whether the editable label should stretch to the text entered or not.
 function DLabelEditable:SetAutoStretch(stretch) end
+

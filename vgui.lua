@@ -25,6 +25,7 @@ vgui = {}
 ---@return (instance) T? #The created panel, or `nil` if creation failed for whatever reason.
 function vgui.Create(classname, parent, name) end
 
+
 ---Creates a panel from a table, used alongside vgui.RegisterFile and vgui.RegisterTable to efficiently define, register, and instantiate custom panels.
 ---@realm client
 ---@realm menu
@@ -37,6 +38,7 @@ function vgui.Create(classname, parent, name) end
 ---@param name? string Custom name of the created panel for scripting/debugging purposes. Can be retrieved with Panel:GetName.
 ---@return (instance) T? # The created panel, or `nil` if creation failed for whatever reason.
 function vgui.CreateFromTable(metatable, parent, name) end
+
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 --- Creates an engine panel.
@@ -51,6 +53,7 @@ function vgui.CreateFromTable(metatable, parent, name) end
 ---@param name? string Name of the created panel
 ---@return (instance) T # Created panel
 function vgui.CreateX(class, parent, name) end
+
 
 ---Returns whenever the cursor is currently active and visible.
 ---@realm client
@@ -92,6 +95,7 @@ function vgui.GetAll() end
 ---@param Panelname `T` The name of the panel to get the table of.
 ---@return (definition) `T`? # The `PANEL` table of the a Lua-defined panel with given name, or `nil` if no Lua-defined panel is registered with that name.
 function vgui.GetControlTable(Panelname) end
+
 
 ---Returns the panel the cursor is hovering above.
 ---
@@ -141,6 +145,7 @@ function vgui.IsHoveringWorld() end
 ---@return T # The given panel table from second argument.
 function vgui.Register(classname, panelTable, baseName) end
 
+
 ---Registers a new VGUI panel from a file, to be used with vgui.CreateFromTable.
 ---
 ---The loaded file receives a temporary global `PANEL` table before it is included.
@@ -153,6 +158,7 @@ function vgui.Register(classname, panelTable, baseName) end
 ---@param file string The file to register.
 ---@return T # A table containing info about the panel.
 function vgui.RegisterFile(file) end
+
 
 ---Registers a table to use as a panel, to be used with [vgui.CreateFromTable](https://wiki.facepunch.com/gmod/vgui.CreateFromTable).
 ---
@@ -167,3 +173,5 @@ function vgui.RegisterFile(file) end
 ---@param base? string A base for the panel.
 ---@return T # The PANEL table
 function vgui.RegisterTable(panel, base) end
+
+

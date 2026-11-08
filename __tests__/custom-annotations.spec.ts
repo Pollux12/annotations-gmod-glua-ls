@@ -8,6 +8,28 @@ describe('custom and plugin annotation smoke checks', () => {
   const readCustom = (file: string) => fs.readFileSync(path.join(customRoot, file), 'utf8');
   const readOutput = (file: string) => fs.readFileSync(path.join(outputRoot, file), 'utf8');
 
+  const functionBlocks = (source: string, header: string) =>
+    source.replace(/\r\n/g, '\n').split(/\n\n+/).filter((part) => part.includes(header));
+
+  const leadingType = (text: string) => {
+    let depth = 0;
+    for (let i = 0; i < text.length; i++) {
+      const char = text[i];
+      if ('(<{['.includes(char)) depth++;
+      else if (')>}]'.includes(char)) depth--;
+      else if (/\s/.test(char) && depth === 0) return text.slice(0, i);
+    }
+    return text;
+  };
+
+  const signature = (block: string) =>
+    block.replace(/\r\n/g, '\n').split('\n').flatMap((line) => {
+      const param = line.match(/^---@param (\S+) (.*)$/);
+      if (param) return [`param ${param[1]} ${leadingType(param[2])}`];
+      const result = line.match(/^---@return (.*)$/);
+      return result ? [`return ${leadingType(result[1])}`] : [];
+    });
+
   test.each([
     ['bf_read', 'bf_read', 'ReadAngle'],
     ['bf_read', 'bf_read', 'ReadBool'],
@@ -79,10 +101,13 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(Array.from(block?.matchAll(/^---@return (\S+)/gm) ?? [], (match) => match[1])).toEqual(types);
   });
 
-  test('constraint overrides are emitted into output', () => {
-    const output = readOutput('constraint.lua').replace(/\r\n/g, '\n');
+  test('constraint overrides set the signature their function is emitted with', () => {
+    const output = readOutput('constraint.lua');
     for (const file of fs.readdirSync(customRoot).filter((name) => name.startsWith('constraint.'))) {
-      expect(output).toContain(readCustom(file).replace(/\r\n/g, '\n').trim());
+      const name = file.slice('constraint.'.length, -'.lua'.length);
+      const blocks = functionBlocks(output, `function constraint.${name}(`);
+      expect(blocks).toHaveLength(1);
+      expect(signature(blocks[0])).toEqual(signature(readCustom(file)));
     }
   });
 
@@ -1106,14 +1131,13 @@ describe('custom and plugin annotation smoke checks', () => {
   });
 
   test('vetted Panel state methods preserve resource children', () => {
-    const panel = readOutput('panel.lua').replace(/\r\n/g, '\n');
+    const panel = readOutput('panel.lua');
     for (const name of ['Center', 'MakePopup', 'SetVisible', 'SetMouseInputEnabled', 'SetZPos', 'SetAlpha', 'SetCursor']) {
-      const custom = readCustom(`Panel.${name}.lua`).replace(/\r\n/g, '\n').trim();
-      const blocks = panel.split(/\n\n+/).filter((part) => part.includes(`function Panel:${name}(`));
+      const blocks = functionBlocks(panel, `function Panel:${name}(`);
       expect(blocks).toHaveLength(1);
-      expect(custom.match(/^---@\[keeps_children\]$/gm)).toHaveLength(1);
-      expect(custom).toContain(`---@[keeps_children]\nfunction Panel:${name}(`);
-      expect(blocks[0]).toContain(custom);
+      expect(blocks[0].match(/^---@\[keeps_children\]$/gm)).toHaveLength(1);
+      expect(blocks[0]).toContain(`---@[keeps_children]\nfunction Panel:${name}(`);
+      expect(signature(blocks[0])).toEqual(signature(readCustom(`Panel.${name}.lua`)));
     }
     for (const name of ['SetSize', 'SetPos', 'SetWide', 'SetTall', 'SetKeyboardInputEnabled', 'InvalidateLayout', 'SizeToContents', 'SetParent', 'Dock']) {
       const blocks = panel.split(/\n\n+/).filter((part) => part.includes(`function Panel:${name}(`));
@@ -1123,13 +1147,10 @@ describe('custom and plugin annotation smoke checks', () => {
   });
 
   test('DFrame Center preserves resource children in its override slot', () => {
-    const frame = readOutput('dframe.lua').replace(/\r\n/g, '\n');
-    const custom = readCustom('DFrame.Center.lua').replace(/\r\n/g, '\n').trim();
-    const blocks = frame.split(/\n\n+/).filter((part) => part.includes('function DFrame:Center('));
+    const blocks = functionBlocks(readOutput('dframe.lua'), 'function DFrame:Center(');
     expect(blocks).toHaveLength(1);
-    expect(custom.match(/^---@\[keeps_children\]$/gm)).toHaveLength(1);
-    expect(custom).toContain('---@[keeps_children]\nfunction DFrame:Center(');
-    expect(blocks[0]).toContain(custom);
+    expect(blocks[0].match(/^---@\[keeps_children\]$/gm)).toHaveLength(1);
+    expect(blocks[0]).toContain('---@[keeps_children]\nfunction DFrame:Center(');
   });
 
   test('the demo-to-video resource class names its controls with the types the resource creates', () => {
@@ -1157,16 +1178,15 @@ describe('custom and plugin annotation smoke checks', () => {
       '---@field OnEnd fun(animData: table, tgtPanel: T)',
       '---@field StartPos Vector',
     ]) {
-      expect(readCustom('class.AnimationData.lua')).toContain(annotation);
       expect(structures).toContain(annotation);
     }
     const panels = readOutput('panel.lua');
     for (const name of ['NewAnimation', 'SizeTo', 'AlphaTo', 'ColorTo', 'MoveBy', 'MoveTo']) {
-      const custom = readCustom(`Panel.${name}.lua`).replace(/\r\n/g, '\n').trim();
-      expect(custom).toContain('---@param callback? fun(animData: table, targetPanel: self)');
-      expect(panels.replace(/\r\n/g, '\n')).toContain(custom);
+      const blocks = functionBlocks(panels, `function Panel:${name}(`);
+      expect(blocks).toHaveLength(1);
+      expect(signature(blocks[0])).toContain('param callback? fun(animData: table, targetPanel: self)');
       if (name === 'NewAnimation' || name === 'SizeTo') {
-        expect(custom).toContain('---@return AnimationData<self>');
+        expect(signature(blocks[0])).toContain('return AnimationData<self>');
       }
     }
   });

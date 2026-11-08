@@ -1,4 +1,5 @@
----@class gmod_tool : Weapon
+---@class gmod_tool : SWEP
+---@field Tool table<string, Tool> Map of tool mode name → instantiated tool object, filled when the gmod_tool SWEP loads.
 local gmod_tool = {}
 
 ---Returns the tool object associated with the current or specified tool mode.

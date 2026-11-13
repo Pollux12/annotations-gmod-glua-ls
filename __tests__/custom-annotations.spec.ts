@@ -101,6 +101,16 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(Array.from(block?.matchAll(/^---@return (\S+)/gm) ?? [], (match) => match[1])).toEqual(types);
   });
 
+  test.each([
+    ['scripted_ents.lua', 'scripted_ents'],
+    ['weapons.lua', 'weapons'],
+  ])('%s IsBasedOn marks the tested class name and the base for narrowing', (file, library) => {
+    const blocks = functionBlocks(readOutput(file), `function ${library}.IsBasedOn(`);
+    expect(blocks).toHaveLength(1);
+    expect(blocks[0]).toMatch(/^---@\[call_arg\("gmod\.scripted_class", "class_name"\)\]\n---@param name /m);
+    expect(blocks[0]).toMatch(/^---@\[call_arg\("gmod\.scripted_class", "based_on"\)\]\n---@param base /m);
+  });
+
   test('constraint overrides set the signature their function is emitted with', () => {
     const output = readOutput('constraint.lua');
     for (const file of fs.readdirSync(customRoot).filter((name) => name.startsWith('constraint.'))) {

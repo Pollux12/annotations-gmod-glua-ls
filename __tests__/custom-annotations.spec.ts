@@ -111,6 +111,14 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(blocks[0]).toMatch(/^---@\[call_arg\("gmod\.scripted_class", "based_on"\)\]\n---@param base /m);
   });
 
+  test('RegisterMetaTable marks the fields it adds to the registered table', () => {
+    const blocks = functionBlocks(readOutput('global.lua'), 'function _G.RegisterMetaTable(');
+    expect(blocks).toHaveLength(1);
+    expect(blocks[0]).toMatch(
+      /^---@\[adds_field\("MetaID", "integer"\)\]\n---@\[adds_field\("MetaName", "string"\)\]\n---@param metaTable /m,
+    );
+  });
+
   test('constraint overrides set the signature their function is emitted with', () => {
     const output = readOutput('constraint.lua');
     for (const file of fs.readdirSync(customRoot).filter((name) => name.startsWith('constraint.'))) {

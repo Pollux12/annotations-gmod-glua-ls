@@ -129,6 +129,11 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(panelClassName[0]).not.toContain('self_class_name');
   });
 
+  test('Entity declares the Owner alias as an optional field', () => {
+    const header = readOutput('entity.lua').split('local Entity = {}')[0];
+    expect(header).toMatch(/^---@field Owner\? Entity\|NULL /m);
+  });
+
   test('constraint overrides set the signature their function is emitted with', () => {
     const output = readOutput('constraint.lua');
     for (const file of fs.readdirSync(customRoot).filter((name) => name.startsWith('constraint.'))) {

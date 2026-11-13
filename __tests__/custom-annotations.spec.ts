@@ -119,6 +119,16 @@ describe('custom and plugin annotation smoke checks', () => {
     );
   });
 
+  test('Entity:GetClass is the only getter marked as returning its receiver class name', () => {
+    const blocks = functionBlocks(readOutput('entity.lua'), 'function Entity:GetClass(');
+    expect(blocks).toHaveLength(1);
+    expect(signature(blocks[0])).toEqual(['return string']);
+    expect(blocks[0]).toMatch(/^---@\[self_class_name\]\nfunction Entity:GetClass\(\)/m);
+    const panelClassName = functionBlocks(readOutput('panel.lua'), 'function Panel:GetClassName(');
+    expect(panelClassName).toHaveLength(1);
+    expect(panelClassName[0]).not.toContain('self_class_name');
+  });
+
   test('constraint overrides set the signature their function is emitted with', () => {
     const output = readOutput('constraint.lua');
     for (const file of fs.readdirSync(customRoot).filter((name) => name.startsWith('constraint.'))) {

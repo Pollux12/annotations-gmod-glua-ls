@@ -101,6 +101,39 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(Array.from(block?.matchAll(/^---@return (\S+)/gm) ?? [], (match) => match[1])).toEqual(types);
   });
 
+  test.each([
+    ['scripted_ents.lua', 'scripted_ents'],
+    ['weapons.lua', 'weapons'],
+  ])('%s IsBasedOn marks the tested class name and the base for narrowing', (file, library) => {
+    const blocks = functionBlocks(readOutput(file), `function ${library}.IsBasedOn(`);
+    expect(blocks).toHaveLength(1);
+    expect(blocks[0]).toMatch(/^---@\[call_arg\("gmod\.scripted_class", "class_name"\)\]\n---@param name /m);
+    expect(blocks[0]).toMatch(/^---@\[call_arg\("gmod\.scripted_class", "based_on"\)\]\n---@param base /m);
+  });
+
+  test('RegisterMetaTable marks the fields it adds to the registered table', () => {
+    const blocks = functionBlocks(readOutput('global.lua'), 'function _G.RegisterMetaTable(');
+    expect(blocks).toHaveLength(1);
+    expect(blocks[0]).toMatch(
+      /^---@\[adds_field\("MetaID", "integer"\)\]\n---@\[adds_field\("MetaName", "string"\)\]\n---@param metaTable /m,
+    );
+  });
+
+  test('Entity:GetClass is the only getter marked as returning its receiver class name', () => {
+    const blocks = functionBlocks(readOutput('entity.lua'), 'function Entity:GetClass(');
+    expect(blocks).toHaveLength(1);
+    expect(signature(blocks[0])).toEqual(['return string']);
+    expect(blocks[0]).toMatch(/^---@\[self_class_name\]\nfunction Entity:GetClass\(\)/m);
+    const panelClassName = functionBlocks(readOutput('panel.lua'), 'function Panel:GetClassName(');
+    expect(panelClassName).toHaveLength(1);
+    expect(panelClassName[0]).not.toContain('self_class_name');
+  });
+
+  test('Entity declares the Owner alias as an optional field', () => {
+    const header = readOutput('entity.lua').split('local Entity = {}')[0];
+    expect(header).toMatch(/^---@field Owner\? Entity\|NULL /m);
+  });
+
   test('constraint overrides set the signature their function is emitted with', () => {
     const output = readOutput('constraint.lua');
     for (const file of fs.readdirSync(customRoot).filter((name) => name.startsWith('constraint.'))) {

@@ -442,13 +442,13 @@ function string.StartWith(inputStr, start) end
 ---@return string # File-path without extension or unmodified string.
 function string.StripExtension(path) end
 
----Returns a sub-string, starting from the character at position `StartPos` of the string (inclusive), and optionally ending at the character at position `EndPos` of the string (also inclusive). If EndPos is not given, the rest of the string is returned.
+---Returns a substring, starting from the character at position `StartPos` of the string (inclusive), and optionally ending at the character at position `EndPos` of the string (also inclusive). If EndPos is not given, the rest of the string is returned.
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/string.sub
 ---@param string string The string you'll take a sub-string out of.
----@param StartPos number The position of the first character that will be included in the sub-string. It can be negative to count from the end.
----@param EndPos? number The position of the last character to be included in the sub-string. It can be negative to count from the end.
+---@param StartPos number The position of the first character that will be included in the substring. It can be negative to count from the end.
+---@param EndPos? number The position of the last character to be included in the substring. It can be negative to count from the end. In case this argument is omitted, all the characters to the end are returned.
 ---@return string # The substring.
 function string.sub(string, StartPos, EndPos) end
 

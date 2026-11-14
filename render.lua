@@ -219,7 +219,9 @@ function render.DepthRange(depthmin, depthmax) end
 ---@param color? Color What Color to tint the Beam.
 function render.DrawBeam(startPos, endPos, width, textureStart, textureEnd, color) end
 
----Draws a box in 3D space.
+---Draws a filled box in 3D space.
+---
+--- See [render.DrawWireframeBox](https://wiki.facepunch.com/gmod/render.DrawWireframeBox) for a function to draw an outline of a box.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/render.DrawBox
 ---@param position Vector Origin of the box.
@@ -317,7 +319,9 @@ function render.DrawTextureToScreen(tex) end
 ---@param height number The height of the rectangle to draw.
 function render.DrawTextureToScreenRect(tex, x, y, width, height) end
 
----Draws a wireframe box in 3D space.
+---Draws a wireframe box (outlines) in 3D space.
+---
+--- For a function that draws a filled box, see [render.DrawBox](https://wiki.facepunch.com/gmod/render.DrawBox).
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/render.DrawWireframeBox
 ---@param position Vector Position of the box.
@@ -329,6 +333,8 @@ function render.DrawTextureToScreenRect(tex, x, y, width, height) end
 function render.DrawWireframeBox(position, angle, mins, maxs, color, writeZ) end
 
 ---Draws a wireframe sphere in 3d space.
+---
+--- See [render.DrawSphere](https://wiki.facepunch.com/gmod/render.DrawSphere) for a filled version.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/render.DrawWireframeSphere
 ---@param position Vector Position of the sphere.

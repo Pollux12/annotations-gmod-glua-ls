@@ -8,6 +8,7 @@
 ---@class Entity
 ---@field BaseClass Entity? The base class table of this entity, used for inheritance in the scripted entity system.
 ---@field EntityMods table? A table of entity modifications stored by the duplicator system via Entity:SetEntityMods.
+---@field Owner? Entity|NULL Legacy alias for Entity:GetOwner(). Reading it calls Entity:GetOwner() unless the entity's own table sets it.
 local Entity = {}
 ---@class ENTITY : Entity
 ---@field Entity self Deprecated alias for the entity itself; use `self` instead.
@@ -1145,7 +1146,9 @@ function Entity:GetChildren() end
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Entity:GetClass
 ---@return string # The entity's classname
+---@[self_class_name]
 function Entity:GetClass() end
+
 
 ---Returns an entity's collision bounding box.
 ---
@@ -3250,7 +3253,6 @@ function Entity:ManipulateBoneJiggle(boneID, type) end
 function Entity:ManipulateBonePosition(boneID, pos, networking) end
 
 ---Sets custom bone scale.
---- This does not scale procedural bones.
 --- **NOTE**: This silently fails when given a Vector with nan values, hiding the vertices associated with the bone. See example below.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Entity:ManipulateBoneScale

@@ -2,7 +2,9 @@
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Global.RegisterMetaTable
+---@[call_arg("gmod.metatable", "define")]
 ---@param metaName string The new metatable name. Cannot override existing types.
+---@[call_arg("gmod.metatable", "table")]
 ---@[adds_field("MetaID", "integer")]
 ---@[adds_field("MetaName", "string")]
 ---@param metaTable table The new metatable table. It will be given a `MetaID` and `MetaName` fields.

@@ -111,11 +111,12 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(blocks[0]).toMatch(/^---@\[call_arg\("gmod\.scripted_class", "based_on"\)\]\n---@param base /m);
   });
 
-  test('RegisterMetaTable marks the fields it adds to the registered table', () => {
+  test('RegisterMetaTable registers its table as the named class and marks the fields it adds', () => {
     const blocks = functionBlocks(readOutput('global.lua'), 'function _G.RegisterMetaTable(');
     expect(blocks).toHaveLength(1);
+    expect(blocks[0]).toMatch(/^---@\[call_arg\("gmod\.metatable", "define"\)\]\n---@param metaName /m);
     expect(blocks[0]).toMatch(
-      /^---@\[adds_field\("MetaID", "integer"\)\]\n---@\[adds_field\("MetaName", "string"\)\]\n---@param metaTable /m,
+      /^---@\[call_arg\("gmod\.metatable", "table"\)\]\n---@\[adds_field\("MetaID", "integer"\)\]\n---@\[adds_field\("MetaName", "string"\)\]\n---@param metaTable /m,
     );
   });
 

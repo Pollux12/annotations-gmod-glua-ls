@@ -1140,6 +1140,14 @@ describe('custom and plugin annotation smoke checks', () => {
     }
   });
 
+  test('table.Inherit returns its target with the base members and BaseClass', () => {
+    const output = readOutput('table.lua').replace(/\r\n/g, '\n');
+    const blocks = output.split(/\n\n+/).filter((part) => part.includes('function table.Inherit('));
+    expect(blocks).toHaveLength(1);
+    expect(blocks[0]).toContain('---@generic T : table, B : table');
+    expect(blocks[0]).toContain('---@return T & B & { BaseClass: B } # Target');
+  });
+
   test('table.insert marks its list and its two-argument append value', () => {
     const output = readOutput('table.lua').replace(/\r\n/g, '\n');
     const blocks = output.split(/\n\n+/).filter((part) => part.includes('function table.insert('));

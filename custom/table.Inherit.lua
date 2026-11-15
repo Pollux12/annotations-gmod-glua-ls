@@ -1,0 +1,15 @@
+---Copies any missing data from `base` to `target`, and sets the `target`'s `BaseClass` member to the `base` table's pointer.
+---
+--- See [table.Merge](https://wiki.facepunch.com/gmod/table.Merge), which overrides existing values and doesn't add a BaseClass member.
+---
+--- See also [table.Add](https://wiki.facepunch.com/gmod/table.Add), which simply adds values of one table to another.
+---
+--- Sub-tables aren't inherited. The target's table value will take priority.
+---@realm shared
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/table.Inherit
+---@generic T : table, B : table
+---@param target T Table to copy data to
+---@param base B Table to copy data from
+---@return T & B & { BaseClass: B } # Target
+function table.Inherit(target, base) end

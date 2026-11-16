@@ -135,6 +135,12 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(header).toMatch(/^---@field Owner\? Entity\|NULL /m);
   });
 
+  test('Entity declares the tables the constraint library and statue property store on it', () => {
+    const header = readOutput('entity.lua').split('local Entity = {}')[0];
+    expect(header).toMatch(/^---@field Constraints Entity\[\]\? /m);
+    expect(header).toMatch(/^---@field StatueInfo table<integer, Entity>\? /m);
+  });
+
   test('constraint overrides set the signature their function is emitted with', () => {
     const output = readOutput('constraint.lua');
     for (const file of fs.readdirSync(customRoot).filter((name) => name.startsWith('constraint.'))) {

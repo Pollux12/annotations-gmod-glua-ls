@@ -162,6 +162,28 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(structures).toContain('---@type SNDLVL?\nSoundData.level = SNDLVL_NORM');
   });
 
+  test('arguments the shipped Lua defaults when omitted are optional', () => {
+    const global = readOutput('global.lua');
+    const params = (name: string) => signature(functionBlocks(global, `function _G.${name}(`)[0]);
+    expect(params('Derma_Message')).toEqual(['param Text string', 'param Title? string', 'param Button? string', 'return DFrame']);
+    expect(params('ChangeBackground')).toEqual(['param currentgm? string']);
+    expect(params('RenderDoF').slice(-2)).toEqual(['param inView? table', 'param fov? number']);
+    expect(params('AddConsoleCommand')).toEqual(['param name string', 'param helpText? string', 'param flags? FCVAR|number[]']);
+    const problem = readOutput('structures.lua').replace(/\r\n/g, '\n').match(/^---@class \(partial\) Problem\n([\s\S]*?)\n\n/m)?.[1];
+    expect(Array.from(problem?.matchAll(/^---@field (\S+)/gm) ?? [], (match) => match[1])).toEqual(['id?', 'text', 'severity?', 'type', 'fix?']);
+  });
+
+  test('arguments the shipped Lua passes on to another function take its types', () => {
+    const texturize = functionBlocks(readOutput('global.lua'), 'function _G.DrawTexturize(');
+    expect(signature(texturize[0])).toEqual(['param Scale number', 'param BaseTexture IMaterial']);
+    const magnet = functionBlocks(readOutput('construct.lua'), 'function construct.Magnet(');
+    expect(signature(magnet[0])).toContain('param aVel? Vector');
+  });
+
+  test('player classes have the PLAYER hooks player_manager calls on them', () => {
+    expect(readOutput('custom_classes.lua')).toMatch(/^---@class PlayerClass : PLAYER$/m);
+  });
+
   test('bullet callbacks can return nothing without losing the bullet fields', () => {
     const structures = readOutput('structures.lua');
     expect(structures).toContain('---@field Callback? fun(attacker: Entity, tr: table, dmgInfo: CTakeDamageInfo):(ret0: table?)');
@@ -181,6 +203,11 @@ describe('custom and plugin annotation smoke checks', () => {
     const structures = readOutput('structures.lua');
     const textData = structures.split('---@class (partial) TextData')[1]?.split('---@class')[0];
     expect(textData).toContain('---@field text? any');
+  });
+
+  test('draw text structures keep every field draw.Text reads', () => {
+    const textData = readOutput('structures.lua').split('---@class (partial) TextData')[1]?.split('---@class')[0];
+    expect(Array.from(textData?.matchAll(/^---@field (\S+)/gm) ?? [], (match) => match[1])).toEqual(['text?', 'font?', 'pos?', 'xalign?', 'yalign?', 'color?']);
   });
 
   test('cvars.Bool preserves the fallback type and permits an omitted fallback', () => {

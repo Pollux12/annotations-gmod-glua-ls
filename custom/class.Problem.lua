@@ -1,0 +1,17 @@
+--- Table used by [Global.FireProblem](https://wiki.facepunch.com/gmod/Global.FireProblem) function.
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/Structures/Problem
+---@class (partial) Problem
+---The Problem ID. Defaults to `text`.
+---@field id? string
+---The Text to Display.
+---@field text string
+---The Problem severity. Defaults to `0`.
+---@field severity? number
+---The Problem Type. Possible values are:
+--- * config
+--- * hardware
+--- * addons
+---@field type string
+---a Function that fixes the Problem.
+---@field fix? function

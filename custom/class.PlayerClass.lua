@@ -10,7 +10,7 @@
 --- `player_manager.lua`'s `LookupPlayerClass`. All fields are optional because a
 --- player class only authors the subset it wants to override.
 ---
----@class PlayerClass
+---@class PlayerClass : PLAYER
 ---@field Player Player The Player entity this class instance is driving. Injected at runtime by player_manager. Always present inside class methods.
 ---@field ClassID? number Network string ID of the active player class. Injected at runtime by player_manager.
 ---@field Func? fun() Internal no-op placeholder. Injected at runtime by player_manager.

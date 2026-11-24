@@ -135,7 +135,7 @@ function IMaterial:Height() end
 ---@return boolean # Is this material the error material? (___error)
 function IMaterial:IsError() end
 
----Recomputes the material's snapshot. This needs to be called if you have changed variables on your material and it isn't changing.
+---Recomputes the material's snapshot. This needs to be called if you have changed variables on your material and it isn't changing. 
 ---
 --- Be careful though - this function is slow - so try to call it only when needed!
 ---@realm shared
@@ -197,13 +197,14 @@ function IMaterial:SetString(materialString, string) end
 
 ---Sets the specified material texture to the specified texture, does nothing on a type mismatch.
 ---
---- Calls [IMaterial:Recompute](https://wiki.facepunch.com/gmod/IMaterial:Recompute) internally.
+---Calls [IMaterial:Recompute](https://wiki.facepunch.com/gmod/IMaterial:Recompute) internally.
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/IMaterial:SetTexture
 ---@param materialTexture string The name of the keyvalue on the material to store the texture on.
 ---@param texture ITexture|string The new texture. This can also be a string, the name of the new texture.
 function IMaterial:SetTexture(materialTexture, texture) end
+
 
 ---Unsets the value for the specified material value.
 ---@realm shared
@@ -237,3 +238,4 @@ function IMaterial:SetVector4D(name, x, y, z, w) end
 ---@source https://wiki.facepunch.com/gmod/IMaterial:Width
 ---@return number # Width of the base texture.
 function IMaterial:Width() end
+

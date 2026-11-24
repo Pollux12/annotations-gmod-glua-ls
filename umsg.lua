@@ -98,3 +98,4 @@ function umsg.Vector(vector) end
 ---@param normal Vector The vector normal to be sent.
 ---@deprecated You should be using the net instead
 function umsg.VectorNormal(normal) end
+

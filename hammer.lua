@@ -32,3 +32,4 @@ All commands that pick an entity with `x y z`, must use the exact position inclu
 ---
 --- **All changes only happen in Hammer, there is *NO* in game representation/feedback**
 function hammer.SendCommand(cmd) end
+

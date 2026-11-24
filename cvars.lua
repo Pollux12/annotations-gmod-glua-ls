@@ -12,7 +12,7 @@ cvars = {}
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/cvars.AddChangeCallback
 ---@param name string The name of the convar to add the change callback to.
----@param callback fun(convar: string, oldValue: string, newValue: string) The function to be called when the convar changes.
+---@param callback fun(convar: string, oldValue: string, newValue: string) The function to be called when the convar changes. 
 ---
 --- Function argument(s):
 --- * string `convar` - The name of the convar.
@@ -27,10 +27,13 @@ function cvars.AddChangeCallback(name, callback, identifier) end
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/cvars.Bool
+---@generic T
+---@overload fun(cvar: string): boolean?
 ---@param cvar string Name of console variable.
----@param default? boolean The value to return if the console variable does not exist.
----@return boolean # Retrieved value.
+---@param default T The value to return if the console variable does not exist.
+---@return boolean|T # Retrieved value.
 function cvars.Bool(cvar, default) end
+
 
 ---Returns a table of the given [ConVar](https://wiki.facepunch.com/gmod/ConVar)s callbacks.
 ---@realm shared
@@ -79,3 +82,4 @@ function cvars.RemoveChangeCallback(name, indentifier) end
 ---@param default? any The value to return if the console variable does not exist.
 ---@return string # Retrieved value.
 function cvars.String(cvar, default) end
+

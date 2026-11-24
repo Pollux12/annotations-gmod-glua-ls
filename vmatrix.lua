@@ -1,5 +1,20 @@
 ---@meta
 
+--- A 4x4 matrix.
+---
+--- This page lists all possible functions to manipulate matrices.
+---
+--- This object can be created by [Global.Matrix](https://wiki.facepunch.com/gmod/Global.Matrix).
+---
+--- Metamethod | Second Operand | Description
+--- ---------- | -------------- | -----------
+--- `__add` | [VMatrix](https://wiki.facepunch.com/gmod/VMatrix) | Returns new [VMatrix](https://wiki.facepunch.com/gmod/VMatrix) with the result of addition.
+--- `__eq` | [any](https://wiki.facepunch.com/gmod/any) | Compares 2 operands, if they both are [VMatrix](https://wiki.facepunch.com/gmod/VMatrix), compares each individual component.
+--- `__mul` | [VMatrix](https://wiki.facepunch.com/gmod/VMatrix) or [Vector](https://wiki.facepunch.com/gmod/Vector) | Returns new [VMatrix](https://wiki.facepunch.com/gmod/VMatrix) or [Vector](https://wiki.facepunch.com/gmod/Vector) with the result of multiplication.
+--- `__sub` | [VMatrix](https://wiki.facepunch.com/gmod/VMatrix) | Returns new [VMatrix](https://wiki.facepunch.com/gmod/VMatrix) with the result of subtraction.
+--- `__tostring` |  | Returns a [string](https://wiki.facepunch.com/gmod/string) in format `[%f,\t%f,\t%f,\t%f]\n[%f,\t%f,\t%f,\t%f]\n[%f,\t%f,\t%f,\t%f]\n[%f,\t%f,\t%f,\t%f]`.
+--- `__unm` | | Returns new [VMatrix](https://wiki.facepunch.com/gmod/VMatrix) with the result of negation.
+---@source https://wiki.facepunch.com/gmod/VMatrix
 ---@class VMatrix
 --- A 4x4 matrix.
 ---
@@ -220,22 +235,22 @@ function VMatrix:SetTranslation(translation) end
 ---Sets each component of the matrix.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/VMatrix:SetUnpacked
----@param e11 number
----@param e12 number
----@param e13 number
----@param e14 number
----@param e21 number
----@param e22 number
----@param e23 number
----@param e24 number
----@param e31 number
----@param e32 number
----@param e33 number
----@param e34 number
----@param e41 number
----@param e42 number
----@param e43 number
----@param e44 number
+---@param e11 number 
+---@param e12 number 
+---@param e13 number 
+---@param e14 number 
+---@param e21 number 
+---@param e22 number 
+---@param e23 number 
+---@param e24 number 
+---@param e31 number 
+---@param e32 number 
+---@param e33 number 
+---@param e34 number 
+---@param e41 number 
+---@param e42 number 
+---@param e43 number 
+---@param e44 number 
 function VMatrix:SetUnpacked(e11, e12, e13, e14, e21, e22, e23, e24, e31, e32, e33, e34, e41, e42, e43, e44) end
 
 ---Sets the up direction of the matrix.
@@ -293,3 +308,4 @@ function VMatrix:Unpack() end
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/VMatrix:Zero
 function VMatrix:Zero() end
+

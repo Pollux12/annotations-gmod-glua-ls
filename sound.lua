@@ -35,7 +35,7 @@ function sound.EmitHint(hint, pos, volume, duration, owner) end
 ---@param identifier string A unique identifier for the sound.
 ---
 --- 			You cannot override existing identifiers.
----@param samplerate number The sample rate of the sound.
+---@param samplerate number The sample rate of the sound.  
 ---
 --- Must be `11025`, `22050` or `44100`.
 ---@param duration number The length in seconds of the sound to generate.
@@ -162,3 +162,4 @@ function sound.PlayURL(url, flags, callback) end
 ---@param modelPath string Path to the model file to set the gender of.
 ---@param gender string Gender to set. Only 2 options are permitted: `female` and `male`. Any other option will be ignored.
 function sound.SetActorGender(modelPath, gender) end
+

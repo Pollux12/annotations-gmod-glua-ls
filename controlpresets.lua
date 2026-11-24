@@ -3,7 +3,15 @@
 --- A preset manager, found at the top of almost every default tool's C-menu.
 ---
 --- This control only exists in Sandbox derived gamemodes.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/ControlPresets
 ---@class (partial) ControlPresets : Panel
+---@field Label DLabel The visible preset group label, assigned by the control panel builder.
+---@field DropDown DComboBox The preset selection dropdown.
+---@field Button DImageButton The edit-preset button.
+---@field AddButton DImageButton The quick-save button.
+---@field Options table<string, any> Available preset option data.
+---@field ConVars table<string, any> Console variables managed by this preset control.
 local ControlPresets = {}
 
 ---Adds a convar to be managed by this control.
@@ -12,7 +20,7 @@ local ControlPresets = {}
 ---@param convar string The convar to add.
 function ControlPresets:AddConVar(convar) end
 
----Adds option to the [DComboBox](https://wiki.facepunch.com/gmod/DComboBox) subelement with [DComboBox:AddChoice](https://wiki.facepunch.com/gmod/DComboBox:AddChoice) then adds it to the `options` subtable
+---Adds option to the [DComboBox](https://wiki.facepunch.com/gmod/DComboBox) subelement with [DComboBox:AddChoice](https://wiki.facepunch.com/gmod/DComboBox:AddChoice) then adds it to the `options` subtable 
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/ControlPresets:AddOption
 ---@param strName string Name
@@ -35,8 +43,8 @@ function ControlPresets:GetConVars() end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/ControlPresets:OnSelect
 ---@param index number Name
----@param value any
----@param data table
+---@param value any 
+---@param data table 
 function ControlPresets:OnSelect(index, value, data) end
 
 ---Creates and opens [PresetEditor](https://wiki.facepunch.com/gmod/PresetEditor)
@@ -46,7 +54,7 @@ function ControlPresets:OpenPresetEditor() end
 
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/ControlPresets:QuickSaveInternal
----@param text string
+---@param text string 
 function ControlPresets:QuickSaveInternal(text) end
 
 ---@realm client
@@ -63,7 +71,7 @@ function ControlPresets:ReloadPresets() end
 ---@param name string The text to put in the label
 function ControlPresets:SetLabel(name) end
 
----Uses [table.Merge](https://wiki.facepunch.com/gmod/table.Merge) to combine the provided table into the `Options` subtable
+---Uses [table.Merge](https://wiki.facepunch.com/gmod/table.Merge) to combine the provided table into the `Options` subtable 
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/ControlPresets:SetOptions
 ---@param Options table Options
@@ -78,3 +86,4 @@ function ControlPresets:SetPreset(strName) end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/ControlPresets:Update
 function ControlPresets:Update() end
+

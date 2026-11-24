@@ -7,7 +7,7 @@
 --- **WARNING**: This function doesn't make the rope attached to the balloon appear.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/MakeBalloon
----@param ply Player The player who spawns the balloon. This argument can be nil
+---@param ply Player The player who spawns the balloon. This argument can be nil 
 ---@param r? number Balloon color (red)
 ---@param g? number Balloon color (green)
 ---@param b? number Balloon color (blue).
@@ -16,3 +16,4 @@
 --- For more information, please see: Structures/BalloonData
 ---@return Entity # Returns the created balloon entity.
 function _G.MakeBalloon(ply, r, g, b, force, data) end
+

@@ -1,7 +1,13 @@
 ---@meta
 
 --- A panel that fades its contents in and out once, like a notification.
----@class (partial) DNotify : Panel
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DNotify
+---@class DNotify : Panel
+---@field Items table<integer, Panel|false> The list of active notification panels.
+---@field Spacing number Spacing between notification items (AccessorFunc-backed).
+---@field Alignment integer Alignment of notification items within the panel (AccessorFunc-backed).
+---@field m_fLifeLength number Default lifetime in seconds for new items (AccessorFunc-backed via SetLife/GetLife).
 local DNotify = {}
 
 ---Adds a panel to the notification
@@ -23,7 +29,7 @@ function DNotify:GetAlignment() end
 ---@return table # A table of Panels.
 function DNotify:GetItems() end
 
----Returns the display time in seconds of the DNotify. This is set with
+---Returns the display time in seconds of the DNotify. This is set with 
 --- [DNotify:SetLife](https://wiki.facepunch.com/gmod/DNotify:SetLife).
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DNotify:GetLife
@@ -33,7 +39,7 @@ function DNotify:GetLife() end
 ---Returns the spacing between items set by [DNotify:SetSpacing](https://wiki.facepunch.com/gmod/DNotify:SetSpacing).
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DNotify:GetSpacing
----@return number #
+---@return number # 
 function DNotify:GetSpacing() end
 
 ---Sets the alignment of the child panels in the notification
@@ -51,7 +57,7 @@ function DNotify:SetLife(time) end
 ---Sets the spacing between child elements of the notification panel.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DNotify:SetSpacing
----@param spacing number
+---@param spacing number 
 function DNotify:SetSpacing(spacing) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -59,3 +65,4 @@ function DNotify:SetSpacing(spacing) end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DNotify:Shuffle
 function DNotify:Shuffle() end
+

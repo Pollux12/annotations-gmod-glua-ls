@@ -79,3 +79,4 @@ function numpad.Remove(ID) end
 ---@param ply Player The player whose numpad should be simulated
 ---@param key number The key to press, corresponding to Enums/KEY
 function numpad.Toggle(ply, key) end
+

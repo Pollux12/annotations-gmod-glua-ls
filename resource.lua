@@ -16,7 +16,7 @@ resource = {}
 --- **NOTE**: The file must exist on the server it will not be added to the downloadables list!
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/resource.AddFile
----@param path string **Virtual path** of the file to be added, relative to `garrysmod/`.
+---@param path string **Virtual path** of the file to be added, relative to `garrysmod/`.  
 --- Do not add `.bz2` to the filepath.
 --- Do not add `gamemodes/*gamemodename*/content/` or `addons/*addonname*/` to the path, since those paths are mounted virtually as if they are in the root `garrysmod/`.
 function resource.AddFile(path) end
@@ -51,3 +51,4 @@ function resource.AddSingleFile(path) end
 ---@source https://wiki.facepunch.com/gmod/resource.AddWorkshop
 ---@param workshopid string The workshop id of the file. This cannot be a collection.
 function resource.AddWorkshop(workshopid) end
+

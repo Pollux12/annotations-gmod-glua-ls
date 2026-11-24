@@ -3,7 +3,17 @@
 --- **INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
 --- Internal subpanel that represents an option used by [DMenu](https://wiki.facepunch.com/gmod/DMenu).
----@class (partial) DMenuOption : DButton
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DMenuOption
+---@class DMenuOption : DButton
+---@field SubMenu? DMenu
+---@field SubMenuArrow? Panel
+---@field m_MenuClicking? boolean
+---@field m_pMenu? DMenu
+---@field m_bChecked? boolean
+---@field m_bCheckable? boolean
+---@field m_bRadio? boolean
 local DMenuOption = {}
 
 ---Creates a sub [DMenu](https://wiki.facepunch.com/gmod/DMenu) and returns it. Has no duplicate call protection.
@@ -24,7 +34,7 @@ function DMenuOption:GetChecked() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DMenuOption:GetIsCheckable
----@return boolean #
+---@return boolean # 
 function DMenuOption:GetIsCheckable() end
 
 ---Returns which [DMenu](https://wiki.facepunch.com/gmod/DMenu) this option belongs.
@@ -97,3 +107,4 @@ function DMenuOption:SetSubMenu(menu) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DMenuOption:ToggleCheck
 function DMenuOption:ToggleCheck() end
+

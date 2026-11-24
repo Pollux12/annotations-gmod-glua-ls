@@ -33,3 +33,4 @@ function PhysCollide:IsValid() end
 ---@return Vector # Hit normal of the trace
 ---@return number # Fraction of the trace. This is calculated from the distance between startPos, hitPos, and endPos.
 function PhysCollide:TraceBox(origin, angles, rayStart, rayEnd, rayMins, rayMaxs) end
+

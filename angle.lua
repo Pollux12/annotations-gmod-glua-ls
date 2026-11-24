@@ -1,5 +1,29 @@
 ---@meta
 
+--[[
+List of all possible functions to manipulate angles.
+
+Created by [Global.Angle](https://wiki.facepunch.com/gmod/Global.Angle).
+
+| Type                | Name                                 | Description                      |
+| ------------------- | ------------------------------------ | -------------------------------- |
+| [number](https://wiki.facepunch.com/gmod/number) | `p` or `pitch` or `x` or `1` | The pitch component of the angle. |
+| [number](https://wiki.facepunch.com/gmod/number) | `y` or `yaw` or `2` | The yaw component of the angle. |
+| [number](https://wiki.facepunch.com/gmod/number) | `r` or `roll`  or `z` or `3` | The roll  component of the angle. |
+
+Metamethod | Second Operand | Description
+---------- | -------------- | -----------
+`__add` | [Angle](https://wiki.facepunch.com/gmod/Angle) | Returns new [Angle](https://wiki.facepunch.com/gmod/Angle) with the result of addition.
+`__div` | [number](https://wiki.facepunch.com/gmod/number) | Returns new [Angle](https://wiki.facepunch.com/gmod/Angle) with the result of division.
+`__eq` | [any](https://wiki.facepunch.com/gmod/any) | Compares 2 operands, if they both are [Angle](https://wiki.facepunch.com/gmod/Angle), compares each individual component. Doesn't normalize the angles (360 is not equal to 0).
+`__index` | [number](https://wiki.facepunch.com/gmod/number) or [string](https://wiki.facepunch.com/gmod/string) | Gets the component of the [Angle](https://wiki.facepunch.com/gmod/Angle). Returns a [number](https://wiki.facepunch.com/gmod/number).
+`__mul` | [number](https://wiki.facepunch.com/gmod/number) | Returns new [Angle](https://wiki.facepunch.com/gmod/Angle) with the result of multiplication.
+`__newindex` | [number](https://wiki.facepunch.com/gmod/number) or [string](https://wiki.facepunch.com/gmod/string) | Sets the component of the [Angle](https://wiki.facepunch.com/gmod/Angle). Accepts [number](https://wiki.facepunch.com/gmod/number) and [string](https://wiki.facepunch.com/gmod/string).
+`__sub` | [Angle](https://wiki.facepunch.com/gmod/Angle) | Returns new [Angle](https://wiki.facepunch.com/gmod/Angle) with the result of subtraction.
+`__tostring` | | Returns `p y r`.
+`__unm` | | Returns new [Angle](https://wiki.facepunch.com/gmod/Angle) with the result of negation.
+--]]
+---@source https://wiki.facepunch.com/gmod/Angle
 ---@class Angle
 --- List of all possible functions to manipulate angles.
 ---
@@ -22,7 +46,7 @@
 ---@operator unm: Angle
 local Angle = {}
 
----Adds the values of the argument angle to the orignal angle.
+---Adds the values of the argument angle to the orignal angle. 
 ---
 --- This functions the same as angle1 + angle2 without creating a new angle object, skipping object construction and garbage collection.
 ---@realm shared
@@ -51,7 +75,7 @@ function Angle:Forward() end
 ---@source https://wiki.facepunch.com/gmod/Angle:IsEqualTol
 ---@param compare Angle The angle to compare to.
 ---@param tolerance number The tolerance range for each component.
----@return boolean # Are each of the the angle components equal or not within given tolerance.
+---@return boolean # Are each of the the angle components equal or not within given tolerance. 
 function Angle:IsEqualTol(compare, tolerance) end
 
 ---Returns whether the pitch, yaw and roll are 0 or not.
@@ -159,3 +183,4 @@ function Angle:Up() end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Angle:Zero
 function Angle:Zero() end
+

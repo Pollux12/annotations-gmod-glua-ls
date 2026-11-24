@@ -1,6 +1,8 @@
 ---@meta
 
 --- Material is a VGUI element that renders a VMT material.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/Material
 ---@class (partial) Material : Button
 local Material = {}
 
@@ -17,3 +19,4 @@ function Material:SetAlpha(alpha) end
 ---@source https://wiki.facepunch.com/gmod/Material:SetMaterial
 ---@param matname string The file path of the material to set (relative to "garrysmod/materials/").
 function Material:SetMaterial(matname) end
+

@@ -1,6 +1,9 @@
 ---@meta
 
 --- Used by the context menu in sandbox.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/ControlPanel
+--- Used by the context menu in sandbox.
 ---@class ControlPanel : DForm
 local ControlPanel = {}
 
@@ -10,18 +13,38 @@ local ControlPanel = {}
 ---@return DLabel # The created DLabel.
 function ControlPanel:Label(text) end
 
+---Creates the tool preset selector panel for this control panel.
+---@realm client
+---@param group string The presets group. Must be unique.
+---@param cvarList table<string, any> The convar defaults used by the preset control.
+---@return ControlPresets # The created ControlPresets panel.
+function ControlPanel:ToolPresets(group, cvarList) end
+
 --- The controlpanel library.
 controlpanel = {}
 
 ---Adds a control to the control panel.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/ControlPanel:AddControl
----@overload fun(self: ControlPanel, type: "color", controlinfo: table): CtrlColor
+---@overload fun(self: ControlPanel, type: "textbox"|"TextBox", controlinfo: table): DTextEntry
+---@overload fun(self: ControlPanel, type: "label"|"Label", controlinfo: table): DLabel
+---@overload fun(self: ControlPanel, type: "checkbox"|"CheckBox"|"toggle"|"Toggle", controlinfo: table): DCheckBoxLabel
+---@overload fun(self: ControlPanel, type: "slider"|"Slider", controlinfo: table): DNumSlider
+---@overload fun(self: ControlPanel, type: "button"|"Button", controlinfo: table): DButton
+---@overload fun(self: ControlPanel, type: "numpad"|"Numpad"|"NumPad", controlinfo: table): CtrlNumPad
+---@overload fun(self: ControlPanel, type: "color"|"Color", controlinfo: table): CtrlColor
+---@overload fun(self: ControlPanel, type: "propselect"|"PropSelect", controlinfo: table): PropSelect
+---@overload fun(self: ControlPanel, type: "matselect"|"MatSelect"|"materialgallery"|"MaterialGallery", controlinfo: table): MatSelect
+---@overload fun(self: ControlPanel, type: "ropematerial"|"RopeMaterial", controlinfo: table): RopeMaterial
+---@overload fun(self: ControlPanel, type: "header"|"Header", controlinfo: table): DLabel?
+---@overload fun(self: ControlPanel, type: "listbox"|"ListBox", controlinfo: table): DListView|CtrlListBox
+---@overload fun(self: ControlPanel, type: "combobox"|"ComboBox", controlinfo: table): ControlPresets|DListView|CtrlListBox
 ---@param type string The control type to add.
 ---@param controlinfo table Each control takes their own table structure.
 ---@return Panel control The created control.
 ---@deprecated It is recommended to use DForm's members instead.
 function ControlPanel:AddControl(type, controlinfo) end
+
 
 ---Adds an item by calling [DForm:AddItem](https://wiki.facepunch.com/gmod/DForm:AddItem).
 ---@realm client
@@ -72,8 +95,9 @@ function ControlPanel:FillViaFunction(func) end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/controlpanel.Get
 ---@param name string The name of the panel.
----@return ControlPanel # The ControlPanel panel.
+---@return ControlPanel? # The ControlPanel panel, or nil if it cannot be created yet.
 function controlpanel.Get(name) end
+
 
 ---Returns this control panel.
 ---@realm client
@@ -109,3 +133,4 @@ function ControlPanel:MatSelect(convar, options, autostretch, width, height) end
 ---@param cvarList table A table of convar names as keys and their defaults as the values. Typically the output of Tool:BuildConVarList.
 ---@return ControlPresets # The created ControlPresets panel.
 function ControlPanel:ToolPresets(group, cvarList) end
+

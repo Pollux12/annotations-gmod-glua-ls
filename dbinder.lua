@@ -1,10 +1,12 @@
 ---@meta
 
 --- Input which can bind a command to a key. Used for binding inputs and outputs of TOOLs.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DBinder
 ---@class (partial) DBinder : DButton
 local DBinder = {}
 
----Gets the code of the key currently bound by the DBinder. Same as [DBinder:GetValue](https://wiki.facepunch.com/gmod/DBinder:GetValue). An [Global.AccessorFunc](https://wiki.facepunch.com/gmod/Global.AccessorFunc)
+---Gets the code of the key currently bound by the DBinder. Same as [DBinder:GetValue](https://wiki.facepunch.com/gmod/DBinder:GetValue). An [Global.AccessorFunc](https://wiki.facepunch.com/gmod/Global.AccessorFunc) 
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DBinder:GetSelectedNumber
 ---@return number # The key code of the bound key. See Enums/KEY.
@@ -15,6 +17,13 @@ function DBinder:GetSelectedNumber() end
 ---@source https://wiki.facepunch.com/gmod/DBinder:GetValue
 ---@return number # The key code of the bound key. See Enums/KEY.
 function DBinder:GetValue() end
+
+---Called when the player selects a new bind. Meant to be Overridden
+---@hook OnChange
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DBinder:OnChange
+---@param iNum number The new bound key. See input.GetKeyName.
+function DBinder:OnChange(iNum) end
 
 ---Sets the current key bound by the [DBinder](https://wiki.facepunch.com/gmod/DBinder), and updates the button's text as well as the [ConVar](https://wiki.facepunch.com/gmod/ConVar).
 ---@realm client
@@ -33,3 +42,4 @@ function DBinder:SetValue(keyCode) end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DBinder:UpdateText
 function DBinder:UpdateText() end
+

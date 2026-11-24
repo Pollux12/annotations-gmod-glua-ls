@@ -1,5 +1,8 @@
 ---@meta
 
+--- A basic label or "single line text area" that is non-editable. You might be looking for [DLabel](https://wiki.facepunch.com/gmod/DLabel), which uses this panel internally.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/Label
 ---@class (partial) Label : Panel
 local Label = {}
 
@@ -16,3 +19,4 @@ function Label:SetFont(fontName) end
 ---@source https://wiki.facepunch.com/gmod/DLabel:SetTextColor
 ---@param color Color The text color.
 function Label:SetTextColor(color) end
+

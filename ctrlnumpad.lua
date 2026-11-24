@@ -10,7 +10,14 @@
 --- By default, the [DLabel:SetDark](https://wiki.facepunch.com/gmod/DLabel:SetDark) function is activated on both DLabels.
 ---
 --- To retrieve the value of the `CtrlNumPad` you can use these functions : [Player:GetInfoNum](https://wiki.facepunch.com/gmod/Player:GetInfoNum), [CtrlNumPad:GetValue1](https://wiki.facepunch.com/gmod/CtrlNumPad:GetValue1) or [CtrlNumPad:GetValue2](https://wiki.facepunch.com/gmod/CtrlNumPad:GetValue2)
----@class (partial) CtrlNumPad
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/CtrlNumPad
+---@class (partial) CtrlNumPad : DPanel
+---@field NumPad1 DBinder The binder for the first ConVar.
+---@field NumPad2 DBinder The binder for the second ConVar, shown only when it is set.
+---@field Label1 DLabel The label of the first binder.
+---@field Label2 DLabel The label of the second binder.
 local CtrlNumPad = {}
 
 ---The value (key bind) of the first [DBinder](https://wiki.facepunch.com/gmod/DBinder).
@@ -48,3 +55,4 @@ function CtrlNumPad:SetLabel1(txt) end
 ---@source https://wiki.facepunch.com/gmod/CtrlNumPad:SetLabel2
 ---@param txt string The label for the right key binder.
 function CtrlNumPad:SetLabel2(txt) end
+

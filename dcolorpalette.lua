@@ -3,6 +3,9 @@
 --- The **DColorPalette** allows the player to select a color from a list of given colors.
 --- This panel supports saving across sessions via the panel cookie system.
 --- Use [Panel:SetCookieName](https://wiki.facepunch.com/gmod/Panel:SetCookieName) to change "save files".
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DColorPalette
 ---@class (partial) DColorPalette : DIconLayout
 local DColorPalette = {}
 
@@ -13,8 +16,9 @@ local DColorPalette = {}
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DColorPalette:DoClick
 ---@param clr Color The new color via the Color
----@param btn Panel The DColorButton that was pressed.
+---@param btn DColorButton The DColorButton that was pressed.
 function DColorPalette:DoClick(clr, btn) end
+
 
 ---An [Global.AccessorFunc](https://wiki.facepunch.com/gmod/Global.AccessorFunc) that returns the size of each palette button. Set by [DColorPalette:SetButtonSize](https://wiki.facepunch.com/gmod/DColorPalette:SetButtonSize).
 ---@realm client
@@ -90,8 +94,17 @@ function DColorPalette:NetworkColorChange() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DColorPalette:OnRightClickButton
----@param pnl Panel The DColorButton that was pressed.
+---@param pnl DColorButton The DColorButton that was pressed.
 function DColorPalette:OnRightClickButton(pnl) end
+
+
+---Called when the color is changed after clicking a new value. For Override
+---@hook OnValueChanged
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DColorPalette:OnValueChanged
+---@param newcol Color The new color of the DColorPalette
+function DColorPalette:OnValueChanged(newcol) end
 
 ---Resets this entire color palette to a default preset one, without saving.
 ---
@@ -109,15 +122,16 @@ function DColorPalette:Reset() end
 ---@source https://wiki.facepunch.com/gmod/DColorPalette:ResetSavedColors
 function DColorPalette:ResetSavedColors() end
 
----Saves the color of given button across sessions.
+---Saves the color of given button across sessions.  
 --- The color is saved as a panel cookie, see [Panel:SetCookie](https://wiki.facepunch.com/gmod/Panel:SetCookie) and [Panel:SetCookieName](https://wiki.facepunch.com/gmod/Panel:SetCookieName).
 --- It is expected that the amount of colors per palette ([Panel:SetCookieName](https://wiki.facepunch.com/gmod/Panel:SetCookieName)) is the same every time.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DColorPalette:SaveColor
----@param btn Panel The button to save the color of. Used to get the ID of the button.
+---@param btn DColorButton The button to save the color of. Used to get the ID of the button.
 ---@param clr Color The color to save to this button's index
 function DColorPalette:SaveColor(btn, clr) end
+
 
 ---Sets the size of each palette button.
 ---
@@ -135,7 +149,7 @@ function DColorPalette:SetButtonSize(size) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DColorPalette:SetColor
----@param clr Color
+---@param clr Color 
 function DColorPalette:SetColor(clr) end
 
 ---Clears the palette and adds new buttons with given colors.
@@ -223,3 +237,4 @@ function DColorPalette:UpdateConVar(name, key, clr) end
 ---@source https://wiki.facepunch.com/gmod/DColorPalette:UpdateConVars
 ---@param clr Color A Color
 function DColorPalette:UpdateConVars(clr) end
+

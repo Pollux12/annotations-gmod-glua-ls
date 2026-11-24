@@ -57,9 +57,10 @@ function utf8.GetChar(str, index) end
 ---@param string string The string to calculate the length of.
 ---@param startPos? number The starting position to get the length from.
 ---@param endPos? number The ending position to get the length from.
----@return number # The number of UTF-8 characters in the string. If there are invalid bytes, this will be false.
----@return number # The position of the first invalid byte. If there were no invalid bytes, this will be nil.
+---@return number|false # The number of UTF-8 characters in the string. If there are invalid bytes, this will be false.
+---@return number? # The position of the first invalid byte. If there were no invalid bytes, this will be nil.
 function utf8.len(string, startPos, endPos) end
+
 
 ---Returns the byte-index of the n'th UTF-8-character after the given startPos (nil if none). startPos defaults to 1 when n is positive and -1 when n is negative. If n is zero, this function instead returns the byte-index of the UTF-8-character startPos lies within.
 ---@realm shared
@@ -81,3 +82,4 @@ function utf8.offset(string, n, startPos) end
 ---@param EndPos? number The position of the last character to be included in the sub-string. It can be negative to count from the end.
 ---@return string # The substring.
 function utf8.sub(string, StartPos, EndPos) end
+

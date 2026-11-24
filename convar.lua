@@ -83,6 +83,7 @@ function ConVar:GetName() end
 ---@return string # The current console variable value as a string.
 function ConVar:GetString() end
 
+
 ---Returns whether the specified flag is set on the [ConVar](https://wiki.facepunch.com/gmod/ConVar)
 ---@realm shared
 ---@realm menu
@@ -129,3 +130,4 @@ function ConVar:SetInt(value) end
 ---@source https://wiki.facepunch.com/gmod/ConVar:SetString
 ---@param value string Value to set the ConVar to.
 function ConVar:SetString(value) end
+

@@ -2,6 +2,9 @@
 
 --- Choose a number from a number line, with zooming for precision.
 --- Zoom in by moving your mouse forward and moving back does the opposite. Looks like a blue circle until you click and hold on it
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DNumberScratch
 ---@class (partial) DNumberScratch : DImageButton
 local DNumberScratch = {}
 
@@ -11,15 +14,15 @@ local DNumberScratch = {}
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DNumberScratch:DrawNotches
----@param level number
----@param x number
----@param y number
----@param w number
----@param h number
----@param range number
----@param value number
----@param min number
----@param max number
+---@param level number 
+---@param x number 
+---@param y number 
+---@param w number 
+---@param h number 
+---@param range number 
+---@param value number 
+---@param min number 
+---@param max number 
 function DNumberScratch:DrawNotches(level, x, y, w, h, range, value, min, max) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -28,17 +31,17 @@ function DNumberScratch:DrawNotches(level, x, y, w, h, range, value, min, max) e
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DNumberScratch:DrawScreen
----@param x number
----@param y number
----@param w number
----@param h number
+---@param x number 
+---@param y number 
+---@param w number 
+---@param h number 
 function DNumberScratch:DrawScreen(x, y, w, h) end
 
 ---Returns whether this panel is active or not, i.e. if the player is currently changing its value.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DNumberScratch:GetActive
----@return boolean #
+---@return boolean # 
 function DNumberScratch:GetActive() end
 
 ---Returns the desired amount of numbers after the decimal point.
@@ -94,7 +97,7 @@ function DNumberScratch:GetRange() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DNumberScratch:GetShouldDrawScreen
----@return boolean #
+---@return boolean # 
 function DNumberScratch:GetShouldDrawScreen() end
 
 ---Returns the real value of the [DNumberScratch](https://wiki.facepunch.com/gmod/DNumberScratch) as a string.
@@ -110,7 +113,7 @@ function DNumberScratch:GetTextValue() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DNumberScratch:GetZoom
----@return number #
+---@return number # 
 function DNumberScratch:GetZoom() end
 
 ---Returns the ideal zoom level for the panel based on the [DNumberScratch:GetRange](https://wiki.facepunch.com/gmod/DNumberScratch:GetRange).
@@ -124,7 +127,7 @@ function DNumberScratch:IdealZoom() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DNumberScratch:IsEditing
----@return boolean #
+---@return boolean # 
 function DNumberScratch:IsEditing() end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -134,6 +137,14 @@ function DNumberScratch:IsEditing() end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DNumberScratch:LockCursor
 function DNumberScratch:LockCursor() end
+
+---Called when the value of the [DNumberScratch](https://wiki.facepunch.com/gmod/DNumberScratch) is changed.
+---@hook OnValueChanged
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DNumberScratch:OnValueChanged
+---@param newValue number The new value
+function DNumberScratch:OnValueChanged(newValue) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
@@ -199,7 +210,7 @@ function DNumberScratch:SetMin(min) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DNumberScratch:SetShouldDrawScreen
----@param shouldDraw boolean
+---@param shouldDraw boolean 
 function DNumberScratch:SetShouldDrawScreen(shouldDraw) end
 
 ---Sets the value of the [DNumberScratch](https://wiki.facepunch.com/gmod/DNumberScratch) and triggers [DNumberScratch:OnValueChanged](https://wiki.facepunch.com/gmod/DNumberScratch:OnValueChanged)
@@ -213,7 +224,7 @@ function DNumberScratch:SetValue(val) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DNumberScratch:SetZoom
----@param zoom number
+---@param zoom number 
 function DNumberScratch:SetZoom(zoom) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -223,3 +234,4 @@ function DNumberScratch:SetZoom(zoom) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DNumberScratch:UpdateConVar
 function DNumberScratch:UpdateConVar() end
+

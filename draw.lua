@@ -63,19 +63,7 @@ function draw.RoundedBox(cornerRadius, x, y, width, height, color) end
 ---@param roundTopRight? boolean Whether the top right corner should be rounded.
 ---@param roundBottomLeft? boolean Whether the bottom left corner should be rounded.
 ---@param roundBottomRight? boolean Whether the bottom right corner should be rounded.
-function draw.RoundedBoxEx(
-	cornerRadius,
-	x,
-	y,
-	width,
-	height,
-	color,
-	roundTopLeft,
-	roundTopRight,
-	roundBottomLeft,
-	roundBottomRight
-)
-end
+function draw.RoundedBoxEx(cornerRadius, x, y, width, height, color, roundTopLeft, roundTopRight, roundBottomLeft, roundBottomRight) end
 
 ---Draws text on the screen.
 --- **NOTE**: This function does not handle newlines properly. See [draw.DrawText](https://wiki.facepunch.com/gmod/draw.DrawText) for a function that does.
@@ -109,6 +97,7 @@ function draw.SimpleText(text, font, x, y, color, xAlign, yAlign) end
 ---@return number # The width of the text. Same value as if you were calling surface.GetTextSize.
 ---@return number # The height of the text. Same value as if you were calling surface.GetTextSize.
 function draw.SimpleTextOutlined(Text, font, x, y, color, xAlign, yAlign, outlinewidth, outlinecolor) end
+
 
 ---Creates a simple line of text that is outlined.
 ---@realm client
@@ -170,3 +159,4 @@ function draw.TexturedQuad(texturedata) end
 ---@return number # The width of the word box.
 ---@return number # The height of the word box.
 function draw.WordBox(bordersize, x, y, text, font, boxcolor, textcolor, xalign, yalign) end
+

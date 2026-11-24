@@ -1,6 +1,9 @@
 ---@meta
 
 --- A panel similar to [DScrollPanel](https://wiki.facepunch.com/gmod/DScrollPanel), but that allows the player to pan around, for example a zoomed in image within a small window.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DPanPanel
 ---@class (partial) DPanPanel : DPanel
 local DPanPanel = {}
 
@@ -24,8 +27,8 @@ function DPanPanel:GetCanvas() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DPanPanel:OnScroll
----@param x number
----@param y number
+---@param x number 
+---@param y number 
 function DPanPanel:OnScroll(x, y) end
 
 ---Scroll to a specific child panel.
@@ -43,3 +46,4 @@ function DPanPanel:ScrollToChild(pnl) end
 ---@source https://wiki.facepunch.com/gmod/DPanPanel:SetCanvas
 ---@param pnl Panel The canvas panel.
 function DPanPanel:SetCanvas(pnl) end
+

@@ -10,7 +10,7 @@ player_manager = {}
 ---@param model string Hands model.
 ---@param skin? number Skin to apply to the hands.
 ---@param bodygroups? string Bodygroups to apply to the hands. See Entity:SetBodyGroups for help with the format.
----@param matchBodySkin? boolean If set to `true`, the skin of the hands will be set to the skin of the playermodel.
+---@param matchBodySkin? boolean If set to `true`, the skin of the hands will be set to the skin of the playermodel. 
 ---  This is useful when player models have multiple user-selectable skins.
 function player_manager.AddValidHands(name, model, skin, bodygroups, matchBodySkin) end
 
@@ -85,9 +85,10 @@ function player_manager.OnPlayerSpawn(ply, transition) end
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/player_manager.RegisterClass
 ---@param name string Class name.
----@param table PLAYER Class metatable, see Structures/PLAYER.
+---@param table PlayerClass Class metatable. See the [PlayerClass](https://wiki.facepunch.com/gmod/Player_Classes) structure.
 ---@param base? string Base class name.
 function player_manager.RegisterClass(name, table, base) end
+
 
 ---Removes a valid player model from the list, including associated hands model.
 ---@realm shared
@@ -143,3 +144,4 @@ function player_manager.TranslatePlayerModel(shortName) end
 ---@param model string The model path to a player model.
 ---@return string # The simplified name for that model.
 function player_manager.TranslateToPlayerModelName(model) end
+

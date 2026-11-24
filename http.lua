@@ -82,3 +82,4 @@ function http.Fetch(url, onSuccess, onFailure, headers) end
 --- * string `error` - The error message.
 ---@param headers? table KeyValue table for headers.
 function http.Post(url, parameters, onSuccess, onFailure, headers) end
+

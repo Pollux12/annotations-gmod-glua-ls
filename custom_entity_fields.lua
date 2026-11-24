@@ -57,3 +57,4 @@
 ---@field m_RenderAngles Angle
 
 local Custom_Entity_Fields = {}
+

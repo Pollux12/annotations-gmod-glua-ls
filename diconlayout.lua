@@ -5,6 +5,9 @@
 ---
 --- [DIconLayout](https://wiki.facepunch.com/gmod/DIconLayout) is used to make a list of panels.
 --- Unlike DPanelList, DIconLayout does not automatically add a scroll bar - the example below shows you how you can do this.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DIconLayout
 ---@class (partial) DIconLayout : DDragBase
 local DIconLayout = {}
 
@@ -26,7 +29,7 @@ function DIconLayout:CopyContents(from) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DIconLayout:GetBorder
----@return number #
+---@return number # 
 function DIconLayout:GetBorder() end
 
 ---Returns the direction that it will be layed out, using the DOCK enumerations.
@@ -56,7 +59,7 @@ function DIconLayout:GetSpaceY() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DIconLayout:GetStretchHeight
----@return boolean #
+---@return boolean # 
 function DIconLayout:GetStretchHeight() end
 
 ---Returns whether the icon layout will stretch its width to fit all the children.
@@ -65,7 +68,7 @@ function DIconLayout:GetStretchHeight() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DIconLayout:GetStretchWidth
----@return boolean #
+---@return boolean # 
 function DIconLayout:GetStretchWidth() end
 
 ---Resets layout vars before calling [Panel:InvalidateLayout](https://wiki.facepunch.com/gmod/Panel:InvalidateLayout). This is called when children are added or removed, and must be called when the spacing, border or layout direction is changed.
@@ -89,6 +92,13 @@ function DIconLayout:LayoutIcons_LEFT() end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DIconLayout:LayoutIcons_TOP
 function DIconLayout:LayoutIcons_TOP() end
+
+---Called when the panel is modified.
+---@hook OnModified
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DIconLayout:OnModified
+function DIconLayout:OnModified() end
 
 ---Sets the internal border (padding) within the DIconLayout. This will not change its size, only the positioning of children. You must call [DIconLayout:Layout](https://wiki.facepunch.com/gmod/DIconLayout:Layout) in order for the changes to take effect.
 ---@realm client
@@ -126,7 +136,7 @@ function DIconLayout:SetSpaceY(ySpacing) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DIconLayout:SetStretchHeight
----@param do_stretch boolean
+---@param do_stretch boolean 
 function DIconLayout:SetStretchHeight(do_stretch) end
 
 ---If set to true, the icon layout will stretch its width to fit all the children.
@@ -135,5 +145,6 @@ function DIconLayout:SetStretchHeight(do_stretch) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DIconLayout:SetStretchWidth
----@param stretchW boolean
+---@param stretchW boolean 
 function DIconLayout:SetStretchWidth(stretchW) end
+

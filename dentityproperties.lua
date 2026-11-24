@@ -3,6 +3,8 @@
 --- **INTERNAL**: Unless you know what you are doing and you benefit from this panel, you should be using the [DProperties](https://wiki.facepunch.com/gmod/DProperties) instead.
 ---
 --- A panel used by the [Editable Entities](https://wiki.facepunch.com/gmod/Editable_Entities) system.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DEntityProperties
 ---@class (partial) DEntityProperties : DProperties
 local DEntityProperties = {}
 
@@ -11,8 +13,8 @@ local DEntityProperties = {}
 --- Called internally by [DEntityProperties:RebuildControls](https://wiki.facepunch.com/gmod/DEntityProperties:RebuildControls).
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DEntityProperties:EditVariable
----@param varname string
----@param editdata table
+---@param varname string 
+---@param editdata table 
 function DEntityProperties:EditVariable(varname, editdata) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -23,6 +25,12 @@ function DEntityProperties:EditVariable(varname, editdata) end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DEntityProperties:EntityLost
 function DEntityProperties:EntityLost() end
+
+---Called when we were editing an entity and then it became invalid (probably removed). For Override
+---@hook OnEntityLost
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DEntityProperties:OnEntityLost
+function DEntityProperties:OnEntityLost() end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
@@ -36,3 +44,4 @@ function DEntityProperties:RebuildControls() end
 ---@source https://wiki.facepunch.com/gmod/DEntityProperties:SetEntity
 ---@param ent Entity The entity to edit
 function DEntityProperties:SetEntity(ent) end
+

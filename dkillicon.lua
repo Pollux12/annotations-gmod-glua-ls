@@ -1,6 +1,8 @@
 ---@meta
 
 --- Uses the [killicon](https://wiki.facepunch.com/gmod/killicon) to persistently draw a killicon.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DKillIcon
 ---@class (partial) DKillIcon : Panel
 local DKillIcon = {}
 
@@ -17,3 +19,4 @@ function DKillIcon:GetName() end
 ---@source https://wiki.facepunch.com/gmod/DKillIcon:SetName
 ---@param iconName string The name of the killicon to be displayed.
 function DKillIcon:SetName(iconName) end
+

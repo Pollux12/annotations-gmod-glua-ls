@@ -44,3 +44,4 @@ function SurfaceInfo:IsSky() end
 ---@source https://wiki.facepunch.com/gmod/SurfaceInfo:IsWater
 ---@return boolean # Returns true if the surface is water.
 function SurfaceInfo:IsWater() end
+

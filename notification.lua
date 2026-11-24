@@ -24,3 +24,4 @@ function notification.AddProgress(id, strText, frac) end
 ---@source https://wiki.facepunch.com/gmod/notification.Kill
 ---@param uid any The unique ID of the notification
 function notification.Kill(uid) end
+

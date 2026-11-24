@@ -3,6 +3,8 @@
 --- **INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
 --- [DComboBox](https://wiki.facepunch.com/gmod/DComboBox) control for a [DProperties](https://wiki.facepunch.com/gmod/DProperties) panel.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DProperty_Combo
 ---@class (partial) DProperty_Combo : DProperty_Generic
 local DProperty_Combo = {}
 
@@ -39,3 +41,4 @@ function DProperty_Combo:SetSelected(Id) end
 --- * table icons - The icons for each value. They will be matched by key name.
 --- * boolean select - The "nice" name/key of the value that should be initially selected.
 function DProperty_Combo:Setup(data) end
+

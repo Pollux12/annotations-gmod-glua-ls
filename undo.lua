@@ -1,5 +1,24 @@
 ---@meta
 
+--- Table structure used by [undo.Do_Undo](https://wiki.facepunch.com/gmod/undo.Do_Undo) and [GM:CanUndo](https://wiki.facepunch.com/gmod/GM:CanUndo).
+---@realm server
+---@source https://wiki.facepunch.com/gmod/Structures/Undo
+---@class (partial) Undo
+---The player responsible who owns the undo
+---@field Owner Player
+---The name of the text to report to the player
+---@field Name string
+---A table of entities to be removed by the undo
+---@field Entities Entity[]
+---A table of {function_to_call, func_arg2, func_arg3}
+---@field Functions table[]
+---A custom undo text to show the client
+---@field CustomUndoText string
+---A "nice" name of the undo, which will be used for the UI
+---@field NiceText string
+
+local Undo = {}
+
 --- The undo library allows you to add custom entities to the undo list, allowing users to "undo" their creation with their undo (default: Z) key.
 undo = {}
 
@@ -12,7 +31,7 @@ function undo.AddEntity(ent) end
 ---Adds a function to call when the current undo block is undone. Note that if an undo has a function, the player will always be notified when this undo is performed, even if the entity it is meant to undo no longer exists.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/undo.AddFunction
----@param func fun(undo: table, ...: any):(result: boolean?) The function to call.
+---@param func fun(undo: table, ...: any):(result: boolean?) The function to call. 
 ---
 --- Function argument(s):
 --- * table `undo` - See Structures/Undo.
@@ -48,7 +67,7 @@ function undo.Finish(NiceText) end
 --- 	**NOTE**: Serverside, this table's keys use [Player:UniqueID](https://wiki.facepunch.com/gmod/Player:UniqueID) to store a player's undo blocks.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/undo.GetTable
----@return table{Undo}[] # The undo table.
+---@return Undo[] # The undo table.
 function undo.GetTable() end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -86,3 +105,4 @@ function undo.SetPlayer(ply) end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/undo.SetupUI
 function undo.SetupUI() end
+

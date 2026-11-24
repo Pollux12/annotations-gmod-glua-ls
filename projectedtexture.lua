@@ -171,7 +171,7 @@ function ProjectedTexture:Remove() end
 --- You must call [ProjectedTexture:Update](https://wiki.facepunch.com/gmod/ProjectedTexture:Update) after using this function for it to take effect.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/ProjectedTexture:SetAngles
----@param angle Angle
+---@param angle Angle 
 function ProjectedTexture:SetAngles(angle) end
 
 ---Sets the brightness of the projected texture.
@@ -197,7 +197,7 @@ function ProjectedTexture:SetColor(color) end
 --- You must call [ProjectedTexture:Update](https://wiki.facepunch.com/gmod/ProjectedTexture:Update) after using this function for it to take effect.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/ProjectedTexture:SetConstantAttenuation
----@param constAtten number
+---@param constAtten number 
 function ProjectedTexture:SetConstantAttenuation(constAtten) end
 
 ---Enable or disable shadows cast from the projected texture.
@@ -207,7 +207,7 @@ function ProjectedTexture:SetConstantAttenuation(constAtten) end
 --- You must call [ProjectedTexture:Update](https://wiki.facepunch.com/gmod/ProjectedTexture:Update) after using this function for it to take effect.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/ProjectedTexture:SetEnableShadows
----@param newState boolean
+---@param newState boolean 
 function ProjectedTexture:SetEnableShadows(newState) end
 
 ---Sets the distance at which the projected texture ends.
@@ -215,7 +215,7 @@ function ProjectedTexture:SetEnableShadows(newState) end
 --- You must call [ProjectedTexture:Update](https://wiki.facepunch.com/gmod/ProjectedTexture:Update) after using this function for it to take effect.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/ProjectedTexture:SetFarZ
----@param farZ number
+---@param farZ number 
 function ProjectedTexture:SetFarZ(farZ) end
 
 ---Sets the angle of projection.
@@ -249,7 +249,7 @@ function ProjectedTexture:SetLightWorld(lightworld) end
 --- You must call [ProjectedTexture:Update](https://wiki.facepunch.com/gmod/ProjectedTexture:Update) after using this function for it to take effect.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/ProjectedTexture:SetLinearAttenuation
----@param linearAtten number
+---@param linearAtten number 
 function ProjectedTexture:SetLinearAttenuation(linearAtten) end
 
 ---Sets the distance at which the projected texture begins its projection.
@@ -261,7 +261,7 @@ function ProjectedTexture:SetLinearAttenuation(linearAtten) end
 --- **NOTE**: This seems to affect the rendering of shadows - a higher Near Z value will have shadows begin to render closer to their casting object. Comparing a low Near Z value (like 1) with a normal one (12) or high one (1000) is the easiest way to understand this artifact
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/ProjectedTexture:SetNearZ
----@param nearZ number
+---@param nearZ number 
 function ProjectedTexture:SetNearZ(nearZ) end
 
 ---Allows disabling of projected texture view-frustum culling for cases where said culling creates unwanted side effects. Disabling culling will have a negative effect on performance.
@@ -291,7 +291,7 @@ function ProjectedTexture:SetOrthographic(orthographic, left, top, right, bottom
 --- You must call [ProjectedTexture:Update](https://wiki.facepunch.com/gmod/ProjectedTexture:Update) after using this function for it to take effect.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/ProjectedTexture:SetPos
----@param position Vector
+---@param position Vector 
 function ProjectedTexture:SetPos(position) end
 
 ---Sets the quadratic attenuation of the projected texture.
@@ -301,7 +301,7 @@ function ProjectedTexture:SetPos(position) end
 --- You must call [ProjectedTexture:Update](https://wiki.facepunch.com/gmod/ProjectedTexture:Update) after using this function for it to take effect.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/ProjectedTexture:SetQuadraticAttenuation
----@param quadAtten number
+---@param quadAtten number 
 function ProjectedTexture:SetQuadraticAttenuation(quadAtten) end
 
 ---Sets the shadow depth bias of the projected texture.
@@ -376,3 +376,4 @@ function ProjectedTexture:SetVerticalFOV(vFOV) end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/ProjectedTexture:Update
 function ProjectedTexture:Update() end
+

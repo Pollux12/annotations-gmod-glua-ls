@@ -6,25 +6,14 @@ util = {}
 --- `util.worldpicker` is for picking an entity in the world while [GUI](https://wiki.facepunch.com/gmod/gui) is open.
 util.worldpicker = {}
 
----Adds the specified string to a string table, which will cache it and network it to all clients automatically.
---- Whenever you want to create a net message with [net.Start](https://wiki.facepunch.com/gmod/net.Start), you must add the name of that message as a networked string via this function.
----
---- If the passed string already exists, nothing will happen and the ID of the existing item will be returned.
----
---- **NOTE**: Each unique network name needs to be pooled once - do not put this function call into any other functions if you're using a constant string. Preferable place for this function is in a serverside lua file, or in a shared file with the [net.Receive](https://wiki.facepunch.com/gmod/net.Receive) function.
----
---- The string table used for this function does not interfere with the engine string tables and has 4095 slots.
---- This limit is shared among all entities, SetNW* and SetGlobal* functions. If you exceed the limit, you cannot create new variables, and you will get the following warning:
---- ```lua
---- Warning:  Table networkstring is full, can't add [key]
---- ```
---- **WARNING**: Existing variables will still get updated without the warning. You can check the limit by counting up until [util.NetworkIDToString](https://wiki.facepunch.com/gmod/util.NetworkIDToString) returns nil
+---Adds the specified string to the network string table.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/util.AddNetworkString
+---@[call_arg("gmod.net_message", "define")]
 ---@param str string Adds the specified string to the string table.
 ---@return number # The id of the string that was added to the string table.
---- Same as calling util.NetworkStringToID.
 function util.AddNetworkString(str) end
+
 
 ---Function used to calculate aim vector from 2D screen position. It is used in SuperDOF calculate Distance.
 ---
@@ -60,7 +49,9 @@ function util.Base64Decode(str) end
 ---@return string # Base 64 encoded string.
 function util.Base64Encode(str, inline) end
 
----Applies explosion damage to all entities in the specified radius. Performs line-of-sight checking.
+---Applies explosion damage to all entities in the specified radius. Performs line-of-sight checking. This a simpler version of [util.BlastDamageInfo](https://wiki.facepunch.com/gmod/util.BlastDamageInfo)
+---
+--- **NOTE**: This function will not deal damage to the ``Hunter-Chopper`` type NPC. To deal damage, use the [util.BlastDamageInfo](https://wiki.facepunch.com/gmod/util.BlastDamageInfo) function and add [DMG_AIRBOAT](https://wiki.facepunch.com/gmod/Enums/DMG#DMG_AIRBOAT) to the damage type.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/util.BlastDamage
 ---@param inflictor Entity The entity that caused the damage.
@@ -68,7 +59,8 @@ function util.Base64Encode(str, inline) end
 ---@param damageOrigin Vector The center of the explosion
 ---@param damageRadius number The radius in which entities will be damaged.
 ---@param damage number The amount of damage to be applied.
-function util.BlastDamage(inflictor, attacker, damageOrigin, damageRadius, damage) end
+---@param damageType? DMG Override the damage type
+function util.BlastDamage(inflictor, attacker, damageOrigin, damageRadius, damage, damageType) end
 
 ---Applies spherical damage based on damage info to all entities in the specified radius.
 ---@realm server
@@ -207,7 +199,7 @@ function util.Effect(effectName, effectData, allowOverride, ignorePredictionOrRe
 --- The maximum length of the string is 4095 bytes.
 function util.FilterText(str, context, player) end
 
----Converts the full path of the given file to a relative path.
+---Converts the full path of the given file to a relative path.  
 --- You can use [util.RelativePathToFull_Menu](https://wiki.facepunch.com/gmod/util.RelativePathToFull_Menu) to convert the relative path back to the full path.
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/util.FullPathToRelative_Menu
@@ -289,10 +281,10 @@ function util.GetModelInfo(mdl) end
 ---@param skin? number Skin index. Affects the `.material` of Structures/ModelMeshData.
 ---
 --- For more information, see Entity:GetSkin.
----@return Structures/ModelMeshData[] # Each index in this table corresponds to a mesh within the model passed as an argument to this function.
+---@return ModelMeshData[] # Each index in this table corresponds to a mesh within the model passed as an argument to this function.
 ---
 --- The mesh data is raw, and is not transformed via bone transformations. That's what the second return value is for.
----@return Structures/BoneBindPose[] # This tables indices are bone IDs for the Structures/BoneBindPose stored at each index.
+---@return BoneBindPose[] # This tables indices are bone IDs for the Structures/BoneBindPose stored at each index.
 ---
 --- Bone IDs start at `0`, so [Global.ipairs](https://wiki.facepunch.com/gmod/Global.ipairs) skips the first bone (usually the root). Loop with `for boneId = 0, #modelBindPoses do` instead.
 function util.GetModelMeshes(model, lod, bodygroupMask, skin) end
@@ -324,16 +316,19 @@ function util.GetPixelVisibleHandle() end
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/util.GetPlayerTrace
----@param ply Player The player the trace should be based on
----@param dir? Vector The direction of the trace. By default falls back to the direction the player is looking in.
+---@overload fun(ply: Player, dir?: Vector): Trace
+---@param ply NPC The NPC the trace should be based on.
+---@param dir Vector The direction of the trace.
 ---@return Trace # The trace data. See Structures/Trace
 function util.GetPlayerTrace(ply, dir) end
+
 
 ---Gets information about the sun position and obstruction or nil if there is no sun.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/util.GetSunInfo
----@return table # The sun info. See Structures/SunInfo
+---@return SunInfo? # The sun info, or nil if there is no sun. See Structures/SunInfo
 function util.GetSunInfo() end
+
 
 ---Returns data of a [surface property](https://developer.valvesoftware.com/wiki/Material_surface_properties) at given ID. New surface properties can be added via [physenv.AddSurfaceData](https://wiki.facepunch.com/gmod/physenv.AddSurfaceData).
 ---@realm shared
@@ -369,7 +364,7 @@ function util.GetSurfacePropName(id) end
 --- In order to get the usergroup of a connected player, please use [Player:GetUserGroup](https://wiki.facepunch.com/gmod/Player:GetUserGroup) instead.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/util.GetUserGroups
----@return table # A table of users where the key is the SteamID of the user and the value is a table with 2 fields:
+---@return table # A table of users where the key is the SteamID of the user and the value is a table with 2 fields:  
 --- * string name - Player Steam name
 --- * string group - Player usergroup name
 function util.GetUserGroups() end
@@ -481,18 +476,7 @@ function util.IsModelLoaded(modelName) end
 ---@param box2Maxs Vector The max position of the second box.
 ---@param tolerance number Tolerance for error. Leave at 0 if unsure.
 ---@return boolean # Whether there is an intersection.
-function util.IsOBBIntersectingOBB(
-	box1Origin,
-	box1Angles,
-	box1Mins,
-	box1Maxs,
-	box2Origin,
-	box2Angles,
-	box2Mins,
-	box2Maxs,
-	tolerance
-)
-end
+function util.IsOBBIntersectingOBB(box1Origin, box1Angles, box1Mins, box1Maxs, box2Origin, box2Angles, box2Mins, box2Maxs, tolerance) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
@@ -772,7 +756,7 @@ function util.PrecacheSound(soundName) end
 ---@return TraceResult # Trace result. See Structures/TraceResult.
 function util.QuickTrace(origin, dir, filter) end
 
----Converts the relative path of a given file to the full path on disk.
+---Converts the relative path of a given file to the full path on disk.  
 --- You can use [util.FullPathToRelative_Menu](https://wiki.facepunch.com/gmod/util.FullPathToRelative_Menu) to convert the full path back to the relative path.
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/util.RelativePathToFull_Menu
@@ -795,12 +779,14 @@ function util.RelativePathToFull_Menu(filePath, mountPath) end
 function util.RelativePathToGMA_Menu(filePath) end
 
 ---Removes world decals at given position, in given radius. Does not remove decals on models!
+---
+--- If you are looking to remove decals from a model, see [Entity:RemoveAllDecals](https://wiki.facepunch.com/gmod/Entity:RemoveAllDecals).
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/util.RemoveDecalsAt
 ---@param pos Vector The position at which to remove decals.
 ---@param distance number Radius of the sphere to remove decals in.
 ---@param limit? number If set to above 0, only remove this many decals.
----@param permanent? boolean Whether to remove map-spawned decals (`true`), or only gameplay-spawned decals
+---@param permanent? boolean Whether to remove map-spawned decals (`true`), or only gameplay-spawned decals 
 ---  such as bullet holes or anything placed by util.Decal and similar(`false`)
 ---@return number # How many decals were removed.
 function util.RemoveDecalsAt(pos, distance, limit, permanent) end
@@ -994,6 +980,7 @@ function util.tobool(input) end
 ---@return TraceResult # Trace result. See Structures/TraceResult
 function util.TraceEntity(tracedata, ent) end
 
+
 ---Identical to util.TraceHull but uses an entity's Axis-Aligned Bounding Box (AABB) for `mins`/`maxs` inputs. (These 2 keys will be ignored in the provided table)
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/util.TraceEntityHull
@@ -1002,6 +989,7 @@ function util.TraceEntity(tracedata, ent) end
 ---@param ent Entity The entity to use mins/maxs of for the hull trace.
 ---@return TraceResult # Trace result. See Structures/TraceResult
 function util.TraceEntityHull(tracedata, ent) end
+
 
 ---Performs an AABB hull (axis-aligned bounding box, aka not rotated) trace with the given trace data.
 ---
@@ -1016,6 +1004,7 @@ function util.TraceEntityHull(tracedata, ent) end
 ---@param TraceData HullTrace The trace data to use. See Structures/HullTrace
 ---@return TraceResult # Trace result. See Structures/TraceResult
 function util.TraceHull(TraceData) end
+
 
 ---Performs an infinitely thin, invisible ray trace (or "trace") in a line based on the input and returns a table that contains information about what, if anything, the trace line hit or intersected.
 ---
@@ -1033,6 +1022,7 @@ function util.TraceHull(TraceData) end
 ---@param traceConfig Trace A table of data that configures the trace. See Structures/Trace for available options.
 ---@return TraceResult # A table of information detailing where and what the trace line intersected, or `nil` if the trace is being done before the GM:InitPostEntity hook.
 function util.TraceLine(traceConfig) end
+
 
 ---Converts a type to a (nice, but still parsable) string
 ---@realm shared
@@ -1064,3 +1054,4 @@ function util.worldpicker.Finish(tr) end
 --- Function argument(s):
 --- * table `tr` - Structures/TraceResult from the mouse press. `tr.Entity` will return the entity clicked
 function util.worldpicker.Start(callback) end
+

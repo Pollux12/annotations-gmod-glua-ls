@@ -3,7 +3,8 @@
 --- This is a list of all methods only available for NPCs. It is also possible to call [Entity](https://wiki.facepunch.com/gmod/Entity) functions on NPCs.
 ---@source https://wiki.facepunch.com/gmod/NPC
 ---@class (partial) NPC : Entity
-NPC = {}
+---@field NPCName? string
+local NPC = {}
 
 ---Makes the NPC like, hate, feel neutral towards, or fear the entity in question. If you want to setup relationship towards a certain entity `class`, use [NPC:AddRelationship](https://wiki.facepunch.com/gmod/NPC:AddRelationship).
 ---
@@ -24,7 +25,7 @@ function NPC:AddEntityRelationship(target, disposition, priority) end
 --- Should be formatted as `"npc_class `Enums/D` numberPriority"`.
 function NPC:AddRelationship(relationstring) end
 
----Advances the NPC on its path to the next waypoint.
+---Advances the NPC on its path to the next waypoint. 
 --- **WARNING**: Calling this on an NPC without any route will result in an instant crash.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/NPC:AdvancePath
@@ -39,15 +40,15 @@ function NPC:AlertSound() end
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/NPC:AutoMovement
 ---@param interval number This is a good place to use Entity:GetAnimTimeInterval.
----@param target? Entity
+---@param target? Entity 
 ---@return boolean # `true` if any movement was performed.
 function NPC:AutoMovement(interval, target) end
 
----Become a ragdoll and remove the entity. Internally handles serverside/clientside ragdoll creation, momentum calculation, triggering ragdoll creation hooks / events and cloning entity's bone transforms to the created ragdoll.
+---Become a ragdoll and remove the entity. Internally handles serverside/clientside ragdoll creation, momentum calculation, triggering ragdoll creation hooks / events and cloning entity's bone transforms to the created ragdoll. 
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/NPC:BecomeRagdoll
 ---@param info CTakeDamageInfo Damage info passed from an onkilled event
----@return Entity # The created serverside ragdoll, nil if failed or a clientside ragdoll created.
+---@return Entity # The created serverside ragdoll, nil if failed or a clientside ragdoll created. 
 function NPC:BecomeRagdoll(info) end
 
 ---Adds a capability to the NPC.
@@ -186,7 +187,7 @@ function NPC:GetActivity() end
 --- **NOTE**: If the NPC has both [NPC:GetEnemy](https://wiki.facepunch.com/gmod/NPC:GetEnemy) and [NPC:GetActiveWeapon](https://wiki.facepunch.com/gmod/NPC:GetActiveWeapon), engine will automatically call [ENTITY:GetAttackSpread](https://wiki.facepunch.com/gmod/ENTITY:GetAttackSpread) to add random spread degrees to the return value.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/NPC:GetAimVector
----@return Vector # The aim direction of the NPC, usually a noisy direction to it's NPC:GetEnemy. This will default to Entity:GetForward when there's no enemy. Thus, NPC:GetCurrentWeaponProficiency will be used.
+---@return Vector # The aim direction of the NPC, usually a noisy direction to it's NPC:GetEnemy. This will default to Entity:GetForward when there's no enemy. Thus, NPC:GetCurrentWeaponProficiency will be used. 
 function NPC:GetAimVector() end
 
 ---Returns the activity to be played when the NPC arrives at its goal
@@ -369,7 +370,7 @@ function NPC:GetIdealSequence() end
 ---@return number # The ideal yaw.
 function NPC:GetIdealYaw() end
 
----Returns all known enemies this NPC has. The enemy table is updated with [NPC:UpdateEnemyMemory](https://wiki.facepunch.com/gmod/NPC:UpdateEnemyMemory) and [NPC:ClearEnemyMemory](https://wiki.facepunch.com/gmod/NPC:ClearEnemyMemory), meaning other entities may be in enemies list even though your NPC doesn't hate it.
+---Returns all known enemies this NPC has. The enemy table is updated with [NPC:UpdateEnemyMemory](https://wiki.facepunch.com/gmod/NPC:UpdateEnemyMemory) and [NPC:ClearEnemyMemory](https://wiki.facepunch.com/gmod/NPC:ClearEnemyMemory), meaning other entities may be in enemies list even though your NPC doesn't hate it. 
 ---
 --- See also [NPC:GetKnownEnemyCount](https://wiki.facepunch.com/gmod/NPC:GetKnownEnemyCount)
 ---@realm server
@@ -393,7 +394,7 @@ function NPC:GetKnownEnemyCount() end
 ---@return Vector # Where the NPC's last position was set to.
 function NPC:GetLastPosition() end
 
----Returns [Global.CurTime](https://wiki.facepunch.com/gmod/Global.CurTime) based time since this NPC last received damage from given enemy. The last damage time is set when [NPC:MarkTookDamageFromEnemy](https://wiki.facepunch.com/gmod/NPC:MarkTookDamageFromEnemy) is called.
+---Returns [Global.CurTime](https://wiki.facepunch.com/gmod/Global.CurTime) based time since this NPC last received damage from given enemy. The last damage time is set when [NPC:MarkTookDamageFromEnemy](https://wiki.facepunch.com/gmod/NPC:MarkTookDamageFromEnemy) is called. 
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/NPC:GetLastTimeTookDamageFromEnemy
 ---@param enemy? Entity The enemy to test. Defaults to currently active enemy (NPC:GetEnemy)
@@ -412,7 +413,7 @@ function NPC:GetMaxLookDistance() end
 ---@return number # How far the NPC checks ahead of its route.
 function NPC:GetMinMoveCheckDist() end
 
----Returns how far before the NPC can come to a complete stop.
+---Returns how far before the NPC can come to a complete stop. 
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/NPC:GetMinMoveStopDist
 ---@param minResult? number The minimum value that will be returned by this function.
@@ -487,7 +488,7 @@ function NPC:GetPathDistanceToGoal() end
 ---@return number # The amount of time to get to the target goal.
 function NPC:GetPathTimeToGoal() end
 
----Returns the shooting position of the NPC, i.e. where their bullets would come from, etc.
+---Returns the shooting position of the NPC, i.e. where their bullets would come from, etc. 
 ---
 --- If the NPC does not overwrite this, it will return [Entity:GetPos](https://wiki.facepunch.com/gmod/Entity:GetPos).
 ---@realm server
@@ -737,7 +738,7 @@ function NPC:MoveClimbStop() end
 ---@source https://wiki.facepunch.com/gmod/NPC:MoveGroundStep
 ---@param pos Vector The position we want to reach.
 ---@param targetEntity? Entity Used to test whether we hit the move target when deciding success.
----@param yaw? number Target Yaw angle at the end of the move. -1 to keep original yaw.
+---@param yaw? number Target Yaw angle at the end of the move. -1 to keep original yaw. 
 ---@param asFarAsCan? boolean Whether to move as far as possible.
 ---@param testZ? boolean Also test the Z axis of the target position and NPC position to decide success.
 ---@return number # Whether the movement succeeded or not.
@@ -1026,11 +1027,11 @@ function NPC:SetIdealYaw(angle) end
 --- * `-2` - Keep the previous yaw speed
 function NPC:SetIdealYawAndUpdate(angle, speed) end
 
----Sets conditions to ignore, which would normally interrupt an Engine-based schedule. Specified conditions will still be set, will call [ENTITY:OnCondition](https://wiki.facepunch.com/gmod/ENTITY:OnCondition) and can be returned by [NPC:HasCondition](https://wiki.facepunch.com/gmod/NPC:HasCondition), but they will no longer interrupt the Engine schedule.
+---Sets conditions to ignore, which would normally interrupt an Engine-based schedule. Specified conditions will still be set, will call [ENTITY:OnCondition](https://wiki.facepunch.com/gmod/ENTITY:OnCondition) and can be returned by [NPC:HasCondition](https://wiki.facepunch.com/gmod/NPC:HasCondition), but they will no longer interrupt the Engine schedule. 
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/NPC:SetIgnoreConditions
----@param conditions table Conditions to ignore, see Enums/COND. The table must be sequential, numerical and values must correspond to condition enums.
----@param size number Number of conditions to include in the ignored conditions table. Set this to the size of ignored conditions table to ignore all specified conditions.
+---@param conditions table Conditions to ignore, see Enums/COND. The table must be sequential, numerical and values must correspond to condition enums. 
+---@param size number Number of conditions to include in the ignored conditions table. Set this to the size of ignored conditions table to ignore all specified conditions. 
 function NPC:SetIgnoreConditions(conditions, size) end
 
 ---Sets the last registered or memorized position for this NPC. When using scheduling, the NPC will focus on navigating to the last position via nodes.
@@ -1220,7 +1221,7 @@ function NPC:UpdateYaw(speed) end
 ---@return boolean # If we succeeded setting the behavior.
 function NPC:UseActBusyBehavior() end
 
----Enables the AI's [Assault Behavior](https://developer.valvesoftware.com/wiki/Assault "Assault Behavior") when an `ai_goal_assault` is set for this SENT.
+---Enables the AI's [Assault Behavior](https://developer.valvesoftware.com/wiki/Assault "Assault Behavior") when an `ai_goal_assault` is set for this SENT. 
 --- **NOTE**: This function only works on `ai` type [SENTs](https://wiki.facepunch.com/gmod/Scripted_Entities).
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/NPC:UseAssaultBehavior
@@ -1233,14 +1234,14 @@ function NPC:UseAssaultBehavior() end
 ---@return boolean # If we succeeded setting the behavior.
 function NPC:UseFollowBehavior() end
 
----Orders the SNPC to control any nearby `func_tank`s looking for an NPC to operate itself, if available.
+---Orders the SNPC to control any nearby `func_tank`s looking for an NPC to operate itself, if available. 
 --- **NOTE**: This function only works on `ai` type [SENTs](https://wiki.facepunch.com/gmod/Scripted_Entities).
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/NPC:UseFuncTankBehavior
 ---@return boolean # Whether the action succeeded.
 function NPC:UseFuncTankBehavior() end
 
----Enables the AI's [Lead Behavior](https://developer.valvesoftware.com/wiki/ai_goal_lead "Lead Behavior") when an `ai_goal_lead` is set for this SENT.
+---Enables the AI's [Lead Behavior](https://developer.valvesoftware.com/wiki/ai_goal_lead "Lead Behavior") when an `ai_goal_lead` is set for this SENT. 
 --- **NOTE**: This function only works on `ai` type [SENTs](https://wiki.facepunch.com/gmod/Scripted_Entities).
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/NPC:UseLeadBehavior
@@ -1253,3 +1254,4 @@ function NPC:UseLeadBehavior() end
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/NPC:UseNoBehavior
 function NPC:UseNoBehavior() end
+

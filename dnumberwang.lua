@@ -1,6 +1,9 @@
 ---@meta
 
 --- DNumberWang is a VGUI element that allows you to input a numeric value using up and down arrows or direct entry.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DNumberWang
 ---@class (partial) DNumberWang : DTextEntry
 local DNumberWang = {}
 
@@ -15,7 +18,7 @@ function DNumberWang:GetDecimals() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DNumberWang:GetFloatValue
----@return number #
+---@return number # 
 function DNumberWang:GetFloatValue() end
 
 ---Returns a fraction representing the current number selector value to number selector min/max range ratio.
@@ -69,6 +72,14 @@ function DNumberWang:GetValue() end
 ---@source https://wiki.facepunch.com/gmod/DNumberWang:HideWang
 function DNumberWang:HideWang() end
 
+---Called when the number selector value is changed.
+---@hook OnValueChanged
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DNumberWang:OnValueChanged
+---@param val number The new value of the number selector.
+function DNumberWang:OnValueChanged(val) end
+
 ---Sets the amount of decimal places allowed in the number selector.
 ---@realm client
 ---@realm menu
@@ -80,7 +91,7 @@ function DNumberWang:SetDecimals(num) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DNumberWang:SetFloatValue
----@param val number
+---@param val number 
 function DNumberWang:SetFloatValue(val) end
 
 ---Sets the value of the number selector based on the given fraction number.
@@ -125,3 +136,4 @@ function DNumberWang:SetMinMax(min, max) end
 ---@source https://wiki.facepunch.com/gmod/DNumberWang:SetValue
 ---@param val number The value to set.
 function DNumberWang:SetValue(val) end
+

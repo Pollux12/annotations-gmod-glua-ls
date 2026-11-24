@@ -80,3 +80,4 @@ function CLuaEmitter:SetParticleCullRadius(radius) end
 ---@source https://wiki.facepunch.com/gmod/CLuaEmitter:SetPos
 ---@param position Vector New position.
 function CLuaEmitter:SetPos(position) end
+

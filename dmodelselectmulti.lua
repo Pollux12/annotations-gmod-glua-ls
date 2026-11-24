@@ -1,7 +1,10 @@
 ---@meta
 
 --- A combination of [DModelSelect](https://wiki.facepunch.com/gmod/DModelSelect) and [DPropertySheet](https://wiki.facepunch.com/gmod/DPropertySheet).
----@class (partial) DModelSelectMulti : DPropertySheet
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelSelectMulti
+---@class DModelSelectMulti : DPropertySheet
+---@field ModelPanels table<string, DModelSelect>
 local DModelSelectMulti = {}
 
 ---Adds a new tab of models.
@@ -14,3 +17,4 @@ local DModelSelectMulti = {}
 ---@param dontSort boolean Do not sort the list. (by the `Model` member)
 ---@param dontCallListConVars boolean If set, only the `convar` from the 2nd argument will be set, not individual convars from the models list.
 function DModelSelectMulti:AddModelList(name, models, convar, dontSort, dontCallListConVars) end
+

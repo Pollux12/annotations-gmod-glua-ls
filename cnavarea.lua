@@ -57,7 +57,7 @@ function CNavArea:ClearSearchLists() end
 ---Returns the height difference between the edges of two connected navareas.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/CNavArea:ComputeAdjacentConnectionHeightChange
----@param navarea CNavArea
+---@param navarea CNavArea 
 ---@return number # The height change
 function CNavArea:ComputeAdjacentConnectionHeightChange(navarea) end
 
@@ -125,7 +125,7 @@ function CNavArea:GetAdjacentAreaDistances(dir) end
 --- See [CNavArea:GetAdjacentAreasAtSide](https://wiki.facepunch.com/gmod/CNavArea:GetAdjacentAreasAtSide) for a function that only returns areas from one side/direction.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/CNavArea:GetAdjacentAreas
----@return table # A list of all CNavArea that have a (one and two way) connection **from** this CNavArea.
+---@return table # A list of all CNavArea that have a (one and two way) connection **from** this CNavArea. 
 ---
 --- Returns an empty table if this area has no outgoing connections to any other areas.
 function CNavArea:GetAdjacentAreas() end
@@ -336,18 +336,20 @@ function CNavArea:GetRandomAdjacentAreaAtSide(navDir) end
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/CNavArea:GetRandomPoint
 ---@return Vector # The random point on the nav area.
+---@[fresh_result]
 function CNavArea:GetRandomPoint() end
+
 
 ---Returns the width this Nav Area.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/CNavArea:GetSizeX
----@return number #
+---@return number # 
 function CNavArea:GetSizeX() end
 
 ---Returns the height of this Nav Area.
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/CNavArea:GetSizeY
----@return number #
+---@return number # 
 function CNavArea:GetSizeY() end
 
 ---Returns all possible path segments through a [CNavArea](https://wiki.facepunch.com/gmod/CNavArea), and the dangerous spots to look at as we traverse that path segment.
@@ -379,7 +381,7 @@ function CNavArea:GetTotalCost() end
 ---Returns all [CNavArea](https://wiki.facepunch.com/gmod/CNavArea)s that are visible from this [CNavArea](https://wiki.facepunch.com/gmod/CNavArea).
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/CNavArea:GetVisibleAreas
----@return table # A sequential table containing all CNavAreas that are visible from this CNavArea.
+---@return table # A sequential table containing all CNavAreas that are visible from this CNavArea.					
 function CNavArea:GetVisibleAreas() end
 
 ---Returns the elevation of this Nav Area at the given position.
@@ -569,7 +571,9 @@ function CNavArea:PlaceOnGround(corner) end
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/CNavArea:PopOpenList
 ---@return CNavArea # The CNavArea from the Open List with the lowest cost to traverse to from the starting node.
+---@[fresh_result]
 function CNavArea:PopOpenList() end
+
 
 ---Removes the given nav area.
 ---@realm server
@@ -651,3 +655,4 @@ function CNavArea:SetTotalCost(cost) end
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/CNavArea:UpdateOnOpenList
 function CNavArea:UpdateOnOpenList() end
+

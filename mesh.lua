@@ -17,7 +17,7 @@ function mesh.AdvanceVertex() end
 ---@param mesh IMesh The IMesh that the created mesh will be stored in.
 ---
 --- If the mesh has already been built, it will instead have its existing vertices modified but cannot have the quantity of vertices changed.
----@param primitiveType number An enum that indicates what the format of the mesh's primitives will be.
+---@param primitiveType number An enum that indicates what the format of the mesh's primitives will be.  
 --- For a full list of the available options, see the Enums/MATERIAL.
 ---@param primitiveCount number The quantity of primitives this mesh will contain as a whole integer number.
 ---
@@ -36,7 +36,7 @@ function mesh.Begin(mesh, primitiveType, primitiveCount) end
 ---@param weight number How much influence that matrix will have on this vertex, in the range of 0 -> 1.
 function mesh.BoneData(index, matrixId, weight) end
 
----Sets the color to be used for the next vertex. This is `COLOR0` semantic of
+---Sets the color to be used for the next vertex. This is `COLOR0` semantic of 
 --- Vertex Shader. See [mesh.Begin](https://wiki.facepunch.com/gmod/mesh.Begin).
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/mesh.Color
@@ -130,14 +130,14 @@ function mesh.TangentT(tangentT) end
 ---@param v? number V coordinate.
 function mesh.TexCoord(set, s, t, u, v) end
 
----A set of four numbers that can be used for arbitrary purposes by [Material](https://wiki.facepunch.com/gmod/Material) shaders.
+---A set of four numbers that can be used for arbitrary purposes by [Material](https://wiki.facepunch.com/gmod/Material) shaders.  
 --- This is most commonly used to provide tangent information about each vertex to the Material's shader.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/mesh.UserData
----@param tangentX number
----@param tangentY number
----@param tangentZ number
----@param tangentHandedness number
+---@param tangentX number 
+---@param tangentY number 
+---@param tangentZ number 
+---@param tangentHandedness number 
 function mesh.UserData(tangentX, tangentY, tangentZ, tangentHandedness) end
 
 ---Returns the amount of vertices that have been pushed via [mesh.AdvanceVertex](https://wiki.facepunch.com/gmod/mesh.AdvanceVertex).
@@ -145,3 +145,4 @@ function mesh.UserData(tangentX, tangentY, tangentZ, tangentHandedness) end
 ---@source https://wiki.facepunch.com/gmod/mesh.VertexCount
 ---@return number # The amount of vertices.
 function mesh.VertexCount() end
+

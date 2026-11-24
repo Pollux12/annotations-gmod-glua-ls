@@ -5,6 +5,8 @@
 --- Uses the [Material](https://wiki.facepunch.com/gmod/Material) panel internally. Can't have a label.
 ---
 --- **NOTE**: Will error if no material was set.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/ImageCheckBox
 ---@class (partial) ImageCheckBox : Button
 local ImageCheckBox = {}
 
@@ -39,3 +41,4 @@ function ImageCheckBox:SetChecked(bOn) end
 ---@source https://wiki.facepunch.com/gmod/ImageCheckBox:SetMaterial
 ---@param mat string The file path of the material to set (relative to "garrysmod/materials/").
 function ImageCheckBox:SetMaterial(mat) end
+

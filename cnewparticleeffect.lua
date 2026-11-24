@@ -19,7 +19,7 @@ function CNewParticleEffect:AddControlPoint(cpID, ent, partAttachment, entAttach
 
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/CNewParticleEffect:GetAutoUpdateBBox
----@return boolean #
+---@return boolean # 
 function CNewParticleEffect:GetAutoUpdateBBox() end
 
 ---Returns the name of the particle effect this system is set to emit.
@@ -31,8 +31,9 @@ function CNewParticleEffect:GetEffectName() end
 ---Returns the highest control point number for given particle system.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/CNewParticleEffect:GetHighestControlPoint
----@return boolean # The highest control point number for given particle system, 0 to 63.
+---@return number # The highest control point number for given particle system, 0 to 63.
 function CNewParticleEffect:GetHighestControlPoint() end
+
 
 ---Returns the owner of the particle system, the entity the particle system is attached to.
 ---@realm client
@@ -68,7 +69,7 @@ function CNewParticleEffect:IsValid() end
 ---Returns whether the particle system is intended to be used on a view model?
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/CNewParticleEffect:IsViewModelEffect
----@return boolean #
+---@return boolean # 
 function CNewParticleEffect:IsViewModelEffect() end
 
 ---Forces the particle system to render using current rendering context.
@@ -167,15 +168,15 @@ function CNewParticleEffect:SetSortOrigin(origin) end
 ---Starts the particle emission.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/CNewParticleEffect:StartEmission
----@param infiniteOnly? boolean
+---@param infiniteOnly? boolean 
 function CNewParticleEffect:StartEmission(infiniteOnly) end
 
 ---Stops the particle emission.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/CNewParticleEffect:StopEmission
----@param infiniteOnly? boolean
----@param removeAllParticles? boolean
----@param wakeOnStop? boolean
+---@param infiniteOnly? boolean 
+---@param removeAllParticles? boolean 
+---@param wakeOnStop? boolean 
 function CNewParticleEffect:StopEmission(infiniteOnly, removeAllParticles, wakeOnStop) end
 
 ---Stops particle emission and destroys all particles instantly. Also detaches the particle effect from the entity it was attached to.
@@ -186,3 +187,4 @@ function CNewParticleEffect:StopEmission(infiniteOnly, removeAllParticles, wakeO
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/CNewParticleEffect:StopEmissionAndDestroyImmediately
 function CNewParticleEffect:StopEmissionAndDestroyImmediately() end
+

@@ -31,7 +31,7 @@ function NextBot:BecomeRagdoll(info) end
 ---@source https://wiki.facepunch.com/gmod/NEXTBOT:BehaveStart
 function NEXTBOT:BehaveStart() end
 
----Called to update the bot's behaviour.
+---Called to update the bot's behaviour. 
 ---
 --- If you override this hook you must call `coroutine.resume(self.BehaveThread)` to resume the [NEXTBOT:RunBehaviour](https://wiki.facepunch.com/gmod/NEXTBOT:RunBehaviour) Behavior
 ---@hook BehaveUpdate
@@ -71,19 +71,16 @@ function NextBot:ClearLastKnownArea() end
 ---@return Vector # If it finds a spot it will return a vector. If not it will return nil.
 function NextBot:FindSpot(type, options) end
 
----Returns a table of hiding spots.
+---@class NextBotSpot
+---@field vector Vector
+---@field distance number
+
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/NextBot:FindSpots
----@param specs table This table should contain the search info.
---- * string type - The type (optional, only `hiding` supported)
---- * Vector pos - the position to search.
---- * number radius - the radius to search.
---- * number stepup - the highest step to step up.
---- * number stepdown - the highest we can step down without being hurt.
----@return table # An unsorted table of tables containing:
---- * Vector vector - The position of the hiding spot
---- * number distance - the distance to that position
+---@param specs table
+---@return NextBotSpot[] spots
 function NextBot:FindSpots(specs) end
+
 
 ---Returns the currently running activity
 ---@realm server
@@ -154,7 +151,7 @@ function NextBot:IsAbleToSee(ent, useFOV) end
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/NextBot:MoveToPos
 ---@param pos Vector The position we want to get to
----@param options table A table containing a bunch of tweakable options.
+---@param options? table A table containing a bunch of tweakable options.
 --- * number lookahead - Minimum look ahead distance.
 --- * number tolerance - How close we must be to the goal before it can be considered complete.
 --- * boolean draw - Draw the path. Only visible on listen servers and single player.
@@ -162,6 +159,7 @@ function NextBot:IsAbleToSee(ent, useFOV) end
 --- * number repath - Rebuilds the path after this number of seconds.
 ---@return string # Either `"failed"`, `"stuck"`, `"timeout"` or `"ok"` - depending on how the NPC got on
 function NextBot:MoveToPos(pos, options) end
+
 
 ---Called when the nextbot touches another entity.
 ---@hook OnContact
@@ -301,3 +299,12 @@ function NextBot:SetSolidMask(mask) end
 ---@source https://wiki.facepunch.com/gmod/NextBot:StartActivity
 ---@param activity number One of the Enums/ACT
 function NextBot:StartActivity(activity) end
+
+
+---@meta
+
+--- The `CLuaLocomotion` instance that controls this NextBot's movement.
+-- Accessed via `self.loco` inside NextBot entity methods.
+---@class (partial) NextBot
+---@field loco CLuaLocomotion # The locomotion controller for this NextBot.
+local NextBot = {}

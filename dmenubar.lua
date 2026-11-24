@@ -1,7 +1,13 @@
 ---@meta
 
 --- A simple menu bar.
----@class (partial) DMenuBar : DPanel
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DMenuBar
+---@class DMenuBar : DPanel
+---@field Menus table<string, DMenu>
+---@field m_bBackground boolean
+---@field m_bIsMenuComponent boolean
 local DMenuBar = {}
 
 ---Creates a new menu panel on the menu bar.
@@ -12,6 +18,7 @@ local DMenuBar = {}
 ---@return (instance) DMenu # The created DMenu panel.
 function DMenuBar:AddMenu(label) end
 
+
 ---Retrieves or creates a menu panel on the menu bar.
 ---@realm client
 ---@realm menu
@@ -19,6 +26,7 @@ function DMenuBar:AddMenu(label) end
 ---@param label string The name (label) of the menu to get or create.
 ---@return DMenu # The DMenu with the given label.
 function DMenuBar:AddOrGetMenu(label) end
+
 
 ---Returns whether or not the background should be painted. Is the same as [DMenuBar:GetPaintBackground](https://wiki.facepunch.com/gmod/DMenuBar:GetPaintBackground)
 ---@realm client
@@ -41,6 +49,7 @@ function DMenuBar:GetIsMenu() end
 ---@source https://wiki.facepunch.com/gmod/DMenuBar:GetOpenMenu
 ---@return DMenu? # The visible/open menu, or nil when none is open.
 function DMenuBar:GetOpenMenu() end
+
 
 ---Returns whether or not the background should be painted. Is the same as [DMenuBar:GetDrawBackground](https://wiki.facepunch.com/gmod/DMenuBar:GetDrawBackground)
 ---@realm client
@@ -72,3 +81,4 @@ function DMenuBar:SetIsMenu(isMenu) end
 ---@source https://wiki.facepunch.com/gmod/DMenuBar:SetPaintBackground
 ---@param shouldPaint boolean Should the background be painted
 function DMenuBar:SetPaintBackground(shouldPaint) end
+

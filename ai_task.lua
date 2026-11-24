@@ -8,3 +8,4 @@ ai_task = {}
 ---@source https://wiki.facepunch.com/gmod/ai_task.New
 ---@return Task # The new task object.
 function ai_task.New() end
+

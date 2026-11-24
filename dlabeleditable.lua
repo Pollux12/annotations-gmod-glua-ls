@@ -3,6 +3,8 @@
 --- An editable [DLabel](https://wiki.facepunch.com/gmod/DLabel), double click on it to edit.
 ---
 --- This is used in the spawnmenu spawnlist headers.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DLabelEditable
 ---@class (partial) DLabelEditable : DLabel
 local DLabelEditable = {}
 
@@ -33,3 +35,4 @@ function DLabelEditable:OnLabelTextChanged(txt) end
 ---@source https://wiki.facepunch.com/gmod/DLabelEditable:SetAutoStretch
 ---@param stretch boolean Whether the editable label should stretch to the text entered or not.
 function DLabelEditable:SetAutoStretch(stretch) end
+

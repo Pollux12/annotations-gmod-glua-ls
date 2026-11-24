@@ -200,3 +200,4 @@ function navmesh.SetMarkedLadder(area) end
 ---@source https://wiki.facepunch.com/gmod/navmesh.SetPlayerSpawnName
 ---@param spawnPointClass string The classname of what the player uses to spawn, automatically adds it to the walkable positions during map generation.
 function navmesh.SetPlayerSpawnName(spawnPointClass) end
+

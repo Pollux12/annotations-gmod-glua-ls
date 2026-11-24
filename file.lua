@@ -1,5 +1,15 @@
 ---@meta
 
+--- This is the file object. It used used primarily to read or write binary data from files.
+--- The default endianness is little-endian. To use big-endian you will need to provide your own functions to read and write shorts and longs.
+---
+--- 		The object is returned by [file.Open](https://wiki.facepunch.com/gmod/file.Open).
+---@source https://wiki.facepunch.com/gmod/file_class
+---@class (partial) File
+local File = {}
+
+---@class (partial) file_class : File
+
 --- The file library provides functions for finding, reading and writing to files.
 --- The following path values are most commonly used:
 --- * `LUA` searches the lua files (in /lua/, in your gamemodes, in all the addons).
@@ -38,11 +48,6 @@ function file.Append(name, content) end
 ---@return FSASYNC # Enums/FSASYNC on success, Enums/FSASYNC on failure.
 function file.AsyncRead(fileName, gamePath, callback, sync) end
 
----@class (partial) File
-local File = {}
-
----@class (partial) file_class : File
-
 ---Dumps the file changes to disk and closes the file handle which makes the handle useless.
 ---@realm shared
 ---@realm menu
@@ -64,7 +69,7 @@ function file.CreateDir(name) end
 ---@param name string The file name.
 ---@param path? string The path to look for the files and directories in. See File_Search_Paths for a list of valid paths.
 --- This is only available in the menu state.
----@return boolean #
+---@return boolean # 
 function file.Delete(name, path) end
 
 ---Returns whether the [File](https://wiki.facepunch.com/gmod/File) object has reached the end of file or not.
@@ -74,7 +79,7 @@ function file.Delete(name, path) end
 ---@return boolean # Whether the file has reached end or not.
 function File:EndOfFile() end
 
----Returns a boolean of whether the file or directory exists or not.
+---Returns a boolean of whether the file or directory exists or not.    
 --- If you want to check for a directory, [file.IsDir](https://wiki.facepunch.com/gmod/file.IsDir) will be faster since it won't check for files.
 ---@realm shared
 ---@realm menu
@@ -84,21 +89,17 @@ function File:EndOfFile() end
 ---@return boolean # Returns `true` if the file exists and `false` if it does not.
 function file.Exists(name, gamePath) end
 
----Returns a list of files and directories inside a single folder.
---- **WARNING**: It seems that paths with capital letters (e.g. lua/MyFolder/*) don't work as expected on Linux.
+---Returns files and folders matching a wildcard in the requested search path.
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/file.Find
----@param name string The wildcard to search for. `models/*.mdl` will list **.mdl** files in the `models/` folder.
----@param path string The path to look for the files and directories in. See File_Search_Paths for a list of valid paths.
----@param sorting? string The sorting to be used, **optional**.
----
---- * `nameasc` sort the files ascending by name.
---- * `namedesc` sort the files descending by name.
---- * `dateasc` sort the files ascending by date.
---- * `datedesc` sort the files descending by date.
----@return table # A table of found files, or `nil` if the path is invalid.
----@return table # A table of found directories, or `nil` if the path is invalid.
+---@[call_arg("gmod.file_find", "glob")]
+---@param name string The wildcard pattern to search for.
+---@[call_arg("gmod.file_find", "search_path")]
+---@param path string The search path to look in.
+---@param sorting? string The sorting mode to use.
+---@return string[] files # Matching file names.
+---@return string[] directories # Matching directory names.
 function file.Find(name, path, sorting) end
 
 ---Dumps the file changes to disk and saves the file.
@@ -141,8 +142,10 @@ function file.Open(fileName, fileMode, gamePath) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/File:Read
 ---@param length? number Reads the specified amount of chars. If not set, will read the entire file.
----@return string # The read data, a binary_string.
+---@return string # The read data.
+---@[fresh_result]
 function File:Read(length) end
+
 
 ---Returns the content of a file.
 ---
@@ -160,28 +163,36 @@ function file.Read(fileName, gamePath) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/File:ReadBool
 ---@return boolean # val
+---@[fresh_result]
 function File:ReadBool() end
+
 
 ---Reads one unsigned 8-bit integer from the file.
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/File:ReadByte
 ---@return number # The unsigned 8-bit integer from the file.
+---@[fresh_result]
 function File:ReadByte() end
+
 
 ---Reads an 8-byte little-endian IEEE-754 floating point double from the file.
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/File:ReadDouble
 ---@return number # The double-precision floating point value read from the file.
+---@[fresh_result]
 function File:ReadDouble() end
+
 
 ---Reads an IEEE 754 little-endian 4-byte float from the file.
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/File:ReadFloat
 ---@return number # The read value
+---@[fresh_result]
 function File:ReadFloat() end
+
 
 ---Returns the contents of the file from the current position up until the end of the current line.
 ---
@@ -194,21 +205,27 @@ function File:ReadFloat() end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/File:ReadLine
 ---@return string # The string of data from the read line.
+---@[fresh_result]
 function File:ReadLine() end
+
 
 ---Reads a signed little-endian 32-bit integer from the file.
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/File:ReadLong
 ---@return number # A signed 32-bit integer
+---@[fresh_result]
 function File:ReadLong() end
+
 
 ---Reads a signed little-endian 16-bit integer from the file.
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/File:ReadShort
 ---@return number # int16
+---@[fresh_result]
 function File:ReadShort() end
+
 
 ---Reads an unsigned 64-bit integer from the file.
 ---@realm shared
@@ -216,21 +233,27 @@ function File:ReadShort() end
 ---@source https://wiki.facepunch.com/gmod/File:ReadUInt64
 ---@return string # An unsigned 64-bit integer.
 --- Since Lua cannot store full 64-bit integers, this function returns a string. It is mainly aimed at usage with [Player:SteamID64](https://wiki.facepunch.com/gmod/Player:SteamID64).
+---@[fresh_result]
 function File:ReadUInt64() end
+
 
 ---Reads an unsigned little-endian 32-bit integer from the file.
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/File:ReadULong
 ---@return number # An unsigned 32-bit integer
+---@[fresh_result]
 function File:ReadULong() end
+
 
 ---Reads an unsigned little-endian 16-bit integer from the file.
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/File:ReadUShort
 ---@return number # The 16-bit integer
+---@[fresh_result]
 function File:ReadUShort() end
+
 
 ---Attempts to rename a file with the given name to another given name.
 ---
@@ -258,7 +281,7 @@ function File:Seek(pos) end
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/File:Size
----@return number #
+---@return number # 
 function File:Size() end
 
 ---Returns the file's size in bytes.
@@ -291,13 +314,12 @@ function File:Tell() end
 ---@source https://wiki.facepunch.com/gmod/file.Time
 ---@param path string The **file** or **folder** path.
 ---@param gamePath string The path to look for the files and directories in. See File_Search_Paths for a list of valid paths.
----@return number # Seconds passed since Unix epoch, or `0` if the file is not found.
+---@return number # Seconds passed since Unix epoch, or `0` if the file is not found.  
 --- For workshop content `1` is returned.
 function file.Time(path, gamePath) end
 
 ---Writes the given string into the file.
 ---@realm shared
----@realm menu
 ---@source https://wiki.facepunch.com/gmod/File:Write
 ---@param data string Binary data to write to the file.
 function File:Write(data) end
@@ -340,49 +362,42 @@ function file.Write(fileName, content) end
 
 ---Writes a boolean value to the file as one **byte**.
 ---@realm shared
----@realm menu
 ---@source https://wiki.facepunch.com/gmod/File:WriteBool
 ---@param bool boolean The bool to be written to the file.
 function File:WriteBool(bool) end
 
 ---Write an 8-bit unsigned integer to the file.
 ---@realm shared
----@realm menu
 ---@source https://wiki.facepunch.com/gmod/File:WriteByte
 ---@param uint8 number The 8-bit unsigned integer to be written to the file.
 function File:WriteByte(uint8) end
 
 ---Writes an 8-byte little-endian IEEE-754 floating point double to the file.
 ---@realm shared
----@realm menu
 ---@source https://wiki.facepunch.com/gmod/File:WriteDouble
 ---@param double number The double to be written to the file.
 function File:WriteDouble(double) end
 
 ---Writes an IEEE 754 little-endian 4-byte float to the file.
 ---@realm shared
----@realm menu
 ---@source https://wiki.facepunch.com/gmod/File:WriteFloat
 ---@param float number The float to be written to the file.
 function File:WriteFloat(float) end
 
 ---Writes a signed little-endian 32-bit integer to the file.
 ---@realm shared
----@realm menu
 ---@source https://wiki.facepunch.com/gmod/File:WriteLong
 ---@param int32 number The 32-bit signed integer to be written to the file.
 function File:WriteLong(int32) end
 
 ---Writes a signed little-endian 16-bit integer to the file.
 ---@realm shared
----@realm menu
 ---@source https://wiki.facepunch.com/gmod/File:WriteShort
 ---@param int16 number The 16-bit signed integer to be written to the file.
 function File:WriteShort(int16) end
 
 ---Writes an unsigned 64-bit integer to the file.
 ---@realm shared
----@realm menu
 ---@source https://wiki.facepunch.com/gmod/File:WriteUInt64
 ---@param uint64 string The unsigned 64-bit integer to be written to the file.
 ---
@@ -391,14 +406,13 @@ function File:WriteUInt64(uint64) end
 
 ---Writes an unsigned little-endian 32-bit integer to the file.
 ---@realm shared
----@realm menu
 ---@source https://wiki.facepunch.com/gmod/File:WriteULong
 ---@param uint32 number The unsigned 32-bit integer to be written to the file.
 function File:WriteULong(uint32) end
 
 ---Writes an unsigned little-endian 16-bit integer to the file.
 ---@realm shared
----@realm menu
 ---@source https://wiki.facepunch.com/gmod/File:WriteUShort
 ---@param uint16 number The unsigned 16-bit integer to the file.
 function File:WriteUShort(uint16) end
+

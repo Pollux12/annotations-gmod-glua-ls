@@ -32,9 +32,9 @@ function PhysObj:AddVelocity(velocity) end
 ---Rotates the object so that it's angles are aligned to the ones inputted.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/PhysObj:AlignAngles
----@param from Angle
----@param to Angle
----@return Angle #
+---@param from Angle 
+---@param to Angle 
+---@return Angle # 
 function PhysObj:AlignAngles(from, to) end
 
 ---Applies the specified impulse in the mass center of the physics object.
@@ -528,7 +528,7 @@ function PhysObj:SetVelocity(velocity) end
 ---@param velocity Vector The new velocity of the physics object.
 function PhysObj:SetVelocityInstantaneous(velocity) end
 
----Makes the physics object "sleep". The physics object will no longer be moving unless it is "woken up" by either a collision with another moving object, or by [PhysObj:Wake](https://wiki.facepunch.com/gmod/PhysObj:Wake).
+---Makes the physics object "sleep". The physics object will no longer be moving unless it is "woken up" by either a collision with another moving object, or by [PhysObj:Wake](https://wiki.facepunch.com/gmod/PhysObj:Wake). 
 ---
 --- This is an optimization feature of the physics engine. Normally physics objects will automatically "sleep" when not moving for a short while, to save resources, but it can be used for other purposes, for example to temporarily suspend an object mid air.
 ---@realm shared
@@ -543,7 +543,7 @@ function PhysObj:Sleep() end
 ---@source https://wiki.facepunch.com/gmod/PhysObj:UpdateShadow
 ---@param targetPosition Vector The position we should move to.
 ---@param targetAngles Angle The angle we should rotate towards.
----@param frameTime number The frame time to use for this movement, can be generally filled with Global.FrameTime or ENTITY:PhysicsSimulate with the deltaTime.
+---@param frameTime number The frame time to use for this movement, can be generally filled with Global.FrameTime or ENTITY:PhysicsSimulate with the deltaTime. 
 ---
 --- Can be set to 0 when you need to update the physics object just once.
 function PhysObj:UpdateShadow(targetPosition, targetAngles, frameTime) end
@@ -572,3 +572,4 @@ function PhysObj:WorldToLocal(vec) end
 ---@param vec Vector A worldspace vector.
 ---@return Vector # The resulting vector from the rotational transformation.
 function PhysObj:WorldToLocalVector(vec) end
+

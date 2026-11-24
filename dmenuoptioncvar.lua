@@ -9,6 +9,8 @@
 --- It can be right clicked to toggle without closing the [DMenu](https://wiki.facepunch.com/gmod/DMenu).
 ---
 --- Use [DMenu:AddCVar](https://wiki.facepunch.com/gmod/DMenu:AddCVar) instead.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DMenuOptionCVar
 ---@class (partial) DMenuOptionCVar : DMenuOption
 local DMenuOptionCVar = {}
 
@@ -47,3 +49,4 @@ function DMenuOptionCVar:SetValueOff(value) end
 ---@source https://wiki.facepunch.com/gmod/DMenuOptionCVar:SetValueOn
 ---@param value string The value
 function DMenuOptionCVar:SetValueOn(value) end
+

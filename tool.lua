@@ -3,11 +3,130 @@
 --- A list of functions available inside a Sandbox Toolgun tool.
 ---
 --- You can find the hooks [here](https://wiki.facepunch.com/gmod/TOOL_Hooks), and members [here](https://wiki.facepunch.com/gmod/Structures/TOOL).
+---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Tool
----@class (partial) Tool
-local Tool = {}
----@class (partial) TOOL : Tool
-TOOL = Tool
+---
+--- The **TOOL** table is used in Sandbox tool creation. You can find a list of callbacks on the  page and a list of methods on the  page. Do note that some of the fields below have no effect on server-side operations.
+---
+--- The tool information box drawn on the HUD while your tool is selected has 2 values that are set by [language.Add](https://wiki.facepunch.com/gmod/language.Add).
+--- * `tool.[tool mode].name` - The tool name (Note this is NOT the same as TOOL.Name)
+--- * `tool.[tool mode].desc` - The tool description
+---
+--- Ensure that all tool file names are entirely lowercase.  Including capital letters can lead to unintended behavior.
+
+--- One slot in the tool's object array (set via Tool:SetObject).
+---@class ToolObjectSlot
+---@field Ent Entity The entity stored in this slot.
+---@field Phys PhysObj|nil The physics object for this slot (nil for world entity).
+---@field Bone number The physics bone index.
+---@field Pos Vector The local-space hit position (world-space for world entity).
+---@field Normal Vector The local-space hit normal (world-space for world entity).
+
+--- The Objects array on a tool. Direct `self.Objects[i]` accesses inside tool
+--- methods (GetPos, GetEnt, SetObject, etc.) return the stored slot shape.
+--- Callers must guarantee the index is valid before calling any getter.
+---@alias ToolObjects table<integer, ToolObjectSlot>
+
+---@class Tool
+---@field Mode string The tool mode string (e.g. "weld", "balloon").
+---@field SWEP gmod_tool The tool gun weapon entity this tool belongs to.
+---@field Weapon gmod_tool Alias for SWEP; the tool gun weapon entity this tool belongs to.
+---@field Owner Player The player who owns this tool.
+---@field Objects ToolObjects Array of stored constraint objects indexed 1-based.
+---@field Stage number The current stage of the tool.
+---@field Message string The current message/hint string.
+---@field LastMessage number CurTime of the last displayed message.
+---@field AllowedCVar ConVar ConVar controlling whether this tool is allowed (toolmode_allow_<mode>).
+---@field ClientConVar table<string, string> Default client convar name → value pairs.
+---@field ServerConVar table<string, string> Default server convar name → value pairs.
+---@field ClientConVars table<string, ConVar> Instantiated client ConVar objects keyed by name.
+---@field ServerConVars table<string, ConVar> Instantiated server ConVar objects keyed by name.
+---@field GhostEntity Entity|nil The current ghost entity, or nil if none.
+---@field GhostEntities table<any, Entity>? Legacy ghost entity table (unused in base code).
+---@field GhostOffset table? Legacy ghost offset table (unused in base code).
+---@field BuildCPanel fun(panel: ControlPanel, ...any) Called to populate the tool's control panel. Override to add your controls.
+---@field Information (string | {name: string, stage: number?, op: number?, icon: string?, icon2: string?})[]? Array of stage-information descriptors. Each element is either a plain string key or a table descriptor with optional stage/op/icon fields.
+---@field AddToMenu? boolean Whether to add this tool to the spawn menu tool list. Default true.
+---@field Category? string The tool category in the spawn menu (e.g. "Construction"). Default "New Category".
+---@field Tab? string The spawn menu tab to place the tool in. Default "Main".
+---@field Name? string Display name of the tool shown in the spawn menu.
+---@field Command? string The console command to switch to this tool. Default "gmod_tool <mode>".
+---@field ConfigName? string The name used for convar config storage. Default is the tool mode.
+---@field LeftClickAutomatic? boolean If true, LeftClick fires continuously while held.
+---@field RightClickAutomatic? boolean If true, RightClick fires continuously while held.
+---@field RequiresTraceHit? boolean If true, tool only fires when the trace hits something.
+---@field Init? fun(self: Tool) Called on tool initialization after Create().
+Tool = Tool or {}
+
+---Returns the Tool Gun (`gmod_tool`) Scripted Weapon. Never nil at runtime after Init.
+---@return gmod_tool # The tool gun weapon.
+function Tool:GetWeapon() end
+
+---@class TOOL : Tool
+TOOL = {}
+
+---If set to false, the tool won't be added to the tool menu and players will have to access it by other means.
+---@type boolean?
+TOOL.AddToMenu = true
+
+---The tool menu category under which the tool should be listed.
+---@type string?
+TOOL.Category = 'New Category'
+
+---The console command to execute upon being selected in the Q menu.
+---@type string?
+TOOL.Command = 'gmod_toolmode [tool]'
+
+---The name of the tool in the Q menu.
+--- Common practice is to set this to "#tool.[lua filename].name" to match the name displayed in the tool information box.
+---@type string?
+TOOL.Name = '#[tool mode]'
+
+---A key-value ( convar name-default value ) table containing the client-side convars to create. All convars will be prefixed with the filename of the tool.
+--- You can later use Tool:GetClientNumber or Tool:GetClientInfo to retrieve these values.
+---@type table
+TOOL.ClientConVar = nil
+
+---Same as above, but created server-side instead.
+---@type table
+TOOL.ServerConVar = nil
+
+---A key-value ( string name - ConVar object ) table containing the cached convar objected created from `ClientConVar`.
+---@type table
+TOOL.ClientConVars = nil
+
+---Same as above, but server-side (`ServerConVar`) instead.
+---@type table
+TOOL.ServerConVars = nil
+
+---The function that is called to build the context menu for your tool. It has one argument, namely the context menu's base panel to which all of your custom panels are going to be parented to.
+---
+--- While it might sound like a hook, it isn't - you won't receive a `self` argument inside the function. See TOOL.BuildCPanel.
+---@type fun(panel: ControlPanel, ...any)
+TOOL.BuildCPanel = nil
+
+---Allows you to override the tool usage information shown when the tool is equipped.
+--- See Tool Information Display for more information.
+---@type table
+TOOL.Information = nil
+
+---Class name of the tool. (name of the .lua file)
+---
+--- This is set automatically.
+---@type string
+TOOL.Mode = nil
+
+---The tool tab (spawnmenu.AddToolTab) to add this tool to. (The internal name, first argument)
+---@type string
+TOOL.Tab = nil
+
+---When enabled the game tries to run the left mouse click as soon as possible
+---@type boolean?
+TOOL.LeftClickAutomatic = false
+
+---When enabled the game tries to run the right mouse click as soon as possible
+---@type boolean?
+TOOL.RightClickAutomatic = false
 
 ---Returns whether the tool is allowed to be used or not. This function ignores the [SANDBOX:CanTool](https://wiki.facepunch.com/gmod/SANDBOX:CanTool) hook.
 ---
@@ -27,7 +146,9 @@ function Tool:BuildConVarList() end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/TOOL.BuildCPanel
 ---@param panel ControlPanel The DForm control panel to add settings to.
-function TOOL.BuildCPanel(panel) end
+---@param ... any Any extra arguments passed via Tool:RebuildControlPanel are forwarded here.
+function TOOL.BuildCPanel(panel, ...) end
+
 
 ---**INTERNAL**: This is called automatically for most toolgun actions so you shouldn't need to use it.
 ---
@@ -62,8 +183,10 @@ function Tool:CreateConVars() end
 ---@hook Deploy
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/TOOL:Deploy
----@return boolean # Return true to allow switching away from the toolgun using lastinv command
-function Tool:Deploy() end
+---@param skip? boolean True when the toolgun wrapper is switching tool modes internally.
+---@return boolean? # Return true to allow switching away from the toolgun using lastinv command.
+function Tool:Deploy(skip) end
+
 
 ---Called when [WEAPON:DrawHUD](https://wiki.facepunch.com/gmod/WEAPON:DrawHUD) of the toolgun is called, only when the user has this tool selected.
 ---@hook DrawHUD
@@ -102,8 +225,9 @@ function Tool:GetBone(id) end
 ---@source https://wiki.facepunch.com/gmod/Tool:GetClientBool
 ---@param name string Name of the ConVar to retrieve. The function will automatically add the `mytoolfilename_` part to it.
 ---@param default? boolean The default value to return in case the lookup fails.
----@return number # The value of the requested ConVar. It will be true if the value if the convar is not 0, just like ConVar:GetBool
+---@return boolean # The value of the requested ConVar. It will be true if the value if the convar is not 0, just like ConVar:GetBool
 function Tool:GetClientBool(name, default) end
+
 
 ---Attempts to grab a clientside tool [ConVar](https://wiki.facepunch.com/gmod/ConVar) as a [string](https://wiki.facepunch.com/gmod/string).
 ---@realm shared
@@ -161,10 +285,12 @@ function Tool:GetNormal(id) end
 function Tool:GetOperation() end
 
 ---Returns the owner of this tool.
+--- At runtime this is always a valid player when the tool is active.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Tool:GetOwner
----@return Player # Player using the tool
+---@return Player # The player using the tool. Always valid when called from tool callbacks.
 function Tool:GetOwner() end
+
 
 ---Retrieves an [PhysObj](https://wiki.facepunch.com/gmod/PhysObj) previously stored using [Tool:SetObject](https://wiki.facepunch.com/gmod/Tool:SetObject).
 --- See also [Tool:GetEnt](https://wiki.facepunch.com/gmod/Tool:GetEnt).
@@ -181,6 +307,7 @@ function Tool:GetPhys(id) end
 ---@return Vector # Associated vector with given id. The vector is converted from Tool:GetLocalPos.
 function Tool:GetPos(id) end
 
+
 ---Attempts to grab a serverside tool [ConVar](https://wiki.facepunch.com/gmod/ConVar).
 --- This will not do anything on client, despite the function being defined shared.
 ---@realm shared
@@ -195,24 +322,30 @@ function Tool:GetServerInfo(name) end
 ---@return number # The current stage of the current operation the tool is at.
 function Tool:GetStage() end
 
----Returns the Tool Gun (`gmod_tool`) Scripted [Weapon](https://wiki.facepunch.com/gmod/Weapon).
+---Returns the Tool Gun (`gmod_tool`) Scripted Weapon.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Tool:GetSWEP
----@return Weapon # The tool gun weapon. (`gmod_tool`)
+---@return gmod_tool # The tool gun weapon.
 ---@deprecated Use Tool:GetWeapon instead.
 function Tool:GetSWEP() end
 
----Returns the Tool Gun (`gmod_tool`) Scripted [Weapon](https://wiki.facepunch.com/gmod/Weapon).
+
+---Returns the Tool Gun (`gmod_tool`) Scripted Weapon.
+--- At runtime this is always set after tool initialization.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Tool:GetWeapon
----@return Weapon # The tool gun weapon. (`gmod_tool`)
+---@return gmod_tool # The tool gun weapon. Always valid after Init.
 function Tool:GetWeapon() end
 
----Called when [WEAPON:Holster](https://wiki.facepunch.com/gmod/WEAPON:Holster) of the toolgun is called, when switching between different toolguns.
+
+---Called when [WEAPON:Holster](https://wiki.facepunch.com/gmod/WEAPON:Holster) of the toolgun is called.
 ---@hook Holster
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/TOOL:Holster
-function Tool:Holster() end
+---@param skip? boolean True when the toolgun wrapper is switching tool modes internally.
+---@return boolean?
+function Tool:Holster(skip) end
+
 
 ---Called when the user left clicks with the tool.
 ---@hook LeftClick
@@ -221,6 +354,7 @@ function Tool:Holster() end
 ---@param tr TraceResult A trace from user's eyes to wherever they aim at. See Structures/TraceResult
 ---@return boolean # Return `true` to draw the tool gun beam and play fire animations, `false` otherwise.
 function Tool:LeftClick(tr) end
+
 
 ---Initializes the ghost entity with the given model. Removes any old ghost entity if called multiple times.
 ---
@@ -333,3 +467,4 @@ function Tool:UpdateData() end
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Tool:UpdateGhostEntity
 function Tool:UpdateGhostEntity() end
+

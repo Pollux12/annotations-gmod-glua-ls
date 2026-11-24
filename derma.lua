@@ -7,36 +7,38 @@ derma = {}
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/derma.Color
----@param name string
----@param pnl Panel
+---@param name string 
+---@param pnl Panel 
 ---@param default Color The default Color in case of failure.
 function derma.Color(name, pnl, default) end
 
 ---Defines a new Derma control with an optional base.
----
---- This calls [vgui.Register](https://wiki.facepunch.com/gmod/vgui.Register) internally, but also does the following:
---- * Adds the control to [derma.GetControlList](https://wiki.facepunch.com/gmod/derma.GetControlList)
---- * Adds a key "Derma" - This is returned by [derma.GetControlList](https://wiki.facepunch.com/gmod/derma.GetControlList)
---- * Makes a global table with the name of the control (This is technically deprecated and should not be relied upon)
---- * If reloading (i.e. called this function with name of an existing panel), updates all existing instances of panels with this name. (Updates functions, calls [PANEL:PreAutoRefresh](https://wiki.facepunch.com/gmod/PANEL:PreAutoRefresh) and [PANEL:PostAutoRefresh](https://wiki.facepunch.com/gmod/PANEL:PostAutoRefresh), etc.)
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/derma.DefineControl
+---@generic T: Panel
+---@[call_arg("gmod.vgui_panel", "define_control")]
 ---@param name string Name of the newly created control.
 ---@param description string Description of the control.
----@param tab table Table containing control methods and properties.
+---@[call_arg("gmod.vgui_panel", "table")]
+---@param tab T Table containing control methods and properties.
+---@[call_arg("gmod.vgui_panel", "base")]
 ---@param base string Derma control to base the new control off of.
----@return table # A table containing the new control's methods and properties.
+---@return T # A table containing the new control's methods and properties.
 function derma.DefineControl(name, description, tab, base) end
 
----Defines a new skin so that it is usable by Derma. The default skin can be found in `garrysmod/lua/skins/default.lua`.
+
+---Defines a new skin so that it is usable by Derma.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/derma.DefineSkin
+---@[call_arg("gmod.derma_skin", "define")]
 ---@param name string Name of the skin.
----@param descriptions string Description of the skin.
----@param skin table Table containing skin data.
-function derma.DefineSkin(name, descriptions, skin) end
+---@param description string Description of the skin.
+---@[call_arg("gmod.derma_skin", "table")]
+---@param skin Partial<SKIN> Table containing skin overrides. Missing values inherit from the Default skin.
+function derma.DefineSkin(name, description, skin) end
+
 
 ---Returns the [derma.Controls](https://wiki.facepunch.com/gmod/derma.Controls) table, a list of all derma controls registered with [derma.DefineControl](https://wiki.facepunch.com/gmod/derma.DefineControl).
 ---@realm client
@@ -45,27 +47,31 @@ function derma.DefineSkin(name, descriptions, skin) end
 ---@return table # A listing of all available derma-based controls. See derma.Controls for structure and contents.
 function derma.GetControlList() end
 
----Returns the default skin table, which can be changed with the hook [GM:ForceDermaSkin](https://wiki.facepunch.com/gmod/GM:ForceDermaSkin).
+---Returns the default skin table.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/derma.GetDefaultSkin
----@return table # The default skin table.
+---@return SKIN # The default skin table.
 function derma.GetDefaultSkin() end
+
 
 ---Returns the skin table of the skin with the supplied name.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/derma.GetNamedSkin
+---@[call_arg("gmod.derma_skin", "reference")]
 ---@param name string Name of skin.
----@return table # The skin table.
+---@return SKIN? # The skin table.
 function derma.GetNamedSkin(name) end
+
 
 ---Returns a copy of the table containing every Derma skin.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/derma.GetSkinTable
----@return table # Table of every Derma skin.
+---@return table<string, SKIN> # Table of every Derma skin.
 function derma.GetSkinTable() end
+
 
 ---Clears all cached panels so that they reassess which skin they should be using.
 ---@realm client
@@ -80,19 +86,17 @@ function derma.RefreshSkins() end
 ---@return number # Amount of times derma.RefreshSkins has been called.
 function derma.SkinChangeIndex() end
 
----Checks if a matching hook function exists in the skin _(based on the concatenation of type and name args)_, then calls it.
----
---- This function is used dynamically inside [Global.Derma_Hook](https://wiki.facepunch.com/gmod/Global.Derma_Hook).
+---Checks if a matching hook function exists in the panel's skin, then calls it.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/derma.SkinHook
 ---@param type string The type of hook to run, usually `Paint`.
----@param name string The name of the hook/panel to run. Example: `Button`.
+---@param name string The name of the hook or panel to run. Example: `Button`.
 ---@param panel Panel The panel to call the hook for.
----@param vararg1? any First parameter for the panel hook. i.e. width of the panel for.PANEL:Paint hooks.
----@param vararg2? any Second parameter for the panel hook. i.e. height of the panel for.PANEL:Paint hooks.
+---@param ... any Arguments forwarded to the skin hook.
 ---@return any # The returned variable from the skin hook.
-function derma.SkinHook(type, name, panel, vararg1, vararg2) end
+function derma.SkinHook(type, name, panel, ...) end
+
 
 ---Returns a function to draw a specified texture of panels skin.
 ---
@@ -112,3 +116,11 @@ function derma.SkinHook(type, name, panel, vararg1, vararg2) end
 --- * number `h` - Height of the box.
 --- * Color `clr` - Optional color, default is white.
 function derma.SkinTexture(name, pnl, fallback) end
+
+
+---Every registered Derma skin, keyed by name. Filled by derma.DefineSkin; derma.GetSkinTable returns a copy.
+---@realm client
+---@realm menu
+---@source garrysmod/lua/derma/derma.lua
+---@type table<string, SKIN>
+derma.SkinList = {}

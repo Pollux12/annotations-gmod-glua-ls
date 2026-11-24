@@ -11,7 +11,7 @@
 --- Related function is game.GetAmmoDamageType.
 ---
 --- Default: `DMG_BULLET`
----@field dmgtype DMG="DMG_BULLET"
+---@field dmgtype DMG=DMG_BULLET
 ---The force of the ammo.
 ---
 --- Related function is game.GetAmmoForce.
@@ -49,7 +49,7 @@
 ---Tracer type using Enums/TRACER.
 ---
 --- Default: `TRACER_NONE`
----@field tracer TRACER="TRACER_NONE"
+---@field tracer TRACER=TRACER_NONE
 ---Maximum amount of ammo of this type the player should be able to carry in reserve. `-2` makes this ammo type infinite.
 ---
 --- Related function is game.GetAmmoMax.
@@ -82,7 +82,10 @@ local AngPos = {}
 --- Table used by panel animation methods, primarily [Panel:AnimationThinkInternal](https://wiki.facepunch.com/gmod/Panel:AnimationThinkInternal), and returned by [Panel:NewAnimation](https://wiki.facepunch.com/gmod/Panel:NewAnimation).
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/Structures/AnimationData
----@class (partial) AnimationData
+--- Table used by panel animation methods, primarily [Panel:AnimationThinkInternal](https://wiki.facepunch.com/gmod/Panel:AnimationThinkInternal), and returned by [Panel:NewAnimation](https://wiki.facepunch.com/gmod/Panel:NewAnimation).
+---@realm client
+---@source https://wiki.facepunch.com/gmod/Structures/AnimationData
+---@class (partial) AnimationData<T: Panel>
 ---The system time value returned by Global.SysTime when the animation starts/will start.
 ---@field StartTime number
 ---The system time value returned by Global.SysTime when the animation ends/will end.
@@ -96,7 +99,7 @@ local AngPos = {}
 --- Function argument(s):
 --- * table `animData` - This structure.
 --- * Panel `tgtPanel` - The panel the animation was run on.
----@field OnEnd fun(animData: table, tgtPanel: Panel)
+---@field OnEnd fun(animData: table, tgtPanel: T)
 ---The `think` function called every frame that will animate the panel object. This varies based on the animation. You can create a custom function for this if you aren't using the stock panel methods.
 ---
 --- Function argument(s):
@@ -104,7 +107,7 @@ local AngPos = {}
 --- * Panel `tgtPanel` - The panel the animation is being run on.
 ---
 --- The progress fraction of the animation, between 0 and 1. The change rate of this number will not be linear if you are easing.
----@field Think fun(animData: table, tgtPanel: Panel)
+---@field Think fun(animData: table, tgtPanel: T, fraction: number)
 ---The target position, or target translation of the panel object. Used by Panel:MoveTo and Panel:MoveBy respectively.
 ---@field Pos Vector
 ---The position of the panel object when the animation started. Used by Panel:MoveTo and Panel:MoveBy.
@@ -116,7 +119,7 @@ local AngPos = {}
 ---The target size of the panel object. Only used by Panel:SizeTo.
 ---
 --- Default: `(0, 0, 0)`
----@field Size Vector="(0, 0, 0)"
+---@field Size Vector=(0, 0, 0)
 ---The size of the panel object when the animation started. Only used by Panel:SizeTo.
 ---@field StartSize Vector
 ---The target colour of the panel object. Only used by Panel:ColorTo.
@@ -154,7 +157,7 @@ local AttachmentData = {}
 ---Where the balloon will spawn.
 ---
 --- Default: `Vector(0, 0, 0)`
----@field Pos Vector="Vector(0, 0, 0)"
+---@field Pos Vector=Vector(0, 0, 0)
 ---The balloon’s model.
 ---
 --- Default: `models/error.mdl`
@@ -170,14 +173,14 @@ local BalloonData = {}
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Structures/BodyGroupData
 ---@class (partial) BodyGroupData
----The Body Group's ID.
+---The Body Group's ID.  
 --- Body Group IDs start at `0`.
 ---@field id number
 ---The name of the Body Group.
 ---@field name string
 ---The number of Sub Models in this Body Group, and the length of the `submodels` table.
 ---@field num number
----A table of the names of the Sub Models within this Body Group.
+---A table of the names of the Sub Models within this Body Group.  
 --- Sub Model IDs start at `0`.
 ---@field submodels string[]
 
@@ -272,13 +275,13 @@ local BoneWeight = {}
 --- By default this would be set to the entity Entity:FireBullets is called on.
 ---
 --- Default: `self`
----@field Attacker Entity="self"
+---@field Attacker Entity=self
 ---The entity that should be reported as inflictor eg. a weapon or something similar.
 ---
 --- Also defines CTakeDamageInfo:GetWeapon for Weapon.
 ---
 --- Default: `NULL`
----@field Inflictor Entity="NULL"
+---@field Inflictor Entity=NULL
 ---Function to be called **after** the bullet was fired but **before** the damage is applied (the callback is called even if no damage is applied).
 ---
 --- Function argument(s):
@@ -293,7 +296,7 @@ local BoneWeight = {}
 --- * boolean damage - `false` to not do any damage.
 ---
 --- Default: `nil`
----@field Callback? fun(attacker: Entity, tr: table, dmgInfo: CTakeDamageInfo):(ret0: table)
+---@field Callback? fun(attacker: Entity, tr: table, dmgInfo: CTakeDamageInfo):(ret0: table?)
 ---The damage dealt by the bullet.
 ---
 --- If set to `0`, it means the damage should be calculated from the ammo type's ConVars if  the ammo type has `AMMO_INTERPRET_PLRDAMAGE_AS_DAMAGE_TO_PLAYER` flag set.
@@ -322,30 +325,29 @@ local BoneWeight = {}
 --- Default: `1`
 ---@field Tracer number=1
 ---The ammunition name.
---- See Default Ammo Types.
 ---
 --- Default: `<empty string>`
----@field AmmoType string="<empty string>"
----The tracer name. See Default Effects.
+---@field AmmoType string=""
+---The tracer name. You can find a list of default effects Default_Effects.
 ---
 --- Default: `nil`
 ---@field TracerName? string
 ---The fire direction.
 ---
 --- Default: `Vector( 0, 0, 0 )`
----@field Dir Vector="Vector( 0, 0, 0 )"
+---@field Dir Vector=Vector( 0, 0, 0 )
 ---The spread, only x and y are needed.
 ---
 --- Default: `Vector( 0, 0, 0 )`
----@field Spread Vector="Vector( 0, 0, 0 )"
+---@field Spread Vector=Vector( 0, 0, 0 )
 ---The position to fire the bullets from.
 ---
 --- Default: `Vector( 0, 0, 0 )`
----@field Src Vector="Vector( 0, 0, 0 )"
+---@field Src Vector=Vector( 0, 0, 0 )
 ---The entity that the bullet will ignore when it will be shot.
 ---
 --- Default: `NULL`
----@field IgnoreEntity Entity="NULL"
+---@field IgnoreEntity Entity=NULL
 
 local Bullet = {}
 
@@ -573,7 +575,7 @@ local DebugInfo = {}
 ---The light direction. Used with **InnerAngle** and **OuterAngle**.
 ---
 --- Default: `Vector( 0, 0, 0 )`
----@field dir Vector="Vector( 0, 0, 0 )"
+---@field dir Vector=Vector( 0, 0, 0 )
 ---The closer this is to zero, the smoother the light will be. Requires **Dir** and **OuterAngle** to be set.
 ---
 --- Default: `0`
@@ -668,6 +670,17 @@ local DynamicLight = {}
 
 local EmitSoundInfo = {}
 
+--- Information about the ENT structure, which represents a Scripted Entity class definition.
+---
+--- To learn more about scripted entities, [see this page](https://wiki.facepunch.com/gmod/Scripted_Entities).
+---
+--- See also [ENTITY Hooks](https://wiki.facepunch.com/gmod/ENTITY_Hooks) for a list of events scripted entities can have. See [Custom Entity Fields](https://wiki.facepunch.com/gmod/Custom_Entity_Fields) for a list of events and fields all entities can have.
+---
+--- While some of the fields may be serverside or clientside only, it is recommended to provide them on both so addons could use their values.
+---
+--- **NOTE**: Values defined in ENT table can't be changed per instance. Initialize default values in [ENTITY:Initialize](https://wiki.facepunch.com/gmod/ENTITY:Initialize) or other hook.
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/Structures/ENT
 ---@class ENT : ENTITY
 ---The base entity to derive from. This **must** be a valid Lua entity
 ---@field Base string
@@ -795,6 +808,7 @@ ENT = {}
 ---@field BoneManip? table Bone manipulation data.
 ---@field MapCreationID? number The entity's MapCreationID, only exists for entities that were created by the map.
 ---@field WorkshopID? number Deprecated, always 0. See Entity:GetWorkshopID.
+---@field [string] any Fields from the entity's own table, which duplicator.CopyEntTable merges into the copy.
 local EntityCopyData = {}
 
 --- The table structure used for bullets that have already been fired.
@@ -809,7 +823,7 @@ local EntityCopyData = {}
 ---
 ---
 --- Default: `<Empty String>`
----@field AmmoType string="<Empty String>"
+---@field AmmoType string=""
 ---The Entity that fired the bullet.
 ---
 --- This is usually the Player that is holding the Weapon.
@@ -987,9 +1001,7 @@ local FormattedTime = {}
 --- * DELETE
 --- * PATCH
 --- * OPTIONS
----
----Default: `GET`
----@field method? string
+---@field method string="GET"
 ---The target url.
 ---@field url string
 ---KeyValue table for [URL parameters](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams).
@@ -1003,22 +1015,16 @@ local FormattedTime = {}
 --- Supported by methods such as `POST`, `PUT`, `PATCH`, and `DELETE`.
 ---@field body? string
 ---Content type for body.
----
----Default: `text/plain; charset=utf-8`
----@field type? string
+---@field type string="text/plain; charset=utf-8"
 ---The timeout for the connection.
----
----Default: `60`
----@field timeout? number
+---@field timeout number=60
 local HTTPRequest = {}
 
 ---`GET`, `POST`, and `HEAD` requests may include URL parameters.
 --- Omitting `method` is treated as `GET`.
 ---@class (exact) HTTPRequestWithParameters : HTTPRequest
 ---Request method, case insensitive.
----
----Default: `GET`
----@field method? HTTPRequestMethodWithParameters
+---@field method HTTPRequestMethodWithParameters="GET"
 ---KeyValue table for [URL parameters](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams).
 ---
 --- Valid only for `GET`, `POST`, and `HEAD`.
@@ -1034,7 +1040,7 @@ local HTTPRequest = {}
 --- Table used by [util.TraceHull](https://wiki.facepunch.com/gmod/util.TraceHull).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Structures/HullTrace
----@class HullTrace
+---@class HullTrace : Trace
 local HullTrace = {}
 
 ---The start position of the trace
@@ -1090,19 +1096,19 @@ HullTrace.hitclientonly = false
 ---The type of the light source, see Enums/MATERIAL_LIGHT.
 ---
 --- Default: `MATERIAL_LIGHT_POINT`
----@field type MATERIAL_LIGHT="MATERIAL_LIGHT_POINT"
+---@field type MATERIAL_LIGHT=MATERIAL_LIGHT_POINT
 ---The color of the light source (x is red, y is green, z is blue). Values are not restricted to a specific range, higher values will result in a brighter light.
 ---
 --- Default: `vector_origin`
----@field color Vector="vector_origin"
+---@field color Vector=vector_origin
 ---The origin of the light in world coordinates.
 ---
 --- Default: `vector_origin`
----@field pos Vector="vector_origin"
+---@field pos Vector=vector_origin
 ---The direction of the light. Only required for directional and spot lights.
 ---
 --- Default: `vector_origin`
----@field dir Vector="vector_origin"
+---@field dir Vector=vector_origin
 ---The maximum range of the light source. Does not actually control light attenuation. Usually left at 0 for infinite range.
 ---
 --- Default: `0`
@@ -1142,27 +1148,26 @@ HullTrace.hitclientonly = false
 
 local LocalLight = {}
 
---- Table structure used by [matproxy.Add](https://wiki.facepunch.com/gmod/matproxy.Add).
+---Table structure used by [matproxy.Add](https://wiki.facepunch.com/gmod/matproxy.Add).
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/Structures/MatProxyData
 ---@class (partial) MatProxyData
----The name of the material proxy
+---The name of the material proxy.
 ---@field name string
 ---The function used to get variables from the ".vmt". Called once per each ".vmt".
 ---
---- Function argument(s):
---- * table `self` - The table structure itself
---- * IMaterial `mat` - The material.
---- * table `values` - The material key values
----@field init fun(self: table, mat: IMaterial, values: table)
+---Function argument(s):
+---* MatProxyData `self` - The table structure itself.
+---* IMaterial `mat` - Material the material proxy is applied to.
+---* table `values` - The material key values.
+---@field init? fun(self: MatProxyData, mat: IMaterial, values: table)
 ---The function used to apply the proxy. This is called every frame while any materials with this proxy are used in world.
 ---
---- Function argument(s):
---- * table `self` - The table structure itself.
---- * IMaterial `mat` - The material.
---- * Entity `ent` - The entity the material instance is applied to, if any.
----@field bind fun(self: table, mat: IMaterial, ent: Entity)
-
+---Function argument(s):
+---* MatProxyData `self` - The table structure itself.
+---* IMaterial `mat` - Material the material proxy is applied to.
+---* Entity `ent` - The entity the material instance is applied to, if any.
+---@field bind fun(self: MatProxyData, mat: IMaterial, ent: Entity)
 local MatProxyData = {}
 
 --- A [table](https://wiki.facepunch.com/gmod/table) structure representing the data stored by a single vertex of a mesh.
@@ -1197,12 +1202,12 @@ local MatProxyData = {}
 ---@field binormal Vector
 ---The position of the vertex in local space.
 ---@field pos Vector
----The horizontal coordinate of a position on the texture of the triangle that this vertex is a part of.
+---The horizontal coordinate of a position on the texture of the triangle that this vertex is a part of.  
 --- This controls which part of the texture is drawn at this vertex.
 ---
 --- In the range `0` (the texture's left edge) to `1` (the texture's right edge)
 ---@field u number
----The vertical coordinate of a position on the texture of the triangle that this vertex is a part of.
+---The vertical coordinate of a position on the texture of the triangle that this vertex is a part of.  
 --- This controls which part of the texture is drawn at this vertex.
 ---
 --- In the range `0` (the texture's top edge) to `1` (the texture's bottom edge)
@@ -1238,7 +1243,7 @@ local MeshVertex = {}
 ---
 --- This data can be parsed into a Lua table via util.KeyValuesToTablePreserveOrder
 ---@field KeyValues string
----Valve key-value formatted info about the model (`$keyvalues` command in the `.qc` of the model), if present.
+---Valve key-value formatted info about the model (`$keyvalues` command in the `.qc` of the model), if present. 
 ---
 --- Can describe things like health of a prop, flammability, etc.
 ---@field ModelKeyValues string
@@ -1377,11 +1382,11 @@ local ModelMeshData = {}
 ---A list of weapons this NPC is typically meant to use. One will be picked on spawn at random, unless overwritten by the player.
 ---
 --- Default: `{}`
----@field Weapons table="{}"
+---@field Weapons table={}
 ---Key-value pairs to apply to the NPC on spawn. See Entity:SetKeyValue.
 ---
 --- Default: `{}`
----@field KeyValues table="{}"
+---@field KeyValues table={}
 ---Model override for this NPC.
 ---
 --- Default: `nil`
@@ -1423,7 +1428,7 @@ local ModelMeshData = {}
 ---Used to add additional rotation the NPC post spawn. Usually all NPCs would be facing the player on spawn. Value of `Angle( 0, 180, 0 )` would make the NPC face away from the player.
 ---
 --- Default: `Angle( 0, 0, 0 )`
----@field Rotate Angle="Angle( 0, 0, 0 )"
+---@field Rotate Angle=Angle( 0, 0, 0 )
 ---Health override for this NPC. Also sets Entity:SetMaxHealth.
 ---
 --- Default: `nil`
@@ -1665,99 +1670,30 @@ local Preset = {}
 
 local Problem = {}
 
---- Structure used for [properties.Add](https://wiki.facepunch.com/gmod/properties.Add).
+---Structure used for [properties.Add](https://wiki.facepunch.com/gmod/properties.Add).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/Structures/PropertyAdd
 ---@class (partial) PropertyAdd
----Can be set to "toggle" to make this property a toggle property.
----
---- Default: `simple`
----@field Type string="simple"
----Label to show on opened menu
----@field MenuLabel string
----Icon to show on opened menu for this item. Optional for simple properties and unused for toggle properties.
----@field MenuIcon string
----Where in the list should the property be positioned, relative to other properties.
----
---- For reference, here are the default properties and their Order values:
----
---- Property |  Order |
---- ---------|-------|
---- | Bone Manipulate | 500 |
---- | Bodygroups | 600 |
---- | Skin | 601 |
---- | Keep Upright | 900 |
---- | Ignite/Extinguish | 999 |
---- | Remove | 1000 |
---- | Gravity | 1001 |
---- | Drive | 1100 |
---- | Collision | 1500 |
---- | Statue | 1501 |
---- | NPC Biggify/Smallify | 1799, 1800 |
---- | Motion Control (Kinect) | 2500 |
---- | Editable_Entities | 90001 |
----@field Order number
----Whether to add a spacer before this property. This should generally be true for the first property in a group of properties.
----
---- Default: `false`
----@field PrependSpacer boolean=false
----Used **clientside** to decide whether this property should be shown for an entity.
----
---- It's good practice to call GM:CanProperty in this hook via gamemode.Call or hook.Run.
----
---- Function argument(s):
---- * table `self` - the property table
---- * Entity `ent` - the entity the player clicked
---- * Player `player` - the Global.LocalPlayer
----
---- Function return value(s):
---- * boolean `check` - Return true if the property should be shown for this entity.
----@field Filter fun(self: table, ent: Entity, player: Player):(check: boolean)
----Required for toggle properties (clientside).
----
---- Function argument(s):
---- * table `self` - the property table
---- * Entity `ent` - the entity the player clicked
---- * table `tr` - the player's eye trace
----
---- Function return value(s):
---- * boolean `check` - Return true if the property should appear checked in the UI.
----@field Checked fun(self: table, ent: Entity, tr: table):(check: boolean)
----Called **clientside** when the property is clicked
----
---- Function argument(s):
---- * table `self` - the property table
---- * Entity `ent` - the entity the player clicked
---- * table `tr` - the player's eye trace
----
---- When appropriate, within this function you can call `self:MsgStart()`, write data with the net.`Write*` functions, and finish with `self:MsgEnd()`. This will activate the `Receive` function on the server. In most cases, you will want to send the entity to the server, as it's not done by default.
----@field Action fun(self: table, ent: Entity, tr: table)
----Called **serverside** if the client sends a message in the `Action` function (see above).
----
---- Function argument(s):
---- * table `self` - the property table
---- * number `len` - the net message length, although this includes the property identifier used internally (the name of the property)
---- * Player `ply` - the player who clicked the property
----
---- You can read data received from the client with the net.`Read*` functions. It's good practice to check GM:CanProperty here via gamemode.Call or hook.Run.
----@field Receive fun(self: table, len: number, ply: Player)
----Called **clientside** when the property option has been created in the right-click menu. This is not called for toggle properties!
----
---- Function argument(s):
---- * table `self` - the property table
---- * DMenuOption `option` - the menu option
---- * Entity `ent` - the entity the player right-clicked
---- * table `tr` - the player's eye trace
----@field MenuOpen fun(self: table, option: DMenuOption, ent: Entity, tr: table)
----Same as `MenuOpen`, but also called for toggle properties and has different arguments. This is called immediately after `MenuOpen`, but nothing happens in between so you should only ever use one or the other.
----
---- Function argument(s):
---- * table `self` - the property table
---- * DMenu `menu` - the property menu
---- * DMenuOption `option` - the menu option
----@field OnCreate fun(self: table, menu: DMenu, option: DMenuOption)
-
+---@field Type? string|"simple"|"toggle" Can be set to "toggle" to make this property a toggle property.
+---@field MenuLabel string Label to show on opened menu.
+---@field MenuIcon? string Icon to show on opened menu for this item. Optional for simple properties and unused for toggle properties.
+---@field Order number Where in the list this property should be positioned, relative to other properties.
+---@field PrependSpacer? boolean Whether to add a spacer before this property.
+---@field InternalName? string Internal lower-case property name assigned by properties.Add.
+---@field Filter fun(self: PropertyAddRuntime, ent: Entity, player: Player):(check: boolean) Used clientside to decide whether this property should be shown for an entity.
+---@field Checked? fun(self: PropertyAddRuntime, ent: Entity, tr: table):(check: boolean) Required only for toggle properties.
+---@field Action fun(self: PropertyAddRuntime, ent: Entity, tr: table) Called clientside when the property is clicked.
+---@field Receive? fun(self: PropertyAddRuntime, len: number, ply: Player) Called serverside if the client sends a message in the Action function.
+---@field MenuOpen? fun(self: PropertyAddRuntime, option: DMenuOption, ent: Entity, tr: table) Called clientside when the property option has been created in the right-click menu.
+---@field OnCreate? fun(self: PropertyAddRuntime, menu: DMenu, option: DMenuOption) Called clientside after the property option has been created.
 local PropertyAdd = {}
+
+---@class (partial) PropertyAddRuntime : PropertyAdd
+---@field [string] any Additional property-specific data or helper methods.
+---@field InternalName string Internal lower-case property name assigned by properties.Add.
+---@field MsgStart fun(self: PropertyAddRuntime) Starts a properties net message for this property.
+---@field MsgEnd fun(self: PropertyAddRuntime) Sends the current properties net message to the server.
+local PropertyAddRuntime = {}
 
 --- Used for [cam.Start](https://wiki.facepunch.com/gmod/cam.Start).
 ---
@@ -1860,7 +1796,7 @@ local RenderCamData = {}
 ---Height of the capture
 ---@field h number
 ---The quality of the capture. Affects jpeg only.
----@field quality number
+---@field quality? number
 ---Set to false to capture an image with alpha channel set to fully opaque. Affects any format with alpha channel support, so not `jpg`.
 ---
 --- Default: `true`
@@ -1915,44 +1851,18 @@ local SequenceInfo = {}
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Structures/ServerQueryData
 ---@class (partial) ServerQueryData
----The game directory to get the servers for
----
---- Default: `garrysmod`
+---The game directory to get the servers for.
 ---@field GameDir string="garrysmod"
----Type of servers to retrieve. Valid values are `internet`, `favorite`, `history` and `lan`
+---Type of servers to retrieve. Valid values are `internet`, `favorite`, `history` and `lan`.
 ---@field Type string
----Steam application ID to get the servers for
----
---- Default: `4000`
+---Steam application ID to get the servers for.
 ---@field AppID number=4000
 ---Called when a new server is found and queried.
----
---- Function argument(s):
---- * number `ping` - Latency to the server.
---- * string `name` - Name of the server
---- * string `desc` - "Nice" gamemode name
---- * string `map` - Current map
---- * number `players` - Total player number ( bot + human )
---- * number `maxplayers` - Maximum reported amount of players
---- * number `botplayers` - Amount of bots on the server
---- * boolean `pass` - Whether this server has password or not
---- * number `lastplayed` - Time when you last played on this server, as UNIX timestamp or 0
---- * string `address` - IP Address of the server
---- * string `gamemode` - Gamemode folder name
---- * number `workshopid` - Gamemode Steam Workshop ID
---- * boolean `isanon` - Is the server signed into an anonymous account?
---- * string `version` - Version number, same format as jit.version_num
---- * string `localization` - Two digit country code, `us` if nil
---- * string `gmcategory` - Category of the gamemode, ex. `pvp`, `pve`, `rp` or `roleplay`
----
---- Function return value(s):
---- * boolean `stop` - Return `false` to stop the query.
----@field Callback fun(ping: number, name: string, desc: string, map: string, players: number, maxplayers: number, botplayers: number, pass: boolean, lastplayed: number, address: string, gamemode: string, workshopid: number, isanon: boolean, version: string, localization: string, gmcategory: string):(stop: boolean)
----Called if the query has failed, called with the servers IP Address
+---@field Callback fun(ping: number, name: string, desc: string, map: string, players: number, maxplayers: number, botplayers: number, pass: boolean, lastplayed: number, address: string, gamemode: string, workshopid: number, isanon: boolean, netversion: string, luaversion: string, localization: string, gmcategory: string):(stop: boolean)
+---Called if the query has failed, called with the server IP address.
 ---@field CallbackFailed function
----Called when the query is finished. No arguments
+---Called when the query is finished. No arguments.
 ---@field Finished function
-
 local ServerQueryData = {}
 
 --- Table used by [PhysObj:ComputeShadowControl](https://wiki.facepunch.com/gmod/PhysObj:ComputeShadowControl). Default values are given if the table element is omitted.
@@ -1963,7 +1873,7 @@ local ServerQueryData = {}
 --- Cannot be 0! Will give errors if you do.
 ---
 --- Default: `TICK_INTERVAL * 2`
----@field secondstoarrive number="TICK_INTERVAL * 2"
+---@field secondstoarrive number=TICK_INTERVAL * 2
 ---The time it should use - just use the one from ENTITY:PhysicsSimulate.
 ---
 --- Default: `0.1`
@@ -1971,11 +1881,11 @@ local ServerQueryData = {}
 ---Where you want to move to.
 ---
 --- Default: `vector_origin`
----@field pos Vector="vector_origin"
+---@field pos Vector=vector_origin
 ---Angle you want to move to.
 ---
 --- Default: `angle_zero`
----@field angle Angle="angle_zero"
+---@field angle Angle=angle_zero
 ---What should be the maximal angular force applied.
 ---
 --- Default: `1`
@@ -2034,12 +1944,12 @@ SoundData.sound = nil
 SoundData.name = nil
 
 ---The sound channel to play in. See Enums/CHAN
----@type CHAN
-SoundData.channel = nil
+---@type CHAN?
+SoundData.channel = CHAN_AUTO
 
 ---The soundlevel of the sound in dB. See Enums/SNDLVL. This will affect how far the sound can be heard.
----@type SNDLVL
-SoundData.level = nil
+---@type SNDLVL?
+SoundData.level = SNDLVL_NORM
 
 ---The volume of the sound as a decimal between `0` and `1`. Can be a table of two numbers, a minimum and a maximum value.
 ---
@@ -2170,7 +2080,27 @@ local SunInfo = {}
 
 local SurfacePropertyData = {}
 
+--- Information about [Scripted Weapons](https://wiki.facepunch.com/gmod/Scripted_Entities) (SWEPs),
+--- 		used by [SANDBOX:PlayerGiveSWEP](https://wiki.facepunch.com/gmod/SANDBOX:PlayerGiveSWEP) and in SWEP creation.
+---
+--- For list of callbacks, see [WEAPON Hooks](https://wiki.facepunch.com/gmod/WEAPON_Hooks).
+---
+--- While some of the fields may be serverside or clientside only, it is recommended to provide them on both so
+--- addons could use their values.
+---@realm shared
+---@source https://wiki.facepunch.com/gmod/Structures/SWEP
 ---@class SWEP : WEAPON
+---@field Tool? table<string, Tool> Map of tool mode name → instantiated tool object. Set by gmod_tool SWEP.
+---@field Mode? string Currently active tool mode name (e.g. "weld"). Set in SWEP:Think by gmod_tool.
+---@field current_mode? string The tool mode active this frame.
+---@field last_mode? string The tool mode active the previous frame.
+---@field m_uHolsterFrame? number Frame number on which the weapon was holstered (used to skip the extra Think call).
+---@field Icons? table<string, IMaterial> Cache of loaded icon materials keyed by path. Set by gmod_tool SWEP DrawHUD.
+---@field ToolNameHeight? number Height of the tool name HUD element. Used by gmod_tool SWEP.
+---@field InfoBoxHeight? number Height of the tool info box HUD element. Used by gmod_tool SWEP.
+---@field Gradient? number Texture ID of the gradient texture used for the HUD background.
+---@field InfoIcon? number Texture ID of the info icon used for the HUD.
+---@field WepSelectIcon? number Texture ID of the weapon select icon.
 ---Entity class name of the SWEP (file or folder name of your SWEP). This is
 ---             set automatically
 ---@field ClassName string
@@ -2208,7 +2138,7 @@ local SurfacePropertyData = {}
 ---             internal deployment speed.
 ---
 --- Default: `GetConVar('sv_defaultdeployspeed'):GetFloat()`
----@field m_WeaponDeploySpeed number="GetConVar('sv_defaultdeployspeed'):GetFloat()"
+---@field m_WeaponDeploySpeed number=GetConVar('sv_defaultdeployspeed'):GetFloat()
 ---@deprecated Use Entity:GetOwner() instead.
 ---Use [Entity:GetOwner](https://wiki.facepunch.com/gmod/Entity:GetOwner)() instead.
 ---@field Owner Entity
@@ -2320,16 +2250,7 @@ local SurfacePropertyData = {}
 ---Internal variable for drawing the info box in weapon selection
 ---
 --- Default: `surface.GetTextureID( 'gui/speech_lid' )`
----@field SpeechBubbleLid number="surface.GetTextureID( 'gui/speech_lid' )"
----Path to
----             a material. Override this in your SWEP to set the icon in the weapon selection. This must be the texture ID,
----             see surface.GetTextureID. Keep in mind that the path must be to a `.vmt` file, NOT `.vtf`.
----
---- Alternatively you can render custom weapon selection via WEAPON:DrawWeaponSelection.
----
----
---- Default: `surface.GetTextureID( 'weapons/swep' )`
----@field WepSelectIcon number="surface.GetTextureID( 'weapons/swep' )"
+---@field SpeechBubbleLid number=surface.GetTextureID( 'gui/speech_lid' )
 ---Should we use Counter-Strike muzzle
 ---             flashes upon firing? This is required for DoD:S or CS:S view models to fix their muzzle flashes.
 ---
@@ -2409,118 +2330,25 @@ SWEP = {}
 
 local TeamData = {}
 
---- Used for [draw.Text](https://wiki.facepunch.com/gmod/draw.Text).
----@realm client
----@realm menu
----@source https://wiki.facepunch.com/gmod/Structures/TextData
+---Structure used for [draw.Text](https://wiki.facepunch.com/gmod/draw.Text).
 ---@class (partial) TextData
 ---Text to be drawn.
----@field text string
----The font to draw with. List of default fonts can be found Default_Fonts.
----
---- Default: `DermaDefault`
----@field font string="DermaDefault"
+---@field text? any
 ---This holds the X and Y coordinates. Key value 1 is x, key value 2 is y.
----@field pos table
----The alignment of the X position. See Enums/TEXT_ALIGN
----
---- Default: `TEXT_ALIGN_LEFT`
----@field xalign TEXT_ALIGN="TEXT_ALIGN_LEFT"
----The alignment of the Y position. See Enums/TEXT_ALIGN
----
---- Default: `TEXT_ALIGN_TOP`
----@field yalign TEXT_ALIGN="TEXT_ALIGN_TOP"
----The text color
----
---- Default: `color_white`
----@field color Color="color_white"
+---@field pos? table
 
-local TextData = {}
-
---- Used for [draw.TexturedQuad](https://wiki.facepunch.com/gmod/draw.TexturedQuad).
----@realm client
----@realm menu
----@source https://wiki.facepunch.com/gmod/Structures/TextureData
+---Structure used for [draw.TexturedQuad](https://wiki.facepunch.com/gmod/draw.TexturedQuad).
 ---@class (partial) TextureData
 ---surface.GetTextureID number of the texture to be drawn.
----@field texture number
+---@field texture? number
 ---The x Coordinate.
----@field x number
+---@field x? number
 ---The y Coordinate.
----@field y number
+---@field y? number
 ---The width of the texture.
----@field w number
+---@field w? number
 ---The height of the texture.
----@field h number
----The texture color. See Color.
----
---- Default: `color_white`
----@field color Color="color_white"
-
-local TextureData = {}
-
----If set to false, the tool won't be added to the tool menu and players will have to access it by other means.
----@type boolean?
-TOOL.AddToMenu = true
-
----The tool menu category under which the tool should be listed.
----@type string?
-TOOL.Category = "New Category"
-
----The console command to execute upon being selected in the Q menu.
----@type string?
-TOOL.Command = "gmod_toolmode [tool]"
-
----The name of the tool in the Q menu.
---- Common practice is to set this to "#tool.[lua filename].name" to match the name displayed in the tool information box.
----@type string?
-TOOL.Name = "#[tool mode]"
-
----A key-value ( convar name-default value ) table containing the client-side convars to create. All convars will be prefixed with the filename of the tool.
---- You can later use Tool:GetClientNumber or Tool:GetClientInfo to retrieve these values.
----@type table
-TOOL.ClientConVar = nil
-
----Same as above, but created server-side instead.
----@type table
-TOOL.ServerConVar = nil
-
----A key-value ( string name - ConVar object ) table containing the cached convar objected created from `ClientConVar`.
----@type table
-TOOL.ClientConVars = nil
-
----Same as above, but server-side (`ServerConVar`) instead.
----@type table
-TOOL.ServerConVars = nil
-
----The function that is called to build the context menu for your tool. It has one argument, namely the context menu's base panel to which all of your custom panels are going to be parented to.
----
---- While it might sound like a hook, it isn't - you won't receive a `self` argument inside the function. See TOOL.BuildCPanel.
----@type fun(panel: ControlPanel)
-TOOL.BuildCPanel = nil
-
----Allows you to override the tool usage information shown when the tool is equipped.
---- See Tool Information Display for more information.
----@type table
-TOOL.Information = nil
-
----Class name of the tool. (name of the .lua file)
----
---- This is set automatically.
----@type string
-TOOL.Mode = nil
-
----The tool tab (spawnmenu.AddToolTab) to add this tool to. (The internal name, first argument)
----@type string
-TOOL.Tab = nil
-
----When enabled the game tries to run the left mouse click as soon as possible
----@type boolean?
-TOOL.LeftClickAutomatic = false
-
----When enabled the game tries to run the right mouse click as soon as possible
----@type boolean?
-TOOL.RightClickAutomatic = false
+---@field h? number
 
 --- Table returned by [Vector:ToScreen](https://wiki.facepunch.com/gmod/Vector:ToScreen).
 ---@realm client
@@ -2588,7 +2416,7 @@ Trace.hitclientonly = false
 ---The entity hit by the trace.
 ---
 --- Default: `NULL`
----@field Entity Entity="NULL"
+---@field Entity Entity=NULL
 ---This indicates the how much of your trace length was used from 0-1 (resultLength/originalLength).
 ---
 --- Default: `1`
@@ -2620,7 +2448,7 @@ Trace.hitclientonly = false
 ---The direction of the surface that was hit as a normal vector (vector with Vector:Length of 1).
 ---
 --- Default: `Global.Vector(0, 0, 0)`
----@field HitNormal Vector="Global.Vector(0, 0, 0)"
+---@field HitNormal Vector=Global.Vector(0, 0, 0)
 ---The position the trace stopped. This will be the provided endpos if the trace hit nothing.
 ---@field HitPos Vector
 ---Indicates whenever the trace hit the sky.
@@ -2767,25 +2595,6 @@ local TraceResult = {}
 ---@field extra_previews table[]
 
 local UGCFileInfo = {}
-
---- Table structure used by [undo.Do_Undo](https://wiki.facepunch.com/gmod/undo.Do_Undo) and [GM:CanUndo](https://wiki.facepunch.com/gmod/GM:CanUndo).
----@realm server
----@source https://wiki.facepunch.com/gmod/Structures/Undo
----@class (partial) Undo
----The player responsible who owns the undo
----@field Owner Player
----The name of the text to report to the player
----@field Name string
----A table of entities to be removed by the undo
----@field Entities Entity[]
----A table of {function_to_call, func_arg2, func_arg3}
----@field Functions table[]
----A custom undo text to show the client
----@field CustomUndoText string
----A "nice" name of the undo, which will be used for the UI
----@field NiceText string
-
-local Undo = {}
 
 --- The structure used by [Vehicle:SetVehicleParams](https://wiki.facepunch.com/gmod/Vehicle:SetVehicleParams) and [Vehicle:GetVehicleParams](https://wiki.facepunch.com/gmod/Vehicle:GetVehicleParams).
 ---@realm server
@@ -3016,155 +2825,55 @@ Possible valid keys that can be set are:
 
 local VehicleTable = {}
 
---- Table structure used by [video.Record](https://wiki.facepunch.com/gmod/video.Record).
+---Table structure used by [video.Record](https://wiki.facepunch.com/gmod/video.Record).
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/Structures/VideoData
 ---@class (partial) VideoData
----The video container format.
----
---- Valid options are: `webm`, `ogg`
----@field container string
----The video codec.
----
---- Valid options are: `vp8`, `theora`
----@field video string
----The audio codec.
----
---- Valid options are: `vorbis`
----@field audio string
----The video quality
----@field quality number
----The record bitrate
----@field bitrate number
----Frames per second
----@field fps number
----Lock the frame count per second
----@field lockfps boolean
----The file name for the video
----@field name string
----The videos width
----@field width number
----The videos height
----@field height number
-
+---@field container string The video container format.
+---@field video string The video codec.
+---@field audio string The audio codec.
+---@field quality number The video quality.
+---@field bitrate number The record bitrate.
+---@field fps number Frames per second.
+---@field lockfps? boolean Lock the frame count per second.
+---@field name string The file name for the video.
+---@field width number The video's width.
+---@field height number The video's height.
 local VideoData = {}
 
---- Table structure used for [render.RenderView](https://wiki.facepunch.com/gmod/render.RenderView).
+---Table structure used for [render.RenderView](https://wiki.facepunch.com/gmod/render.RenderView).
 ---
---- Unless stated otherwise, the default values for all these keys would be inherited from the engine's CViewSetup and do not have static representations.
+---Missing values are inherited from the current engine view setup.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/Structures/ViewData
 ---@class (partial) ViewData
----The view's original position. Defaults to the current view's origin
----@field origin Vector
----The view's angles. Defaults to the current view's angles
----@field angles Angle
----Defaults to width divided by height. Has a deprecated alias `aspectratio`.
----@field aspect number
----The deprecated alias of `aspect`. Defaults to width divided by height.
----
---- **Deprecated**: Use `aspect` instead!
----@field aspectratio number
----The x position of the viewport to render in
----
---- Default: `0`
----@field x number=0
----The y position of the viewport to render in
----
---- Default: `0`
----@field y number=0
----The width of the viewport to render in. Defaults to the current viewport's width
----@field w number
----The height of the viewport to render in. Defaults to the current viewport's height
----@field h number
----Draw the HUD and call the hud painting related hooks
----
---- Default: `false`
----@field drawhud boolean=false
----Draw monitors
----
---- Default: `false`
----@field drawmonitors boolean=false
----The weapon's viewmodel
----
---- Default: `true`
----@field drawviewmodel boolean=true
----Whether to force draw the local player or not.
----
---- Default: `false`
----@field drawviewer boolean=false
----The viewmodel's FOV. Defaults to the current viewmodel FOV
----@field viewmodelfov number
----The main view's FOV. Defaults to the current view's FOV
----@field fov number
----If set, renders the view orthogonally. A table with these keys:
---- * left
---- * right
---- * top
---- * bottom
----
---- Default: `nil`
----@field ortho? table
----Coordinate for the left clipping plane. Requires `ortho` to be set to `true`.
----
---- **Deprecated**: Use `ortho` table instead!
----
---- Default: `nil`
----@field ortholeft? number
----Coordinate for the right clipping plane. Requires `ortho` to be set to `true`.
----
---- **Deprecated**: Use `ortho` table instead!
----
---- Default: `nil`
----@field orthoright? number
----Coordinate for the top clipping plane. Requires `ortho` to be set to `true`.
----
---- **Deprecated**: Use `ortho` table instead!
----
---- Default: `nil`
----@field orthotop? number
----Coordinate for the bottom clipping plane. Requires `ortho` to be set to `true`.
----
---- **Deprecated**: Use `ortho` table instead!
----
---- Default: `nil`
----@field orthobottom? number
----The distance of the view's origin to the near clipping plane. Defaults to the current view's near clipping distance
----@field znear number
----The distance of the view's origin to the far clipping plane. Defaults to the current view's far clipping distance
----@field zfar number
----The distance of the view's origin to the near clipping plane for the viewmodel. Defaults to the viewmodel's current near clipping distance
----@field znearviewmodel number
----The distance of the view's origin to the far clipping plane for the viewmodel. Defaults to the viewmodel's current far clipping distance
----@field zfarviewmodel number
----Currently works identically to the "bloomtone" option (it also overrides it if you set this to false).
----
---- Default: `false`
----@field dopostprocess boolean=false
----Disables default engine bloom and pauses the "brightness changes" on HDR maps.
----
---- Default: `true`
----@field bloomtone boolean=true
----This is identifying which logical part of the scene an entity is being redered in, see Enums/VIEW.
----
---- Default: `0`
----@field viewid VIEW=0
----This allows you to "zoom in" on a part of the screen - for example, the top-left quarter of the screen. This is similar to how [poster splits the screen](https://garry.blog/poster-screenshots/) into separate renders.
----
---- It's a table with 4 keys, controlling what portion of the screen to draw:
---- * left - where the left edge starts. Natural value is 0.
---- * right - where the right edge ends. Natural value is equal to w (the width of the viewport).
---- * top - where the `bottom` edge starts. Natural value is 0.
---- * bottom - where the `top` edge ends. Natural value is equal to h (the height of the viewport).
----
---- Note that top and bottom are reversed.
----
---- Values outside the viewport are allowed, but not recommended - instead you should increase the view FOV.
----
---- Default: `nil`
----@field offcenter? table
-
+---@field origin? Vector The view's original position.
+---@field angles? Angle The view's angles.
+---@field aspect? number Default width divided by height. Has a deprecated alias `aspectratio`.
+---@field x? number The x position of the viewport to render in.
+---@field y? number The y position of the viewport to render in.
+---@field w? number The width of the viewport to render in.
+---@field h? number The height of the viewport to render in.
+---@field drawhud? boolean Draw the HUD and call the hud painting related hooks.
+---@field drawmonitors? boolean Draw monitors.
+---@field drawviewmodel? boolean The weapon's viewmodel.
+---@field drawviewer? boolean Whether to force draw the local player or not.
+---@field viewmodelfov? number The viewmodel's FOV.
+---@field fov? number The main view's FOV.
+---@field ortho? table If set, renders the view orthogonally.
+---@field ortholeft? number Deprecated left clipping plane coordinate.
+---@field orthoright? number Deprecated right clipping plane coordinate.
+---@field orthotop? number Deprecated top clipping plane coordinate.
+---@field orthobottom? number Deprecated bottom clipping plane coordinate.
+---@field znear? number The distance of the view's origin to the near clipping plane.
+---@field zfar? number The distance of the view's origin to the far clipping plane.
+---@field znearviewmodel? number The distance to the near clipping plane for the viewmodel.
+---@field zfarviewmodel? number The distance to the far clipping plane for the viewmodel.
+---@field dopostprocess? boolean Disables post processing.
+---@field bloomtone? boolean Disables default engine bloom and pauses HDR brightness changes.
+---@field viewid? VIEW Which logical part of the scene an entity is rendered in.
+---@field offcenter? table Portion of the screen to draw for off-center rendering.
 local ViewData = {}
 
 --- Table structure used for [render.GetViewSetup](https://wiki.facepunch.com/gmod/render.GetViewSetup).
@@ -3229,3 +2938,4 @@ local ViewData = {}
 ---@field offcenter table
 
 local ViewSetup = {}
+

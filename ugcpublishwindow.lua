@@ -3,6 +3,8 @@
 --- **INTERNAL**: Do not use.
 ---
 --- A window that is used to publish dupes and saves
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/UGCPublishWindow
 ---@class (partial) UGCPublishWindow : DFrame
 local UGCPublishWindow = {}
 
@@ -20,9 +22,8 @@ function UGCPublishWindow:DisplayError(err) end
 ---Publishes the Item or throws an error if the Title or Tags are invalid
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/UGCPublishWindow:DoPublish
----@param wsid string The workshop id
----@param err string If wsid is nil, this will be the error message
-function UGCPublishWindow:DoPublish(wsid, err) end
+function UGCPublishWindow:DoPublish() end
+
 
 ---Rezises the panel to nicely fit all children
 ---@realm menu
@@ -55,3 +56,4 @@ function UGCPublishWindow:Setup(ugcType, file, imageFile, handler) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/UGCPublishWindow:UpdateWorkshopItems
 function UGCPublishWindow:UpdateWorkshopItems() end
+

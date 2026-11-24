@@ -145,3 +145,4 @@ function team.TotalFrags(entityOrNumber) end
 ---@param index number Index of the team
 ---@return boolean # Is valid
 function team.Valid(index) end
+

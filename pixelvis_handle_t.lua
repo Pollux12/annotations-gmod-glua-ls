@@ -4,3 +4,4 @@
 ---@source https://wiki.facepunch.com/gmod/pixelvis_handle_t
 ---@class (partial) pixelvis_handle_t
 local pixelvis_handle_t = {}
+

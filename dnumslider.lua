@@ -1,10 +1,16 @@
 ---@meta
 
+--- The **DNumSlider** allows you to create a slider, allowing the user to slide it to set a value, or changing the value in the box.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DNumSlider
 ---@class DNumSlider : Panel
 ---@field Label DLabel The label panel for the slider.
 ---@field TextArea DTextEntry The text entry panel for the slider value.
 ---@field Slider DSlider The slider knob panel.
----@field Scratch DNumberScratch The number scratch panel.
+---@field Scratch DNumberScratch The number scratch panel attached to the label.
+---@field Wang DNumberScratch Alias for Scratch; the DNumberScratch overlay on the label.
+---@field m_fDefaultValue? number The default value used by ResetToDefaultValue (AccessorFunc-backed).
 local DNumSlider = {}
 
 ---Returns the amount of numbers after the decimal point.
@@ -18,8 +24,9 @@ function DNumSlider:GetDecimals() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DNumSlider:GetDefaultValue
----@return number # The default value of the slider
+---@return number|string|nil # The default value of the slider
 function DNumSlider:GetDefaultValue() end
+
 
 ---Returns the maximum value of the slider
 ---@realm client
@@ -63,6 +70,14 @@ function DNumSlider:GetValue() end
 ---@return boolean # Whether or not the DNumSlider is being edited by the player.
 function DNumSlider:IsEditing() end
 
+---Called when the value of the slider is changed, through code or changing the slider.
+---@hook OnValueChanged
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DNumSlider:OnValueChanged
+---@param value number The new value of the DNumSlider.
+function DNumSlider:OnValueChanged(value) end
+
 ---Resets the slider to the default value, if one was set by [DNumSlider:SetDefaultValue](https://wiki.facepunch.com/gmod/DNumSlider:SetDefaultValue).
 ---
 --- This function is called by the [DNumSlider](https://wiki.facepunch.com/gmod/DNumSlider) when user middle mouse clicks on the draggable knob of the slider.
@@ -82,7 +97,7 @@ function DNumSlider:SetConVar(cvar) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DNumSlider:SetDark
----@param dark boolean
+---@param dark boolean 
 function DNumSlider:SetDark(dark) end
 
 ---Sets the desired amount of numbers after the decimal point.
@@ -99,8 +114,9 @@ function DNumSlider:SetDecimals(decimals) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DNumSlider:SetDefaultValue
----@param default number The new default value of the slider to set
+---@param default number|string The new default value of the slider to set
 function DNumSlider:SetDefaultValue(default) end
+
 
 ---Sets the maximum value for the slider.
 ---@realm client
@@ -128,16 +144,17 @@ function DNumSlider:SetMinMax(min, max) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DNumSlider:SetValue
----@param val number The value to set.
+---@param val number|string The value to set.
 function DNumSlider:SetValue(val) end
+
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DNumSlider:TranslateSliderValues
----@param x number
----@param y number
----@return number #
+---@param x number 
+---@param y number 
+---@return number # 
 ---@return number # The second passed argument.
 function DNumSlider:TranslateSliderValues(x, y) end
 
@@ -157,3 +174,4 @@ function DNumSlider:UpdateNotches() end
 ---@source https://wiki.facepunch.com/gmod/DNumSlider:ValueChanged
 ---@param value number The value the slider has been changed to.
 function DNumSlider:ValueChanged(value) end
+

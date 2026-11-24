@@ -3,6 +3,9 @@
 --- **INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
 --- The little "+" button used by [DProperties](https://wiki.facepunch.com/gmod/DProperties) and [DTree_Node](https://wiki.facepunch.com/gmod/DTree_Node).
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DExpandButton
 ---@class (partial) DExpandButton : DButton
 local DExpandButton = {}
 
@@ -19,3 +22,4 @@ function DExpandButton:GetExpanded() end
 ---@source https://wiki.facepunch.com/gmod/DExpandButton:SetExpanded
 ---@param expanded boolean True to expand ( visually will show a "-" )
 function DExpandButton:SetExpanded(expanded) end
+

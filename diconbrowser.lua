@@ -2,6 +2,9 @@
 
 --- Simply a [DIconLayout](https://wiki.facepunch.com/gmod/DIconLayout) which automatically displays all of the [Silkicons](https://wiki.facepunch.com/gmod/silkicons).
 --- Used as a way to get the user to select an icon.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DIconBrowser
 ---@class (partial) DIconBrowser : DScrollPanel
 local DIconBrowser = {}
 
@@ -24,7 +27,7 @@ function DIconBrowser:FilterByText(text) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DIconBrowser:GetManual
----@return boolean #
+---@return boolean # 
 function DIconBrowser:GetManual() end
 
 ---Returns the currently selected icon's file path.
@@ -65,7 +68,7 @@ function DIconBrowser:SelectIcon(icon) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DIconBrowser:SetManual
----@param manual boolean
+---@param manual boolean 
 function DIconBrowser:SetManual(manual) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -74,5 +77,6 @@ function DIconBrowser:SetManual(manual) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DIconBrowser:SetSelectedIcon
----@param str string
+---@param str string 
 function DIconBrowser:SetSelectedIcon(str) end
+

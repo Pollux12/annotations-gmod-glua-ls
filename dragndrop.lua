@@ -5,15 +5,16 @@ dragndrop = {}
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
---- Calls the receiver function of hovered panel.
+---Calls the receiver function of hovered panel.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/dragndrop.CallReceiverFunction
 ---@param bDoDrop boolean true if the mouse was released, false if we right clicked.
----@param command number The command value. This should be the ID of the clicked dropdown menu ( if right clicked, or nil ).
----@param mx number The local to the panel mouse cursor X position when the click happened.
----@param my number The local to the panel  mouse cursor Y position when the click happened.
+---@param command? any The command value from the receiver menu, or nil.
+---@param mx? number The local to the panel mouse cursor X position when the click happened.
+---@param my? number The local to the panel mouse cursor Y position when the click happened.
 function dragndrop.CallReceiverFunction(bDoDrop, command, mx, my) end
+
 
 ---Clears all the internal drag'n'drop variables.
 ---@realm client
@@ -86,3 +87,16 @@ function dragndrop.Think() end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/dragndrop.UpdateReceiver
 function dragndrop.UpdateReceiver() end
+
+
+---Current local mouse X position tracked by dragndrop while dispatching receivers.
+---@type number
+dragndrop.m_MouseLocalX = nil
+
+---Current local mouse Y position tracked by dragndrop while dispatching receivers.
+---@type number
+dragndrop.m_MouseLocalY = nil
+
+---@source garrysmod/lua/includes/extensions/client/panel/dragdrop.lua
+---@type { Name: string, Func: fun(receiver: Panel, panels: Panel[], drop: boolean, command: any, x: number, y: number) }?
+dragndrop.m_ReceiverSlot = nil

@@ -8,3 +8,4 @@
 ---@source https://wiki.facepunch.com/gmod/InvalidateInternalEntityCache
 ---@param isPly boolean Reset the player.Iterator cache
 function _G.InvalidateInternalEntityCache(isPly) end
+

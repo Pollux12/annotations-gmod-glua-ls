@@ -22,3 +22,4 @@ function menubar.IsParent(pnl) end
 ---@source https://wiki.facepunch.com/gmod/menubar.ParentTo
 ---@param pnl Panel The panel to parent to
 function menubar.ParentTo(pnl) end
+

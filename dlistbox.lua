@@ -2,6 +2,8 @@
 
 --- A simple list box with optional multi-select.
 --- As this is deprecated, it is recommended that you use [DListView](https://wiki.facepunch.com/gmod/DListView), which contains the same functionality with multi-column options.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DListBox
 ---@deprecated Derived from the deprecated DPanelList.
 ---@class (partial) DListBox : DPanelList
 local DListBox = {}
@@ -59,3 +61,18 @@ function DListBox:SetMultiple(multiple) end
 ---@source https://wiki.facepunch.com/gmod/DListBox:SetSelectedItems
 ---@param items table The items to select. A list of DListBoxItem.
 function DListBox:SetSelectedItems(items) end
+
+
+---Adds a labelled item to the list box.
+---@realm client
+---@source garrysmod/lua/vgui/dlistbox.lua
+---@param label string
+---@return DListBoxItem
+function DListBox:AddItem(label) end
+
+---Called when a list box item is selected.
+---@hook OnSelect
+---@realm client
+---@source garrysmod/lua/vgui/dlistbox.lua
+---@param item DListBoxItem
+function DListBox:OnSelect(item) end

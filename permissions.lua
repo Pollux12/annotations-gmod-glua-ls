@@ -15,7 +15,7 @@ function permissions.AskToConnect(address) end
 ---@param ip string IP address to connect.
 function permissions.Connect(ip) end
 
----Activates player's microphone as if they pressed the speak button themself. The player will be prompted with a confirmation window which grants permission temporarily/permanently(depending on checkbox state) for the connected server (revokable).
+---Activates player's microphone as if they pressed the speak button themself. The player will be prompted with a confirmation window which grants permission temporarily/permanently(depending on checkbox state) for the connected server (revokable). 
 --- This is used for TTT's traitor voice channel.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/permissions.EnableVoiceChat
@@ -61,3 +61,4 @@ function permissions.IsGranted(permission) end
 ---@param permission string Permission to revoke from the server.
 ---@param ip string IP of the server.
 function permissions.Revoke(permission, ip) end
+

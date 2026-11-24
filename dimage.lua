@@ -3,7 +3,18 @@
 --- [DImage](https://wiki.facepunch.com/gmod/DImage) is an advanced, more robust version of the [Material](https://wiki.facepunch.com/gmod/Material) panel.
 ---
 --- See [DImageButton](https://wiki.facepunch.com/gmod/DImageButton) for a click-able version of this panel.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DImage
 ---@class (partial) DImage : DPanel
+---@field m_Material IMaterial The material currently drawn by the image panel.
+---@field m_Color Color The image color override.
+---@field m_bKeepAspect boolean
+---@field m_strMatName? string
+---@field m_strMatNameFailsafe? string
+---@field ImageName string
+---@field ActualWidth number
+---@field ActualHeight number
 local DImage = {}
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -30,7 +41,7 @@ function DImage:FixVertexLitMaterial() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DImage:GetFailsafeMatName
----@return string #
+---@return string # 
 function DImage:GetFailsafeMatName() end
 
 ---Returns the image loaded in the image panel.
@@ -60,7 +71,7 @@ function DImage:GetKeepAspect() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DImage:GetMaterial
----@return IMaterial #
+---@return IMaterial # 
 function DImage:GetMaterial() end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -69,7 +80,7 @@ function DImage:GetMaterial() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DImage:GetMatName
----@return string #
+---@return string # 
 function DImage:GetMatName() end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -92,13 +103,14 @@ function DImage:LoadMaterial() end
 ---@param height? number The height of the panel image to be drawn.
 function DImage:PaintAt(posX, posY, width, height) end
 
+
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
 --- Sets the backup material to be loaded when the image is first rendered. Used by [DImage:SetOnViewMaterial](https://wiki.facepunch.com/gmod/DImage:SetOnViewMaterial).
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DImage:SetFailsafeMatName
----@param backupMat string
+---@param backupMat string 
 function DImage:SetFailsafeMatName(backupMat) end
 
 ---Sets the image to load into the frame. If the first image can't be loaded and `strBackup` is set, that image will be loaded instead.
@@ -131,31 +143,33 @@ function DImage:SetKeepAspect(keep) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DImage:SetMaterial
----@param mat IMaterial The material to set
+---@param mat IMaterial|string|nil The material to set
 function DImage:SetMaterial(mat) end
+
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
---- Sets the material to be loaded when the image is first rendered. Used by [DImage:SetOnViewMaterial](https://wiki.facepunch.com/gmod/DImage:SetOnViewMaterial).
+---Sets the material to be loaded when the image is first rendered. Used by [DImage:SetOnViewMaterial](https://wiki.facepunch.com/gmod/DImage:SetOnViewMaterial).
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DImage:SetMatName
----@param mat string
+---@param mat? string
 function DImage:SetMatName(mat) end
 
----Similar to [DImage:SetImage](https://wiki.facepunch.com/gmod/DImage:SetImage), but will only do the expensive part of actually loading the textures/material if the material is about to be rendered/viewed.
----
---- Useful for cases like [DIconBrowser](https://wiki.facepunch.com/gmod/DIconBrowser), where there are hundreds of small icons in 1 panel in a list that do not need all to be loaded at the same time.
+
+---Sets the image from a material path shown when viewed as material.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DImage:SetOnViewMaterial
----@param mat string
----@param backupMat string
+---@param mat string The material path to use.
+---@param backupMat? string Optional fallback material path.
 function DImage:SetOnViewMaterial(mat, backupMat) end
+
 
 ---Returns true if the image is **not** yet loaded.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DImage:Unloaded
----@return boolean #
+---@return boolean # 
 function DImage:Unloaded() end
+

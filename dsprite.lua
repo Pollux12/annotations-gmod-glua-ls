@@ -3,6 +3,8 @@
 --- A panel that draws a sprite on the player's HUD with the given [IMaterial](https://wiki.facepunch.com/gmod/IMaterial), [Global.Color](https://wiki.facepunch.com/gmod/Global.Color) and rotation.
 ---
 --- A shortcut for this is [Global.CreateSprite](https://wiki.facepunch.com/gmod/Global.CreateSprite)().
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DSprite
 ---@class (partial) DSprite : DPanel
 local DSprite = {}
 
@@ -15,7 +17,7 @@ function DSprite:GetColor() end
 ---Returns the value set by [DSprite:SetHandle](https://wiki.facepunch.com/gmod/DSprite:SetHandle)
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DSprite:GetHandle
----@return Vector #
+---@return Vector # 
 function DSprite:GetHandle() end
 
 ---Gets the material the sprite is using.
@@ -39,7 +41,7 @@ function DSprite:SetColor(color) end
 ---Seems to be an unused feature. Does nothing.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DSprite:SetHandle
----@param vec Vector
+---@param vec Vector 
 function DSprite:SetHandle(vec) end
 
 ---Sets the source material for the sprite.
@@ -53,3 +55,4 @@ function DSprite:SetMaterial(material) end
 ---@source https://wiki.facepunch.com/gmod/DSprite:SetRotation
 ---@param ang number The anti-clockwise rotation in degrees.
 function DSprite:SetRotation(ang) end
+

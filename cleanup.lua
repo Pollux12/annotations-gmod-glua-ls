@@ -63,3 +63,4 @@ function cleanup.ReplaceEntity(from, to) end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/cleanup.UpdateUI
 function cleanup.UpdateUI() end
+

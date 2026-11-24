@@ -74,7 +74,19 @@
 --- function EFFECT:Render()
 --- end
 ---@source https://wiki.facepunch.com/gmod/EFFECT_Hooks
----@class (partial) EFFECT : Entity
+---Hooks used inside a Lua effect.
+---
+---Lua effects are stored in either the `/lua/effects` directory or in a gamemode
+---under `/gamemodes/*/entities/effects`. Effects are entities with the classname
+---`class CLuaEffect`, so Entity functions are usable on them through `self`.
+---
+---Garry's Mod also provides the backing clientside effect entity on `self.Entity`
+---for legacy scripted effects that render or move an entity model.
+---@source https://wiki.facepunch.com/gmod/EFFECT_Hooks
+---@source garrysmod/gamemodes/base/entities/effects/base.lua
+---@source garrysmod/gamemodes/sandbox/entities/effects/balloon_pop.lua
+---@class EFFECT : Entity
+---@field Entity Entity The backing effect entity.
 EFFECT = {}
 
 ---Effect alternative to [ENTITY:EndTouch](https://wiki.facepunch.com/gmod/ENTITY:EndTouch).
@@ -112,7 +124,7 @@ function EFFECT:Init(effectData) end
 ---@param collider PhysObj The physics object of the entity that collided with the effect.
 function EFFECT:PhysicsCollide(colData, collider) end
 
----Called when the effect should be rendered.
+---Called when the effect should be rendered. 
 ---
 --- 	When not overridden, it will perform default action, which is [Entity:DrawModel](https://wiki.facepunch.com/gmod/Entity:DrawModel).
 ---@hook Render
@@ -138,3 +150,4 @@ function EFFECT:Think() end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/EFFECT:Touch
 function EFFECT:Touch() end
+

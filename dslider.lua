@@ -1,7 +1,11 @@
 ---@meta
 
 --- Creates a slider that can be moved along the X and/or Y axis
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DSlider
 ---@class (partial) DSlider : Panel
+---@field Knob DButton The draggable knob button created in Init.
 local DSlider = {}
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -24,7 +28,7 @@ function DSlider:ConVarYNumberThink() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DSlider:GetDragging
----@return boolean #
+---@return boolean # 
 function DSlider:GetDragging() end
 
 ---Returns the draggable panel's lock on the X axis.
@@ -33,7 +37,7 @@ function DSlider:GetDragging() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DSlider:GetLockX
----@return number #
+---@return number # 
 function DSlider:GetLockX() end
 
 ---Returns the draggable panel's lock on the Y axis.
@@ -42,7 +46,7 @@ function DSlider:GetLockX() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DSlider:GetLockY
----@return number #
+---@return number # 
 function DSlider:GetLockY() end
 
 ---Returns the current notch color, set by [DSlider:SetNotchColor](https://wiki.facepunch.com/gmod/DSlider:SetNotchColor)
@@ -57,14 +61,14 @@ function DSlider:GetNotchColor() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DSlider:GetNotches
----@return number #
+---@return number # 
 function DSlider:GetNotches() end
 
 ---Does nothing.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DSlider:GetNumSlider
----@return any #
+---@return any # 
 function DSlider:GetNumSlider() end
 
 ---Returns the target position of the draggable "knob" panel of the slider on the X axis.
@@ -89,15 +93,24 @@ function DSlider:GetSlideY() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DSlider:GetTrapInside
----@return boolean #
+---@return boolean # 
 function DSlider:GetTrapInside() end
 
 ---Returns true if this element is being edited by the player.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DSlider:IsEditing
----@return boolean #
+---@return boolean # 
 function DSlider:IsEditing() end
+
+---Called when the values of this slider panel were changed.
+---@hook OnValueChanged
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DSlider:OnValueChanged
+---@param x number The X axis position of the slider in range 0-1
+---@param y number The Y axis position of the slider in range 0-1
+function DSlider:OnValueChanged(x, y) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
@@ -106,6 +119,17 @@ function DSlider:IsEditing() end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DSlider:OnValuesChangedInternal
 function DSlider:OnValuesChangedInternal() end
+
+---This function is called by the [DSlider](https://wiki.facepunch.com/gmod/DSlider) when user middle mouse clicks on the draggable knob of the slider.
+---
+--- You are meant to override this function to do reset the slider to desired defaults on both axes.
+---
+--- By default, will reset the slider to `0.5` on both axes.
+---@hook ResetToDefaultValue
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DSlider:ResetToDefaultValue
+function DSlider:ResetToDefaultValue() end
 
 ---Sets the background for the slider.
 ---@realm client
@@ -134,7 +158,7 @@ function DSlider:SetConVarY(convar) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DSlider:SetDragging
----@param dragging boolean
+---@param dragging boolean 
 function DSlider:SetDragging(dragging) end
 
 ---Does nothing.
@@ -149,7 +173,7 @@ function DSlider:SetImage() end
 ---@source https://wiki.facepunch.com/gmod/DSlider:SetImageColor
 function DSlider:SetImageColor() end
 
----Sets the lock on the X axis.
+---Sets the lock on the X axis. 
 ---
 --- For example the value 0.5 will lock the draggable panel to half the width of the slider's panel.
 ---@realm client
@@ -160,7 +184,7 @@ function DSlider:SetImageColor() end
 --- The value range is from 0 to 1.
 function DSlider:SetLockX(lockX) end
 
----Sets the lock on the Y axis.
+---Sets the lock on the Y axis. 
 ---
 --- For example the value 0.5 will lock the draggable panel to half the height of the slider's panel.
 ---@realm client
@@ -183,14 +207,15 @@ function DSlider:SetNotchColor(clr) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DSlider:SetNotches
----@param notches number
+---@param notches? number
 function DSlider:SetNotches(notches) end
+
 
 ---Does nothing.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DSlider:SetNumSlider
----@param slider any
+---@param slider any 
 function DSlider:SetNumSlider(slider) end
 
 ---Used to position the draggable panel of the slider on the X axis.
@@ -211,5 +236,17 @@ function DSlider:SetSlideY(y) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DSlider:SetTrapInside
----@param trap boolean
+---@param trap boolean 
 function DSlider:SetTrapInside(trap) end
+
+---For override by child panels, such as [DNumSlider](https://wiki.facepunch.com/gmod/DNumSlider). Allows changing the output values of the slider.
+---@hook TranslateValues
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DSlider:TranslateValues
+---@param x number The input X coordinate, in range of 0-1.
+---@param y number The input Y coordinate, in range of 0-1.
+---@return number # The output X coordinate, in range of 0-1.
+---@return number # The output X coordinate, in range of 0-1.
+function DSlider:TranslateValues(x, y) end
+

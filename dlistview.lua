@@ -1,7 +1,21 @@
 ---@meta
 
 --- A data view with rows and columns.
----@class (partial) DListView : DPanel
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DListView
+---@class DListView : DPanel
+---@field Columns DListView_Column[]
+---@field Lines DListView_Line[]
+---@field Sorted DListView_Line[] Lines sorted by the current column/order.
+---@field pnlCanvas Panel
+---@field VBar? DVScrollBar
+---@field m_bDirty boolean
+---@field m_bSortable boolean
+---@field m_iHeaderHeight number
+---@field m_iDataHeight number
+---@field m_bMultiSelect boolean
+---@field m_bHideHeaders boolean
 local DListView = {}
 
 ---Adds a column to the listview.
@@ -9,7 +23,7 @@ local DListView = {}
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DListView:AddColumn
 ---@param column string The name of the column to add.
----@param position? number At which position to insert the new column compared to the other columns. Set to 1 to add the new column before all other columns.
+---@param position? number At which position to insert the new column compared to the other columns. Set to 1 to add the new column before all other columns. 
 ---
 --- By default the column will be placed after all columns.
 ---@return DListView_Column # The newly created DListView_Column.
@@ -50,6 +64,16 @@ function DListView:DataLayout() end
 ---@source https://wiki.facepunch.com/gmod/DListView:DisableScrollbar
 function DListView:DisableScrollbar() end
 
+---Called when a line in the DListView is double clicked.
+---@hook DoDoubleClick
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DListView:DoDoubleClick
+---@param lineID number The line number of the double clicked line.
+---@param line DListView_Line The double clicked DListView_Line.
+function DListView:DoDoubleClick(lineID, line) end
+
+
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
 --- Internal helper function called from the [PANEL:PerformLayout](https://wiki.facepunch.com/gmod/PANEL:PerformLayout) of [DListView](https://wiki.facepunch.com/gmod/DListView).
@@ -80,7 +104,7 @@ function DListView:GetDataHeight() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DListView:GetDirty
----@return boolean #
+---@return boolean # 
 function DListView:GetDirty() end
 
 ---Returns the height of the header of the [DListView](https://wiki.facepunch.com/gmod/DListView).
@@ -108,13 +132,14 @@ function DListView:GetHideHeaders() end
 ---@return number # The height of DListView:GetCanvas.
 function DListView:GetInnerTall() end
 
----Gets the [DListView_Line](https://wiki.facepunch.com/gmod/DListView_Line) at the given index.
+---Gets the DListView_Line at the given index.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DListView:GetLine
 ---@param id number The index of the line to get.
----@return Panel # The DListView_Line at the given index.
+---@return DListView_Line # The DListView_Line at the given index.
 function DListView:GetLine(id) end
+
 
 ---Gets all of the lines added to the DListView.
 ---@realm client
@@ -139,15 +164,16 @@ function DListView:GetMultiSelect() end
 ---@return table # A table of DListView_Lines.
 function DListView:GetSelected() end
 
----Gets the currently selected [DListView_Line](https://wiki.facepunch.com/gmod/DListView_Line) index.
+---Gets the currently selected DListView_Line index.
 ---
 --- If [DListView:SetMultiSelect](https://wiki.facepunch.com/gmod/DListView:SetMultiSelect) is set to true, only the first line of all selected lines will be returned. Use [DListView:GetSelected](https://wiki.facepunch.com/gmod/DListView:GetSelected) instead to get all of the selected lines.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DListView:GetSelectedLine
 ---@return number # The index of the currently selected line.
----@return Panel # The currently selected DListView_Line.
+---@return DListView_Line # The currently selected DListView_Line.
 function DListView:GetSelectedLine() end
+
 
 ---Returns whether sorting of columns by clicking their headers is allowed or not.
 ---
@@ -165,18 +191,17 @@ function DListView:GetSortable() end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DListView:GetSortedID
 ---@param lineId number The DListView_Line:GetID of a line to look up
----@return number #
+---@return number # 
 function DListView:GetSortedID(lineId) end
 
----**INTERNAL**: Use [DListView:OnRowSelected](https://wiki.facepunch.com/gmod/DListView:OnRowSelected) instead!
----
---- Called whenever a line is clicked.
+---Called whenever a line is clicked.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DListView:OnClickLine
----@param line Panel The selected line.
----@param isSelected boolean Boolean indicating whether the line is selected.
+---@param line DListView_Line The selected line.
+---@param isSelected? boolean Boolean indicating whether the line is selected.
 function DListView:OnClickLine(line, isSelected) end
+
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
@@ -185,8 +210,28 @@ function DListView:OnClickLine(line, isSelected) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DListView:OnRequestResize
 ---@param column Panel The column which initialized the resize
----@param size number
+---@param size number 
 function DListView:OnRequestResize(column, size) end
+
+---Called when a row is right-clicked
+---@hook OnRowRightClick
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DListView:OnRowRightClick
+---@param lineID number The line ID of the right clicked line
+---@param line DListView_Line The line panel itself, a DListView_Line.
+function DListView:OnRowRightClick(lineID, line) end
+
+
+---Called internally by [DListView:OnClickLine](https://wiki.facepunch.com/gmod/DListView:OnClickLine) when a line is selected. This is the function you should override to define the behavior when a line is selected.
+---@hook OnRowSelected
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DListView:OnRowSelected
+---@param rowIndex number The index of the row/line that the user clicked on.
+---@param row DListView_Line The DListView_Line that the user clicked on.
+function DListView:OnRowSelected(rowIndex, row) end
+
 
 ---Removes a line from the list view.
 ---@realm client
@@ -205,8 +250,9 @@ function DListView:SelectFirstItem() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DListView:SelectItem
----@param Line Panel The line to select.
+---@param Line DListView_Line The line to select.
 function DListView:SelectItem(Line) end
+
 
 ---Sets the height of all lines of the [DListView](https://wiki.facepunch.com/gmod/DListView) except for the header line.
 ---
@@ -223,7 +269,7 @@ function DListView:SetDataHeight(height) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DListView:SetDirty
----@param isDirty boolean
+---@param isDirty boolean 
 function DListView:SetDirty(isDirty) end
 
 ---Sets the height of the header line of the [DListView](https://wiki.facepunch.com/gmod/DListView).
@@ -271,22 +317,13 @@ function DListView:SortByColumn(columnIndex, descending) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DListView:SortByColumns
----@param column1? number
----@param descrending1? boolean
----@param column2? number
----@param descrending2? boolean
----@param column3? number
----@param descrending3? boolean
----@param column4? number
----@param descrending4? boolean
-function DListView:SortByColumns(
-	column1,
-	descrending1,
-	column2,
-	descrending2,
-	column3,
-	descrending3,
-	column4,
-	descrending4
-)
-end
+---@param column1? number 
+---@param descrending1? boolean 
+---@param column2? number 
+---@param descrending2? boolean 
+---@param column3? number 
+---@param descrending3? boolean 
+---@param column4? number 
+---@param descrending4? boolean 
+function DListView:SortByColumns(column1, descrending1, column2, descrending2, column3, descrending3, column4, descrending4) end
+

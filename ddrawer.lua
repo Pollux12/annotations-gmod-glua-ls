@@ -1,6 +1,9 @@
 ---@meta
 
 --- A simple Derma Drawer
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DDrawer
 ---@class (partial) DDrawer : Panel
 local DDrawer = {}
 
@@ -49,3 +52,4 @@ function DDrawer:SetOpenTime(value) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DDrawer:Toggle
 function DDrawer:Toggle() end
+

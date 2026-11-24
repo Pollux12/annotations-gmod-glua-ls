@@ -61,3 +61,4 @@ function ISave:WriteString(str) end
 ---@source https://wiki.facepunch.com/gmod/ISave:WriteVector
 ---@param vec Vector The vector to write.
 function ISave:WriteVector(vec) end
+

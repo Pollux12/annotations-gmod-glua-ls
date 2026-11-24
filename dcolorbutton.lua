@@ -1,6 +1,9 @@
 ---@meta
 
 --- Colorful buttons. Used internally by [DColorPalette](https://wiki.facepunch.com/gmod/DColorPalette).
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DColorButton
 ---@class (partial) DColorButton : DLabel
 local DColorButton = {}
 
@@ -31,14 +34,14 @@ function DColorButton:GetID() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DColorButton:GetSelected
----@return boolean #
+---@return boolean # 
 function DColorButton:GetSelected() end
 
 ---Returns whether the [DColorButton](https://wiki.facepunch.com/gmod/DColorButton) is currently being pressed (the user is holding it down).
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DColorButton:IsDown
----@return boolean #
+---@return boolean # 
 function DColorButton:IsDown() end
 
 ---Sets the color of the [DColorButton](https://wiki.facepunch.com/gmod/DColorButton).
@@ -64,3 +67,4 @@ function DColorButton:SetDrawBorder(draw) end
 ---@source https://wiki.facepunch.com/gmod/DColorButton:SetID
 ---@param id number A unique ID to give this button
 function DColorButton:SetID(id) end
+

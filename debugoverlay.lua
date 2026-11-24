@@ -85,7 +85,7 @@ function debugoverlay.EntityTextAtPosition(pos, line, text, lifetime, color) end
 --- It will not work when the game is paused.
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/debugoverlay.Grid
----@param position Vector
+---@param position Vector 
 function debugoverlay.Grid(position) end
 
 ---Displays a coloured line at the specified position.
@@ -173,3 +173,4 @@ function debugoverlay.Text(origin, text, lifetime, viewCheck) end
 ---@param color? Color The color of the box.
 ---@param ignoreZ? boolean If true, will draw on top of everything; ignoring the Z buffer.
 function debugoverlay.Triangle(pos1, pos2, pos3, lifetime, color, ignoreZ) end
+

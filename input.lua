@@ -15,7 +15,7 @@ function input.CheckKeyTrapping() end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/input.GetAnalogValue
 ---@param axis ANALOG The analog axis to poll. See Enums/ANALOG.
----@return number # The digital value.
+---@return number # The digital value. 
 --- A joystick axis returns `-32768` when it's pushed completely up/completely left, & returns `32767` when it's pushed completely down/completely right.
 ---
 --- A mouse wheel starts @ `0` & increases by `1` for every unit of scroll up/decreases by `1` for every unit of scroll down.
@@ -52,6 +52,7 @@ function input.GetKeyCode(button) end
 ---@return string # Button name.
 function input.GetKeyName(button) end
 
+
 ---Gets whether the specified button code is down.
 ---
 --- Unlike [input.IsKeyDown](https://wiki.facepunch.com/gmod/input.IsKeyDown) this can also detect joystick presses from [Enums/JOYSTICK](https://wiki.facepunch.com/gmod/Enums/JOYSTICK).
@@ -61,6 +62,7 @@ function input.GetKeyName(button) end
 ---@param button BUTTON_CODE|number The button, valid values are in the range of Enums/BUTTON_CODE.
 ---@return boolean # Is the button down?
 function input.IsButtonDown(button) end
+
 
 ---Returns whether a control key is being pressed.
 ---@realm client
@@ -209,3 +211,4 @@ function input.WasMousePressed(key) end
 ---@param key number The key to test, see Enums/MOUSE
 ---@return boolean # True if the mouse key was released the same frame that this function was called, false otherwise.
 function input.WasMouseReleased(key) end
+

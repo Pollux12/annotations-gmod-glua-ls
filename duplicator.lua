@@ -100,6 +100,7 @@ function duplicator.CreateConstraintFromTable(constraint, entityList, owner) end
 ---@return Entity ent The newly created entity.
 function duplicator.CreateEntityFromTable(ply, entTable) end
 
+
 ---Disallow this entity to be duplicated. Opposite of [duplicator.Allow](https://wiki.facepunch.com/gmod/duplicator.Allow).
 ---
 --- This function is useful for temporarily disabling duplication of certain entity classes that may have been previously allowed.
@@ -163,7 +164,7 @@ function duplicator.FigureOutRequiredAddons(dupe) end
 --- * table Args - Arguments to pass to the function.
 function duplicator.FindEntityClass(name) end
 
----"Generic function for duplicating stuff"
+---"Generic function for duplicating stuff" 
 ---
 --- This is called when [duplicator.CreateEntityFromTable](https://wiki.facepunch.com/gmod/duplicator.CreateEntityFromTable) can't find an entity factory to build with. It calls [duplicator.DoGeneric](https://wiki.facepunch.com/gmod/duplicator.DoGeneric) and [duplicator.DoGenericPhysics](https://wiki.facepunch.com/gmod/duplicator.DoGenericPhysics) to apply standard duplicator stored things such as the model and position.
 ---@realm server
@@ -191,19 +192,15 @@ function duplicator.GetAllConstrainedEntitiesAndConstraints(ent, entStorageTable
 ---@return boolean # Returns true if the entity can be duplicated (nil otherwise).
 function duplicator.IsAllowed(classname) end
 
----"Given entity list and constraint list, create all entities and return their tables"
----
---- Calls [duplicator.CreateEntityFromTable](https://wiki.facepunch.com/gmod/duplicator.CreateEntityFromTable) on each sub-table of EntityList. If an entity is actually created, it calls [ENTITY:OnDuplicated](https://wiki.facepunch.com/gmod/ENTITY:OnDuplicated) with the entity's duplicator data, then [duplicator.ApplyEntityModifiers](https://wiki.facepunch.com/gmod/duplicator.ApplyEntityModifiers), [duplicator.ApplyBoneModifiers](https://wiki.facepunch.com/gmod/duplicator.ApplyBoneModifiers) and finally  [ENTITY:PostEntityPaste](https://wiki.facepunch.com/gmod/ENTITY:PostEntityPaste) is called.
----
---- The constraints are then created with [duplicator.CreateConstraintFromTable](https://wiki.facepunch.com/gmod/duplicator.CreateConstraintFromTable).
 ---@realm server
 ---@source https://wiki.facepunch.com/gmod/duplicator.Paste
----@param Player Player The player who wants to create something.
----@param EntityList table A table of duplicator data to create the entities from.
----@param ConstraintList table A table of duplicator data to create the constraints from.
----@return table # List of created entities.
----@return table # List of created constraints.
+---@param Player Player?
+---@param EntityList table
+---@param ConstraintList table
+---@return table createdEntities
+---@return table createdConstraints
 function duplicator.Paste(Player, EntityList, ConstraintList) end
+
 
 ---Registers a function to be called on each of an entity's bones when [duplicator.ApplyBoneModifiers](https://wiki.facepunch.com/gmod/duplicator.ApplyBoneModifiers) is called.
 ---
@@ -321,3 +318,13 @@ function duplicator.StoreEntityModifier(entity, name, data) end
 ---@return Vector # AABB mins vector.
 ---@return Vector # AABB maxs vector.
 function duplicator.WorkoutSize(Ents) end
+
+
+---Registry of entity modifier callbacks populated by `duplicator.RegisterEntityModifier`.
+---
+---The callback data is modifier-defined and may be `nil` when a modifier is removed.
+---@realm server
+---@source https://github.com/Facepunch/garrysmod/blob/master/garrysmod/lua/includes/modules/duplicator.lua#L406-L410
+---@type table<string, fun(ply: Player, ent: Entity, data: any)>
+duplicator.EntityModifiers = {}
+

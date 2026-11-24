@@ -45,3 +45,4 @@ function IMesh:DrawSkinned(bones, multiply) end
 ---@source https://wiki.facepunch.com/gmod/IMesh:IsValid
 ---@return boolean # Whether this IMesh is valid or not.
 function IMesh:IsValid() end
+

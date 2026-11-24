@@ -6,7 +6,7 @@ chat = {}
 ---Adds text to the local player's chat box (which only they can read).
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/chat.AddText
----@param ... any The message to be added to the chat box.
+---@param ... any The message to be added to the chat box.  
 ---
 --- Arguments can be:
 --- * Color - Will set the color for all following strings until the next Color argument.
@@ -46,3 +46,4 @@ function chat.Open(mode) end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/chat.PlaySound
 function chat.PlaySound() end
+

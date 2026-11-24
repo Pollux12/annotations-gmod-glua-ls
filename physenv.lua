@@ -87,3 +87,4 @@ function physenv.SetPhysicsPaused(pause) end
 ---@source https://wiki.facepunch.com/gmod/physenv.SetTimeScale
 ---@param timeScale number The new timescale, minimum value is 0.001 and maximum is 5.
 function physenv.SetTimeScale(timeScale) end
+

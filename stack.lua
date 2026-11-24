@@ -15,7 +15,9 @@ local Stack = {}
 ---@source https://wiki.facepunch.com/gmod/Stack:Pop
 ---@param amount? number Amount of items you want to pop.
 ---@return any # Latest popped item.
+---@[fresh_result]
 function Stack:Pop(amount) end
+
 
 ---Pop an item from the stack
 ---@realm shared
@@ -23,7 +25,9 @@ function Stack:Pop(amount) end
 ---@source https://wiki.facepunch.com/gmod/Stack:PopMulti
 ---@param amount? number Amount of items you want to pop.
 ---@return table # The Popped Items.
+---@[fresh_result]
 function Stack:PopMulti(amount) end
+
 
 ---Push an item onto the stack
 ---@realm shared
@@ -45,3 +49,4 @@ function Stack:Size() end
 ---@source https://wiki.facepunch.com/gmod/Stack:Top
 ---@return any # The item at the top of the stack
 function Stack:Top() end
+

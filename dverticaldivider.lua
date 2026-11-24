@@ -1,7 +1,10 @@
 ---@meta
 
 --- Vertical version of [DHorizontalDivider](https://wiki.facepunch.com/gmod/DHorizontalDivider).
----@class (partial) DVerticalDivider : DPanel
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DVerticalDivider
+---@class DVerticalDivider : DPanel
+---@field m_DragBar DVerticalDividerBar The drag handle between the top and bottom panels.
 local DVerticalDivider = {}
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -144,3 +147,4 @@ function DVerticalDivider:SetTopMin(height) end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/DVerticalDivider:StartGrab
 function DVerticalDivider:StartGrab() end
+

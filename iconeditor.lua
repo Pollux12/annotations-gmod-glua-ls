@@ -5,6 +5,8 @@
 --- This makes use of the [DAdjustableModelPanel](https://wiki.facepunch.com/gmod/DAdjustableModelPanel) element.
 ---
 --- **NOTE**: This panel is only available in Sandbox and Sandbox derived gamemodes!
+---@realm client
+---@source https://wiki.facepunch.com/gmod/IconEditor
 ---@class (partial) IconEditor : DFrame
 local IconEditor = {}
 
@@ -43,7 +45,7 @@ function IconEditor:FullFrontalLayout() end
 ---@source https://wiki.facepunch.com/gmod/IconEditor:OriginLayout
 function IconEditor:OriginLayout() end
 
----Updates the internal [DAdjustableModelPanel](https://wiki.facepunch.com/gmod/DAdjustableModelPanel) and [SpawnIcon](https://wiki.facepunch.com/gmod/SpawnIcon).
+---Updates the internal [DAdjustableModelPanel](https://wiki.facepunch.com/gmod/DAdjustableModelPanel) and [SpawnIcon](https://wiki.facepunch.com/gmod/SpawnIcon). 
 ---
 --- This should be called immediately after setting the SpawnIcon with [IconEditor:SetIcon](https://wiki.facepunch.com/gmod/IconEditor:SetIcon).
 ---@realm client
@@ -78,11 +80,12 @@ function IconEditor:SetDefaultLighting() end
 ---@param ent Entity The entity to retrieve the model and skin from.
 function IconEditor:SetFromEntity(ent) end
 
----Sets the [SpawnIcon](https://wiki.facepunch.com/gmod/SpawnIcon) to modify. You should call [Panel:Refresh](https://wiki.facepunch.com/gmod/Panel:Refresh) immediately after this, as the user will not be able to make changes to the icon beforehand.
+---Sets the spawn icon edited by this icon editor.
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/IconEditor:SetIcon
----@param icon Panel The SpawnIcon object to be modified.
+---@param icon SpawnIcon The SpawnIcon object to modify.
 function IconEditor:SetIcon(icon) end
+
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---  Updates the entity being rendered in the internal [DAdjustableModelPanel](https://wiki.facepunch.com/gmod/DAdjustableModelPanel). Called by the model panel's [DModelPanel:LayoutEntity](https://wiki.facepunch.com/gmod/DModelPanel:LayoutEntity) method.
@@ -90,3 +93,4 @@ function IconEditor:SetIcon(icon) end
 ---@source https://wiki.facepunch.com/gmod/IconEditor:UpdateEntity
 ---@param ent Entity The entity being rendered within the model panel.
 function IconEditor:UpdateEntity(ent) end
+

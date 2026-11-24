@@ -11,26 +11,34 @@ vgui = {}
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/vgui.Create
 ---@generic T: Panel
+---@overload fun(classname: string, parent?: Panel, name?: string): Panel? # Creates a panel from a dynamic class name.
+---@[call_arg("gmod.vgui_panel", "reference")]
 ---@param classname `T` Classname of the panel to create.
 ---
 --- Default panel classnames can be found on the VGUI Element List.
 ---
 --- New panels can be registered via vgui.Register
 ---
+---@[call_arg("gmod.vgui_panel", "parent")]
 ---@param parent Panel? Panel to parent to.
 ---@param name string? Custom name of the created panel for scripting/debugging purposes. Can be retrieved with Panel:GetName.
----@return (instance) T #The created panel, or `nil` if creation failed for whatever reason.
+---@return (instance) T? #The created panel, or `nil` if creation failed for whatever reason.
 function vgui.Create(classname, parent, name) end
+
 
 ---Creates a panel from a table, used alongside vgui.RegisterFile and vgui.RegisterTable to efficiently define, register, and instantiate custom panels.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/vgui.CreateFromTable
----@param metatable table Your PANEL table.
+---@generic T: table
+---@[call_arg("gmod.vgui_panel", "register_table")]
+---@[call_arg_field("gmod.vgui_panel", "base", "Base")]
+---@param metatable T? Your PANEL table.
 ---@param parent? Panel Which panel to parent the newly created panel to.
 ---@param name? string Custom name of the created panel for scripting/debugging purposes. Can be retrieved with Panel:GetName.
----@return (instance) Panel # The created panel, or `nil` if creation failed for whatever reason.
+---@return (instance) T? # The created panel, or `nil` if creation failed for whatever reason.
 function vgui.CreateFromTable(metatable, parent, name) end
+
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 --- Creates an engine panel.
@@ -38,11 +46,14 @@ function vgui.CreateFromTable(metatable, parent, name) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/vgui.CreateX
 ---@generic T : Panel
+---@[call_arg("gmod.vgui_panel", "reference")]
 ---@param class `T` Class of the panel to create
+---@[call_arg("gmod.vgui_panel", "parent")]
 ---@param parent? Panel If specified, parents created panel to given one
 ---@param name? string Name of the created panel
 ---@return (instance) T # Created panel
 function vgui.CreateX(class, parent, name) end
+
 
 ---Returns whenever the cursor is currently active and visible.
 ---@realm client
@@ -82,8 +93,9 @@ function vgui.GetAll() end
 ---@source https://wiki.facepunch.com/gmod/vgui.GetControlTable
 ---@generic T : table
 ---@param Panelname `T` The name of the panel to get the table of.
----@return (definition) `T` # The `PANEL` table of the a Lua-defined panel with given name.
+---@return (definition) `T`? # The `PANEL` table of the a Lua-defined panel with given name, or `nil` if no Lua-defined panel is registered with that name.
 function vgui.GetControlTable(Panelname) end
+
 
 ---Returns the panel the cursor is hovering above.
 ---
@@ -119,39 +131,34 @@ function vgui.GetWorldPanel() end
 ---@return boolean # isHoveringWorld
 function vgui.IsHoveringWorld() end
 
----Registers a panel for later creation via [vgui.Create](https://wiki.facepunch.com/gmod/vgui.Create).
+---Registers a panel for later creation via vgui.Create.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/vgui.Register
----@param classname string Classname of the panel to register. This is what you will need to pass to vgui.Create's first argument.
----
---- This must be unique, including classnames of entities due to internal usage of baseclass.Set.
----@param panelTable table The table containing the panel information.
----@param baseName? string Classname of a panel to inherit functionality from. Functions with same names will be overwritten preferring the panel that is being registered.
----@return table # The given panel table from second argument
+---@generic T: Panel
+---@[call_arg("gmod.vgui_panel", "define")]
+---@param classname string Classname of the panel to register.
+---@[call_arg("gmod.vgui_panel", "table")]
+---@param panelTable T The table containing the panel information.
+---@[call_arg("gmod.vgui_panel", "base")]
+---@param baseName? string Classname of a panel to inherit functionality from.
+---@return T # The given panel table from second argument.
 function vgui.Register(classname, panelTable, baseName) end
 
----Registers a new [VGUI](https://wiki.facepunch.com/gmod/VGUI) panel from a file, to be used with [vgui.CreateFromTable](https://wiki.facepunch.com/gmod/vgui.CreateFromTable).
+
+---Registers a new VGUI panel from a file, to be used with vgui.CreateFromTable.
 ---
---- File file must use the `PANEL` global that is provided just before the file is [Global.include](https://wiki.facepunch.com/gmod/Global.include)d, for example:
----
---- ```
---- PANEL.Base = "Panel"
----
---- function PANEL:Init()
---- 	-- Your code...
---- end
----
---- function PANEL:Think()
---- 	-- Your code...
---- end
---- ```
+---The loaded file receives a temporary global `PANEL` table before it is included.
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/vgui.RegisterFile
----@param file string The file to register
----@return table # A table containing info about the panel.
+---@generic T: table
+---@[call_arg("gmod.load", "include")]
+---@[call_arg("gmod.vgui_panel", "register_file")]
+---@param file string The file to register.
+---@return T # A table containing info about the panel.
 function vgui.RegisterFile(file) end
+
 
 ---Registers a table to use as a panel, to be used with [vgui.CreateFromTable](https://wiki.facepunch.com/gmod/vgui.CreateFromTable).
 ---
@@ -159,7 +166,12 @@ function vgui.RegisterFile(file) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/vgui.RegisterTable
----@param panel table The PANEL table.
+---@generic T: table
+---@[call_arg("gmod.vgui_panel", "register_table")]
+---@param panel T The PANEL table.
+---@[call_arg("gmod.vgui_panel", "base")]
 ---@param base? string A base for the panel.
----@return table # The PANEL table
+---@return T # The PANEL table
 function vgui.RegisterTable(panel, base) end
+
+

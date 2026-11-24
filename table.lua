@@ -55,9 +55,13 @@ function table.concat(tbl, concatenator, startPos, endPos) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/table.Copy
 ---@generic T : table
+---@overload fun(originalTable: nil, lookupTable?: table<any, any>): nil
 ---@param originalTable T The table to be copied.
----@return T # A deep copy of the original table
-function table.Copy(originalTable) end
+---@param lookupTable? table<any, any> Table used internally to preserve cyclic references.
+---@return T # A deep copy of the original table, or nil when originalTable is nil.
+---@[copy_result]
+function table.Copy(originalTable, lookupTable) end
+
 
 ---Empties the target table, and merges all values from the source table into it.
 ---@realm shared
@@ -257,12 +261,15 @@ function table.Inherit(target, base) end
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/table.insert
+---@[overload_call_arg(1, "gmod.collection", "append_value")]
 ---@overload fun(tbl: table, value: any): number
+---@[call_arg("gmod.collection", "list")]
 ---@param tbl table The table to insert the variable into.
 ---@param position number The position in the table to insert the variable. If the third argument is nil this argument becomes the value to insert at the end of given table.
 ---@param value any The variable to insert into the table.
 ---@return number # The index the object was placed at.
 function table.insert(tbl, position, value) end
+
 
 ---Returns whether or not the given table is empty.
 ---
@@ -391,16 +398,16 @@ function table.Random(haystack) end
 ---@return any # The value that was removed.
 function table.remove(tbl, index) end
 
----Removes the first instance of a given value from the specified table with [table.remove](https://wiki.facepunch.com/gmod/table.remove), then returns the key that the value was found at.
+---Removes only the first instance of the given value from the specified table.  
 ---
---- **WARNING**: Avoid usage of this function. It does not remove all instances of given value in the table, only the first found, and it does not work with non sequential tables!
+--- If the key for the value is a number, it will be removed using [table.remove](https://wiki.facepunch.com/gmod/table.remove).  In all other cases, keys will have their values set to `nil`.
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/table.RemoveByValue
 ---@param tbl table The table that will be searched.
----@param val any The value to find within the table.
----@return any # The key at which the value was found, or false if the value was not found.
-function table.RemoveByValue(tbl, val) end
+---@param value any The value to find within the table.
+---@return any # The key at which the value was found, or `false` if the value was not found.
+function table.RemoveByValue(tbl, value) end
 
 ---Returns a reversed copy of a sequential table. Any non-sequential and non-numeric keyvalue pairs will not be copied.
 ---@realm shared
@@ -480,3 +487,4 @@ function table.SortDesc(tbl) end
 ---@param niceFormatting? boolean Adds new lines and tabs to the string.
 ---@return string # The table formatted as a string.
 function table.ToString(tbl, displayName, niceFormatting) end
+

@@ -18,46 +18,63 @@ function IRestore:EndBlock() end
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/IRestore:ReadAngle
 ---@return Angle # The angle that has been read
+---@[fresh_result]
 function IRestore:ReadAngle() end
+
 
 ---Reads next bytes from the restore object as a [boolean](https://wiki.facepunch.com/gmod/boolean).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/IRestore:ReadBool
 ---@return boolean # The boolean that has been read
+---@[fresh_result]
 function IRestore:ReadBool() end
+
 
 ---Reads next bytes from the restore object as an [Entity](https://wiki.facepunch.com/gmod/Entity).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/IRestore:ReadEntity
 ---@return Entity # The entity that has been read.
+---@[fresh_result]
 function IRestore:ReadEntity() end
+
 
 ---Reads next bytes from the restore object as a floating point [number](https://wiki.facepunch.com/gmod/number).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/IRestore:ReadFloat
 ---@return number # The read floating point number.
+---@[fresh_result]
 function IRestore:ReadFloat() end
+
 
 ---Reads next bytes from the restore object as an integer [number](https://wiki.facepunch.com/gmod/number).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/IRestore:ReadInt
 ---@return number # The read integer number.
+---@[fresh_result]
 function IRestore:ReadInt() end
+
 
 ---Reads next bytes from the restore object as a [string](https://wiki.facepunch.com/gmod/string).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/IRestore:ReadString
 ---@return string # The read string.
+---@[fresh_result]
 function IRestore:ReadString() end
+
 
 ---Reads next bytes from the restore object as a [Vector](https://wiki.facepunch.com/gmod/Vector).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/IRestore:ReadVector
 ---@return Vector # The read vector.
+---@[fresh_result]
 function IRestore:ReadVector() end
+
 
 ---Loads next block of data to be read inside current block. Blocks **must** be ended with [IRestore:EndBlock](https://wiki.facepunch.com/gmod/IRestore:EndBlock).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/IRestore:StartBlock
 ---@return string # The name of the next data block to be read.
+---@[fresh_result]
 function IRestore:StartBlock() end
+
+

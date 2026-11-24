@@ -47,3 +47,4 @@ function properties.OpenEntityMenu(ent, tr) end
 ---@source https://wiki.facepunch.com/gmod/properties.Remove
 ---@param name string A unique name used to identify the property to be removed.
 function properties.Remove(name) end
+

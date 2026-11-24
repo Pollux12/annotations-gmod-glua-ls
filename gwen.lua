@@ -70,7 +70,7 @@ function GWEN.CreateTextureCentered(x, y, w, h, material) end
 --- * Color `clr` - Optional color, default is white.
 function GWEN.CreateTextureNormal(x, y, w, h, material) end
 
----Retrieves the color from a materials texture at the provided UV coordinates
+---Retrieves the color from a materials texture at the provided UV coordinates 
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/GWEN.TextureColor
@@ -79,3 +79,4 @@ function GWEN.CreateTextureNormal(x, y, w, h, material) end
 ---@param matOverride? Material If given, use this specific material instead of the current derma skin's material.
 ---@return Color # The color of the point on the skin.
 function GWEN.TextureColor(x, y, matOverride) end
+

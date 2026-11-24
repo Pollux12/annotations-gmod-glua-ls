@@ -230,7 +230,7 @@ function CTakeDamageInfo:SetDamageType(type) end
 ---@param inflictor Entity The new inflictor.
 function CTakeDamageInfo:SetInflictor(inflictor) end
 
----Sets the "maximum damage" for this damage event. See [CTakeDamageInfo:GetMaxDamage](https://wiki.facepunch.com/gmod/CTakeDamageInfo:GetMaxDamage) for details.
+---Sets the "maximum damage" for this damage event. See [CTakeDamageInfo:GetMaxDamage](https://wiki.facepunch.com/gmod/CTakeDamageInfo:GetMaxDamage) for details. 
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/CTakeDamageInfo:SetMaxDamage
 ---@param maxDamage number Maximum damage value.
@@ -255,3 +255,4 @@ function CTakeDamageInfo:SetWeapon(Entity) end
 ---@source https://wiki.facepunch.com/gmod/CTakeDamageInfo:SubtractDamage
 ---@param damage number Value to subtract.
 function CTakeDamageInfo:SubtractDamage(damage) end
+

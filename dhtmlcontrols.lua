@@ -1,11 +1,33 @@
 ---@meta
 
+--- An element providing navigation controls for a [DHTML](https://wiki.facepunch.com/gmod/DHTML) window.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DHTMLControls
 ---@class DHTMLControls : Panel
+--- The back navigation button.
+---@field BackButton DImageButton
+--- The forward navigation button.
+---@field ForwardButton DImageButton
+--- The refresh/reload button.
+---@field RefreshButton DImageButton
+--- The home button.
+---@field HomeButton DImageButton
+--- The stop button.
+---@field StopButton DImageButton
+--- The address bar text entry.
 ---@field AddressBar DTextEntry
----@field BackButton DButton
----@field ForwardButton DButton
----@field RefreshButton DButton
----@field StopButton DButton
+--- The DHTML panel these controls navigate, assigned by SetHTML.
+---@field HTML? DHTML
+--- The current navigation history position.
+---@field Cur number
+--- Whether we are currently navigating via history buttons.
+---@field Navigating? boolean
+--- The home URL to navigate to.
+---@field HomeURL string
+---@field History table<integer, string>
+---@field BorderSize number
+---@field BackgroundColor Color
 local DHTMLControls = {}
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -25,8 +47,9 @@ function DHTMLControls:SetButtonColor(clr) end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DHTMLControls:SetHTML
----@param dhtml Panel The HTML panel
+---@param dhtml HTML The HTML panel
 function DHTMLControls:SetHTML(dhtml) end
+
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---@realm client
@@ -40,7 +63,7 @@ function DHTMLControls:StartedLoading() end
 ---@realm client
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DHTMLControls:UpdateHistory
----@param url string
+---@param url string 
 function DHTMLControls:UpdateHistory(url) end
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
@@ -48,3 +71,4 @@ function DHTMLControls:UpdateHistory(url) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/DHTMLControls:UpdateNavButtonStatus
 function DHTMLControls:UpdateNavButtonStatus() end
+

@@ -3,39 +3,19 @@
 --- The concommand library is used to create console commands which can be used to network (basic) information & events between the client and the server.
 concommand = {}
 
----Creates a [console command](https://wiki.facepunch.com/gmod/console_commands) that runs a function in lua with optional autocompletion function and help text.
----
---- **WARNING**: Clients can still run commands created only on the server. Always check permissions in the callback.
----
---- This will fail if the concommand was previously removed with [concommand.Remove](https://wiki.facepunch.com/gmod/concommand.Remove) in a different realm (creating a command on the client that was removed from the server and vice-versa).
+---Creates a console command that runs the supplied callback.
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/concommand.Add
----@param name string The command name to be used in console.
----
---- This cannot be a name of existing console command or console variable. It will silently fail if it is.
----@param callback fun(ply: Player, cmd: string, args: table, argStr: string) The function to run when the concommand is executed.
----
----
---- Function argument(s):
---- * Player `ply` - The player that ran the concommand. NULL entity if command was entered with the dedicated server console.
---- * string `cmd` - The concommand string (if one callback is used for several concommands).
---- * table `args` - A table of all string arguments.
---- * string `argStr` - The arguments as a string (including double quotes if there were any).
----@param autoComplete? fun(cmd: string, argStr: string, args: table):(tbl: table) The function to call which should return a table of options for autocompletion. (Console_Command_Auto-completion)
----
---- This only properly works on the client since it is **not** networked.
----
---- Function argument(s):
---- * string `cmd` - The concommand this autocompletion is for.
---- * string `argStr` - The arguments typed so far.
---- * table `args` - A table of all string arguments.
----
---- Function return value(s):
---- * table `tbl` - A table containing the autocomplete options to display.
----@param helpText? string The text to display should a user run 'help cmdName'.
----@param flags? FCVAR|number[] Console command modifier flags. Either a bitflag, or a table of enums. See Enums/FCVAR.
+---@[call_arg("gmod.concommand", "define")]
+---@param name string Name of the console command.
+---@[call_arg("gmod.concommand", "callback")]
+---@param callback fun(ply: Player, cmd: string, args: string[], argStr: string) Callback run when the command is executed.
+---@param autoComplete? function
+---@param helpText? string
+---@param flags? FCVAR|number[]
 function concommand.Add(name, callback, autoComplete, helpText, flags) end
+
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---
@@ -83,3 +63,4 @@ function concommand.Remove(name) end
 ---@param argumentString string string of all arguments sent to the command.
 ---@return boolean # `true` if the console command with the given name exists, and `false` if it doesn't.
 function concommand.Run(ply, cmd, args, argumentString) end
+

@@ -4,17 +4,16 @@
 --- **WARNING**: Kinect feature works only on 32-bit version of the game.
 motionsensor = {}
 
----**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
----  Called to build the skeleton. See [Using The Kinect](https://wiki.facepunch.com/gmod/Using_The_Kinect) and [Kinect developing](https://wiki.facepunch.com/gmod/Kinect_developing).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/motionsensor.BuildSkeleton
----@param translator table `list.Get( "SkeletonConvertor" )` and motionsensor.ChooseBuilderFromEntity.
----@param player Player The player to get motion sensor positions from.
----@param rotation Angle Global rotation of the player?
----@return Vector # Position
----@return Angle # Angles
----@return table # Sensor
+---@param translator SkeletonConvertor
+---@param player Player
+---@param rotation Angle
+---@return table<integer, Vector> pos
+---@return table<integer, Angle> ang
+---@return table<integer, Vector> sensor
 function motionsensor.BuildSkeleton(translator, player, rotation) end
+
 
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/motionsensor.ChooseBuilderFromEntity
@@ -52,33 +51,35 @@ function motionsensor.IsAvailable() end
 ---  Used internally by [motionsensor.ProcessAnglesTable](https://wiki.facepunch.com/gmod/motionsensor.ProcessAnglesTable). See [Using The Kinect](https://wiki.facepunch.com/gmod/Using_The_Kinect) and [Kinect developing](https://wiki.facepunch.com/gmod/Kinect_developing).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/motionsensor.ProcessAngle
----@param translator table
----@param sensor table
----@param pos Vector
----@param ang Angle
----@param special_vectors table
----@param boneid number
----@param v table
----@return boolean # Return nil on failure
+---@param translator table 
+---@param sensor table<number, Vector> 
+---@param pos table<number, Vector> 
+---@param ang table<number, Angle> 
+---@param special_vectors table 
+---@param boneid number 
+---@param v table 
+---@return true? # Return nil on failure
 function motionsensor.ProcessAngle(translator, sensor, pos, ang, special_vectors, boneid, v) end
+
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---  Used internally by [motionsensor.BuildSkeleton](https://wiki.facepunch.com/gmod/motionsensor.BuildSkeleton). See [Using The Kinect](https://wiki.facepunch.com/gmod/Using_The_Kinect) and [Kinect developing](https://wiki.facepunch.com/gmod/Kinect_developing).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/motionsensor.ProcessAnglesTable
----@param translator table
----@param sensor table
----@param pos Vector
----@param rotation Angle
----@return table # Ang. If `!translator.AnglesTable` then `return {}`
+---@param translator table 
+---@param sensor table<number, Vector> 
+---@param pos table<number, Vector> 
+---@param rotation Angle 
+---@return table<number, Angle> # Ang. If `!translator.AnglesTable` then `return {}`
 function motionsensor.ProcessAnglesTable(translator, sensor, pos, rotation) end
+
 
 ---**INTERNAL**: This is used internally - although you're able to use it you probably shouldn't.
 ---  Used internally by [motionsensor.BuildSkeleton](https://wiki.facepunch.com/gmod/motionsensor.BuildSkeleton). See [Using The Kinect](https://wiki.facepunch.com/gmod/Using_The_Kinect) and [Kinect developing](https://wiki.facepunch.com/gmod/Kinect_developing).
 ---@realm shared
 ---@source https://wiki.facepunch.com/gmod/motionsensor.ProcessPositionTable
----@param translator table
----@param sensor table
+---@param translator table 
+---@param sensor table 
 ---@return table # Positions. if `!translator.PositionTable` then return - `{}`
 function motionsensor.ProcessPositionTable(translator, sensor) end
 
@@ -93,3 +94,8 @@ function motionsensor.Start() end
 ---@realm client
 ---@source https://wiki.facepunch.com/gmod/motionsensor.Stop
 function motionsensor.Stop() end
+
+
+---@source garrysmod/lua/includes/extensions/motionsensor.lua
+---@type number[][]
+motionsensor.DebugBones = {}

@@ -75,7 +75,7 @@ function jit.on() end
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/jit.opt.start
----@param ... any
+---@param ... any 
 function jit.opt.start(...) end
 
 ---Returns the status of the JIT compiler and the current optimizations enabled.
@@ -117,7 +117,7 @@ function jit.util.funcbc(func, pos) end
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/jit.util.funcinfo
 ---@param func function Function or Proto to retrieve info about.
----@param pos? number
+---@param pos? number 
 ---@return table # Information about the supplied function/proto.
 function jit.util.funcinfo(func, pos) end
 
@@ -186,8 +186,8 @@ function jit.util.traceinfo(trace) end
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/jit.util.traceir
----@param tr number
----@param index number
+---@param tr number 
+---@param index number 
 ---@return number # m
 ---@return number # ot
 ---@return number # op1
@@ -200,8 +200,8 @@ function jit.util.traceir(tr, index) end
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/jit.util.tracek
----@param tr number
----@param index number
+---@param tr number 
+---@param index number 
 ---@return any # k
 ---@return number # t
 ---@return number # slot; optional
@@ -212,7 +212,7 @@ function jit.util.tracek(tr, index) end
 ---@realm shared
 ---@realm menu
 ---@source https://wiki.facepunch.com/gmod/jit.util.tracemc
----@param tr number
+---@param tr number 
 ---@return string # mcode
 ---@return number # address
 ---@return number # loop
@@ -232,3 +232,4 @@ function jit.util.tracemc(tr) end
 ---@return table # snapshot
 ---@deprecated This function was disabled due to security concerns.
 function jit.util.tracesnap(tr, sn) end
+

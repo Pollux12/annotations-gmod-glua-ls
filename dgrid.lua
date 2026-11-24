@@ -4,6 +4,9 @@
 ---
 --- **NOTE**: This panel will set its size automatically based on set column count.
 --- This makes it play badly with [Panel:Dock](https://wiki.facepunch.com/gmod/Panel:Dock) and cause a [PANEL:PerformLayout](https://wiki.facepunch.com/gmod/PANEL:PerformLayout) call every frame.
+---@realm client
+---@realm menu
+---@source https://wiki.facepunch.com/gmod/DGrid
 ---@class (partial) DGrid : Panel
 local DGrid = {}
 
@@ -68,7 +71,7 @@ function DGrid:SetCols(cols) end
 ---@param colWidth number The width of each column.
 function DGrid:SetColWide(colWidth) end
 
----Sets the height of each row.
+---Sets the height of each row. 
 ---
 --- The cell panels (grid items) will not be resized or centered.
 ---@realm client
@@ -84,3 +87,4 @@ function DGrid:SetRowHeight(rowHeight) end
 ---@param key string A key in the panel from DGrid:GetItems. The key's value must be numeric.
 ---@param desc? boolean True for descending order, false for ascending.
 function DGrid:SortByMember(key, desc) end
+

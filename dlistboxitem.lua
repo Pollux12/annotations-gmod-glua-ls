@@ -1,6 +1,8 @@
 ---@meta
 
 ---
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DListBoxItem
 ---@deprecated Used Internally by DListBox.
 ---@class (partial) DListBoxItem : DLabel
 local DListBoxItem = {}
@@ -24,3 +26,4 @@ function DListBoxItem:Select(onlyMe) end
 ---@source https://wiki.facepunch.com/gmod/DListBoxItem:SetMother
 ---@param parent Panel The "mother" panel to set.
 function DListBoxItem:SetMother(parent) end
+

@@ -39,3 +39,4 @@ function IVideoWriter:SetRecordSound(record) end
 ---@source https://wiki.facepunch.com/gmod/IVideoWriter:Width
 ---@return number # width
 function IVideoWriter:Width() end
+

@@ -1,6 +1,8 @@
 ---@meta
 
 --- A vertical list of models.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DModelSelect
 ---@deprecated This is derived from the deprecated DPanelList.
 ---@class (partial) DModelSelect : DPanelSelect
 local DModelSelect = {}
@@ -21,3 +23,4 @@ function DModelSelect:SetHeight(num) end
 ---@param dontSort boolean Do not sort the list. (by the `Model` member)
 ---@param dontCallListConVars boolean If set, only the `convar` from the 2nd argument will be set, not individual convars from the models list.
 function DModelSelect:SetModelList(models, convar, dontSort, dontCallListConVars) end
+

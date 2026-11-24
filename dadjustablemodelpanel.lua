@@ -5,6 +5,8 @@
 --- The keyboard keys W S A D Up Down Left Right Space and Ctrl can be used when the right mouse is held down, with Shift acting as a speed multiplier. When the left mouse is used, the Shift key holds the current `y` angle steady.
 ---
 --- This is used by [IconEditor](https://wiki.facepunch.com/gmod/IconEditor) for modifying spawn icons.
+---@realm client
+---@source https://wiki.facepunch.com/gmod/DAdjustableModelPanel
 ---@class (partial) DAdjustableModelPanel : DModelPanel
 local DAdjustableModelPanel = {}
 
@@ -53,3 +55,4 @@ function DAdjustableModelPanel:SetFirstPerson(enable) end
 ---@source https://wiki.facepunch.com/gmod/DAdjustableModelPanel:SetMovementScale
 ---@param number number The movement scale, where `1` is normal, `2` is double, etc.
 function DAdjustableModelPanel:SetMovementScale(number) end
+

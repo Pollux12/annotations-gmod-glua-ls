@@ -2,5 +2,21 @@
 ---@class (partial) TextData
 ---Text to be drawn.
 ---@field text? any
+---The font to draw with. List of default fonts can be found Default_Fonts.
+---
+--- Default: `"DermaDefault"`
+---@field font? string
 ---This holds the X and Y coordinates. Key value 1 is x, key value 2 is y.
 ---@field pos? table
+---The alignment of the X position. See Enums/TEXT_ALIGN
+---
+--- Default: `TEXT_ALIGN_LEFT`
+---@field xalign? TEXT_ALIGN
+---The alignment of the Y position. See Enums/TEXT_ALIGN
+---
+--- Default: `TEXT_ALIGN_TOP`
+---@field yalign? TEXT_ALIGN
+---The text color
+---
+--- Default: `color_white`
+---@field color? Color

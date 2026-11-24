@@ -111,11 +111,12 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(blocks[0]).toMatch(/^---@\[call_arg\("gmod\.scripted_class", "based_on"\)\]\n---@param base /m);
   });
 
-  test('RegisterMetaTable marks the fields it adds to the registered table', () => {
+  test('RegisterMetaTable registers its table as the named class and marks the fields it adds', () => {
     const blocks = functionBlocks(readOutput('global.lua'), 'function _G.RegisterMetaTable(');
     expect(blocks).toHaveLength(1);
+    expect(blocks[0]).toMatch(/^---@\[call_arg\("gmod\.metatable", "define"\)\]\n---@param metaName /m);
     expect(blocks[0]).toMatch(
-      /^---@\[adds_field\("MetaID", "integer"\)\]\n---@\[adds_field\("MetaName", "string"\)\]\n---@param metaTable /m,
+      /^---@\[call_arg\("gmod\.metatable", "table"\)\]\n---@\[adds_field\("MetaID", "integer"\)\]\n---@\[adds_field\("MetaName", "string"\)\]\n---@param metaTable /m,
     );
   });
 
@@ -132,6 +133,12 @@ describe('custom and plugin annotation smoke checks', () => {
   test('Entity declares the Owner alias as an optional field', () => {
     const header = readOutput('entity.lua').split('local Entity = {}')[0];
     expect(header).toMatch(/^---@field Owner\? Entity\|NULL /m);
+  });
+
+  test('Entity declares the tables the constraint library and statue property store on it', () => {
+    const header = readOutput('entity.lua').split('local Entity = {}')[0];
+    expect(header).toMatch(/^---@field Constraints Entity\[\]\? /m);
+    expect(header).toMatch(/^---@field StatueInfo table<integer, Entity>\? /m);
   });
 
   test('constraint overrides set the signature their function is emitted with', () => {
@@ -155,6 +162,28 @@ describe('custom and plugin annotation smoke checks', () => {
     expect(structures).toContain('---@type SNDLVL?\nSoundData.level = SNDLVL_NORM');
   });
 
+  test('arguments the shipped Lua defaults when omitted are optional', () => {
+    const global = readOutput('global.lua');
+    const params = (name: string) => signature(functionBlocks(global, `function _G.${name}(`)[0]);
+    expect(params('Derma_Message')).toEqual(['param Text string', 'param Title? string', 'param Button? string', 'return DFrame']);
+    expect(params('ChangeBackground')).toEqual(['param currentgm? string']);
+    expect(params('RenderDoF').slice(-2)).toEqual(['param inView? table', 'param fov? number']);
+    expect(params('AddConsoleCommand')).toEqual(['param name string', 'param helpText? string', 'param flags? FCVAR|number[]']);
+    const problem = readOutput('structures.lua').replace(/\r\n/g, '\n').match(/^---@class \(partial\) Problem\n([\s\S]*?)\n\n/m)?.[1];
+    expect(Array.from(problem?.matchAll(/^---@field (\S+)/gm) ?? [], (match) => match[1])).toEqual(['id?', 'text', 'severity?', 'type', 'fix?']);
+  });
+
+  test('arguments the shipped Lua passes on to another function take its types', () => {
+    const texturize = functionBlocks(readOutput('global.lua'), 'function _G.DrawTexturize(');
+    expect(signature(texturize[0])).toEqual(['param Scale number', 'param BaseTexture IMaterial']);
+    const magnet = functionBlocks(readOutput('construct.lua'), 'function construct.Magnet(');
+    expect(signature(magnet[0])).toContain('param aVel? Vector');
+  });
+
+  test('player classes have the PLAYER hooks player_manager calls on them', () => {
+    expect(readOutput('custom_classes.lua')).toMatch(/^---@class PlayerClass : PLAYER$/m);
+  });
+
   test('bullet callbacks can return nothing without losing the bullet fields', () => {
     const structures = readOutput('structures.lua');
     expect(structures).toContain('---@field Callback? fun(attacker: Entity, tr: table, dmgInfo: CTakeDamageInfo):(ret0: table?)');
@@ -174,6 +203,11 @@ describe('custom and plugin annotation smoke checks', () => {
     const structures = readOutput('structures.lua');
     const textData = structures.split('---@class (partial) TextData')[1]?.split('---@class')[0];
     expect(textData).toContain('---@field text? any');
+  });
+
+  test('draw text structures keep every field draw.Text reads', () => {
+    const textData = readOutput('structures.lua').split('---@class (partial) TextData')[1]?.split('---@class')[0];
+    expect(Array.from(textData?.matchAll(/^---@field (\S+)/gm) ?? [], (match) => match[1])).toEqual(['text?', 'font?', 'pos?', 'xalign?', 'yalign?', 'color?']);
   });
 
   test('cvars.Bool preserves the fallback type and permits an omitted fallback', () => {
@@ -1137,6 +1171,14 @@ describe('custom and plugin annotation smoke checks', () => {
       expect(blocks).toHaveLength(1);
       expect(blocks[0].split('---@[replaceable]\n')).toHaveLength(2);
     }
+  });
+
+  test('table.Inherit returns its target with the base members and BaseClass', () => {
+    const output = readOutput('table.lua').replace(/\r\n/g, '\n');
+    const blocks = output.split(/\n\n+/).filter((part) => part.includes('function table.Inherit('));
+    expect(blocks).toHaveLength(1);
+    expect(blocks[0]).toContain('---@generic T : table, B : table');
+    expect(blocks[0]).toContain('---@return T & B & { BaseClass: B } # Target');
   });
 
   test('table.insert marks its list and its two-argument append value', () => {

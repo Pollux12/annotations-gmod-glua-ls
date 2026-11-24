@@ -1,0 +1,13 @@
+---Renders a Depth of Field effect
+---@realm client
+---@source https://wiki.facepunch.com/gmod/Global.RenderDoF
+---@param origin Vector Origin to render the effect at
+---@param angle Angle Angle to render the effect at
+---@param usableFocusPoint Vector Point to focus the effect at
+---@param angleSize number Angle size of the effect
+---@param radialSteps number Amount of radial steps to render the effect with
+---@param passes number Amount of render passes
+---@param spin boolean Whether to cycle the frame or not
+---@param inView? table Table of view data. Defaults to a full screen view at `origin` and `angle`.
+---@param fov? number FOV to render the effect with. Used only when `inView` is not given.
+function _G.RenderDoF(origin, angle, usableFocusPoint, angleSize, radialSteps, passes, spin, inView, fov) end
